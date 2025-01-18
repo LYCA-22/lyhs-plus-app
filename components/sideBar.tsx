@@ -32,6 +32,7 @@ export function SideBar() {
   const [isMobile, setIsMobile] = useState(false);
   const IsLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
+  const time = process.env.NEXT_PUBLIC_BUILD_TIME;
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -153,7 +154,10 @@ export function SideBar() {
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>LYHS Plus App 系統資訊</DialogTitle>
-                  <DialogDescription>目前版本：{version}</DialogDescription>
+                  <DialogDescription>
+                    <p className="m-1">目前版本：{version}</p>
+                    <p className="m-1">發佈時間：{time}</p>
+                  </DialogDescription>
                 </DialogHeader>
               </DialogContent>
             </Dialog>
