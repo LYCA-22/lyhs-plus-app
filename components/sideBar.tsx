@@ -61,7 +61,10 @@ export function SideBar() {
         width={40}
         height={40}
       />
-      <Dock direction="middle" className="rounded-full flex flex-col">
+      <Dock
+        direction="middle"
+        className="rounded-full flex flex-col bg-background"
+      >
         <DockIcon>
           <Link href="/">
             <div className="hover:bg-hoverbg p-4 rounded-full">

@@ -8,16 +8,21 @@
     --background: white;
     --foreground: black;
     --hoverbg: #f3f4f6;
+    --dvh: 100dvh;
+    --rootBg: #f4f4f5;
+    --borderColor: #cecece;
 }
 
 .dark {
-    --background: #0a0a0a;
+    --rootBg: #0a0a0a;
+    --background: #27272a;
     --foreground: white;
     --hoverbg: #343436;
+    --borderColor: #343436;
 }
 
 body {
-    background-color: var(--background);
+    background-color: var(--rootBg);
 }
 
 @layer base {

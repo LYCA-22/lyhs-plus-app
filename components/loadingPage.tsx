@@ -40,7 +40,9 @@ export function LoadingPage() {
   return (
     <>
       {!imageOut && (
-        <div className="fixed top-0 flex z-50 w-full h-dvh bg-background items-center justify-center">
+        <div
+          className={`transition-all delay-75 fixed top-0 flex z-50 w-full h-dvh bg-background items-center justify-center ${!loading ? "opacity-0" : "opacity-100"} `}
+        >
           <Image
             alt="logo"
             src={`${theme === "dark" ? "/logo-light.svg" : "/logo.svg"}`}

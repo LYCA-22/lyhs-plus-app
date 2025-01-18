@@ -12,10 +12,15 @@ export default {
   ],
   theme: {
     extend: {
+      maxHeight: {
+        "screen-56": "calc(var(--dvh) - 56px)",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
         hoverbg: "var(--hoverbg)",
+        borderColor: "var(--borderColor)",
+        rootBg: "var(--rootBg)",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
