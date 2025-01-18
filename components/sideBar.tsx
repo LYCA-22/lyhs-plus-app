@@ -19,8 +19,10 @@ export function SideBar() {
   const [theme, setTheme] = useState("");
   const [path, setPath] = useState("");
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // 可以加入對主題變化的監聽
     const html = document.querySelector("html");
     const observer = new MutationObserver(() => {
@@ -46,6 +48,10 @@ export function SideBar() {
   useEffect(() => {
     setPath(pathname || "");
   }, [pathname]);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="flex justify-between flex-col items-center p-3 py-7 min-w-32">

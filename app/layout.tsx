@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SideBar } from "@/components/sideBar";
-import { UserCheck } from "@/components/userCheck";
 import { LoadingPage } from "@/components/loadingPage";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
@@ -27,12 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="zh-TW" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <UserCheck />
           <LoadingPage />
           <main className="w-full h-dvh flex">
             <SideBar />
