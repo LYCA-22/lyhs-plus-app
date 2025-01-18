@@ -7,6 +7,7 @@ import UserCheck from "@/components/initUserCheck";
 import { SideBar } from "@/components/sideBar";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -34,7 +35,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   {pathAllName[pathname] || "未知頁面"}
                 </div>
                 <div className="bg-background overflow-y-auto border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 sm:max-h-screen-56 max-sm:pt-14 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
-                  {children}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={pathname}
+                      initial={{ scale: 0.99, opacity: 0.8 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.99, opacity: 0.8 }}
+                      transition={{
+                        duration: 0.2,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      {children}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
             </div>

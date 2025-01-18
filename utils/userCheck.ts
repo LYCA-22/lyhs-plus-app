@@ -1,6 +1,7 @@
 import type { AppDispatch } from "@/store/store";
 import { apiService } from "@/services/api";
 import { updateStatus } from "@/store/systemSlice";
+import { updateUserData } from "@/store/userSlice";
 
 function getCookie(name: string) {
   if (typeof window === "undefined") return null;
@@ -30,11 +31,25 @@ export async function checkUserSession(dispatch: AppDispatch) {
       return;
     }
 
-    const userData = await apiService.getUserData(sessionId);
-    dispatch({ type: "user/setUserData", payload: userData });
+    const data = await apiService.getUserData(sessionId);
+    dispatch(
+      updateUserData({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        level: data.level,
+        type: data.type,
+        role: data.role,
+        grade: data.grade,
+        class: data.class,
+        isLoggedIn: true,
+      }),
+    );
   } catch (error) {
     console.error("Failed to check user:", error);
   } finally {
-    dispatch(updateStatus(true));
+    setTimeout(() => {
+      dispatch(updateStatus(false));
+    }, 1000);
   }
 }

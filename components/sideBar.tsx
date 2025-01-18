@@ -10,10 +10,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { icons } from "@/components/icons";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/themeToggle";
 import Link from "next/link";
+import { useAppSelector } from "@/store/hook";
 
 export function SideBar() {
   const [theme, setTheme] = useState("");
@@ -21,6 +30,8 @@ export function SideBar() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const IsLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
+  const version = process.env.NEXT_PUBLIC_APP_VERSION;
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -133,7 +144,20 @@ export function SideBar() {
             <DropdownMenuSeparator />
             <DropdownMenuItem>設定</DropdownMenuItem>
             <DropdownMenuItem>我的帳號</DropdownMenuItem>
-            <DropdownMenuItem>登出</DropdownMenuItem>
+            <Dialog>
+              <DialogTrigger asChild>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  系統資訊
+                </DropdownMenuItem>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>LYHS Plus App 系統資訊</DialogTitle>
+                  <DialogDescription>目前版本：{version}</DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+            <DropdownMenuItem>{IsLoggedIn ? "登出" : "登入"}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
