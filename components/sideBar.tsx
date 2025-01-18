@@ -20,6 +20,23 @@ export function SideBar() {
   const [path, setPath] = useState("");
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 640px)").matches);
+    };
+
+    // 初始檢查
+    checkIsMobile();
+
+    // 監聽視窗大小變化
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -51,6 +68,10 @@ export function SideBar() {
 
   if (!mounted) {
     return null;
+  }
+
+  if (isMobile) {
+    return <></>;
   }
 
   return (
@@ -101,7 +122,7 @@ export function SideBar() {
       </Dock>
       <div>
         <DropdownMenu>
-          <DropdownMenuTrigger className="p-3 rounded-full hover:bg-hoverbg ring-0 outline-0">
+          <DropdownMenuTrigger className="p-3 rounded-full hover:bg-background ring-0 outline-0">
             {icons["more"]()}
           </DropdownMenuTrigger>
           <DropdownMenuContent>

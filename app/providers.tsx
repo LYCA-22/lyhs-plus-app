@@ -29,11 +29,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
               aria-label="content"
               className="flex grow items-center justify-center"
             >
-              <div className="w-full sm:w-[450px] min-h-dvh flex flex-col">
-                <div className="flex p-3 h-14 font-medium w-full items-center justify-center">
+              <div className="w-full sm:w-[550px] min-h-dvh flex flex-col">
+                <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background/50 max-sm:border-b max-sm:border-borderColor max-sm:opacity-70 max-sm:fixed max-sm:top-0 ">
                   {pathAllName[pathname] || "未知頁面"}
                 </div>
-                <div className="bg-background max-h-screen-56 overflow-y-auto border border-borderColor shadow-lg grow rounded-tl-[30px] rounded-tr-[30px] pt-2">
+                <div className="bg-background overflow-y-auto border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 sm:max-h-screen-56 max-sm:pt-14 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
                   {children}
                 </div>
               </div>

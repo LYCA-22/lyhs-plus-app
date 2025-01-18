@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl font-bold">找不到頁面</h2>
       <p>無法找到請求的資源</p>
       <Link
