@@ -5,7 +5,7 @@
   "scripts": {
     "update": "tsx utils/version.js",
     "dev": "next dev --turbopack",
-    "build": "npm run updat && next build",
+    "build": "npm run update && next build",
     "start": "next start",
     "lint": "next lint"
   },
