@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
+  sessionId: string;
   id: string;
   name: string;
   email: string;
@@ -13,6 +14,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
+  sessionId: "",
   id: "",
   name: "",
   email: "",
@@ -28,15 +30,14 @@ export const userSlice = createSlice({
   name: "user", // slice 的名稱
   initialState, // 初始狀態
   reducers: {
-    // 定義可以更新這個 slice 狀態的方法
-    login: (state) => {
-      state.isLoggedIn = true;
-    },
     updateUserData: (state, action: PayloadAction<Partial<UserState>>) => {
       Object.assign(state, action.payload);
+    },
+    logout: (state) => {
+      Object.assign(state, initialState);
     },
   },
 });
 
-export const { login, updateUserData } = userSlice.actions;
+export const { updateUserData, logout } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,4 +1,5 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { logout } from "@/store/userSlice";
 
 export const apiService = {
   // 使用者登入
@@ -109,6 +110,32 @@ export const apiService = {
       return weatherData;
     } catch (err) {
       console.error("Error details:", err);
+    }
+  },
+  async Logout(sessionId: string, email: string) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          sessionId: sessionId,
+        }),
+      });
+
+      if (response.ok) {
+        document.cookie =
+          "sessionId=; path=/; domain=lyhsca.org; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        logout();
+      } else {
+        const result = await response.json();
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error("Error in Logout:", error);
+      throw error;
     }
   },
 };

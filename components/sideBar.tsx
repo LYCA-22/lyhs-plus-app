@@ -23,6 +23,7 @@ import Image from "next/image";
 import { ThemeToggle } from "@/components/themeToggle";
 import Link from "next/link";
 import { useAppSelector } from "@/store/hook";
+import { apiService } from "@/services/api";
 
 export function SideBar() {
   const [theme, setTheme] = useState("");
@@ -31,8 +32,20 @@ export function SideBar() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const IsLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
+  const SystemData = useAppSelector((state) => state.systemStatus);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
-  const time = process.env.NEXT_PUBLIC_BUILD_TIME;
+  let time = process.env.NEXT_PUBLIC_BUILD_TIME;
+  const { sessionId, email } = useAppSelector((state) => state.userData);
+
+  if (!time) {
+    throw new Error("Build time not found");
+  } else {
+    time = time
+      .replace("T", " ")
+      .replace("Z", "")
+      .replace(/-/g, "/")
+      .split(".")[0];
+  }
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -153,15 +166,34 @@ export function SideBar() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>LYHS Plus App 系統資訊</DialogTitle>
+                  <DialogTitle className="mb-2">
+                    LYHS Plus App 系統資訊
+                  </DialogTitle>
+                  <DropdownMenuSeparator />
                   <DialogDescription>
-                    <p className="m-1">目前版本：{version}</p>
-                    <p className="m-1">發佈時間：{time}</p>
+                    <p className="m-1 ml-0">目前版本：{version}</p>
+                    <p className="m-1 ml-0">發佈時間：{time}</p>
+                    <p className="m-1 ml-0">裝置系統：{SystemData.os}</p>
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>
             </Dialog>
-            <DropdownMenuItem>{IsLoggedIn ? "登出" : "登入"}</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                if (IsLoggedIn) {
+                  try {
+                    await apiService.Logout(sessionId, email);
+                  } catch (error) {
+                    console.error("Logout failed:", error);
+                  }
+                } else {
+                  window.location.href =
+                    "https://auth.lyhsca.org/account/login";
+                }
+              }}
+            >
+              {IsLoggedIn ? "登出" : "登入"}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -34,6 +34,7 @@ export async function checkUserSession(dispatch: AppDispatch) {
     const data = await apiService.getUserData(sessionId);
     dispatch(
       updateUserData({
+        sessionId: sessionId,
         id: data.id,
         name: data.name,
         email: data.email,

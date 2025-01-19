@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
   isLoading: boolean;
+  os: string;
 }
 
 const initialState: UserState = {
   isLoading: true,
+  os: "",
 };
 
 export const systemSlice = createSlice({
@@ -16,7 +18,10 @@ export const systemSlice = createSlice({
     updateStatus: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    updateSystemData: (state, action: PayloadAction<Partial<UserState>>) => {
+      Object.assign(state, action.payload);
+    },
   },
 });
 
-export const { updateStatus } = systemSlice.actions;
+export const { updateStatus, updateSystemData } = systemSlice.actions;
