@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Dock, DockIcon } from "./ui/dock";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,7 @@ import { ThemeToggle } from "@/components/themeToggle";
 import Link from "next/link";
 import { useAppSelector } from "@/store/hook";
 import { apiService } from "@/services/api";
+import { LoginPage } from "./LoginPage";
 
 export function SideBar() {
   const [theme, setTheme] = useState("");
@@ -36,6 +37,7 @@ export function SideBar() {
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
   let time = process.env.NEXT_PUBLIC_BUILD_TIME;
   const { sessionId, email } = useAppSelector((state) => state.userData);
+  const router = useRouter();
 
   if (!time) {
     throw new Error("Build time not found");
@@ -51,17 +53,38 @@ export function SideBar() {
     const checkIsMobile = () => {
       setIsMobile(window.matchMedia("(max-width: 640px)").matches);
     };
-
-    // 初始檢查
     checkIsMobile();
-
-    // 監聽視窗大小變化
     window.addEventListener("resize", checkIsMobile);
-
     return () => {
       window.removeEventListener("resize", checkIsMobile);
     };
   }, []);
+
+  useEffect(() => {
+    // 接收來自 iframe 的訊息處理器
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== "https://auth.lyhsca.org") {
+        return;
+      }
+
+      const data = event.data;
+
+      if (data.type === "loginSuccess") {
+        window.location.reload();
+      } else if (data.type === "loginFailed") {
+        alert(`登入失敗: ${data.message}`);
+        window.location.reload();
+      }
+    };
+
+    // 添加事件監聽
+    window.addEventListener("message", handleMessage);
+
+    // 清理函數
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [router]);
 
   useEffect(() => {
     setMounted(true);
@@ -190,22 +213,25 @@ export function SideBar() {
                 </DialogHeader>
               </DialogContent>
             </Dialog>
-            <DropdownMenuItem
-              onClick={async () => {
-                if (IsLoggedIn) {
+            {IsLoggedIn ? (
+              <DropdownMenuItem
+                onClick={async () => {
                   try {
                     await apiService.Logout(sessionId, email);
                   } catch (error) {
                     console.error("Logout failed:", error);
                   }
-                } else {
-                  window.location.href =
-                    "https://auth.lyhsca.org/account/login";
-                }
-              }}
-            >
-              {IsLoggedIn ? "登出" : "登入"}
-            </DropdownMenuItem>
+                }}
+              >
+                登出
+              </DropdownMenuItem>
+            ) : (
+              <LoginPage>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  登入
+                </DropdownMenuItem>
+              </LoginPage>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
