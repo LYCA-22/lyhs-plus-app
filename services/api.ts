@@ -129,6 +129,7 @@ export const apiService = {
         document.cookie =
           "sessionId=; path=/; domain=lyhsca.org; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         logout();
+        window.location.reload();
       } else {
         const result = await response.json();
         throw new Error(result.error);
