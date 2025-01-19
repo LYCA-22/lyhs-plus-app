@@ -21,6 +21,8 @@ export function ThemeToggle() {
       <Tabs
         className="m-1"
         aria-label="Options"
+        radius="full"
+        variant="solid"
         color="default"
         selectedKey={theme}
         onSelectionChange={(key) => setTheme(String(key))}
