@@ -196,15 +196,15 @@ export function SideBar() {
                     <p className="m-1 ml-0">目前版本：{version}</p>
                     <p className="m-1 ml-0">發佈時間：{time}</p>
                     <p className="m-1 ml-0">裝置系統：{SystemData.os}</p>
-                    <div className="flex items-center justify-between border-t-1 border-border pt-2 mt-4">
+                    <div className="flex items-center justify-between border-t-1 border-borderColor pt-2 mt-4">
                       <p className="font-bold">
                         Copyright © 2025 LYHS+ 保留一切權利。
                       </p>
                       <div className="flex">
-                        <button className="hover:bg-rootBg rounded-full p-2">
+                        <button className="hover:bg-hoverbg rounded-full p-2 px-3 transition-all">
                           隱私政策
                         </button>
-                        <button className="hover:bg-rootBg rounded-full p-2">
+                        <button className="hover:bg-hoverbg rounded-full p-2 px-3 transition-all">
                           服務條款
                         </button>
                       </div>

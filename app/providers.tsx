@@ -78,7 +78,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background/50 max-sm:border-b max-sm:border-borderColor max-sm:opacity-70 max-sm:fixed max-sm:top-0 ">
                   {canGoBack && (
                     <button
-                      className="absolute items-center justify-center shadow-md bg-white rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
+                      className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
                       onClick={goBack}
                     >
                       {icons["arrowRight"]()}
@@ -86,15 +86,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   )}
                   {pathAllName[pathname] || "未知頁面"}
                 </div>
-                <div className="bg-background overflow-y-auto border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 sm:max-h-screen-56 max-sm:pt-14 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
+                <div className="bg-background overflow-y-auto border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 sm:max-h-screen-56 max-sm:pt-16 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={pathname}
-                      initial={{ scale: 0.99, opacity: 0.8 }}
+                      initial={{ scale: 0.995, opacity: 0.9 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.99, opacity: 0.8 }}
+                      exit={{ scale: 0.995, opacity: 0.9 }}
                       transition={{
-                        duration: 0.2,
+                        duration: 0.3,
                         ease: "easeInOut",
                       }}
                     >
