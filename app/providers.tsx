@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { icons } from "@/components/icons";
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
   const pathAllName: Record<string, string> = {
@@ -20,7 +21,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/lyca": "班聯會",
     "/apps": "更多服務",
   };
-  const [canGoBack, setCanGoBack] = useState(false);
+  const [canGoBack, setCanGoBack] = useState<boolean>(false);
 
   useEffect(() => {
     // 讀取或初始化路徑歷史
@@ -62,6 +63,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }
   };
 
+  useEffect(() => {
+    const checkIsMobile = () => {
+      const isMobileDevice = window.innerWidth <= 640;
+      setIsMobile(isMobileDevice);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
+
   return (
     <HeroUIProvider>
       <ThemeProvider attribute="class" defaultTheme="system">
@@ -75,20 +90,22 @@ export function Providers({ children }: { children: React.ReactNode }) {
               className="flex grow items-center justify-center"
             >
               <div className="w-full sm:w-[550px] min-h-dvh flex flex-col">
-                <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0 ">
-                  <div className="flex items-center opacity-70">
-                    {canGoBack && (
-                      <button
-                        className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
-                        onClick={goBack}
-                      >
-                        {icons["arrowRight"]()}
-                      </button>
-                    )}
-                    {pathAllName[pathname] || "未知頁面"}
+                {!isMobile && (
+                  <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0 ">
+                    <div className="flex items-center opacity-70">
+                      {canGoBack && (
+                        <button
+                          className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
+                          onClick={goBack}
+                        >
+                          {icons["arrowRight"]()}
+                        </button>
+                      )}
+                      {pathAllName[pathname] || "未知頁面"}
+                    </div>
                   </div>
-                </div>
-                <div className="bg-background overflow-y-auto overflow-x-hidden border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 sm:max-h-screen-56 max-sm:pt-16 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
+                )}
+                <div className="bg-background overflow-y-auto relative overflow-x-hidden border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={pathname}
