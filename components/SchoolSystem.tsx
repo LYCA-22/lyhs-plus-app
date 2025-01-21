@@ -36,7 +36,7 @@ export function SchoolSystem() {
   };
   return (
     <button
-      className="min-w-fit p-2 px-3 bg-foreground text-background flex justify-center items-center rounded-full rounded-bl-none transition-all m-1 hover:opacity-70 active:scale-95"
+      className="min-w-fit p-2 px-3 bg-foreground text-background flex justify-center items-center rounded-[40px] rounded-bl-xl transition-all m-1 hover:opacity-70 active:scale-95"
       onClick={handleClick}
     >
       <div className="m-1">{icons["schoolSystem"]()}</div>

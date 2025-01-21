@@ -11,6 +11,7 @@
     --dvh: 100dvh;
     --rootBg: #f4f4f5;
     --borderColor: #cecece;
+    --buttonBg: #e0e0e0;
 }
 
 .dark {
@@ -19,6 +20,7 @@
     --foreground: white;
     --hoverbg: #343436;
     --borderColor: #5e5d5d;
+    --buttonBg: #1e1e20;
 }
 
 body {

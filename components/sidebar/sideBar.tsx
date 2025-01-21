@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Dock, DockIcon } from "./ui/dock";
+import { Dock, DockIcon } from "../ui/dock";
 import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
@@ -20,11 +20,13 @@ import {
 } from "@/components/ui/dialog";
 import { icons } from "@/components/icons";
 import Image from "next/image";
-import { ThemeToggle } from "@/components/themeToggle";
+import { ThemeToggle } from "@/components/sidebar/themeToggle";
 import Link from "next/link";
 import { useAppSelector } from "@/store/hook";
 import { apiService } from "@/services/api";
 import { LoginPage } from "./LoginPage";
+import { useAppDispatch } from "@/store/hook";
+import { loadNews } from "@/store/newsSlice";
 
 export function SideBar() {
   const [theme, setTheme] = useState("");
@@ -38,6 +40,7 @@ export function SideBar() {
   let time = process.env.NEXT_PUBLIC_BUILD_TIME;
   const { sessionId, email } = useAppSelector((state) => state.userData);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   if (!time) {
     throw new Error("Build time not found");
@@ -113,6 +116,19 @@ export function SideBar() {
   useEffect(() => {
     setPath(pathname || "");
   }, [pathname]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const news = await apiService.getNews();
+        dispatch(loadNews(news.data));
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
+
+    fetchNews();
+  }, [dispatch]);
 
   if (!mounted) {
     return null;

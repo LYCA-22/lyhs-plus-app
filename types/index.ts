@@ -8,3 +8,10 @@ export interface userData {
   grade: string;
   role?: string;
 }
+
+export interface Announcement {
+  date: string;
+  department: string;
+  title: string;
+  link: string;
+}

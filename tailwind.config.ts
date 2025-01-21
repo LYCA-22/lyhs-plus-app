@@ -20,6 +20,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         hoverbg: "var(--hoverbg)",
+        buttonBg: "var(--buttonBg)",
         borderColor: "var(--borderColor)",
         rootBg: "var(--rootBg)",
         card: {

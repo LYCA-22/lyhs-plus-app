@@ -58,17 +58,8 @@ export const apiService = {
       });
 
       if (response.ok) {
-        // 获取响应的 HTML 内容
-        const data = await response.text(); // 获取HTML内容（字符串）
-
-        // 获取要插入的 DOM 元素
-        const contentElement = document.getElementById("announcement-content");
-        if (contentElement) {
-          // 使用 innerHTML 将 HTML 内容插入到页面
-          contentElement.innerHTML = data;
-        } else {
-          console.error('Element with id "announcement-content" not found');
-        }
+        const data = await response.json();
+        return data;
       } else {
         const result = await response.json();
         throw new Error(result.error);

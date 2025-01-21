@@ -6,7 +6,8 @@ import { useAppSelector } from "../store/hook";
 export function LoadingPage() {
   const [theme, setTheme] = useState("");
   const [imageOut, setImageOut] = useState(false);
-  const loading = useAppSelector((state) => state.systemStatus.isLoading);
+  const userLoading = useAppSelector((state) => state.systemStatus.isLoading);
+  const NewsLoading = useAppSelector((state) => state.newsData.isLoading);
 
   useEffect(() => {
     // 可以加入對主題變化的監聽
@@ -31,7 +32,7 @@ export function LoadingPage() {
     return () => observer.disconnect();
   }, []);
 
-  if (!loading) {
+  if (!userLoading || !NewsLoading) {
     setTimeout(() => {
       setImageOut(true);
     }, 150);
@@ -41,14 +42,14 @@ export function LoadingPage() {
     <>
       {!imageOut && (
         <div
-          className={`transition-all delay-75 fixed top-0 flex z-50 w-full h-dvh bg-background items-center justify-center ${!loading ? "opacity-0" : "opacity-100"} `}
+          className={`transition-all delay-75 fixed top-0 flex z-50 w-full h-dvh bg-background items-center justify-center ${!userLoading && !NewsLoading ? "opacity-0" : "opacity-100"} `}
         >
           <Image
             alt="logo"
             src={`${theme === "dark" ? "/logo-light.svg" : "/logo.svg"}`}
             width={70}
             height={70}
-            className={`${!loading ? "scale-150 opacity-10" : "opacity-1 scale-100"} transition-all`}
+            className={`${!userLoading && !NewsLoading ? "scale-150 opacity-10" : "opacity-1 scale-100"} transition-all`}
           />
         </div>
       )}
