@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/progress": "^2.2.7",
     "@heroui/react": "^2.6.13",
     "@heroui/system": "^2.4.6",
     "@heroui/tabs": "^2.2.7",

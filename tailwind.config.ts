@@ -9,7 +9,7 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/tabs.js",
+    "./node_modules/@heroui/theme/dist/components/(progress|tabs).js"
   ],
   theme: {
     extend: {

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { apiService } from "@/services/api";
 import { icons } from "@/components/icons";
+import { CircularProgress } from "@heroui/react";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -12,9 +13,11 @@ export default function Page() {
   const [Class, setClass] = useState("");
   const [number, setNumber] = useState("");
   const [solution, setSolution] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await apiService.addProject(
         name,
@@ -27,6 +30,7 @@ export default function Page() {
         solution,
       );
       window.alert(result.code);
+      window.location.reload();
     } catch (error) {
       console.error("Failed to create announcement:", error);
     }
@@ -205,8 +209,19 @@ export default function Page() {
             </div>
           </li>
           <li className="relative flex justify-center items-center">
-            <button className="flex justify-center items-center bg-foreground text-rootBg p-3 font-medium rounded-full w-full m-2 mt-5 box-border hover:bg-buttonBg hover:text-foreground active:scale-95 transition-all">
-              提交
+            <button
+              className="flex justify-center items-center bg-foreground text-rootBg p-3 font-medium rounded-full w-full m-2 mt-5 box-border hover:bg-buttonBg hover:text-foreground active:scale-95 transition-all disabled:bg-hoverbg disabled:text-buttonBg"
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress
+                  color={"default"}
+                  size={"sm"}
+                  strokeWidth={3}
+                />
+              ) : (
+                "送出"
+              )}
             </button>
           </li>
         </ul>
