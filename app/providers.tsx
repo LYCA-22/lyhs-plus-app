@@ -20,6 +20,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/news": "學校網站公告",
     "/lyca": "班聯會",
     "/apps": "更多服務",
+    "/mailbox/student": "學權信箱",
   };
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
 
@@ -91,7 +92,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             >
               <div className="w-full sm:w-[550px] min-h-dvh flex flex-col">
                 {!isMobile && (
-                  <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0 ">
+                  <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0">
                     <div className="flex items-center opacity-70">
                       {canGoBack && (
                         <button
@@ -105,21 +106,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                 )}
-                <div className="bg-background overflow-y-auto relative overflow-x-hidden border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] pt-2 max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh max-sm:border-0 max-sm:rounded-none">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={pathname}
-                      initial={{ scale: 0.995, opacity: 0.9 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.995, opacity: 0.9 }}
-                      transition={{
-                        duration: 0.3,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      {children}
-                    </motion.div>
-                  </AnimatePresence>
+                <div className="bg-background overflow-hidden relative border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] max-sm:border-0 max-sm:rounded-none ">
+                  <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden pt-2">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={pathname}
+                        initial={{ scale: 0.995, opacity: 0.9 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.995, opacity: 0.9 }}
+                        transition={{
+                          duration: 0.3,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        {children}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
             </div>

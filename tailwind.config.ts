@@ -23,6 +23,7 @@ export default {
         buttonBg: "var(--buttonBg)",
         borderColor: "var(--borderColor)",
         rootBg: "var(--rootBg)",
+        inputPrimary: "#1E9BDE",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

@@ -130,4 +130,44 @@ export const apiService = {
       throw error;
     }
   },
+  async addProject(
+    name: string,
+    email: string,
+    type: string,
+    title: string,
+    description: string,
+    Class: string,
+    number: string,
+    solution: string,
+  ) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/mail/project/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          type: type,
+          title: title,
+          description: description,
+          Class: Class,
+          number: number,
+          solution: solution,
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return result;
+      } else {
+        const result = await response.json();
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error("Error in addProject:", error);
+      throw error;
+    }
+  },
 };
