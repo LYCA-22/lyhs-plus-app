@@ -13,26 +13,28 @@ export default function Home({ children }: { children: React.ReactNode }) {
         aria-label={"mainContent"}
         className={"relative flex items-center flex-col w-full pt-3"}
       >
-        <Tabs
-          aria-label="Options"
-          className={"font-medium p-2 block"}
-          fullWidth={true}
-          selectedKey={pathname}
-          size={"lg"}
-        >
-          <Tab
-            key={"/mailbox/student"}
-            as={Link}
-            href={"/mailbox/student"}
-            title="學權信箱"
-          />
-          <Tab
-            key={"/account/register"}
-            as={Link}
-            href={"./register?mode=normal"}
-            title="意見箱"
-          />
-        </Tabs>
+        {pathname === "/mailbox/student" && (
+          <Tabs
+            aria-label="Options"
+            className={"font-medium p-2 block"}
+            fullWidth={true}
+            selectedKey={pathname}
+            size={"lg"}
+          >
+            <Tab
+              key={"/mailbox/student"}
+              as={Link}
+              href={"/mailbox/student"}
+              title="學權信箱"
+            />
+            <Tab
+              key={"/account/register"}
+              as={Link}
+              href={"./register?mode=normal"}
+              title="意見箱"
+            />
+          </Tabs>
+        )}
         <main className="w-full">{children}</main>
       </div>
     </section>

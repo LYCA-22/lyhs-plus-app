@@ -15,3 +15,21 @@ export interface Announcement {
   title: string;
   link: string;
 }
+
+// mailbox
+export interface studentData {
+  id: string;
+  searchCode: string;
+  email: string;
+  name: string;
+  type: string;
+  title: string;
+  description: string;
+  class: string;
+  number: string;
+  solution: string;
+  handler: string;
+  status: string;
+  createdTime: string;
+  updatedTime: string;
+}

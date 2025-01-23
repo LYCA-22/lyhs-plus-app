@@ -170,4 +170,28 @@ export const apiService = {
       throw error;
     }
   },
+  async getProjectData(code: string) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/mail/project/view`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return result;
+      } else {
+        const result = await response.json();
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error("Error in getData:", error);
+      throw error;
+    }
+  },
 };

@@ -21,6 +21,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/lyca": "班聯會",
     "/apps": "更多服務",
     "/mailbox/student": "學權信箱",
+    "/mailbox/success": "學權信箱",
+    "/mailbox/view": "信件查詢",
   };
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
 
