@@ -107,7 +107,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   </div>
                 )}
                 <div className="bg-background overflow-hidden relative border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] max-sm:border-0 max-sm:rounded-none ">
-                  <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden pt-2">
+                  <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden pt-1 box-border">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={pathname}

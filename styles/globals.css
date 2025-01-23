@@ -12,6 +12,7 @@
     --rootBg: #f4f4f5;
     --borderColor: #cecece;
     --buttonBg: #e0e0e0;
+    overflow: hidden;
 }
 
 .dark {

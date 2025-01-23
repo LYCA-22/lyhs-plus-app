@@ -11,7 +11,7 @@ export default function Home({ children }: { children: React.ReactNode }) {
     <section className="flex flex-col items-center bg-background px-5">
       <div
         aria-label={"mainContent"}
-        className={"relative flex items-center flex-col w-full"}
+        className={"relative flex items-center flex-col w-full pt-3"}
       >
         <Tabs
           aria-label="Options"
@@ -23,7 +23,7 @@ export default function Home({ children }: { children: React.ReactNode }) {
           <Tab
             key={"/mailbox/student"}
             as={Link}
-            href={"./mailbox/student"}
+            href={"/mailbox/student"}
             title="學權信箱"
           />
           <Tab

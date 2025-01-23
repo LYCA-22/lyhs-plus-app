@@ -32,7 +32,7 @@ export function LoadingPage() {
     return () => observer.disconnect();
   }, []);
 
-  if (!userLoading || !NewsLoading) {
+  if (!userLoading && !NewsLoading) {
     setTimeout(() => {
       setImageOut(true);
     }, 150);

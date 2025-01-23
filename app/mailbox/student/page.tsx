@@ -3,6 +3,7 @@ import { useState } from "react";
 import { apiService } from "@/services/api";
 import { icons } from "@/components/icons";
 import { CircularProgress } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -14,6 +15,7 @@ export default function Page() {
   const [number, setNumber] = useState("");
   const [solution, setSolution] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,8 +31,7 @@ export default function Page() {
         number,
         solution,
       );
-      window.alert(result.code);
-      window.location.reload();
+      router.push(`/mailbox/success?code=${result.code}`);
     } catch (error) {
       console.error("Failed to create announcement:", error);
     }
