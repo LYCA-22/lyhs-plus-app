@@ -33,7 +33,7 @@ export function SideBar() {
   const [path, setPath] = useState("");
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const IsLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
   const SystemData = useAppSelector((state) => state.systemStatus);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
@@ -51,17 +51,6 @@ export function SideBar() {
       .replace(/-/g, "/")
       .split(".")[0];
   }
-
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 640px)").matches);
-    };
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    return () => {
-      window.removeEventListener("resize", checkIsMobile);
-    };
-  }, []);
 
   useEffect(() => {
     // 接收來自 iframe 的訊息處理器
@@ -116,6 +105,20 @@ export function SideBar() {
   useEffect(() => {
     setPath(pathname || "");
   }, [pathname]);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      const isMobileDevice = window.innerWidth <= 640;
+      setIsMobile(isMobileDevice);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -209,9 +212,17 @@ export function SideBar() {
                     LYHS Plus App 系統資訊
                   </DialogTitle>
                   <DialogDescription>
-                    <p className="m-1 ml-0">目前版本：{version}</p>
+                    <p className="m-1 ml-0">目前版本：{version} [BETA]</p>
                     <p className="m-1 ml-0">發佈時間：{time}</p>
                     <p className="m-1 ml-0">裝置系統：{SystemData.os}</p>
+                    <p className="m-1 ml-0">
+                      裝置類型：
+                      {SystemData.isMobile === true ? "手機設備" : "平板或電腦"}
+                    </p>
+                    <p className="m-1 ml-0">
+                      瀏覽器：
+                      {SystemData.browser}
+                    </p>
                     <div className="flex items-center justify-between border-t-1 border-borderColor pt-2 mt-4">
                       <p className="font-bold">
                         Copyright © 2025 LYHS+ 保留一切權利。

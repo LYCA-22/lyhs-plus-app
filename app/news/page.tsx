@@ -2,6 +2,7 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useAppSelector } from "@/store/hook";
 import { NewView } from "@/components/newView";
+import { Search } from "lucide-react";
 const ITEMS_PER_PAGE = 8;
 
 export default function Page() {
@@ -65,16 +66,19 @@ export default function Page() {
 
   return (
     <div className="relative w-full max-sm:w-screen">
-      <div className="sticky top-0 bg-background border-b p-4 z-10 flex flex-col">
+      <div className="sticky top-0 bg-background border-b p-4 pb-2 z-10 flex flex-col">
         <div className="flex flex-col gap-3">
-          <p className="text-2xl mx-1 my-2 font-medium">校園公告</p>
-          <input
-            type="text"
-            placeholder="搜尋公告..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-2 px-4 border rounded-full w-full"
-          />
+          <p className="text-xl mx-1 mt-2 font-medium">校園公告</p>
+          <div className="p-2 px-4 rounded-full w-full flex items-center gap-2 bg-hoverbg">
+            <Search className="text-borderColor" size={20} />
+            <input
+              type="text"
+              placeholder="搜尋公告"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="ring-0 grow bg-transparent focus:outline-none text-foreground"
+            />
+          </div>
 
           <div className="flex gap-2 overflow-x-auto pb-2 w-full">
             {departments.map((dept) => (
@@ -104,16 +108,16 @@ export default function Page() {
             {displayedNews.map((news, index) => (
               <div
                 key={index}
-                className="border-b flex flex-col box-border p-5 px-6 border-borderColor"
+                className="border-b flex box-border p-5 px-6 border-borderColor"
               >
-                <div className="flex items-center mb-1">
-                  <p className="m-1 ml-0 h-[35px] w-[35px] flex justify-center items-center rounded-full font-medium text-sm bg-foreground text-background">
+                <div className="flex items-center mr-2">
+                  <p className="m-1 ml-0 mb-auto h-[35px] w-[35px] flex justify-center items-center rounded-full font-medium text-sm bg-foreground text-background">
                     {news.department[0]}
                   </p>
-                  <p className="m-1 font-medium">{news.department}</p>
                 </div>
                 <div className="flex flex-col">
-                  <h2 className="text-lg font-semibold flex">{news.title}</h2>
+                  <p className="mb-1 font-medium">{news.department}</p>
+                  <h2 className="text-medium font-normal flex">{news.title}</h2>
                   <NewView>
                     <iframe
                       src={news.link}

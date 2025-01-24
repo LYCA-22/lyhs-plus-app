@@ -3,11 +3,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface UserState {
   isLoading: boolean;
   os: string;
+  isMobile: boolean;
+  browser: string;
 }
 
 const initialState: UserState = {
   isLoading: true,
   os: "",
+  isMobile: false,
+  browser: "",
 };
 
 export const systemSlice = createSlice({

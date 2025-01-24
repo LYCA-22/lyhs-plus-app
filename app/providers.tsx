@@ -4,12 +4,12 @@ import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "next-themes";
 import { HeroUIProvider } from "@heroui/system";
-import UserCheck from "@/components/sidebar/initUserCheck";
 import { SideBar } from "@/components/sidebar/sideBar";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { icons } from "@/components/icons";
+import SystemCheck from "@/components/initUserCheck";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -84,7 +84,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <HeroUIProvider>
       <ThemeProvider attribute="class" defaultTheme="system">
         <Provider store={store}>
-          <UserCheck />
+          <SystemCheck />
           <LoadingPage />
           <main className="w-full h-dvh flex">
             <SideBar />
@@ -108,8 +108,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                 )}
+                {pathname.startsWith("/mailbox") && isMobile && (
+                  <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0">
+                    <div className="flex items-center opacity-70">
+                      {canGoBack && (
+                        <button
+                          className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
+                          onClick={goBack}
+                        >
+                          {icons["arrowRight"]()}
+                        </button>
+                      )}
+                      {pathAllName[pathname] || "未知頁面"}
+                    </div>
+                  </div>
+                )}
                 <div className="bg-background overflow-hidden relative border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] max-sm:border-0 max-sm:rounded-none ">
-                  <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden pt-1 box-border">
+                  <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={pathname}

@@ -3,13 +3,13 @@ import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindScrollbarHide from "tailwind-scrollbar-hide";
 
-export default {
-  darkMode: ["class"],
+const config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(progress|tabs).js"
+    "./node_modules/@heroui/theme/dist/components/(progress|tabs).js",
   ],
   theme: {
     extend: {
@@ -71,4 +71,6 @@ export default {
     },
   },
   plugins: [tailwindcssAnimate, heroui(), tailwindScrollbarHide],
-} satisfies Config;
+} as const satisfies Config;
+
+export default config;

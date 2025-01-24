@@ -64,10 +64,9 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 space-y-2 pt-10">
-      <h1 className="text-2xl font-bold m-1">查詢案件</h1>
-      <div className="flex flex-col items-center space-y-4 w-full max-w-md">
-        <p className="text-foreground font-medium">請輸入六位數查詢代碼</p>
+    <div className="flex flex-col items-center justify-center p-2 space-y-2 pt-10">
+      <div className="flex flex-col items-center w-full max-w-md">
+        <p className="text-foreground font-medium m-3">請輸入六位數查詢代碼</p>
 
         <InputOTP
           maxLength={6}
@@ -87,7 +86,7 @@ export default function Page() {
         <button
           onClick={handleSubmit}
           disabled={code.length < 6 || isLoading}
-          className="flex justify-center items-center w-full bg-foreground text-background p-2 px-4 rounded-full active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg"
+          className="flex justify-center items-center w-full bg-foreground text-background p-2 px-4 m-10 max-w-[250px] rounded-full active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg"
         >
           {isLoading ? (
             <CircularProgress color={"default"} size={"sm"} strokeWidth={3} />

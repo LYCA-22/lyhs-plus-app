@@ -114,10 +114,12 @@ export default function Page() {
                 className={
                   "w-full text-lg bg-background hover:bg-hoverbg border border-borderColor p-2 px-3 rounded-full outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent m-2"
                 }
-                id="email"
+                id="number"
                 placeholder={"點擊這裡輸入座號"}
                 required={true}
                 type="number"
+                min="1"
+                max="50"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
               />

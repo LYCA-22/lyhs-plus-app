@@ -1,6 +1,6 @@
 import type { AppDispatch } from "@/store/store";
 import { apiService } from "@/services/api";
-import { updateStatus } from "@/store/systemSlice";
+import { updateStatus, updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
 
 function getCookie(name: string) {
@@ -19,7 +19,12 @@ function getCookie(name: string) {
   }
 }
 
-export async function checkUserSession(dispatch: AppDispatch) {
+export async function checkUserSession(
+  dispatch: AppDispatch,
+  os: string,
+  browser: string,
+  isMobile: boolean,
+) {
   try {
     dispatch({ type: "systemStatus/setLoading", payload: true });
     const sessionId = getCookie("sessionId");
@@ -50,7 +55,14 @@ export async function checkUserSession(dispatch: AppDispatch) {
     console.error("Failed to check user:", error);
   } finally {
     setTimeout(() => {
-      dispatch(updateStatus(false));
+      dispatch(
+        updateSystemData({
+          isLoading: false,
+          os: os,
+          browser: browser,
+          isMobile: isMobile,
+        }),
+      );
     }, 1000);
   }
 }

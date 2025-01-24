@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { SchoolSystem } from "../components/SchoolSystem";
 import { icons } from "@/components/icons";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -62,19 +63,20 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="px-3">
-      <h1 className="text-2xl font-medium m-3 mb-2">
-        {word}，今天過得怎麼樣？
-      </h1>
+    <div className="p-3">
+      <h1 className="text-2xl font-medium m-3">{word}，今天過得怎麼樣？</h1>
       <div className="relative mt-4">
         <div
           className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide"
           ref={scrollContainer}
         >
           <SchoolSystem />
-          <button className="min-w-fit p-2 px-3 bg-background text-foreground border border-borderColor flex justify-center items-center rounded-full transition-all m-1 hover:opacity-70 active:scale-95 hover:bg-hoverbg">
-            學校網站
-          </button>
+          <Link
+            href={"/mailbox/student"}
+            className="min-w-fit p-2 px-3 bg-background text-foreground border border-borderColor flex justify-center items-center rounded-full transition-all m-1 hover:opacity-70 active:scale-95 hover:bg-hoverbg"
+          >
+            學權信箱
+          </Link>
           <button className="min-w-fit p-2 px-3 bg-background text-foreground border border-borderColor flex justify-center items-center rounded-full transition-all m-1 hover:opacity-70 active:scale-95 hover:bg-hoverbg">
             學校網站
           </button>
