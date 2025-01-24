@@ -64,6 +64,51 @@ export default function Page() {
     setDisplayCount(ITEMS_PER_PAGE);
   }, [selectedDepartment, searchQuery]);
 
+  const formatDate = (dateString: string): string => {
+    const now = new Date();
+    const date = new Date(dateString.replace(/\//g, "-"));
+    const diffTime = now.getTime() - date.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // 如果是今天
+    if (diffDays === 0) {
+      const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+      if (diffHours < 24) {
+        if (diffHours === 0) {
+          const diffMinutes = Math.floor(diffTime / (1000 * 60));
+          if (diffMinutes < 60) {
+            return diffMinutes <= 0 ? "剛剛" : `${diffMinutes}分鐘前`;
+          }
+        }
+        return `${diffHours}小時前`;
+      }
+      return "今天";
+    }
+
+    // 如果是昨天
+    if (diffDays === 1) {
+      return "昨天";
+    }
+
+    // 如果是前天
+    if (diffDays === 2) {
+      return "前天";
+    }
+
+    // 如果是7天內
+    if (diffDays < 7) {
+      return `${diffDays}天前`;
+    }
+
+    // 如果是今年內
+    if (now.getFullYear() === date.getFullYear()) {
+      return `${date.getMonth() + 1}月${date.getDate()}日`;
+    }
+
+    // 其他情況返回完整日期
+    return dateString;
+  };
+
   return (
     <div className="relative w-full max-sm:w-screen">
       <div className="sticky top-0 bg-background border-b p-4 pb-2 z-10 flex flex-col">
@@ -116,7 +161,12 @@ export default function Page() {
                   </p>
                 </div>
                 <div className="flex flex-col">
-                  <p className="mb-1 font-medium">{news.department}</p>
+                  <div className="flex mb-1 font-medium gap-2">
+                    <p>{news.department}</p>
+                    <p className="opacity-45 font-normal">
+                      {formatDate(news.date)}
+                    </p>
+                  </div>
                   <h2 className="text-medium font-normal flex">{news.title}</h2>
                   <NewView>
                     <iframe

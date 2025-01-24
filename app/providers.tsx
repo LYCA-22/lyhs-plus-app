@@ -80,6 +80,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  const isMailboxNavigation = (path: string) => {
+    return path.startsWith("/mailbox");
+  };
+
   return (
     <HeroUIProvider>
       <ThemeProvider attribute="class" defaultTheme="system">
@@ -126,18 +130,22 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 <div className="bg-background overflow-hidden relative border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] max-sm:border-0 max-sm:rounded-none ">
                   <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
                     <AnimatePresence mode="wait">
-                      <motion.div
-                        key={pathname}
-                        initial={{ scale: 0.995, opacity: 0.9 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.995, opacity: 0.9 }}
-                        transition={{
-                          duration: 0.3,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        {children}
-                      </motion.div>
+                      {isMailboxNavigation(pathname) ? (
+                        <div>{children}</div>
+                      ) : (
+                        <motion.div
+                          key={pathname}
+                          initial={{ scale: 0.995, opacity: 0.9 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.995, opacity: 0.9 }}
+                          transition={{
+                            duration: 0.3,
+                            ease: "easeInOut",
+                          }}
+                        >
+                          {children}
+                        </motion.div>
+                      )}
                     </AnimatePresence>
                   </div>
                 </div>
