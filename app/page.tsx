@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { SchoolSystem } from "../components/SchoolSystem";
 import { icons } from "@/components/icons";
 import { motion } from "framer-motion";
+import { apiService } from "@/services/api";
 import Link from "next/link";
 
 export default function Home() {
@@ -12,6 +13,9 @@ export default function Home() {
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   useEffect(() => {
+    const result = apiService.getProposal();
+    console.log(result);
+
     const checkScroll = () => {
       if (scrollContainer.current) {
         const { scrollLeft, scrollWidth, clientWidth } =
