@@ -101,80 +101,100 @@ export default function Page() {
           <DialogHeader>
             <DialogTitle>
               <div className="flex flex-col">
-                <p className="text-xl">案件編號</p>
-                {projectData && <p className="text-medium">{projectData.id}</p>}
+                <p className="text-lg">信件資訊</p>
               </div>
             </DialogTitle>
             <DialogDescription>
               {projectData ? (
-                <ul className="my-2 list-none w-full flex flex-col gap-5">
-                  <li className="w-full bg-hoverbg text-foreground text-medium font-medium p-4 flex items-center justify-center rounded-xl relative">
-                    <div className="flex flex-col items-center justify-center">
-                      <p className="text-sm opacity-60">查詢代碼</p>
+                <ul className="my-2 list-none w-full flex flex-col">
+                  <li className="bg-hoverbg rounded-lg relative rounded-bl-none rounded-br-none border-b border-borderColor">
+                    <p className="text-medium p-4 py-3 rounded-xl w-full bg-green-600 dark:bg-green-800 text-green-50 font-medium rounded-bl-none rounded-br-none">
+                      {projectData.status}
+                    </p>
+                    <div className="p-3 px-4">
+                      <p>處理人</p>
+                      <p className="text-medium text-foreground">
+                        {projectData.handler === ""
+                          ? "尚未有幹部接手"
+                          : projectData.handler}
+                      </p>
+                    </div>
+                  </li>
+                  <li className="w-full flex-col bg-hoverbg rounded-tl-none rounded-tr-none text-foreground text-medium font-medium p-4 flex justify-center rounded-xl relative">
+                    <div className="flex gap-2 items-center">
+                      <p className="text-sm">查詢代碼</p>
                       <p className="text-inputPrimary font-bold">{code}</p>
                     </div>
+                    <p className="font-normal text-xs text-foreground opacity-60">
+                      請務必記得代碼，以讓你可以追蹤此信件。
+                    </p>
                     <button
                       onClick={handleCopyCode}
                       className="flex items-center p-2 rounded-lg
-                                 text-sm text-foreground hover:bg-buttonBg transition-colors absolute right-5"
+                                 text-sm text-foreground hover:bg-background transition-colors absolute right-5"
                     >
                       {copied ? icons["copyDone"]() : icons["copy"]()}
                     </button>
                   </li>
-                  <li className="text-xl font-bold text-foreground py-2 border-b border-borderColor">
+                  <li className="text-xl m-2 mt-6 font-bold text-foreground py-2 border-b border-borderColor">
                     寄件者資料
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>姓名</p>
                     <p className="text-medium">{projectData.name}</p>
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>電子郵件</p>
                     <p className="text-medium">{projectData.email}</p>
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>班級</p>
                     <p className="text-medium">{projectData.class}</p>
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>座號</p>
                     <p className="text-medium">{projectData.number}</p>
                   </li>
-                  <li className="text-xl font-bold text-foreground py-2 border-b border-borderColor">
+                  <li className="text-xl m-2 font-bold text-foreground py-2 border-b border-borderColor">
                     案件資料
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>案件大綱</p>
                     <p className="text-medium">{projectData.title}</p>
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>案件說明</p>
                     <p className="text-medium">{projectData.description}</p>
                   </li>
-                  <li>
+                  <li className="m-2">
+                    <p>想要的解決方式</p>
+                    <p className="text-medium">{projectData.solution}</p>
+                  </li>
+                  <li className="m-2">
                     <p>提交時間</p>
                     <p className="text-medium">{projectData.createdTime}</p>
                   </li>
-                  <li>
+                  <li className="m-2">
                     <p>更新時間</p>
                     <p className="text-medium">{projectData.updatedTime}</p>
                   </li>
-                  <li className="text-xl font-bold text-foreground py-2 border-b border-borderColor">
-                    處理進度
-                  </li>
-                  <li>
-                    <p>案件狀態</p>
-                    <p className="text-sm p-2 px-4 rounded-lg bg-green-200 dark:bg-green-800 w-fit my-2 text-green-600 dark:text-green-100 font-medium">
-                      {projectData.status}
-                    </p>
-                  </li>
-                  <li>
-                    <p>處理人</p>
-                    <p className="text-medium">
-                      {projectData.handler === ""
-                        ? "尚未有幹部接手"
-                        : projectData.handler}
-                    </p>
+                  <li className="m-2">
+                    <button
+                      className="bg-foreground text-background w-full rounded-full p-3 px-4 flex items-center justify-center hover:opacity-75 font-medium"
+                      onClick={() => {
+                        setIsOpen(false);
+                      }}
+                    >
+                      關閉
+                    </button>
+                    <button
+                      className="bg-buttonBg text-foreground mt-4 w-full rounded-full p-3 px-4 flex items-center justify-center hover:opacity-75 font-medium"
+                      onClick={() => {
+                        setIsOpen(false);
+                      }}
+                    >
+                      錯誤回報
+                    </button>
                   </li>
                 </ul>
               ) : (
