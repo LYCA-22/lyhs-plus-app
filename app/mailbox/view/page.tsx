@@ -16,6 +16,15 @@ import {
 import { studentData } from "@/types/index";
 import { icons } from "@/components/icons";
 import { CircularProgress } from "@heroui/react";
+import {
+  RectangleEllipsis,
+  Copy,
+  Info,
+  FileText,
+  ShieldCheck,
+  SquareArrowOutUpRight,
+  Mail,
+} from "lucide-react";
 
 export default function Page() {
   const [code, setCode] = useState("");
@@ -47,6 +56,7 @@ export default function Page() {
       const data = await apiService.getProjectData(code);
       setProjectData(data);
       setIsOpen(true);
+      setCode("");
     } catch (err) {
       setError("查詢失敗，請確認代碼是否正確");
       setCode("");
@@ -64,10 +74,14 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 space-y-2 pt-10">
-      <div className="flex flex-col items-center w-full max-w-md">
-        <p className="text-foreground font-medium m-3">請輸入六位數查詢代碼</p>
-
+    <div className="flex flex-col items-center justify-center p-3 space-y-2">
+      <div className="flex flex-col w-full max-w-md gap-3">
+        <p className="text-foreground text-xl font-medium mt-3">
+          請在下方輸入六位數查詢代碼
+        </p>
+        <p className="text-sm opacity-50">
+          查詢代碼可以在一開始投信成功的頁面找到。
+        </p>
         <InputOTP
           maxLength={6}
           value={code}
@@ -82,18 +96,22 @@ export default function Page() {
         </InputOTP>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-
-        <button
-          onClick={handleSubmit}
-          disabled={code.length < 6 || isLoading}
-          className="flex justify-center items-center w-full bg-foreground text-background p-2 px-4 m-10 max-w-[250px] rounded-full active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg"
-        >
-          {isLoading ? (
-            <CircularProgress color={"default"} size={"sm"} strokeWidth={3} />
-          ) : (
-            "查詢"
-          )}
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={handleSubmit}
+            disabled={code.length < 6 || isLoading}
+            className="flex justify-center items-center bg-foreground text-background p-2 px-4 my-2 w-fit rounded-lg active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg"
+          >
+            {isLoading ? (
+              <CircularProgress color={"default"} size={"sm"} strokeWidth={3} />
+            ) : (
+              "查詢"
+            )}
+          </button>
+          <button className="flex justify-center items-center bg-buttonBg text-foreground p-2 px-4 my-2 w-fit rounded-lg active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg">
+            專人聯絡
+          </button>
+        </div>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -112,20 +130,43 @@ export default function Page() {
                       {projectData.status}
                     </p>
                     <div className="p-3 px-4">
-                      <p>處理人</p>
-                      <p className="text-medium text-foreground">
-                        {projectData.handler === ""
-                          ? "尚未有幹部接手"
-                          : projectData.handler}
+                      <p className="text-medium text-foreground font-medium">
+                        信件承辦人
+                      </p>
+                      <p className="text-foreground">
+                        {projectData.handler === "" ? (
+                          <div className="flex gap-2 mt-2">
+                            <div className="pt-1">
+                              <Info size={20} />
+                            </div>
+                            <div className="flex">
+                              <p>
+                                尚未有幹部承辦此信件，請稍作等待。若您的信件有任何更新時，我們會透過電子信箱聯絡您。
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          projectData.handler
+                        )}
                       </p>
                     </div>
                   </li>
                   <li className="w-full flex-col bg-hoverbg rounded-tl-none rounded-tr-none text-foreground text-medium font-medium p-4 flex justify-center rounded-xl relative">
-                    <div className="flex gap-2 items-center">
-                      <p className="text-sm">查詢代碼</p>
-                      <p className="text-inputPrimary font-bold">{code}</p>
+                    <p className="text-medium text-foreground font-medium">
+                      信件資訊
+                    </p>
+                    <div className="flex gap-2 items-center mt-2">
+                      <RectangleEllipsis size={20} />
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-foreground font-medium">
+                          信件專用代碼
+                        </p>
+                        <p className="text-sm text-inputPrimary font-bold">
+                          {projectData.searchCode}
+                        </p>
+                      </div>
                     </div>
-                    <p className="font-normal text-xs text-foreground opacity-60">
+                    <p className="font-normal text-xs text-foreground opacity-60 ml-7">
                       請務必記得代碼，以讓你可以追蹤此信件。
                     </p>
                     <button
@@ -133,54 +174,78 @@ export default function Page() {
                       className="flex items-center p-2 rounded-lg
                                  text-sm text-foreground hover:bg-background transition-colors absolute right-5"
                     >
-                      {copied ? icons["copyDone"]() : icons["copy"]()}
+                      {copied ? icons["copyDone"]() : <Copy size={20} />}
                     </button>
                   </li>
-                  <li className="text-xl m-2 mt-6 font-bold text-foreground py-2 border-b border-borderColor">
-                    寄件者資料
+                  <li className="mt-6 text-white rounded-xl flex-col gap-2 bg-gradient-to-br from-inputPrimary to-background p-4 pb-5">
+                    <div className="flex gap-2 items-center">
+                      <ShieldCheck size={25} />
+                      <p className="font-bold text-lg">
+                        您的信件正安全的被我們保護。
+                      </p>
+                    </div>
+                    <button className="rounded-lg border text-white border-white p-2 px-3 mt-2 ml-8 hover:opacity-55 text-sm flex gap-2 items-center">
+                      了解我們怎麼保護你的資料
+                      <SquareArrowOutUpRight size={15} />
+                    </button>
                   </li>
-                  <li className="m-2">
-                    <p>姓名</p>
-                    <p className="text-medium">{projectData.name}</p>
+                  <li className="mt-6 text-foreground border border-hoverbg rounded-xl pb-2">
+                    <p className="text-medium text-foreground font-medium m-4 flex gap-2 items-center">
+                      <FileText size={20} />
+                      寄件者資料
+                    </p>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">姓名</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2 border-b border-border">
+                        {projectData.name}
+                      </p>
+                    </div>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">電子郵件</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2 border-b border-border">
+                        {projectData.email}
+                      </p>
+                    </div>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">班級</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2 border-b border-border">
+                        {projectData.class}
+                      </p>
+                    </div>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">座號</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2">
+                        {projectData.number}
+                      </p>
+                    </div>
                   </li>
-                  <li className="m-2">
-                    <p>電子郵件</p>
-                    <p className="text-medium">{projectData.email}</p>
+                  <li className="text-xl mt-6 font-bold text-foreground border border-hoverbg rounded-xl pb-2">
+                    <p className="text-medium text-foreground font-medium m-4 flex gap-2 items-center">
+                      <Mail size={20} />
+                      信件內容
+                    </p>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">大綱</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2 border-b border-border">
+                        {projectData.title}
+                      </p>
+                    </div>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">說明</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2 border-b border-border">
+                        {projectData.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center mx-4">
+                      <p className="text-sm mr-2 min-w-[70px]">解決方式</p>
+                      <p className="text-sm font-normal flex grow justify-end py-2">
+                        {projectData.solution}
+                      </p>
+                    </div>
                   </li>
-                  <li className="m-2">
-                    <p>班級</p>
-                    <p className="text-medium">{projectData.class}</p>
-                  </li>
-                  <li className="m-2">
-                    <p>座號</p>
-                    <p className="text-medium">{projectData.number}</p>
-                  </li>
-                  <li className="text-xl m-2 font-bold text-foreground py-2 border-b border-borderColor">
-                    案件資料
-                  </li>
-                  <li className="m-2">
-                    <p>案件大綱</p>
-                    <p className="text-medium">{projectData.title}</p>
-                  </li>
-                  <li className="m-2">
-                    <p>案件說明</p>
-                    <p className="text-medium">{projectData.description}</p>
-                  </li>
-                  <li className="m-2">
-                    <p>想要的解決方式</p>
-                    <p className="text-medium">{projectData.solution}</p>
-                  </li>
-                  <li className="m-2">
-                    <p>提交時間</p>
-                    <p className="text-medium">{projectData.createdTime}</p>
-                  </li>
-                  <li className="m-2">
-                    <p>更新時間</p>
-                    <p className="text-medium">{projectData.updatedTime}</p>
-                  </li>
-                  <li className="m-2">
+                  <li className="mt-6 flex max-sm:flex-col gap-4">
                     <button
-                      className="bg-foreground text-background w-full rounded-full p-3 px-4 flex items-center justify-center hover:opacity-75 font-medium"
+                      className="bg-foreground text-background w-full rounded-xl p-3 px-4 flex items-center justify-center hover:opacity-75 font-medium"
                       onClick={() => {
                         setIsOpen(false);
                       }}
@@ -188,7 +253,7 @@ export default function Page() {
                       關閉
                     </button>
                     <button
-                      className="bg-buttonBg text-foreground mt-4 w-full rounded-full p-3 px-4 flex items-center justify-center hover:opacity-75 font-medium"
+                      className="bg-buttonBg text-foreground w-full rounded-xl p-3 px-4 flex items-center justify-center hover:opacity-75 font-medium"
                       onClick={() => {
                         setIsOpen(false);
                       }}
