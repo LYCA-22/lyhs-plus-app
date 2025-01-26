@@ -13,4 +13,10 @@ Sentry.init({
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
+  environment: "cloudflare-pages",
+  tunnel: "/monitoring",
+  ignoreErrors: [
+    // 忽略一些 Cloudflare 特定的錯誤
+    "Non-Error exception captured",
+  ],
 });
