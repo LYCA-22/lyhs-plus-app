@@ -7,9 +7,9 @@ import { HeroUIProvider } from "@heroui/system";
 import { SideBar } from "@/components/sidebar/sideBar";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { icons } from "@/components/icons";
 import SystemCheck from "@/components/initUserCheck";
+import { NavBar } from "@/components/navBar";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -80,10 +80,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const isMailboxNavigation = (path: string) => {
-    return path.startsWith("/mailbox");
-  };
-
   return (
     <HeroUIProvider>
       <ThemeProvider attribute="class" defaultTheme="system">
@@ -92,6 +88,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <LoadingPage />
           <main className="w-full h-dvh flex">
             <SideBar />
+            {isMobile && <NavBar />}
             <div
               aria-label="content"
               className="flex grow items-center justify-center"
@@ -100,14 +97,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 {!isMobile && (
                   <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0">
                     <div className="flex items-center opacity-70">
-                      {canGoBack && (
-                        <button
-                          className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
-                          onClick={goBack}
-                        >
-                          {icons["arrowRight"]()}
-                        </button>
-                      )}
+                      {canGoBack &&
+                        pathname !== "/" &&
+                        pathname !== "/news" && (
+                          <button
+                            className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
+                            onClick={goBack}
+                          >
+                            {icons["arrowRight"]()}
+                          </button>
+                        )}
                       {pathAllName[pathname] || "未知頁面"}
                     </div>
                   </div>
@@ -129,24 +128,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 )}
                 <div className="bg-background overflow-hidden relative border border-border shadow-lg grow rounded-tl-[30px] rounded-tr-[30px] max-sm:border-0 max-sm:rounded-none ">
                   <div className="max-sm:pt-9 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
-                    <AnimatePresence mode="wait">
-                      {isMailboxNavigation(pathname) ? (
-                        <div>{children}</div>
-                      ) : (
-                        <motion.div
-                          key={pathname}
-                          initial={{ scale: 0.995, opacity: 0.9 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.995, opacity: 0.9 }}
-                          transition={{
-                            duration: 0.3,
-                            ease: "easeInOut",
-                          }}
-                        >
-                          {children}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <div>{children}</div>
                   </div>
                 </div>
               </div>
