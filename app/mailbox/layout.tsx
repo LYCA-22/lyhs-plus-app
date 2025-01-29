@@ -1,17 +1,15 @@
 "use client";
 import { Tabs, Tab } from "@heroui/tabs";
 import { usePathname } from "next/navigation";
-import { useAppSelector } from "@/store/hook";
 import Link from "next/link";
 
 export const runtime = "edge";
 export default function Home({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isMobile = useAppSelector((state) => state.systemStatus.isMobile);
 
   return (
     <section
-      className={`flex flex-col items-center bg-background px-5 ${isMobile ? "pt-16" : ""}`}
+      className={`flex flex-col items-center bg-background px-5 max-sm:pt-2`}
     >
       <div
         aria-label={"mainContent"}

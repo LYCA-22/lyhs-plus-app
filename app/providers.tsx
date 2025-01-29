@@ -112,8 +112,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                 )}
-                {pathname.startsWith("/mailbox") && isMobile && (
-                  <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0">
+                {isMobile && (
+                  <div className="z-20 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:fixed max-sm:top-0">
                     <div className="flex items-center opacity-70">
                       {canGoBack && (
                         <button
@@ -127,8 +127,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                 )}
-                <div className="bg-background overflow-hidden relative border border-borderColor shadow-lg grow rounded-tl-[40px] rounded-tr-[40px] max-sm:border-0 max-sm:rounded-none ">
-                  <div className="max-sm:pt-0 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
+                <div className="bg-background overflow-hidden relative border border-border shadow-lg grow rounded-tl-[30px] rounded-tr-[30px] max-sm:border-0 max-sm:rounded-none ">
+                  <div className="max-sm:pt-9 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
                     <AnimatePresence mode="wait">
                       {isMailboxNavigation(pathname) ? (
                         <div>{children}</div>

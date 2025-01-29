@@ -5,12 +5,26 @@ import { icons } from "@/components/icons";
 import { motion } from "framer-motion";
 import { apiService } from "@/services/api";
 import Link from "next/link";
+import { Mail } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselApi,
+} from "@/components/ui/carousel";
+import Image from "next/image";
 
 export default function Home() {
-  const [word, setWord] = useState("");
   const scrollContainer = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 2;
+  const [api, setApi] = useState<CarouselApi>();
+
+  const scrollToSlide = (index: number) => {
+    api?.scrollTo(index);
+  };
 
   useEffect(() => {
     const result = apiService.getProposal();
@@ -35,40 +49,70 @@ export default function Home() {
     }
   }, []);
 
-  const scroll = (direction: string) => {
-    if (scrollContainer.current) {
-      if (direction === "right") {
-        scrollContainer.current.scrollLeft += 100; // 每次移動 100px
-      } else {
-        scrollContainer.current.scrollLeft -= 100;
-      }
-    }
-  };
-
-  // 根據時間決定顯示的詞語
-  const updateWord = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) {
-      setWord("早安");
-    } else if (hour >= 12 && hour < 18) {
-      setWord("下午好");
-    } else {
-      setWord("晚安");
-    }
-  };
-
-  useEffect(() => {
-    updateWord();
-    const interval = setInterval(updateWord, 1000 * 60);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
   return (
-    <div className="p-3">
-      <h1 className="text-2xl font-medium m-3">{word}，今天過得怎麼樣？</h1>
+    <div className="p-3 sm:p-0">
+      <div className="p-3 relative sm:p-0">
+        <Carousel
+          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-hoverbg to-white p-5"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          setApi={(api) => {
+            setApi(api);
+            api?.on("select", () => {
+              setCurrentSlide(api.selectedScrollSnap());
+            });
+          }}
+        >
+          <CarouselContent>
+            <CarouselItem className="flex flex-col items-center">
+              <Image
+                className="w-1/2"
+                alt="post1"
+                src={"./post-photo-1.svg"}
+                width={20}
+                height={20}
+              />
+              <div className="w-full">
+                <h1 className="font-bold text-lg">歡迎使用LYHS+</h1>
+                <p className="text-sm opacity-50">盡情探索LYHS+的功能吧！</p>
+              </div>
+            </CarouselItem>
+          </CarouselContent>
+        </Carousel>
+        <div className="flex justify-between p-3 items-center sm:px-7">
+          <div className="flex gap-2">
+            {[...Array(totalSlides)].map((_, index) => (
+              <div
+                key={index}
+                onClick={() => scrollToSlide(index)}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  currentSlide === index ? "w-8 bg-primary" : "w-2 bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                scrollToSlide(currentSlide - 1);
+              }}
+              className="bg-hoverbg p-2 rounded-full mt-2 hover:bg-buttonBg transition-all active:scale-95"
+            >
+              {icons["BarArrowLeft"]()}
+            </button>
+            <button
+              onClick={() => {
+                scrollToSlide(currentSlide + 1);
+              }}
+              className="bg-hoverbg p-2 rounded-full mt-2 hover:bg-buttonBg transition-all active:scale-95"
+            >
+              {icons["BarArrowRight"]()}
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="relative mt-4">
         <div
           className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide"
@@ -77,8 +121,9 @@ export default function Home() {
           <SchoolSystem />
           <Link
             href={"/mailbox/student"}
-            className="min-w-fit p-2 px-3 bg-background text-foreground border border-borderColor flex justify-center items-center rounded-full transition-all m-1 hover:opacity-70 active:scale-95 hover:bg-hoverbg"
+            className="min-w-fit p-2 px-4 bg-background text-foreground border border-borderColor flex gap-2 justify-center items-center rounded-full transition-all font-medium m-1 hover:opacity-70 active:scale-95 hover:bg-hoverbg"
           >
+            <Mail size={24} />
             學權信箱
           </Link>
           <button className="min-w-fit p-2 px-3 bg-background text-foreground border border-borderColor flex justify-center items-center rounded-full transition-all m-1 hover:opacity-70 active:scale-95 hover:bg-hoverbg">
@@ -107,22 +152,8 @@ export default function Home() {
             className="absolute top-0 right-0 bg-gradient-to-l w-[80px] h-full to-white/0 from-white dark:from-background dark:to-black/0"
           ></motion.div>
         )}
-        <div className="flex gap-3 m-2 relative">
-          <button
-            onClick={() => scroll("left")}
-            className="bg-hoverbg p-2 rounded-full mt-2 hover:bg-buttonBg transition-all active:scale-95"
-          >
-            {icons["BarArrowLeft"]()}
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="bg-hoverbg p-2 rounded-full mt-2 hover:bg-buttonBg transition-all active:scale-95"
-          >
-            {icons["BarArrowRight"]()}
-          </button>
-          <div className="h-[1px] w-10/12 bg-borderColor mt-7 mx-2"></div>
-        </div>
       </div>
+      <div className="p-2 bg-hoverbg rounded-xl m-3 mt-5">天氣資訊</div>
     </div>
   );
 }

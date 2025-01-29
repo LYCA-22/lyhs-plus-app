@@ -112,8 +112,10 @@ export default function Page() {
   return (
     <div className="relative w-full max-sm:w-screen">
       <div className="sticky top-0 bg-background border-b p-4 pb-2 z-10 flex flex-col">
-        <div className="flex flex-col gap-3">
-          <p className="text-xl mx-1 mt-2 font-medium">校園公告</p>
+        <div className="flex flex-col gap-3 max-sm:pt-2">
+          <p className="text-xl mx-1 mt-2 font-medium max-sm:hidden">
+            校園公告
+          </p>
           <div className="p-2 px-4 rounded-full w-full flex items-center gap-2 bg-hoverbg">
             <Search className="text-borderColor" size={20} />
             <input
