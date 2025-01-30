@@ -8,7 +8,7 @@ export function NavBar() {
   const pathname = usePathname();
 
   return (
-    <div className="flex justify-around fixed bottom-0 w-full items-center bg-white shadow-md z-20 border-t border-border">
+    <div className="flex justify-around fixed bottom-0 w-full items-center bg-white/70 backdrop-blur-lg shadow-md z-20 border-t border-border">
       <Link
         href={"/"}
         className={`flex flex-col gap-1 items-center justify-center relative min-w-[50px] ${pathname === "/" ? "text-primary" : "text-gray-400"}`}

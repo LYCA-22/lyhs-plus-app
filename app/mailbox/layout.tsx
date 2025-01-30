@@ -38,7 +38,7 @@ export default function Home({ children }: { children: React.ReactNode }) {
             key={"/mailbox/view"}
             as={Link}
             href={"/mailbox/view"}
-            title="案件查詢"
+            title="信件查詢"
           />
         </Tabs>
         <main className="w-full">{children}</main>

@@ -20,8 +20,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/news": "學校網站公告",
     "/lyca": "班聯會",
     "/apps": "更多服務",
-    "/mailbox/student": "學權信箱",
-    "/mailbox/success": "學權信箱",
+    "/mailbox/student": "學權信箱 (測試版)",
+    "/mailbox/success": "學權信箱 (測試版)",
     "/mailbox/view": "信件查詢",
   };
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
@@ -60,7 +60,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const goBack = () => {
     const paths = JSON.parse(sessionStorage.getItem("navigationPaths") || "[]");
     if (paths.length > 1) {
-      paths.pop(); // 移除當前路徑
+      paths.pop();
       sessionStorage.setItem("navigationPaths", JSON.stringify(paths));
       router.back();
     }
@@ -89,45 +89,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <main className="w-full h-dvh flex">
             <SideBar />
             {isMobile && <NavBar />}
-            <div
-              aria-label="content"
-              className="flex grow items-center justify-center"
-            >
+            <div className="flex grow items-center justify-center">
               <div className="w-full sm:w-[550px] min-h-dvh flex flex-col">
-                {!isMobile && (
-                  <div className="z-10 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:border-b max-sm:border-borderColor max-sm:fixed max-sm:top-0">
-                    <div className="flex items-center opacity-70">
-                      {canGoBack &&
-                        pathname !== "/" &&
-                        pathname !== "/news" && (
-                          <button
-                            className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
-                            onClick={goBack}
-                          >
-                            {icons["arrowRight"]()}
-                          </button>
-                        )}
-                      {pathAllName[pathname] || "未知頁面"}
-                    </div>
+                <div className="z-20 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-white/70 max-sm:fixed max-sm:top-0">
+                  <div className="flex items-center opacity-70">
+                    {canGoBack && pathname !== "/" && pathname !== "/news" && (
+                      <button
+                        className="absolute items-center justify-center shadow-md bg-background max-sm:bg-transparent rounded-full border border-borderColor left-0 m-2 ml-5 p-1 max-sm:shadow-none max-sm:border-none"
+                        onClick={goBack}
+                      >
+                        {icons["arrowRight"]()}
+                      </button>
+                    )}
+                    {pathAllName[pathname] || "未知頁面"}
                   </div>
-                )}
-                {isMobile && (
-                  <div className="z-20 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-background max-sm:fixed max-sm:top-0">
-                    <div className="flex items-center opacity-70">
-                      {canGoBack && (
-                        <button
-                          className="absolute items-center justify-center shadow-md bg-background rounded-full border border-borderColor left-0 m-2 p-1 max-sm:shadow-none max-sm:border-none"
-                          onClick={goBack}
-                        >
-                          {icons["arrowRight"]()}
-                        </button>
-                      )}
-                      {pathAllName[pathname] || "未知頁面"}
-                    </div>
-                  </div>
-                )}
-                <div className="bg-background overflow-hidden relative border border-border shadow-lg grow rounded-tl-[30px] rounded-tr-[30px] max-sm:border-0 max-sm:rounded-none ">
-                  <div className="max-sm:pt-9 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
+                </div>
+                <div className="bg-background overflow-hidden relative border border-borderColor shadow-lg grow rounded-tl-[30px] rounded-tr-[30px] max-sm:border-0 max-sm:rounded-none ">
+                  <div className="max-sm:py-9 max-sm:pb-14 sm:max-h-screen-56 max-sm:h-dvh overflow-y-auto overflow-x-hidden box-border">
                     <div>{children}</div>
                   </div>
                 </div>

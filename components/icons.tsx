@@ -172,8 +172,8 @@ export const icons = {
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      width="18"
-      height="18"
+      width="20"
+      height="20"
       viewBox="0 0 72 72"
       className="fill-foreground opacity-60"
     >
