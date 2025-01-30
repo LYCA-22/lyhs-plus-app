@@ -87,13 +87,17 @@ export default function Home() {
               />
               <div className="w-full flex items-center justify-between">
                 <div>
-                  <h1 className="font-bold text-lg">歡迎使用LYHS+</h1>
-                  <p className="text-sm opacity-50">盡情探索LYHS+的功能吧！</p>
+                  <h1 className="font-bold text-lg max-sm:text-medium">
+                    歡迎使用LYHS+
+                  </h1>
+                  <p className="text-sm opacity-50  max-sm:text-xs">
+                    盡情探索LYHS+的功能吧！
+                  </p>
                 </div>
                 <div>
                   <Link
                     href="/"
-                    className="bg-primary text-background font-medium p-2 px-4 rounded-full hover:opacity-70 transition-all"
+                    className="bg-primary text-background max-sm:text-xs font-medium p-2 px-4 max-sm:px-3 rounded-full hover:opacity-70 transition-all"
                   >
                     探索
                   </Link>
@@ -110,15 +114,17 @@ export default function Home() {
               />
               <div className="w-full flex items-center justify-between">
                 <div>
-                  <h1 className="font-bold text-lg">我們正在招募團隊成員</h1>
-                  <p className="text-sm opacity-50">
+                  <h1 className="font-bold text-lg max-sm:text-medium">
+                    我們正在招募團隊成員
+                  </h1>
+                  <p className="text-sm opacity-50  max-sm:text-xs">
                     加入我們一起成為校園資訊發展的推手！
                   </p>
                 </div>
                 <div>
                   <Link
                     href="/"
-                    className="bg-primary text-background font-medium p-2 px-4 rounded-full hover:opacity-70 transition-all"
+                    className="bg-primary text-medium max-sm:text-xs text-background font-medium p-2 px-4 max-sm:px-3 rounded-full hover:opacity-70 transition-all"
                   >
                     申請
                   </Link>
