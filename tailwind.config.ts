@@ -13,6 +13,14 @@ const config = {
   ],
   theme: {
     extend: {
+      padding: {
+        deviceTop: "env(safe-area-inset-top)",
+        deviceBottom: "env(safe-area-inset-bottom)",
+      },
+      margin: {
+        deviceTop: "env(safe-area-inset-top)",
+        deviceBottom: "env(safe-area-inset-bottom)",
+      },
       maxHeight: {
         "screen-56": "calc(var(--dvh) - 56px)",
       },

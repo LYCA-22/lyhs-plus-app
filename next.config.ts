@@ -1,4 +1,11 @@
 import type { NextConfig } from "next";
+import nextPwa from "next-pwa";
+
+const withPWA = nextPwa({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+});
 
 const nextConfig: NextConfig = {
   async rewrites() {
@@ -28,4 +35,4 @@ const nextConfig: NextConfig = {
   output: "standalone",
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);

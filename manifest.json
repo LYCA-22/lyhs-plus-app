@@ -1,0 +1,52 @@
+{
+  "name": "LYHS Plus",
+  "short_name": "LYHS+",
+  "description": "LYHS Plus is a mobile app that helps you to manage your health and wellness.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "首頁",
+      "url": "/",
+      "icons": [{ "src": "/icon-64x64.png", "sizes": "64x64" }]
+    },
+    {
+      "name": "校園公告",
+      "url": "/news",
+      "icons": [{ "src": "/icon-64x64.png", "sizes": "64x64" }]
+    }
+  ],
+  "categories": ["education", "utilities"],
+  "lang": "zh-TW",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "iarc_rating_id": "",
+  "share_target": {
+    "action": "/share-target",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}
