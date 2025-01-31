@@ -18,7 +18,8 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const AUTO_PLAY_DELAY = 7000;
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
+  const currentTheme = theme === "system" ? systemTheme : theme;
   const startProgress = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -69,7 +70,7 @@ export default function Home() {
           plugins={[
             Autoplay({ delay: AUTO_PLAY_DELAY, stopOnInteraction: false }),
           ]}
-          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-hoverbg to-white p-5 dark:to-zinc-950"
+          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-hoverbg to-white p-5 dark:to-zinc-950 relative"
           opts={{
             align: "start",
             loop: true,
@@ -79,15 +80,16 @@ export default function Home() {
           }}
         >
           <CarouselContent>
-            <CarouselItem className="flex flex-col items-center">
+            <CarouselItem className="flex flex-col items-center relative">
               <Image
                 className="w-1/2"
                 alt="post1"
-                src={`./postImage/welcome/post-photo-1-${theme === "light" ? "light" : "dark"}.svg`}
+                src={`./postImage/welcome/post-photo-1-${currentTheme === "light" ? "light" : "dark"}.svg`}
                 width={20}
                 height={20}
+                priority
               />
-              <div className="w-full flex items-center justify-between">
+              <div className="w-full flex items-center justify-between absolute bottom-0 px-2">
                 <div>
                   <h1 className="font-bold text-lg max-sm:text-medium">
                     歡迎使用LYHS+
@@ -110,9 +112,10 @@ export default function Home() {
               <Image
                 className="w-1/2"
                 alt="post1"
-                src={`./postImage/dev/post-photo-2-${theme === "light" ? "light" : "dark"}.svg`}
+                src={`./postImage/dev/post-photo-2-${currentTheme === "light" ? "light" : "dark"}.svg`}
                 width={20}
                 height={20}
+                priority
               />
               <div className="w-full flex items-center justify-between">
                 <div>
