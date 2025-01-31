@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
-import { useTheme } from "next-themes";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -18,8 +17,7 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const AUTO_PLAY_DELAY = 7000;
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const { theme, systemTheme } = useTheme();
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  const [theme, setTheme] = useState<string>("");
   const startProgress = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -34,6 +32,27 @@ export default function Home() {
       });
     }, 50);
   };
+
+  useEffect(() => {
+    const html = document.querySelector("html");
+    const observer = new MutationObserver(() => {
+      if (html?.classList.contains("dark")) {
+        setTheme("dark");
+      } else {
+        setTheme("light");
+      }
+    });
+
+    observer.observe(html!, { attributes: true });
+
+    if (html?.classList.contains("dark")) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (progress >= 100 && timerRef.current) {
@@ -84,7 +103,7 @@ export default function Home() {
               <Image
                 className="w-1/2"
                 alt="post1"
-                src={`./postImage/welcome/post-photo-1-${currentTheme === "light" ? "light" : "dark"}.svg`}
+                src={`./postImage/welcome/post-photo-1-${theme === "light" ? "light" : "dark"}.svg`}
                 width={20}
                 height={20}
                 priority
@@ -112,7 +131,7 @@ export default function Home() {
               <Image
                 className="w-1/2"
                 alt="post1"
-                src={`./postImage/dev/post-photo-2-${currentTheme === "light" ? "light" : "dark"}.svg`}
+                src={`./postImage/dev/post-photo-2-${theme === "light" ? "light" : "dark"}.svg`}
                 width={20}
                 height={20}
                 priority

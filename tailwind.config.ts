@@ -14,8 +14,8 @@ const config = {
   theme: {
     extend: {
       padding: {
-        deviceTop: "env(safe-area-inset-top)",
-        deviceBottom: "env(safe-area-inset-bottom)",
+        deviceTop: "var(--Top)",
+        deviceBottom: "var(--Bottom)",
       },
       margin: {
         deviceTop: "env(safe-area-inset-top)",

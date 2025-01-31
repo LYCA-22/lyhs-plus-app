@@ -1,14 +1,41 @@
 "use client";
 import { House, Newspaper, Menu } from "lucide-react";
 import { motion } from "framer-motion";
-import { usePathname, useRouter } from "next/navigation"; // 添加 useRouter
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+
+interface Navigator {
+  standalone?: boolean;
+}
 
 export function NavBar() {
   const pathname = usePathname();
-  const router = useRouter(); // 添加 router
+  const router = useRouter();
+  const [isPWA, setIsPWA] = useState(false);
+
+  useEffect(() => {
+    const checkPWA = () => {
+      const isStandalone = (window.navigator as Navigator).standalone;
+      const isDisplayModeStandalone = window.matchMedia(
+        "(display-mode: standalone)",
+      ).matches;
+
+      setIsPWA(isStandalone || isDisplayModeStandalone);
+    };
+
+    checkPWA();
+
+    // 監聽顯示模式變化
+    const mediaQuery = window.matchMedia("(display-mode: standalone)");
+    mediaQuery.addListener(checkPWA);
+
+    return () => mediaQuery.removeListener(checkPWA);
+  }, []);
 
   return (
-    <div className="flex justify-around fixed pb-deviceBottom bottom-0 w-full items-center bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg shadow-md z-20 border-t border-border dark:border-zinc-700">
+    <div
+      className={`flex justify-around fixed bottom-0 w-full ${isPWA ? "pb-8" : ""} items-center bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg shadow-md z-20 border-t border-border dark:border-zinc-700`}
+    >
       <button
         onClick={() => router.replace("/")}
         className={`flex flex-col gap-1 items-center justify-center relative min-w-[50px] ${

@@ -21,6 +21,8 @@
     -moz-user-drag: none;
     -o-user-drag: none;
     user-drag: none;
+    --Bottom: env(safe-area-inset-bottom);
+    --Top: env(safe-area-inset-top);
 }
 
 .dark {
