@@ -23,6 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/mailbox/student": "學權信箱 (測試版)",
     "/mailbox/success": "學權信箱 (測試版)",
     "/mailbox/view": "信件查詢",
+    "/settings": "設定",
   };
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
 
@@ -91,7 +92,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             {isMobile && <NavBar />}
             <div className="flex grow items-center justify-center">
               <div className="w-full sm:w-[550px] min-h-dvh flex flex-col">
-                <div className="z-20 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-white/70 max-sm:fixed max-sm:top-0">
+                <div className="z-20 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-white/70 max-sm:dark:bg-zinc-800/70 max-sm:fixed max-sm:top-0">
                   <div className="flex items-center opacity-70">
                     {canGoBack && pathname !== "/" && pathname !== "/news" && (
                       <button

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,6 +18,7 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const AUTO_PLAY_DELAY = 7000;
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const { theme } = useTheme();
   const startProgress = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -67,7 +69,7 @@ export default function Home() {
           plugins={[
             Autoplay({ delay: AUTO_PLAY_DELAY, stopOnInteraction: false }),
           ]}
-          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-hoverbg to-white p-5"
+          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-hoverbg to-white p-5 dark:to-zinc-950"
           opts={{
             align: "start",
             loop: true,
@@ -81,7 +83,7 @@ export default function Home() {
               <Image
                 className="w-1/2"
                 alt="post1"
-                src={"./post-photo-1.svg"}
+                src={`./postImage/welcome/post-photo-1-${theme === "light" ? "light" : "dark"}.svg`}
                 width={20}
                 height={20}
               />
@@ -108,7 +110,7 @@ export default function Home() {
               <Image
                 className="w-1/2"
                 alt="post1"
-                src={"./post-photo-2.svg"}
+                src={`./postImage/dev/post-photo-2-${theme === "light" ? "light" : "dark"}.svg`}
                 width={20}
                 height={20}
               />
@@ -142,13 +144,13 @@ export default function Home() {
                   onClick={() => scrollToSlide(index)}
                   className={`h-2 rounded-full transition-all duration-300 cursor-pointer overflow-y-auto ${
                     currentSlide === index
-                      ? "w-6 bg-gray-300"
-                      : "w-2 bg-gray-300"
+                      ? "w-6 bg-gray-300 dark:bg-zinc-600"
+                      : "w-2 bg-gray-300 dark:bg-zinc-600"
                   }`}
                 >
                   {currentSlide === index && (
                     <div
-                      className="h-2 bg-gradient-to-br from-primary/10 to-primary"
+                      className="h-2 bg-gradient-to-br from-primary/10 to-primary dark:to-primary/50"
                       style={{ width: `${progress}%` }}
                     />
                   )}
@@ -185,7 +187,7 @@ export default function Home() {
           >
             <Image
               alt="mailbox"
-              src={"./mailboxIcon.svg"}
+              src={`./serviceIcon/mailboxIcon${theme === "dark" ? "-dark" : ""}.svg`}
               width={60}
               height={60}
             />
@@ -197,7 +199,7 @@ export default function Home() {
           >
             <Image
               alt="mailbox"
-              src={"./schoolWebIcon.svg"}
+              src={`./serviceIcon/schoolWebIcon${theme === "dark" ? "-dark" : ""}.svg`}
               width={60}
               height={60}
             />
@@ -209,7 +211,7 @@ export default function Home() {
           >
             <Image
               alt="mailbox"
-              src={"./searchMailIcon.svg"}
+              src={`./serviceIcon/searchMailIcon${theme === "dark" ? "-dark" : ""}.svg`}
               width={60}
               height={60}
             />

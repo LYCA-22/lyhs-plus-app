@@ -198,7 +198,11 @@ export function SideBar() {
               <ThemeToggle />
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>設定</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={"./settings"} className="w-full">
+                設定
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>我的帳號</DropdownMenuItem>
             <Dialog>
               <DialogTrigger asChild>
