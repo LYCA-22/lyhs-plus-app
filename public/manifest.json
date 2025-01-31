@@ -3,7 +3,8 @@
   "short_name": "LYHS+",
   "description": "LYHS Plus is a mobile app that helps you to manage your health and wellness.",
   "start_url": "/",
-  "display": "standalone",
+  "scope": "/",
+  "display": "fullscreen",
   "background_color": "#ffffff",
   "icons": [
     {
