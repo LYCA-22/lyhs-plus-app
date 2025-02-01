@@ -5,6 +5,7 @@
   "start_url": "/",
   "scope": "/",
   "display": "fullscreen",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#ffffff",
   "icons": [
     {
@@ -23,16 +24,11 @@
       "type": "image/png"
     }
   ],
-  "shortcuts": [
+  "screenshots": [
     {
-      "name": "首頁",
-      "url": "/",
-      "icons": [{ "src": "/icon-64x64.png", "sizes": "64x64" }]
-    },
-    {
-      "name": "校園公告",
-      "url": "/news",
-      "icons": [{ "src": "/icon-64x64.png", "sizes": "64x64" }]
+      "src": "/splash/iPhone_12_Pro.png",
+      "type": "image/png",
+      "sizes": "390x844"
     }
   ],
   "categories": ["education", "utilities"],

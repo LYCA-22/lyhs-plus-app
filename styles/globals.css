@@ -35,7 +35,10 @@
 }
 
 body {
+    height: calc(var(--vh, 1vh) * 100);
     background-color: var(--rootBg);
+    margin: 0;
+    overflow: hidden;
 }
 
 @layer base {

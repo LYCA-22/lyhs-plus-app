@@ -53,7 +53,7 @@ export function LoadingPage() {
             src={`${theme === "dark" ? "/logo-light.svg" : "/logo.svg"}`}
             width={70}
             height={70}
-            className={`${outing ? "scale-150 opacity-10" : "opacity-1 scale-100"} transition-all`}
+            className={`${outing ? "opacity-10" : "opacity-100"} transition-all`}
           />
         </div>
       )}

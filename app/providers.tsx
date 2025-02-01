@@ -71,6 +71,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const checkIsMobile = () => {
       const isMobileDevice = window.innerWidth <= 640;
       setIsMobile(isMobileDevice);
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
     checkIsMobile();
@@ -82,7 +84,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <HeroUIProvider>
+    <HeroUIProvider id="mainApp">
       <ThemeProvider attribute="class" defaultTheme="system">
         <Provider store={store}>
           <SystemCheck />
