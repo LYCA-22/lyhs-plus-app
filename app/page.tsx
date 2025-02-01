@@ -83,13 +83,13 @@ export default function Home() {
   };
 
   return (
-    <div className="p-3 sm:p-0">
-      <div className="p-3 relative sm:p-0">
+    <div className="p-3 sm:p-0 max-sm:pt-5">
+      <div className="relative max-sm:px-1">
         <Carousel
           plugins={[
             Autoplay({ delay: AUTO_PLAY_DELAY, stopOnInteraction: false }),
           ]}
-          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-hoverbg to-white p-5 dark:to-zinc-950 relative"
+          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-zinc-100 to-white p-5 dark:from-hoverbg dark:to-zinc-950 relative"
           opts={{
             align: "start",
             loop: true,

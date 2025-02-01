@@ -71,8 +71,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const checkIsMobile = () => {
       const isMobileDevice = window.innerWidth <= 640;
       setIsMobile(isMobileDevice);
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
     checkIsMobile();
@@ -94,7 +92,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             {isMobile && <NavBar />}
             <div className="flex grow items-center justify-center">
               <div className="w-full sm:w-[550px] min-h-dvh flex flex-col">
-                <div className="z-20 backdrop-blur-sm flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-white/70 max-sm:dark:bg-zinc-800/70 max-sm:fixed max-sm:top-0">
+                <div className="z-20 flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-white max-sm:dark:bg-zinc-800 max-sm:fixed max-sm:top-0">
                   <div className="flex items-center opacity-70">
                     {canGoBack && pathname !== "/" && pathname !== "/news" && (
                       <button

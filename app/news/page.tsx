@@ -135,7 +135,7 @@ export default function Page() {
                 className={`px-3 py-1 rounded-full whitespace-nowrap ${
                   selectedDepartment === dept
                     ? "bg-foreground text-background"
-                    : "bg-background border hover:bg-gray-100"
+                    : "bg-hoverbg hover:bg-buttonBg"
                 }`}
               >
                 {dept === "all" ? "全部" : dept}

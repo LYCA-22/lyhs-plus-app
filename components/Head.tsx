@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 export function Head() {
   const [theme, setTheme] = useState<string>("");
+  const [windowOpen, setWindowOpen] = useState<boolean>(false);
+  const [themeColor, setThemeColor] = useState<string>("#ffffff");
 
   useEffect(() => {
     const html = document.querySelector("html");
@@ -27,6 +29,34 @@ export function Head() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === "Open") {
+        setWindowOpen(true);
+      } else if (event.data.type === "Close") {
+        setWindowOpen(false);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (windowOpen) {
+      if (theme === "dark") {
+        setThemeColor("#080808");
+      } else {
+        setThemeColor("#333333");
+      }
+    } else {
+      setThemeColor(theme === "dark" ? "#27272A" : "#ffffff");
+    }
+  }, [windowOpen, theme]);
+
   return (
     <head>
       <link rel="manifest" href="/manifest.json" />
@@ -37,23 +67,16 @@ export function Head() {
       />
       <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
       />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="application-name" content="LYHS+" />
       <meta name="apple-mobile-web-app-title" content="LYHS+" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
-      {theme === "light" ? (
-        <meta name="theme-color" content="#ffffff" />
-      ) : (
-        <meta name="theme-color" content="#27272A" />
-      )}
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="theme-color" content={themeColor} />
       <link rel="apple-touch-icon" href="/icon-192x192.png" />
       <meta name="apple-touch-fullscreen" content="yes" />
-      <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black-translucent"
-      />
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}

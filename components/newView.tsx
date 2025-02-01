@@ -12,7 +12,18 @@ import { icons } from "./icons";
 export function NewView({ children }: { children: React.ReactNode }) {
   return (
     <Drawer>
-      <DrawerTrigger asChild>
+      <DrawerTrigger
+        asChild
+        onClick={() => {
+          window.postMessage(
+            {
+              type: "Open",
+              payload: "視窗打開",
+            },
+            "*",
+          );
+        }}
+      >
         <button className="flex gap-1 p-2 px-3 w-fit rounded-full mt-2 bg-transparent relative group -translate-x-3">
           <div className="opacity-50 flex items-center gap-1 font-normal text-sm z-20">
             {icons["eye"]()}
@@ -27,7 +38,19 @@ export function NewView({ children }: { children: React.ReactNode }) {
             <DrawerTitle>公告查閱</DrawerTitle>
             <DrawerDescription>高雄市立林園高級中學</DrawerDescription>
           </div>
-          <DrawerClose className="bg-rootBg flex font-medium p-2 px-4 rounded-full hover:bg-foreground hover:text-background transition-all">
+          <DrawerClose
+            onClick={() => {
+              window.postMessage(
+                {
+                  type: "Close",
+                  payload: "視窗關閉",
+                },
+                "*",
+              );
+              console.log("關閉");
+            }}
+            className="bg-rootBg flex font-medium p-2 px-4 rounded-full hover:bg-foreground hover:text-background transition-all"
+          >
             關閉
           </DrawerClose>
         </DrawerHeader>

@@ -22,10 +22,9 @@ import { icons } from "@/components/icons";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/sidebar/themeToggle";
 import Link from "next/link";
-import { useAppSelector } from "@/store/hook";
+import { useAppSelector, useAppDispatch } from "@/store/hook";
 import { apiService } from "@/services/api";
 import { LoginPage } from "./LoginPage";
-import { useAppDispatch } from "@/store/hook";
 import { loadNews } from "@/store/newsSlice";
 
 export function SideBar() {
