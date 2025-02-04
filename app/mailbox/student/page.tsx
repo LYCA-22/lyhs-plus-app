@@ -40,7 +40,7 @@ export default function Page() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <ul className="list-none mb-6">
+        <ul className="list-none">
           <li className="flex flex-col py-6 px-2 border-b border-borderColor mb-5">
             <p className="font-bold text-2xl">個人基本資料</p>
             <p className="text-foreground opacity-50 mt-2">
@@ -211,7 +211,7 @@ export default function Page() {
               />
             </div>
           </li>
-          <li className="relative flex justify-center items-center">
+          <li className="relative flex justify-center items-center flex-col">
             <button
               className="flex justify-center items-center bg-foreground text-rootBg p-3 font-medium rounded-full w-full m-2 mt-5 box-border hover:bg-buttonBg hover:text-foreground active:scale-95 transition-all disabled:bg-hoverbg disabled:text-buttonBg"
               disabled={loading}
@@ -226,6 +226,10 @@ export default function Page() {
                 "送出"
               )}
             </button>
+            <p className="text-sm opacity-50 mt-1">
+              若您按下送出，即同意我們的<strong>隱私權政策</strong>與
+              <strong>服務條款</strong>
+            </p>
           </li>
         </ul>
       </form>

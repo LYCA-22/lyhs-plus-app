@@ -32,6 +32,10 @@ export function NavBar() {
     return () => mediaQuery.removeListener(checkPWA);
   }, []);
 
+  if (pathname.startsWith("/mailbox")) {
+    return null;
+  }
+
   return (
     <div
       className={`flex justify-around fixed bottom-0 w-full ${isPWA ? "pb-8" : ""} items-center bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg shadow-md z-20 border-t border-border dark:border-zinc-700`}

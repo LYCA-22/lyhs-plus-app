@@ -29,12 +29,6 @@ export default function Home({ children }: { children: React.ReactNode }) {
             title="學權信箱"
           />
           <Tab
-            key={"/account/register"}
-            as={Link}
-            href={"./register?mode=normal"}
-            title="意見箱"
-          />
-          <Tab
             key={"/mailbox/view"}
             as={Link}
             href={"/mailbox/view"}
