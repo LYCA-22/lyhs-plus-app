@@ -206,4 +206,30 @@ export const apiService = {
       throw error;
     }
   },
+  async getAnnouncement(
+    url: string,
+    setError: (error: string) => void,
+    setLoading: (loading: boolean) => void,
+  ) {
+    try {
+      const encodedUrl = encodeURIComponent(url);
+      const apiUrl = `https://plus.lyhsca.org/api/v1/getAdDetail?url=${encodedUrl}`;
+      const response = await fetch(apiUrl, {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return result;
+      } else {
+        const result = await response.json();
+        setError(result.error);
+        setLoading(false);
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error("Error in getAnnouncement:", error);
+      throw error;
+    }
+  },
 };

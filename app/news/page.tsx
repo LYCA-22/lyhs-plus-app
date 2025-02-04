@@ -170,13 +170,7 @@ export default function Page() {
                     </p>
                   </div>
                   <h2 className="text-medium font-normal flex">{news.title}</h2>
-                  <NewView>
-                    <iframe
-                      src={news.link}
-                      className="w-full h-full"
-                      title={news.title}
-                    ></iframe>
-                  </NewView>
+                  <NewView url={news.link}></NewView>
                 </div>
               </div>
             ))}
