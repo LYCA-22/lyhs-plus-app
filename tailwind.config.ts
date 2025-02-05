@@ -1,3 +1,4 @@
+import plugin from "tailwindcss/plugin";
 import { heroui } from "@heroui/theme";
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
@@ -21,6 +22,9 @@ const config = {
         "screen-56": "calc(var(--dvh) - 56px)",
       },
       colors: {
+        "gradient-start": "#ff6b6b",
+        "gradient-middle": "#f7b731",
+        "gradient-end": "#4ecdc4",
         background: "var(--background)",
         foreground: "var(--foreground)",
         hoverbg: "var(--hoverbg)",
@@ -74,7 +78,19 @@ const config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate, heroui(), tailwindScrollbarHide],
+  plugins: [
+    tailwindcssAnimate,
+    heroui(),
+    tailwindScrollbarHide,
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".border-gradient": {
+          "border-width": "4px",
+          "border-image": "linear-gradient(45deg, #ff6b6b, #f7b731, #4ecdc4) 1",
+        },
+      });
+    }),
+  ],
 } as const satisfies Config;
 
 export default config;

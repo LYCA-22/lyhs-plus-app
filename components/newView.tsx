@@ -9,7 +9,14 @@ import {
 } from "@/components/ui/drawer";
 import { icons } from "./icons";
 import { apiService } from "@/services/api";
-import { Folder, File, Signature, User, CalendarDays } from "lucide-react";
+import {
+  Folder,
+  FileText,
+  Signature,
+  User,
+  CalendarDays,
+  ArrowDownToLine,
+} from "lucide-react";
 
 interface attachments {
   name: string;
@@ -18,7 +25,7 @@ interface attachments {
 
 interface adItem {
   title: string;
-  content: [];
+  content: string[];
   attachments: attachments[];
   publisher: string;
   author: string;
@@ -47,19 +54,32 @@ export function NewView({ url }: { url: string }) {
     }
   }, [isOpen, url]);
 
+  useEffect(() => {
+    if (isOpen) {
+      window.postMessage(
+        {
+          type: "Open",
+          payload: "視窗打開",
+        },
+        "*",
+      );
+    } else {
+      window.postMessage(
+        {
+          type: "Close",
+          payload: "視窗關閉",
+        },
+        "*",
+      );
+    }
+  }, [isOpen]);
+
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger
         asChild
         onClick={() => {
           setIsOpen(true);
-          window.postMessage(
-            {
-              type: "Open",
-              payload: "視窗打開",
-            },
-            "*",
-          );
         }}
       >
         <button className="flex gap-1 p-2 px-3 w-fit rounded-full mt-2 bg-transparent relative group -translate-x-3">
@@ -76,14 +96,6 @@ export function NewView({ url }: { url: string }) {
           <DrawerClose
             onClick={() => {
               setIsOpen(false);
-              window.postMessage(
-                {
-                  type: "Close",
-                  payload: "視窗關閉",
-                },
-                "*",
-              );
-              console.log("關閉");
             }}
             className="bg-rootBg flex font-medium text-sm items-center justify-center p-2 px-4 rounded-full hover:bg-foreground hover:text-background transition-all"
           >
@@ -93,19 +105,22 @@ export function NewView({ url }: { url: string }) {
         <div className="grow overflow-y-auto pt-16 flex">
           {loading ? (
             <div className="grow items-center justify-center flex">
-              <div className="h-8 w-8 rounded-full border-4 border-t-primary animate-spinner-linear-spin"></div>
+              <div className="h-8 w-8 rounded-full border-4 border-t-primary animate-spinner-ease-spin"></div>
             </div>
           ) : (
             <>
               {error ? (
                 <div> {error}</div>
               ) : (
-                <div className="p-6 flex gap-4 flex-col sm:px-24 overflow-y-auto">
+                <div className="p-6 flex gap-4 flex-col sm:px-24 overflow-y-auto grow">
                   <h1 className="text-xl font-bold">{adData?.title}</h1>
                   <div className="text-medium opacity-70 flex flex-col gap-3 z-0">
-                    {adData?.content.map((item, index) => {
-                      return <p key={index}>{item}</p>;
-                    })}
+                    {adData?.content.map((content, index) => (
+                      <p
+                        key={index}
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      />
+                    ))}
                   </div>
                   <div className="flex gap-3 flex-col bg-hoverbg p-5 rounded-2xl mb-2">
                     {adData?.attachments && adData?.attachments.length > 0 && (
@@ -115,17 +130,36 @@ export function NewView({ url }: { url: string }) {
                           附件
                         </p>
                         {adData?.attachments.map((attachment, index) => (
-                          <a
-                            key={index}
-                            href={`https://www.ly.kh.edu.tw${attachment.url}`}
-                            target="_blank"
-                            className="text-medium font-medium bg-background hover:bg-buttonBg p-4 py-3 rounded-xl flex gap-2 items-center transition-all"
-                          >
-                            <div>
-                              <File size={18} />
+                          <>
+                            <div className="flex ml-8 max-sm:ml-4">
+                              <div className="flex items-center gap-2">
+                                <div>
+                                  <FileText size={20} />
+                                </div>
+                                <a
+                                  key={index}
+                                  href={`https://www.ly.kh.edu.tw${attachment.url}`}
+                                  target="_blank"
+                                  className="hover:underline"
+                                >
+                                  {attachment.name}
+                                </a>
+                              </div>
+                              <div className="ml-auto flex items-center justify-center">
+                                <a
+                                  key={index}
+                                  href={`https://www.ly.kh.edu.tw${attachment.url}`}
+                                  target="_blank"
+                                  className="text-medium font-medium bg-background hover:bg-buttonBg p-2 rounded-full flex gap-2 items-center transition-all w-fit h-fit"
+                                >
+                                  <ArrowDownToLine
+                                    className="opacity-70"
+                                    size={18}
+                                  />
+                                </a>
+                              </div>
                             </div>
-                            {attachment.name}
-                          </a>
+                          </>
                         ))}
                       </div>
                     )}
@@ -140,7 +174,7 @@ export function NewView({ url }: { url: string }) {
                       <div className="flex gap-2 justify-between items-center my-3">
                         <div className="flex items-center gap-2">
                           <User />
-                          <p className="font-medium">作者</p>
+                          <p className="font-medium">發布者</p>
                         </div>
                         <p>{adData?.author}</p>
                       </div>

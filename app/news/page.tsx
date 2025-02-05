@@ -2,7 +2,7 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useAppSelector } from "@/store/hook";
 import { NewView } from "@/components/newView";
-import { Search } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 const ITEMS_PER_PAGE = 8;
 
 export default function Page() {
@@ -13,22 +13,48 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // 取得所有不重複的部門列表
   const departments = useMemo(() => {
     const depts = new Set(NewsData.map((news) => news.department));
     return ["all", ...Array.from(depts)];
   }, [NewsData]);
 
-  // 篩選邏輯
   const filteredNews = useMemo(() => {
-    return NewsData.filter((news) => {
-      const matchDepartment =
-        selectedDepartment === "all" || news.department === selectedDepartment;
-      const matchSearch = news.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      return matchDepartment && matchSearch;
-    });
+    if (selectedDepartment !== "學生須知") {
+      return NewsData.filter((news) => {
+        const matchDepartment =
+          selectedDepartment === "all" ||
+          news.department === selectedDepartment;
+        const matchSearch = news.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+        return matchDepartment && matchSearch;
+      });
+    } else {
+      const displayNews = [];
+      const text = [
+        "補考",
+        "教育",
+        "報名",
+        "學生",
+        "學生證",
+        "學生證件",
+        "學生證明",
+        "學生證明文件",
+        "段考",
+        "學測",
+        "指考",
+        "分科",
+        "分發",
+        "分發結果",
+      ];
+
+      for (let i = 0; i < NewsData.length; i++) {
+        if (text.some((keyword) => NewsData[i].title.includes(keyword))) {
+          displayNews.push(NewsData[i]);
+        }
+      }
+      return displayNews;
+    }
   }, [NewsData, selectedDepartment, searchQuery]);
 
   const displayedNews = useMemo(() => {
@@ -44,10 +70,8 @@ export default function Page() {
           displayCount < filteredNews.length
         ) {
           setIsLoading(true);
-          setTimeout(() => {
-            setDisplayCount((prev) => prev + ITEMS_PER_PAGE);
-            setIsLoading(false);
-          }, 500);
+          setDisplayCount((prev) => prev + ITEMS_PER_PAGE);
+          setIsLoading(false);
         }
       },
       { threshold: 0.1 },
@@ -128,11 +152,25 @@ export default function Page() {
           </div>
 
           <div className="flex gap-2 overflow-x-auto pb-2 w-full">
+            <button
+              onClick={() => setSelectedDepartment("學生須知")}
+              className={`px-4 py-1 rounded-full whitespace-nowrap hover:scale-95 transition-all flex items-center gap-2 font-bold ${
+                selectedDepartment === "學生須知"
+                  ? "bg-foreground text-background bg-gradient-to-br from-orange-300 to-blue-500"
+                  : "bg-transparent border-2 border-primary/20 hover:bg-buttonBg"
+              }`}
+            >
+              <Sparkles size={20} />
+              適合你查閱
+              <p className="text-[10px] px-1 rounded-full bg-background text-foreground">
+                測試
+              </p>
+            </button>
             {departments.map((dept) => (
               <button
                 key={dept}
                 onClick={() => setSelectedDepartment(dept)}
-                className={`px-3 py-1 rounded-full whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
                   selectedDepartment === dept
                     ? "bg-foreground text-background"
                     : "bg-hoverbg hover:bg-buttonBg"

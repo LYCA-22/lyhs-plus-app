@@ -226,7 +226,7 @@ export default function Page() {
                 "送出"
               )}
             </button>
-            <p className="text-sm opacity-50 mt-1">
+            <p className="text-sm opacity-50 mt-1 sm:mb-5">
               若您按下送出，即同意我們的<strong>隱私權政策</strong>與
               <strong>服務條款</strong>
             </p>
