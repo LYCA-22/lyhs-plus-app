@@ -56,13 +56,13 @@ jobs:
           NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
         run: npm run build
 
-      - name: Deploy Worker
+      - name: Deploy Web App
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: pages deploy dist --project-name=lyhs-plus-app --branch=${{ steps.parse-tag.outputs.stage }}
+          command: pages deploy .next --project-name=lyhs-plus-app --branch=${{ steps.parse-tag.outputs.stage }}
 
       - name: Set deployment status to success
         if: success()
