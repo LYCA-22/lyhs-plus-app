@@ -54,7 +54,7 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
-        run: npm run build && npm run export
+        run: npm run build
 
       - name: Deploy Web App
         uses: cloudflare/wrangler-action@v3
