@@ -111,7 +111,7 @@ export default function Home() {
               <div className="w-full flex items-center justify-between absolute bottom-0 px-2">
                 <div>
                   <h1 className="font-bold text-lg max-sm:text-medium">
-                    歡迎使用LYHS+
+                    歡迎使用LYHS Plus
                   </h1>
                   <p className="text-sm opacity-50  max-sm:text-xs">
                     盡情探索LYHS+的功能吧！
