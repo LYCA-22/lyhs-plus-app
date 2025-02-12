@@ -53,6 +53,7 @@ jobs:
       - name: Build project
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
         run: npm run build
 
       - name: Deploy to Cloudflare Pages
@@ -90,16 +91,20 @@ jobs:
 
       - name: Send success message to Discord
         if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
                -d '{"content": "Deployment to Cloudflare Pages was successful!"}' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
+               $DISCORD_WEBHOOK_URL
 
       - name: Send failure message to Discord
         if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
                -d '{"content": "Deployment to Cloudflare Pages failed!"}' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
+               $DISCORD_WEBHOOK_URL
