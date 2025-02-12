@@ -1,0 +1,69 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - feature/nextjs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create deployment
+        id: create_deployment
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/${{ github.repository }}/deployments
+          deployment_id: ${{ github.run_id }}
+          ref: ${{ github.ref }}
+          environment: production
+          description: Deploy to Cloudflare Pages
+          auto_merge: false
+          required_contexts: []
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler pages publish ./build --project-name ${{ secrets.CLOUDFLARE_PROJECT_NAME }} --api-token ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set deployment status to success
+        if: success()
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses
+          state: success
+          environment: production
+          log_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set deployment status to failure
+        if: failure()
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses
+          state: failure
+          environment: production
+          log_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send success message to Discord
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{"content": "Deployment to Cloudflare Pages was successful!"}' \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
