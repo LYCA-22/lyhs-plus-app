@@ -51,12 +51,14 @@ jobs:
         run: npm install
 
       - name: Build project
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: npm run build
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages publish ./build --project-name ${{ secrets.CLOUDFLARE_PROJECT_NAME }} --api-token ${{ secrets.CLOUDFLARE_API_TOKEN }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx wrangler pages deploy ./build --project-name ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
 
       - name: Set deployment status to success
         if: success()
@@ -92,4 +94,12 @@ jobs:
           curl -H "Content-Type: application/json" \
                -X POST \
                -d '{"content": "Deployment to Cloudflare Pages was successful!"}' \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send failure message to Discord
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{"content": "Deployment to Cloudflare Pages failed!"}' \
                ${{ secrets.DISCORD_WEBHOOK_URL }}
