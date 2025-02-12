@@ -50,11 +50,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build and Export project
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
-        run: npm run build
+        run: npm run build && npm run export
 
       - name: Deploy Web App
         uses: cloudflare/wrangler-action@v3
@@ -62,7 +62,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: pages deploy .next --project-name=lyhs-plus-app --branch=${{ steps.parse-tag.outputs.stage }}
+          command: pages deploy out --project-name=lyhs-plus-app
 
       - name: Set deployment status to success
         if: success()

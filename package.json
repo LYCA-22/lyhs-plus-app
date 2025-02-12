@@ -7,7 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "npm run update && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
     "@heroui/progress": "^2.2.7",
@@ -53,6 +54,7 @@
     "eslint-config-next": "15.1.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }
