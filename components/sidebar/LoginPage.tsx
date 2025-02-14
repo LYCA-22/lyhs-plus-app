@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/drawer";
 
 export function LoginPage({ children }: { children: React.ReactNode }) {
-  const LoginUrl = "https://auth.lyhsca.org/account/login?type=app";
+  const LoginUrl = "https://auth.lyhsca.org/account/login/app?type=app";
 
   return (
     <Drawer>
@@ -24,7 +24,7 @@ export function LoginPage({ children }: { children: React.ReactNode }) {
             關閉
           </DrawerClose>
         </DrawerHeader>
-        <div className="grow">
+        <div className="grow pt-24">
           <iframe className="w-full grow h-full" src={LoginUrl}></iframe>
         </div>
       </DrawerContent>

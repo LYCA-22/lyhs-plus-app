@@ -25,6 +25,9 @@ export async function checkUserSession(
   browser: string,
   isMobile: boolean,
 ) {
+  const end = localStorage.getItem("lyps_used");
+  const used = end === "true" ? true : false;
+  console.log("used", used);
   try {
     dispatch({ type: "systemStatus/setLoading", payload: true });
     const sessionId = getCookie("sessionId");
@@ -61,6 +64,7 @@ export async function checkUserSession(
           os: os,
           browser: browser,
           isMobile: isMobile,
+          used: used,
         }),
       );
     }, 1000);

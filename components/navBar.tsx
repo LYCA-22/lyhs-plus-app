@@ -49,7 +49,7 @@ export function NavBar() {
         {pathname === "/" && (
           <motion.div
             layoutId="active-line"
-            className="bg-primary w-full h-[2px] absolute top-0"
+            className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
           />
         )}
         <div className="p-2 flex flex-col items-center justify-center gap-1">
@@ -67,7 +67,7 @@ export function NavBar() {
         {pathname === "/news" && (
           <motion.div
             layoutId="active-line"
-            className="bg-primary w-full h-[2px] absolute top-0"
+            className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
           />
         )}
         <div className="p-2 flex flex-col items-center justify-center gap-1">
@@ -85,7 +85,7 @@ export function NavBar() {
         {pathname === "/settings" && (
           <motion.div
             layoutId="active-line"
-            className="bg-primary w-full h-[2px] absolute top-0"
+            className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
           />
         )}
         <div className="p-2 flex flex-col items-center justify-center gap-1">

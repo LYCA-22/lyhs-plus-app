@@ -19,7 +19,7 @@ export default function Page() {
               <Link
                 className="p-1.5 px-3 bg-background m-1 text-[15px] font-medium hover:bg-buttonBg rounded-full border border-border dark:border-zinc-700"
                 href={
-                  "https://auth.lyhsca.org/account/login?redirect_url=https://dev.plus.lyhsca.org"
+                  "https://auth.lyhsca.org/account/login?redirect_url=https://beta.plus.lyhsca.org"
                 }
               >
                 登入

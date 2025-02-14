@@ -154,7 +154,7 @@ export default function Page() {
           <div className="flex gap-2 overflow-x-auto pb-2 w-full">
             <button
               onClick={() => setSelectedDepartment("學生須知")}
-              className={`px-4 py-1 rounded-full whitespace-nowrap hover:scale-95 transition-all flex items-center gap-2 font-bold ${
+              className={`px-4 py-1 rounded-full whitespace-nowrap transition-all flex items-center gap-2 font-bold ${
                 selectedDepartment === "學生須知"
                   ? "bg-foreground text-background bg-gradient-to-br from-orange-300 to-blue-500"
                   : "bg-transparent border-2 border-primary/20 hover:bg-buttonBg"

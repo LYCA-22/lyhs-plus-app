@@ -5,6 +5,7 @@ interface UserState {
   os: string;
   isMobile: boolean;
   browser: string;
+  used: boolean;
 }
 
 const initialState: UserState = {
@@ -12,6 +13,7 @@ const initialState: UserState = {
   os: "",
   isMobile: false,
   browser: "",
+  used: false,
 };
 
 export const systemSlice = createSlice({

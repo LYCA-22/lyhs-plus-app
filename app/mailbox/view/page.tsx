@@ -108,9 +108,11 @@ export default function Page() {
               "查詢"
             )}
           </button>
+          {/*
           <button className="flex justify-center items-center bg-buttonBg text-foreground p-2 px-4 my-2 w-fit rounded-lg active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg">
             專人聯絡
           </button>
+          */}
         </div>
       </div>
 

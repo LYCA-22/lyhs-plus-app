@@ -216,7 +216,8 @@ export default function Home() {
             <p className="text-sm">學權信箱</p>
           </Link>
           <Link
-            href={"/mailbox/student"}
+            href={"https://www.ly.kh.edu.tw/view/index.php?WebID=336"}
+            target="_blank"
             className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
           >
             <Image

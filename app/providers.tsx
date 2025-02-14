@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { icons } from "@/components/icons";
 import SystemCheck from "@/components/initUserCheck";
 import { NavBar } from "@/components/navBar";
+import BetaAlert from "@/components/betaAlert";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -87,6 +88,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <Provider store={store}>
           <SystemCheck />
           <LoadingPage />
+          <BetaAlert />
           <main className="w-full h-dvh flex">
             <SideBar />
             {isMobile && <NavBar />}
