@@ -95,7 +95,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <div className="flex grow items-center justify-center">
               <div className="w-full sm:w-[550px] min-h-dvh flex flex-col relative">
                 <div className="z-20 flex p-3 h-14 font-medium w-full items-center justify-center max-sm:bg-white max-sm:dark:bg-zinc-800 max-sm:fixed max-sm:top-0">
-                  <div className="flex items-center opacity-70">
+                  <div className="flex items-center sm:opacity-70 max-sm:text-lg">
                     {canGoBack && pathname !== "/" && pathname !== "/news" && (
                       <button
                         className="absolute items-center sm:hover:scale-110 transition-all justify-center shadow-md bg-background max-sm:bg-transparent rounded-full border border-borderColor left-0 m-2 ml-5 sm:ml-3 p-1 max-sm:shadow-none max-sm:border-none"

@@ -23,6 +23,15 @@
     user-drag: none;
 }
 
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
 .dark {
     --rootBg: #0a0a0a;
     --background: #27272a;

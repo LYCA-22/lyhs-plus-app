@@ -135,12 +135,12 @@ export default function Page() {
 
   return (
     <div className="relative w-full max-sm:w-screen">
-      <div className="sticky top-0 bg-background border-b p-4 pb-2 z-10 flex flex-col">
+      <div className="sticky top-0 bg-background border-b p-4 pb-2 z-20 flex flex-col px-0">
         <div className="flex flex-col gap-3 max-sm:pt-2">
-          <p className="text-xl mx-1 mt-2 font-medium max-sm:hidden">
+          <p className="text-xl mx-5 mt-2 font-medium max-sm:hidden">
             校園公告
           </p>
-          <div className="p-2 px-4 rounded-full w-full flex items-center gap-2 bg-hoverbg">
+          <div className="p-2 px-4 rounded-full w-11/12 flex items-center gap-2 bg-hoverbg max-sm:hidden mx-4">
             <Search className="text-borderColor" size={20} />
             <input
               type="text"
@@ -150,29 +150,28 @@ export default function Page() {
               className="ring-0 grow bg-transparent focus:outline-none text-foreground"
             />
           </div>
-
-          <div className="flex gap-2 overflow-x-auto pb-2 w-full">
+          <div className="sm:hidden flex fixed top-5 right-5 text-foreground">
+            <Search size={20} />
+          </div>
+          <div className="flex gap-2 overflow-x-auto pb-2 w-full px-4 scrollbar-hide scroll-smooth">
             <button
               onClick={() => setSelectedDepartment("學生須知")}
               className={`px-4 py-1 rounded-full whitespace-nowrap transition-all flex items-center gap-2 font-bold ${
                 selectedDepartment === "學生須知"
                   ? "bg-foreground text-background bg-gradient-to-br from-orange-300 to-blue-500"
-                  : "bg-transparent border-2 border-primary/20 hover:bg-buttonBg"
+                  : "hover:bg-buttonBg bg-hoverbg"
               }`}
             >
               <Sparkles size={20} />
-              適合你查閱
-              <p className="text-[10px] px-1 rounded-full bg-background text-foreground">
-                測試
-              </p>
+              學生公告
             </button>
             {departments.map((dept) => (
               <button
                 key={dept}
                 onClick={() => setSelectedDepartment(dept)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all font-medium ${
                   selectedDepartment === dept
-                    ? "bg-foreground text-background"
+                    ? "bg-blue-100 text-blue-600"
                     : "bg-hoverbg hover:bg-buttonBg"
                 }`}
               >
