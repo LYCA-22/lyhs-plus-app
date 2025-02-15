@@ -8,10 +8,62 @@ import {
   CarouselItem,
   CarouselApi,
 } from "@/components/ui/carousel";
+
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import { useAppSelector } from "@/store/hook";
+import { homeApps } from "@/types";
+
+interface App {
+  name: string;
+  icon: string;
+  onclick?: string;
+  link?: string;
+  type: "btn" | "link";
+}
+
+const apps = {
+  eSchool: {
+    name: "校務系統",
+    icon: "eschool",
+    onclick: "eSchool",
+    type: "btn",
+  } as App,
+  studyHistory: {
+    name: "學習歷程",
+    icon: "studyHistory",
+    link: "https://epf.kh.edu.tw/openId.do",
+    type: "link",
+  } as App,
+  schoolWeb: {
+    name: "學校網站",
+    icon: "schoolWebIcon",
+    link: "https://www.ly.kh.edu.tw/view/index.php?WebID=336",
+    type: "link",
+  } as App,
+  mailBox: {
+    name: "學權信箱",
+    icon: "mailboxIcon",
+    link: "/mailbox/student",
+    type: "link",
+  } as App,
+  mailSearch: {
+    name: "信件查詢",
+    icon: "searchMailIcon",
+    link: "/mailbox/view",
+    type: "link",
+  } as App,
+};
+
+type AppKey = keyof typeof apps;
 
 export default function Home() {
+  const homeApps = useAppSelector(
+    (state) => state.systemStatus.homeApps,
+  ) as homeApps[];
+  const sysLoad = useAppSelector(
+    (state) => state.systemStatus.isLoading,
+  ) as boolean;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
   const [progress, setProgress] = useState(0);
@@ -76,6 +128,21 @@ export default function Home() {
       }
     };
   }, [api]);
+
+  const eSchool = () => {
+    const form = document.createElement("form");
+    form.action = "https://highschool.kh.edu.tw/OpenIdLogin.action";
+    form.method = "post";
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "school";
+    input.value = "124311D";
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+  };
 
   const scrollToSlide = (index: number) => {
     api?.scrollTo(index);
@@ -200,46 +267,49 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="relative">
-        <h1 className="mx-4 mb-2 text-xl font-medium">快速捷徑</h1>
-        <div className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide">
-          <Link
-            href={"/mailbox/student"}
-            className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
-          >
-            <Image
-              alt="mailbox"
-              src={`./serviceIcon/mailboxIcon${theme === "dark" ? "-dark" : ""}.svg`}
-              width={60}
-              height={60}
-            />
-            <p className="text-sm">學權信箱</p>
-          </Link>
-          <Link
-            href={"https://www.ly.kh.edu.tw/view/index.php?WebID=336"}
-            target="_blank"
-            className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
-          >
-            <Image
-              alt="mailbox"
-              src={`./serviceIcon/schoolWebIcon${theme === "dark" ? "-dark" : ""}.svg`}
-              width={60}
-              height={60}
-            />
-            <p className="text-sm">學校網站</p>
-          </Link>
-          <Link
-            href={"/mailbox/view"}
-            className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
-          >
-            <Image
-              alt="mailbox"
-              src={`./serviceIcon/searchMailIcon${theme === "dark" ? "-dark" : ""}.svg`}
-              width={60}
-              height={60}
-            />
-            <p className="text-sm">信件查詢</p>
-          </Link>
+      <div className="relative my-2">
+        <div className="flex items-center justify-between mx-4 mb-2 px-3">
+          <h1 className="text-xl font-medium">快速捷徑</h1>
+          <button className="border-b border-zinc-300 py-1">顯示更多</button>
+        </div>
+        <div className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide flex-wrap">
+          {!sysLoad &&
+            homeApps.map((app, index) => {
+              const appData = apps[app as AppKey];
+              return (
+                <div key={index}>
+                  {appData.type === "btn" ? (
+                    <button
+                      onClick={
+                        appData.onclick === "eSchool" ? eSchool : () => {}
+                      }
+                      className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
+                    >
+                      <Image
+                        alt="mailbox"
+                        src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
+                        width={60}
+                        height={60}
+                      />
+                      <p className="text-sm">{appData.name}</p>
+                    </button>
+                  ) : (
+                    <Link
+                      href={appData.link || "/"}
+                      className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
+                    >
+                      <Image
+                        alt="mailbox"
+                        src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
+                        width={60}
+                        height={60}
+                      />
+                      <p className="text-sm">{appData.name}</p>
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>

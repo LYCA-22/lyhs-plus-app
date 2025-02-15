@@ -2,6 +2,7 @@ import type { AppDispatch } from "@/store/store";
 import { apiService } from "@/services/api";
 import { updateStatus, updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
+import { homeApps } from "@/types";
 
 function getCookie(name: string) {
   if (typeof window === "undefined") return null;
@@ -26,8 +27,16 @@ export async function checkUserSession(
   isMobile: boolean,
 ) {
   const end = localStorage.getItem("lyps_used");
+  const homeApps = localStorage.getItem("lyps_homeApps");
+  const apps: homeApps[] = homeApps
+    ? JSON.parse(homeApps)
+    : ["eSchool", "studyHistory", "schoolWeb", "mailBox", "mailSearch"];
   const used = end === "true" ? true : false;
-  console.log("used", used);
+
+  if (!used) {
+    localStorage.setItem("lyps_homeApps", JSON.stringify(apps));
+  }
+
   try {
     dispatch({ type: "systemStatus/setLoading", payload: true });
     const sessionId = getCookie("sessionId");
@@ -65,6 +74,7 @@ export async function checkUserSession(
           browser: browser,
           isMobile: isMobile,
           used: used,
+          homeApps: apps,
         }),
       );
     }, 1000);

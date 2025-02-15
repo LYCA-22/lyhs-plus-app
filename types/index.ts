@@ -33,3 +33,10 @@ export interface studentData {
   createdTime: string;
   updatedTime: string;
 }
+
+export type homeApps =
+  | "eSchool"
+  | "studyHistory"
+  | "schoolWeb"
+  | "mailBox"
+  | "mailSearch";

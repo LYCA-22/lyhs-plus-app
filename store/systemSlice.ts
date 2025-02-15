@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { homeApps } from "@/types";
 
 interface UserState {
   isLoading: boolean;
@@ -6,6 +7,7 @@ interface UserState {
   isMobile: boolean;
   browser: string;
   used: boolean;
+  homeApps: homeApps[];
 }
 
 const initialState: UserState = {
@@ -14,6 +16,7 @@ const initialState: UserState = {
   isMobile: false,
   browser: "",
   used: false,
+  homeApps: [],
 };
 
 export const systemSlice = createSlice({
