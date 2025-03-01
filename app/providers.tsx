@@ -25,6 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/mailbox/success": "學權信箱 (測試版)",
     "/mailbox/view": "信件查詢",
     "/settings": "設定",
+    "/settings/shortcuts": "管理快速捷徑",
   };
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
 

@@ -34,9 +34,10 @@ export interface studentData {
   updatedTime: string;
 }
 
-export type homeApps =
-  | "eSchool"
-  | "studyHistory"
-  | "schoolWeb"
-  | "mailBox"
-  | "mailSearch";
+export enum homeApps {
+  eSchool = "eSchool",
+  studyHistory = "studyHistory",
+  schoolWeb = "schoolWeb",
+  mailBox = "mailBox",
+  mailSearch = "mailSearch",
+}
