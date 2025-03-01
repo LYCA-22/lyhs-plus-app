@@ -3,25 +3,26 @@ import { useAppSelector, useAppDispatch } from "@/store/hook";
 import { Switch } from "@/components/ui/switch";
 import { updateHomeApps } from "@/store/systemSlice";
 import Image from "next/image";
+import { homeApps } from "@/types";
 
-const apps = {
-  eSchool: {
+const apps: Record<homeApps, { name: string; icon: string }> = {
+  [homeApps.eSchool]: {
     name: "校務系統",
     icon: "eschool",
   },
-  studyHistory: {
+  [homeApps.studyHistory]: {
     name: "學習歷程",
     icon: "studyHistory",
   },
-  schoolWeb: {
+  [homeApps.schoolWeb]: {
     name: "學校網站",
     icon: "schoolWebIcon",
   },
-  mailBox: {
+  [homeApps.mailBox]: {
     name: "學權信箱",
     icon: "mailboxIcon",
   },
-  mailSearch: {
+  [homeApps.mailSearch]: {
     name: "信件查詢",
     icon: "searchMailIcon",
   },
@@ -31,12 +32,12 @@ export default function ShortcutsPage() {
   const dispatch = useAppDispatch();
   const homeApps = useAppSelector((state) => state.systemStatus.homeApps);
 
-  const handleToggle = (appKey: string) => {
+  const handleToggle = (appKey: homeApps) => {
     const newApps = homeApps.includes(appKey)
-      ? homeApps.filter((app) => app !== appKey)
+      ? homeApps.filter((app: homeApps) => app !== appKey)
       : [...homeApps, appKey];
 
-    dispatch(updateHomeApps(newApps));
+    dispatch(updateHomeApps(newApps as homeApps[]));
   };
 
   return (
@@ -44,20 +45,20 @@ export default function ShortcutsPage() {
       <div className="rounded-2xl border border-borderColor p-4">
         <h2 className="text-lg font-medium mb-4">管理快速捷徑</h2>
         <div className="space-y-4">
-          {Object.entries(apps).map(([key, app]) => (
+          {(Object.keys(apps) as Array<keyof typeof apps>).map((key) => (
             <div key={key} className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3">
                 <Image
-                  src={`/serviceIcon/${app.icon}.svg`}
-                  alt={app.name}
+                  src={`/serviceIcon/${apps[key as homeApps].icon}.svg`}
+                  alt={apps[key as homeApps].name}
                   width={32}
                   height={32}
                 />
-                <span>{app.name}</span>
+                <span>{apps[key as homeApps].name}</span>
               </div>
               <Switch
-                checked={homeApps.includes(key)}
-                onCheckedChange={() => handleToggle(key)}
+                checked={homeApps.includes(key as homeApps)}
+                onCheckedChange={() => handleToggle(key as homeApps)}
               />
             </div>
           ))}
