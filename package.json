@@ -1,6 +1,6 @@
 {
   "name": "lyhs-plus-app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "update": "tsx utils/version.js",
