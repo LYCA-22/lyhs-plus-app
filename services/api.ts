@@ -3,36 +3,9 @@ import { logout } from "@/store/userSlice";
 import { getDocsFromCollection } from "./Firebase";
 
 export const apiService = {
-  // 使用者登入
-  async userLogin(email: string, password: string) {
-    try {
-      const response = await fetch(`${API_BASE_URL}/userLogin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        const sessionId = result.sessionId;
-        document.cookie = `sessionId=${sessionId}; path=/; domain=lyhsca.org; Secure; SameSite=Strict; max-age=172800`;
-      } else {
-        const result = await response.json();
-        throw new Error(result.error);
-      }
-    } catch (error) {
-      console.error("Error in userLogin:", error);
-      throw error;
-    }
-  },
   async getUserData(sessionId: string) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/verity`, {
+      const response = await fetch(`${API_BASE_URL}/v1/user/me`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +27,7 @@ export const apiService = {
   },
   async getNews() {
     try {
-      const response = await fetch(`${API_BASE_URL}/getAD`, {
+      const response = await fetch(`${API_BASE_URL}/v1/lyps/list`, {
         method: "GET",
       });
 
@@ -106,7 +79,7 @@ export const apiService = {
   },
   async Logout(sessionId: string, email: string) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+      const response = await fetch(`${API_BASE_URL}/v1/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -142,7 +115,7 @@ export const apiService = {
     solution: string,
   ) {
     try {
-      const response = await fetch(`${API_BASE_URL}/mail/project/add`, {
+      const response = await fetch(`${API_BASE_URL}/v1/lyps/srm/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
