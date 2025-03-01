@@ -15,7 +15,7 @@ export const apiService = {
 
       if (response.ok) {
         const result = await response.json();
-        return result;
+        return result.data;
       } else {
         const result = await response.json();
         throw new Error(result.error);
