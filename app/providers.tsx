@@ -102,7 +102,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                         className="absolute items-center sm:hover:scale-110 transition-all justify-center shadow-md bg-background max-sm:bg-transparent rounded-full border border-borderColor left-0 m-2 ml-5 sm:ml-3 p-1 max-sm:shadow-none max-sm:border-none"
                         onClick={goBack}
                       >
-                        {icons["arrowRight"](15)}
+                        {icons["arrowRight"](isMobile ? 20 : 15)}
                       </button>
                     )}
                     {pathAllName[pathname] || "未知頁面"}

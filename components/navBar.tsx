@@ -49,6 +49,7 @@ export function NavBar() {
         {pathname === "/" && (
           <motion.div
             layoutId="active-line"
+            transition={{ duration: 0.1 }}
             className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
           />
         )}
@@ -67,6 +68,7 @@ export function NavBar() {
         {pathname === "/news" && (
           <motion.div
             layoutId="active-line"
+            transition={{ duration: 0.1 }}
             className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
           />
         )}
@@ -85,6 +87,7 @@ export function NavBar() {
         {pathname === "/settings" && (
           <motion.div
             layoutId="active-line"
+            transition={{ duration: 0.1 }}
             className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
           />
         )}

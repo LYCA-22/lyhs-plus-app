@@ -179,7 +179,7 @@ export default function Page() {
         {appSchema.map((group, groupIndex) => (
           <li
             key={groupIndex}
-            className="flex flex-col rounded-2xl border border-borderColor p-4 pb-1 bg-background transition-all hover:shadow-md"
+            className="flex flex-col rounded-2xl border border-borderColor p-4 pb-1 bg-background transition-all hover:sm:shadow-md"
           >
             <h3 className="text-lg font-medium mb-2">{group.groupTitle}</h3>
             <div className="flex flex-col">
