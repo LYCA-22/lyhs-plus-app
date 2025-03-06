@@ -43,40 +43,6 @@ export const apiService = {
       throw error;
     }
   },
-  async getWeatherInfo() {
-    try {
-      const API_KEY = "CWA-C2C5DCE1-4A66-4FE8-9918-CA244456227F";
-
-      const response = await fetch(
-        `https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=${API_KEY}&format=JSON&StationName=%E6%9E%97%E5%9C%92`,
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-
-      const weatherElement = data?.records?.Station?.[0]?.WeatherElement;
-      console.log("WeatherElement:", weatherElement);
-
-      let weatherData = {};
-
-      if (Array.isArray(weatherElement)) {
-        weatherData = weatherElement.reduce((acc, el) => {
-          acc[el.elementName] = el.elementValue;
-          return acc;
-        }, {});
-      } else if (
-        typeof weatherElement === "object" &&
-        weatherElement !== null
-      ) {
-        weatherData = weatherElement;
-      }
-      return weatherData;
-    } catch (err) {
-      console.error("Error details:", err);
-    }
-  },
   async Logout(sessionId: string, email: string) {
     try {
       const response = await fetch(`${API_BASE_URL}/v1/auth/logout`, {
@@ -146,19 +112,19 @@ export const apiService = {
   },
   async getProjectData(code: string) {
     try {
-      const response = await fetch(`${API_BASE_URL}/mail/project/view`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${API_BASE_URL}/v1/lyps/srm/search?code=${code}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-        body: JSON.stringify({
-          code: code,
-        }),
-      });
+      );
 
       if (response.ok) {
         const result = await response.json();
-        return result;
+        return result.data;
       } else {
         const result = await response.json();
         throw new Error(result.error);

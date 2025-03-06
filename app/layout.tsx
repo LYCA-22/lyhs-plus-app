@@ -18,6 +18,22 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LYHS Plus",
   description: "LYHS Plus 是一個為了提供更好的學校生活而設計的應用程式",
+  keywords: [
+    "LYHS+",
+    "LYHS Plus",
+    "林園高中",
+    "林中+",
+    "林園高中",
+    "林園高中資訊整合平台",
+  ],
+  openGraph: {
+    title: "LYHS Plus",
+    description: "LYHS Plus 是一個為了提供更好的學校生活而設計的應用程式",
+    url: "https://beta.plus.lyhsca.org",
+    siteName: "LYHS Plus",
+    locale: "zh_TW",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
