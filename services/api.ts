@@ -49,11 +49,8 @@ export const apiService = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionId}`,
         },
-        body: JSON.stringify({
-          email: email,
-          sessionId: sessionId,
-        }),
       });
 
       if (response.ok) {
