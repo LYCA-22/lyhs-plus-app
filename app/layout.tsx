@@ -34,6 +34,10 @@ export const metadata: Metadata = {
     locale: "zh_TW",
     type: "website",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
