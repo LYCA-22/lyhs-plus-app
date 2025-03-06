@@ -37,7 +37,7 @@ export function SideBar() {
   const SystemData = useAppSelector((state) => state.systemStatus);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
   let time = process.env.NEXT_PUBLIC_BUILD_TIME;
-  const { sessionId, email } = useAppSelector((state) => state.userData);
+  const { sessionId } = useAppSelector((state) => state.userData);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -247,7 +247,7 @@ export function SideBar() {
               <DropdownMenuItem
                 onClick={async () => {
                   try {
-                    await apiService.Logout(sessionId, email);
+                    await apiService.Logout(sessionId);
                   } catch (error) {
                     console.error("Logout failed:", error);
                   }

@@ -51,7 +51,7 @@ function ThemeToggle() {
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
-  const { sessionId, email } = userData;
+  const { sessionId } = userData;
 
   const appSchema: SchemaGroup[] = [
     {
@@ -75,7 +75,7 @@ export default function Page() {
           access_manage: false,
           userCheck: true,
           btnfunction: async () => {
-            await apiService.Logout(sessionId, email);
+            await apiService.Logout(sessionId);
           },
           icon: <LogOut className="w-4 h-4" />,
         },

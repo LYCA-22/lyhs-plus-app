@@ -43,7 +43,7 @@ export const apiService = {
       throw error;
     }
   },
-  async Logout(sessionId: string, email: string) {
+  async Logout(sessionId: string) {
     try {
       const response = await fetch(`${API_BASE_URL}/v1/auth/logout`, {
         method: "POST",
