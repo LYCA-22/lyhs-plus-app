@@ -59,9 +59,8 @@ export default function Page() {
   return (
     <div className="container mx-auto p-4 pt-6">
       <div className="flex flex-col space-y-6">
-        <div className="flex flex-col justify-center items-center border-t border-border pt-4">
+        <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col gap-1 px-2 text-center">
-            <h1 className="font-bold text-lg">日曆</h1>
             <p className="text-sm opacity-50">選擇日期查看事件</p>
           </div>
           <div>
@@ -71,7 +70,7 @@ export default function Page() {
                 selected={selectedDate}
                 onSelect={setSelectedDate}
                 locale={zhTW}
-                className="border rounded-2xl m-2 mt-4"
+                className="border rounded-[20px] m-2 mt-4 bg-rootBg"
                 modifiers={{
                   hasEvent: (date) =>
                     dateWithEvents.has(format(date, "yyyy-MM-dd")),
@@ -81,8 +80,8 @@ export default function Page() {
           </div>
         </div>
 
-        <Card className="shadow-none p-0 rounded-none border-0">
-          <CardHeader className="border-t border-border px-2">
+        <Card className="shadow-none p-0 rounded-none border-0 bg-transparent">
+          <CardHeader className="border-t border-borderColor px-2">
             <CardTitle>
               {selectedDate
                 ? format(selectedDate, "yyyy年MM月dd日", { locale: zhTW })
@@ -99,7 +98,10 @@ export default function Page() {
             ) : (
               <div className="space-y-4">
                 {selectedEvents.map((event) => (
-                  <Card key={event.id} className="overflow-hidden">
+                  <Card
+                    key={event.id}
+                    className="overflow-hidden dark:bg-zinc-700/50 shadow-none"
+                  >
                     <div className="flex items-center p-4">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">

@@ -18,13 +18,11 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       className={cn("p-3 relative", className)}
       classNames={{
-        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+        months: "flex flex-col sm:flex-row space-y-4 ",
         month: "space-y-4 pt-4",
         caption: "flex justify-center pt-1 relative items-center",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
-        weekdays: "text-xs border-b",
-        weekday: "pb-2",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
           "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
@@ -34,8 +32,8 @@ function Calendar({
         button_next:
           "absolute hover:bg-hoverbg right-2 top-2 rounded-full border flex items-center justify-center p-1",
         table: "w-full border-collapse space-y-1",
-        head_row: "flex",
-        head_cell:
+        weekdays: "flex",
+        weekdays:
           "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
         row: "flex w-full mt-2",
         day: cn(
@@ -46,13 +44,13 @@ function Calendar({
         ),
         day_button: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-8 w-8 p-0 font-normal aria-selected:opacity-100",
+          "h-8 w-8 p-0 font-normal aria-selected:opacity-100 hover:bg-white dark:hover:bg-accent",
         ),
         range_start: "day-range-start",
         range_end: "day-range-end",
         selected:
           "bg-primary rounded-md text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        today: "bg-accent rounded-md text-accent-foreground",
+        today: "bg-white dark:bg-accent rounded-md text-accent-foreground",
         outside:
           "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         disabled: "text-muted-foreground opacity-50",
