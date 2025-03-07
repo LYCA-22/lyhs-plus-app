@@ -32,9 +32,8 @@ function Calendar({
         button_next:
           "absolute hover:bg-hoverbg right-2 top-2 rounded-full border flex items-center justify-center p-1",
         table: "w-full border-collapse space-y-1",
-        weekdays: "flex",
         weekdays:
-          "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
+          "flex text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
         row: "flex w-full mt-2",
         day: cn(
           "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
