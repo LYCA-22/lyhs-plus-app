@@ -40,4 +40,5 @@ export enum homeApps {
   schoolWeb = "schoolWeb",
   mailBox = "mailBox",
   mailSearch = "mailSearch",
+  calendar = "calendar",
 }

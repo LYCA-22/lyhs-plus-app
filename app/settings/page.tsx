@@ -40,10 +40,16 @@ function ThemeToggle() {
       <SelectTrigger className="w-[110px] bg-hoverbg rounded-full shadow-none">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="light">亮色模式</SelectItem>
-        <SelectItem value="dark">暗色模式</SelectItem>
-        <SelectItem value="system">跟隨系統</SelectItem>
+      <SelectContent className="p-[6px] rounded-2xl gap-2 flex flex-col">
+        <SelectItem value="light" className="rounded-[10px] p-2 px-3">
+          亮色模式
+        </SelectItem>
+        <SelectItem value="dark" className="rounded-[10px] p-2 px-3">
+          暗色模式
+        </SelectItem>
+        <SelectItem value="system" className="rounded-[10px] p-2 px-3">
+          跟隨系統
+        </SelectItem>
       </SelectContent>
     </Select>
   );
@@ -179,7 +185,7 @@ export default function Page() {
         {appSchema.map((group, groupIndex) => (
           <li
             key={groupIndex}
-            className="flex flex-col rounded-2xl border border-borderColor p-4 pb-1 bg-background transition-all hover:sm:shadow-md"
+            className="flex flex-col rounded-2xl border border-borderColor p-4 pb-1 bg-background transition-all sm:border-x-0 sm:border-t-0 sm:rounded-none sm:px-0"
           >
             <h3 className="text-lg font-medium mb-2">{group.groupTitle}</h3>
             <div className="flex flex-col">

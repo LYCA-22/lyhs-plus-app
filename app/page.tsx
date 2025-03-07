@@ -53,6 +53,12 @@ const apps = {
     link: "/mailbox/view",
     type: "link",
   } as App,
+  calendar: {
+    name: "行事曆",
+    icon: "calendar",
+    link: "/calendar",
+    type: "link",
+  } as App,
 };
 
 type AppKey = keyof typeof apps;

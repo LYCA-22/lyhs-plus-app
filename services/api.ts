@@ -168,4 +168,25 @@ export const apiService = {
       throw error;
     }
   },
+  async getAllEvents() {
+    try {
+      const result = await fetch(`${API_BASE_URL}/v1/cal/events`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (result.ok) {
+        const events = await result.json();
+        return events.data.results;
+      } else {
+        const error = await result.json();
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      console.error("Error in getAllEvents:", error);
+      throw error;
+    }
+  },
 };
