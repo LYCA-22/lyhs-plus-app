@@ -274,11 +274,13 @@ export default function Home() {
         </div>
       </div>
       <div className="relative my-2">
-        <div className="flex items-center justify-between mx-4 mb-2 px-3">
+        <div className="flex items-center justify-between mx-4 pt-5 py-2 border-t border-borderColor">
           <h1 className="text-xl font-medium">快速捷徑</h1>
-          <button className="border-b border-zinc-300 py-1">顯示更多</button>
+          <button className="p-2 px-3 rounded-full bg-hoverbg font-bold text-sm text-foreground/50">
+            顯示更多
+          </button>
         </div>
-        <div className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide flex-wrap">
+        <div className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide flex-wrap max-sm:justify-evenly">
           {!sysLoad &&
             homeApps.map((app, index) => {
               const appData = apps[app as AppKey];
