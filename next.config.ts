@@ -1,11 +1,21 @@
 import type { NextConfig } from "next";
 import nextPwa from "next-pwa";
 
-const withPWA = nextPwa({
+interface PWAConfigExtended {
+  dest: string;
+  register: boolean;
+  skipWaiting: boolean;
+  disable?: boolean;
+  importScripts?: string[];
+}
+
+const pwaConfig: PWAConfigExtended = {
   dest: "public",
   register: true,
   skipWaiting: true,
-});
+};
+
+const withPWA = nextPwa(pwaConfig);
 
 const nextConfig: NextConfig = {
   async rewrites() {
