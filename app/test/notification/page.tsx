@@ -56,8 +56,10 @@ export default function NotificationTestPage() {
       }
       return outputArray;
     } catch (error) {
-      console.error("轉換 VAPID 公鑰出錯:", error);
-      throw new Error(`無法處理 VAPID 公鑰: ${error.message}`);
+      if (error instanceof Error) {
+        console.error("轉換 VAPID 公鑰出錯:", error);
+        throw new Error(`無法處理 VAPID 公鑰: ${error.message}`);
+      }
     }
   };
 
@@ -126,9 +128,11 @@ export default function NotificationTestPage() {
 
       setIsSubscribed(true);
       setStatus("成功訂閱通知！");
-    } catch (error: any) {
-      console.error("訂閱通知失敗:", error);
-      setStatus(`訂閱通知失敗: ${error.message}`);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("訂閱通知失敗:", error);
+        setStatus(`訂閱通知失敗: ${error.message}`);
+      }
     }
   };
 
@@ -164,9 +168,11 @@ export default function NotificationTestPage() {
       setSubscription(null);
       setIsSubscribed(false);
       setStatus("已取消訂閱通知");
-    } catch (error: any) {
-      console.error("取消訂閱失敗:", error);
-      setStatus(`取消訂閱失敗: ${error.message}`);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("取消訂閱失敗:", error);
+        setStatus(`取消訂閱失敗: ${error.message}`);
+      }
     }
   };
 
