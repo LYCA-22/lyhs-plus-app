@@ -113,6 +113,14 @@ export default function Page() {
           access_manage: false,
           icon: <ChevronRight className="w-4 h-4" />,
         },
+        {
+          title: "管理無聲廣播",
+          type: "link",
+          isOutLink: false,
+          href: "/settings/notification",
+          access_manage: false,
+          icon: <ChevronRight className="w-4 h-4" />,
+        },
       ],
     },
   ];

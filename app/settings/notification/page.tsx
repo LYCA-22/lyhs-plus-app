@@ -1,7 +1,5 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function NotificationTestPage() {
   const [subscription, setSubscription] = useState<PushSubscription | null>(
@@ -9,7 +7,6 @@ export default function NotificationTestPage() {
   );
   const [status, setStatus] = useState<string>("");
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
-  const router = useRouter();
 
   // 直接檢查環境變數是否存在
   const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
@@ -180,7 +177,7 @@ export default function NotificationTestPage() {
   const debugInfo = () => {
     if (process.env.NODE_ENV === "development") {
       return (
-        <div className="mt-4 p-3 bg-gray-100 rounded text-xs">
+        <div className="mt-2 pt-2 border-t border-borderColor bg-gray-100 rounded text-xs">
           <p>VAPID 公鑰狀態: {vapidPublicKey ? "已設定" : "未設定"}</p>
           {vapidPublicKey && (
             <p>公鑰前10個字符: {vapidPublicKey.substring(0, 10)}...</p>
@@ -193,9 +190,7 @@ export default function NotificationTestPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-lg">
-      <h1 className="text-2xl font-bold mb-6">測試通知訂閱</h1>
-
-      <div className="bg-gray-100 p-6 rounded-lg mb-6">
+      <div className="bg-gray-100 p-6 rounded-2xl mb-6">
         <h2 className="text-lg font-semibold mb-2">通知服務狀態</h2>
         <p
           className={`mb-4 ${isSubscribed ? "text-green-600" : "text-gray-600"}`}
@@ -210,7 +205,7 @@ export default function NotificationTestPage() {
                 ? unsubscribeFromNotifications
                 : subscribeToNotifications
             }
-            className={`py-2 px-4 rounded-md font-medium text-white ${
+            className={`py-2 px-4 rounded-xl font-medium text-white ${
               isSubscribed
                 ? "bg-red-600 hover:bg-red-700"
                 : "bg-blue-600 hover:bg-blue-700"
@@ -231,8 +226,6 @@ export default function NotificationTestPage() {
             </div>
           )}
         </div>
-
-        {/* 僅在開發環境中顯示調試信息 */}
         {debugInfo()}
       </div>
 
@@ -245,7 +238,7 @@ export default function NotificationTestPage() {
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="mt-8 px-2">
         <h2 className="text-lg font-semibold mb-2">相關說明</h2>
         <ul className="list-disc list-inside text-gray-700 space-y-1">
           <li>訂閱通知需要您的瀏覽器授予權限</li>
@@ -253,15 +246,6 @@ export default function NotificationTestPage() {
           <li>通知會顯示學校重要公告和活動</li>
           <li>即使關閉網站，您也能收到通知</li>
         </ul>
-      </div>
-
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <button
-          onClick={() => router.back()}
-          className="text-blue-600 hover:text-blue-800"
-        >
-          返回上一頁
-        </button>
       </div>
     </div>
   );

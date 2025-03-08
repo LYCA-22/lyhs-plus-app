@@ -26,6 +26,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/mailbox/view": "信件查詢",
     "/settings": "設定",
     "/settings/shortcuts": "管理快速捷徑",
+    "/settings/notification": "管理無聲廣播",
     "/calendar": "行事曆",
   };
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
