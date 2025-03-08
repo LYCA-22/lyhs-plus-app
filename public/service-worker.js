@@ -6,8 +6,8 @@ self.addEventListener("push", function (event) {
 
     const options = {
       body: data.content || "有新消息",
-      icon: "/icons/notification-icon.png", // 您需要提供這個圖標文件
-      badge: "/icons/badge-icon.png", // 您需要提供這個圖標文件
+      icon: "/icon-192x192.png", // 您需要提供這個圖標文件
+      badge: "/icon-64x64.png", // 您需要提供這個圖標文件
       data: {
         url: data.url || "/", // 點擊通知後的跳轉網址
       },
