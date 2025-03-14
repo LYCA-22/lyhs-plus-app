@@ -5,6 +5,8 @@ import { updateHomeApps } from "@/store/systemSlice";
 import Image from "next/image";
 import { homeApps } from "@/types";
 import { useEffect } from "react";
+import Link from "next/link";
+import { CaretLeft } from "@phosphor-icons/react";
 
 const apps: Record<homeApps, { name: string; icon: string }> = {
   [homeApps.eSchool]: {
@@ -64,28 +66,37 @@ export default function ShortcutsPage() {
   };
 
   return (
-    <div className="p-5">
-      <div className="rounded-2xl border border-borderColor p-4 sm:border-none">
-        <h2 className="text-lg font-medium mb-4">管理快速捷徑</h2>
-        <div className="space-y-4">
-          {(Object.keys(apps) as Array<keyof typeof apps>).map((key) => (
-            <div key={key} className="flex items-center justify-between py-2">
-              <div className="flex items-center gap-3">
-                <Image
-                  src={`/serviceIcon/${apps[key as homeApps].icon}.svg`}
-                  alt={apps[key as homeApps].name}
-                  width={32}
-                  height={32}
-                />
-                <span>{apps[key as homeApps].name}</span>
-              </div>
-              <Switch
-                checked={homeApps.includes(key as homeApps)}
-                onCheckedChange={() => handleToggle(key as homeApps)}
+    <div className="p-7">
+      <Link
+        href="/settings"
+        className="flex items-center hover:bg-hoverbg justify-center rounded-full border border-border p-2 px-3 mb-3 w-fit"
+      >
+        <CaretLeft size={20} />
+        返回
+      </Link>
+      <div className="space-y-4">
+        {(Object.keys(apps) as Array<keyof typeof apps>).map((key) => (
+          <div key={key} className="flex items-center justify-between py-2">
+            <div className="flex items-center gap-3">
+              <Image
+                src={`/serviceIcon/${apps[key as homeApps].icon}.svg`}
+                alt={apps[key as homeApps].name}
+                width={32}
+                height={32}
               />
+              <span>{apps[key as homeApps].name}</span>
             </div>
-          ))}
-        </div>
+            <Switch
+              checked={homeApps.includes(key as homeApps)}
+              onCheckedChange={() => handleToggle(key as homeApps)}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="border-t border-border my-4 p-3">
+        <p className="text-center text-sm text-muted-foreground">
+          你可以在這裡依據你的使用頻率和個性設定要顯示在首頁的捷徑。
+        </p>
       </div>
     </div>
   );

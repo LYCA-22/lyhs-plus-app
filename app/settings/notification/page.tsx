@@ -1,4 +1,6 @@
 "use client";
+import { CaretLeft } from "@phosphor-icons/react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function NotificationTestPage() {
@@ -33,7 +35,6 @@ export default function NotificationTestPage() {
     checkSubscription();
   }, []);
 
-  // 將 base64 字串轉換為 Uint8Array
   const urlBase64ToUint8Array = (base64String: string) => {
     try {
       if (!base64String) {
@@ -71,7 +72,6 @@ export default function NotificationTestPage() {
 
       setStatus("正在請求通知權限...");
 
-      // 請求通知權限
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         setStatus("通知權限被拒絕");
@@ -80,7 +80,6 @@ export default function NotificationTestPage() {
 
       setStatus("正在註冊 Service Worker...");
 
-      // 註冊 Service Worker
       if (!("serviceWorker" in navigator)) {
         setStatus("您的瀏覽器不支援 Service Worker，無法接收通知");
         return;
@@ -91,16 +90,13 @@ export default function NotificationTestPage() {
 
       setStatus("正在訂閱推送通知...");
 
-      // 轉換 VAPID 公鑰
       const applicationServerKey = urlBase64ToUint8Array(vapidPublicKey);
 
-      // 獲取推送訂閱
       const pushSubscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: applicationServerKey,
       });
 
-      // 保存訂閱信息到本地儲存
       localStorage.setItem(
         "pushSubscription",
         JSON.stringify(pushSubscription),
@@ -189,7 +185,14 @@ export default function NotificationTestPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-lg">
+    <div className="container mx-auto px-4 pb-6 max-w-lg">
+      <Link
+        href="/settings"
+        className="flex items-center hover:bg-hoverbg justify-center rounded-full border border-border p-2 px-3 my-3 w-fit"
+      >
+        <CaretLeft size={20} />
+        返回
+      </Link>
       <div className="bg-gray-100 p-6 rounded-2xl mb-6">
         <h2 className="text-lg font-semibold mb-2">通知服務狀態</h2>
         <p
@@ -229,8 +232,8 @@ export default function NotificationTestPage() {
         {debugInfo()}
       </div>
 
-      {isSubscribed && (
-        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+      {!isSubscribed && (
+        <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
           <h3 className="font-medium text-green-800 mb-2">通知已開啟</h3>
           <p className="text-green-700 text-sm">
             您已成功訂閱通知。系統管理員發送的重要消息將會顯示在您的設備上。

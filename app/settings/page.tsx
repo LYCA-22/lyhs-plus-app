@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from "@/store/hook";
-import { ChevronRight, ArrowUpRight, LogOut } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import {
   Select,
@@ -10,7 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTheme } from "next-themes";
-import { apiService } from "@/services/api";
 
 interface schemaItem {
   title: string;
@@ -57,46 +56,11 @@ function ThemeToggle() {
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
-  const { sessionId } = userData;
+  const version = process.env.NEXT_PUBLIC_APP_VERSION;
 
   const appSchema: SchemaGroup[] = [
     {
-      groupTitle: "帳號管理",
-      items: [
-        {
-          title: "管理我的帳號",
-          title2: "登入帳號",
-          type: "link",
-          isOutLink: false,
-          href: "/account",
-          href2:
-            "https://auth.lyhsca.org/account/login?redirect_url=https://beta.plus.lyhsca.org",
-          access_manage: false,
-          userCheck: true,
-          icon: <ChevronRight className="w-4 h-4" />,
-        },
-        {
-          title: "登出帳號",
-          type: "btn",
-          access_manage: false,
-          userCheck: true,
-          btnfunction: async () => {
-            await apiService.Logout(sessionId);
-          },
-          icon: <LogOut className="w-4 h-4" />,
-        },
-        {
-          title: "管理中心",
-          type: "link",
-          isOutLink: true,
-          href: "https://admin.lyhsca.org/",
-          access_manage: true,
-          icon: <ArrowUpRight className="w-4 h-4" />,
-        },
-      ],
-    },
-    {
-      groupTitle: "設定",
+      groupTitle: "應用程式設定",
       items: [
         {
           title: "系統主題",
@@ -106,7 +70,7 @@ export default function Page() {
           component: <ThemeToggle />,
         },
         {
-          title: "管理快速捷徑",
+          title: "快速捷徑",
           type: "link",
           isOutLink: false,
           href: "/settings/shortcuts",
@@ -114,7 +78,7 @@ export default function Page() {
           icon: <ChevronRight className="w-4 h-4" />,
         },
         {
-          title: "管理無聲廣播",
+          title: "校園無聲廣播",
           type: "link",
           isOutLink: false,
           href: "/settings/notification",
@@ -149,61 +113,76 @@ export default function Page() {
     const commonClasses =
       "flex items-center justify-between py-3 hover:opacity-60 transition-all";
 
-    return (
-      <div className="border-b border-borderColor last:border-b-0">
-        {(() => {
-          switch (item.type) {
-            case "component":
-              return (
-                <div className={commonClasses}>
-                  <p>{item.title}</p>
-                  {item.component}
-                </div>
-              );
-            case "btn":
-              return (
-                <button
-                  onClick={item.btnfunction}
-                  className={`${commonClasses} w-full text-left`}
-                >
-                  <p>{title}</p>
-                  {item.icon && item.icon}
-                </button>
-              );
-            case "link":
-              return (
-                <Link
-                  href={href || ""}
-                  target={item.isOutLink ? "_blank" : "_self"}
-                  className={commonClasses}
-                >
-                  <p>{title}</p>
-                  {item.icon && item.icon}
-                </Link>
-              );
-          }
-        })()}
-      </div>
-    );
+    switch (item.type) {
+      case "component":
+        return (
+          <div className={commonClasses}>
+            <p>{item.title}</p>
+            {item.component}
+          </div>
+        );
+      case "btn":
+        return (
+          <button
+            onClick={item.btnfunction}
+            className={`${commonClasses} w-full text-left`}
+          >
+            <p>{title}</p>
+            {item.icon && item.icon}
+          </button>
+        );
+      case "link":
+        return (
+          <Link
+            href={href || ""}
+            target={item.isOutLink ? "_blank" : "_self"}
+            className={commonClasses}
+          >
+            <p>{title}</p>
+            {item.icon && item.icon}
+          </Link>
+        );
+    }
   };
 
   return (
-    <div className="p-5">
-      <ul className="list-none flex flex-col gap-5">
+    <div className="relative">
+      <div className="w-full bg-hoverbg mb-4 p-5 px-6 flex flex-col">
+        <p className="text-3xl font-medium">
+          {userData.name ? <>{userData.name}</> : <>登入享用完整服務</>}
+        </p>
+        {userData && (
+          <Link
+            href="https://auth.lyhsca.org/account/login?redirect_url=https://beta.plus.lyhsca.org"
+            className="p-3 bg-primary text-background rounded-full active:scale-90 transition-all flex items-center justify-center font-medium my-3 mt-6"
+          >
+            登入或註冊
+          </Link>
+        )}
+      </div>
+      <ul className="list-none flex flex-col gap-2">
         {appSchema.map((group, groupIndex) => (
           <li
             key={groupIndex}
-            className="flex flex-col rounded-2xl border border-borderColor p-4 pb-1 bg-background transition-all sm:border-x-0 sm:border-t-0 sm:rounded-none sm:px-0"
+            className="flex flex-col px-5 bg-background transition-all"
           >
-            <h3 className="text-lg font-medium mb-2">{group.groupTitle}</h3>
+            <h3 className="text-lg font-medium">{group.groupTitle}</h3>
             <div className="flex flex-col">
-              {group.items.map((item) => (
-                <>{renderItem(item)}</>
+              {group.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="border-b border-borderColor last:border-b-0"
+                >
+                  {renderItem(item)}
+                </div>
               ))}
             </div>
           </li>
         ))}
       </ul>
+      <div className="flex items-center justify-center p-2 font-mono text-sm opacity-40">
+        Version {version}
+      </div>
     </div>
   );
 }

@@ -162,7 +162,7 @@ export default function Home() {
           plugins={[
             Autoplay({ delay: AUTO_PLAY_DELAY, stopOnInteraction: false }),
           ]}
-          className="rounded-2xl sm:rounded-bl-none sm:rounded-br-none bg-gradient-to-br from-zinc-100 to-white p-5 dark:from-hoverbg dark:to-zinc-950 relative"
+          className="rounded-2xl sm:rounded-none sm:rounded-br-none bg-gradient-to-br from-zinc-100 to-white p-5 dark:from-hoverbg dark:to-zinc-950 relative"
           opts={{
             align: "start",
             loop: true,
@@ -274,7 +274,7 @@ export default function Home() {
         </div>
       </div>
       <div className="relative my-2">
-        <div className="flex items-center justify-between mx-4 pt-5 py-2 border-t border-borderColor">
+        <div className="flex items-center justify-between mx-4 pt-5 py-2">
           <h1 className="text-xl font-medium">快速捷徑</h1>
           <button className="p-2 px-3 rounded-full bg-hoverbg font-bold text-sm text-foreground/50">
             顯示更多

@@ -9,7 +9,7 @@
     --foreground: black;
     --hoverbg: #f3f4f6;
     --dvh: 100dvh;
-    --rootBg: #f4f4f5;
+    --rootBg: white;
     --borderColor: #cecece;
     --buttonBg: #e0e0e0;
     overflow: hidden;
@@ -33,7 +33,7 @@
 }
 
 .dark {
-    --rootBg: #0a0a0a;
+    --rootBg: #27272a;
     --background: #27272a;
     --foreground: white;
     --hoverbg: #343436;

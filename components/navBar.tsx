@@ -1,17 +1,59 @@
 "use client";
-import { House, Newspaper, Menu } from "lucide-react";
-import { motion } from "framer-motion";
-import { usePathname, useRouter } from "next/navigation";
+import { apiService } from "@/services/api";
+import { useAppDispatch } from "@/store/hook";
+import { loadNews } from "@/store/newsSlice";
+import {
+  DotsThreeOutline,
+  HandFist,
+  House,
+  MegaphoneSimple,
+} from "@phosphor-icons/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 interface Navigator {
   standalone?: boolean;
 }
 
+interface AppSchema {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+  active_icon: React.ReactNode;
+}
+
+const appSchema: AppSchema[] = [
+  {
+    name: "首頁",
+    icon: <House size={25} />,
+    active_icon: <House size={25} weight="fill" />,
+    path: "/",
+  },
+  {
+    name: "校園公告",
+    icon: <MegaphoneSimple size={25} />,
+    active_icon: <MegaphoneSimple size={25} weight="fill" />,
+    path: "/news",
+  },
+  {
+    name: "班聯會",
+    icon: <HandFist size={25} />,
+    active_icon: <HandFist size={25} weight="fill" />,
+    path: "/lyca",
+  },
+  {
+    name: "更多",
+    icon: <DotsThreeOutline size={25} />,
+    active_icon: <DotsThreeOutline size={25} weight="fill" />,
+    path: "/settings",
+  },
+];
+
 export function NavBar() {
   const pathname = usePathname();
-  const router = useRouter();
   const [isPWA, setIsPWA] = useState(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const checkPWA = () => {
@@ -32,70 +74,45 @@ export function NavBar() {
     return () => mediaQuery.removeListener(checkPWA);
   }, []);
 
-  if (pathname.startsWith("/mailbox")) {
-    return null;
-  }
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const news = await apiService.getNews();
+        dispatch(loadNews(news.data));
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
+
+    fetchNews();
+  }, [dispatch]);
 
   return (
-    <div
-      className={`flex justify-around fixed bottom-0 w-full ${isPWA ? "pb-8" : ""} items-center bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg shadow-md z-20 border-t border-border dark:border-zinc-700`}
-    >
-      <button
-        onClick={() => router.replace("/")}
-        className={`flex flex-col gap-1 items-center justify-center relative min-w-[50px] ${
-          pathname === "/" ? "text-primary" : "text-gray-400"
-        }`}
+    <div className="w-full flex items-center justify-center fixed bottom-0 sm:bottom-5">
+      <div
+        className={`flex justify-around w-full sm:w-[500px] sm:rounded-full sm:border sm:mx-auto ${isPWA ? "pb-8" : "py-2"} items-center bg-background dark:bg-zinc-800 z-20 border-t border-border dark:border-zinc-700`}
       >
-        {pathname === "/" && (
-          <motion.div
-            layoutId="active-line"
-            transition={{ duration: 0.1 }}
-            className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
-          />
-        )}
-        <div className="p-2 flex flex-col items-center justify-center gap-1">
-          <House />
-          <p className="text-[10px] font-medium">首頁</p>
-        </div>
-      </button>
-
-      <button
-        onClick={() => router.replace("/news")}
-        className={`flex flex-col gap-1 items-center justify-center relative min-w-[50px] ${
-          pathname === "/news" ? "text-primary" : "text-gray-400"
-        }`}
-      >
-        {pathname === "/news" && (
-          <motion.div
-            layoutId="active-line"
-            transition={{ duration: 0.1 }}
-            className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
-          />
-        )}
-        <div className="p-2 flex flex-col items-center justify-center gap-1">
-          <Newspaper />
-          <p className="text-[10px] font-medium">校園公告</p>
-        </div>
-      </button>
-
-      <button
-        onClick={() => router.replace("/settings")}
-        className={`flex flex-col gap-1 items-center justify-center relative min-w-[50px] ${
-          pathname === "/settings" ? "text-primary" : "text-gray-400"
-        }`}
-      >
-        {pathname === "/settings" && (
-          <motion.div
-            layoutId="active-line"
-            transition={{ duration: 0.1 }}
-            className="bg-primary w-full h-[2px] absolute top-0 rounded-full"
-          />
-        )}
-        <div className="p-2 flex flex-col items-center justify-center gap-1">
-          <Menu />
-          <p className="text-[10px] font-medium">設定</p>
-        </div>
-      </button>
+        {appSchema.map((app) => (
+          <Link
+            key={app.path}
+            href={app.path}
+            className={`flex flex-col group items-center justify-center w-12 h-12 ${
+              (app.path === "/" && pathname === "/") ||
+              (app.path !== "/" && pathname.startsWith(app.path))
+                ? "text-primary"
+                : "text-zinc-500 dark:text-zinc-400"
+            }`}
+          >
+            <div className="group-active:scale-85 transition-all">
+              {(app.path === "/" && pathname === "/") ||
+              (app.path !== "/" && pathname.startsWith(app.path))
+                ? app.active_icon
+                : app.icon}
+            </div>
+            <span className="text-[10px] font-medium">{app.name}</span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

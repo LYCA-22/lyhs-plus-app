@@ -5,14 +5,14 @@ self.addEventListener("push", function (event) {
     const data = event.data.json();
 
     const options = {
-      body: data.content || "有新消息",
-      icon: "/icon-192x192.png", // 您需要提供這個圖標文件
-      badge: "/icon-64x64.png", // 您需要提供這個圖標文件
+      body: data.content || "新公告",
+      icon: "/icon-192x192.png",
+      badge: "/icon-64x64.png",
       data: {
-        url: data.url || "/", // 點擊通知後的跳轉網址
+        url: data.url || "/",
       },
-      vibrate: [100, 50, 100], // 振動模式 (如果設備支持)
-      timestamp: Date.now(), // 時間戳
+      vibrate: [100, 50, 100],
+      timestamp: Date.now(),
     };
 
     event.waitUntil(
@@ -26,7 +26,6 @@ self.addEventListener("push", function (event) {
   }
 });
 
-// 處理通知點擊
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
 
@@ -34,13 +33,11 @@ self.addEventListener("notificationclick", function (event) {
 
   event.waitUntil(
     clients.matchAll({ type: "window" }).then((clientList) => {
-      // 嘗試找到已開啟的窗口並聚焦
       for (const client of clientList) {
         if (client.url === url && "focus" in client) {
           return client.focus();
         }
       }
-      // 如果沒有開啟的窗口，則開啟新窗口
       if (clients.openWindow) {
         return clients.openWindow(url);
       }

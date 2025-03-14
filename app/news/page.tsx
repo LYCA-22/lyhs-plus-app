@@ -135,11 +135,8 @@ export default function Page() {
 
   return (
     <div className="relative w-full max-sm:w-screen">
-      <div className="sticky top-0 bg-background border-b p-4 pb-2 z-20 flex flex-col px-0">
-        <div className="flex flex-col gap-3 max-sm:pt-2">
-          <p className="text-xl mx-5 mt-2 font-medium max-sm:hidden">
-            校園公告
-          </p>
+      <div className="sticky top-0 bg-background p-3 z-20 flex flex-col px-0">
+        <div className="flex flex-col gap-3">
           <div className="p-2 px-4 rounded-full w-11/12 flex items-center gap-2 bg-hoverbg max-sm:hidden mx-4">
             <Search className="text-borderColor" size={20} />
             <input
@@ -150,10 +147,10 @@ export default function Page() {
               className="ring-0 grow bg-transparent focus:outline-none text-foreground"
             />
           </div>
-          <div className="sm:hidden flex fixed top-5 right-5 text-foreground">
+          <div className="sm:hidden flex fixed top-[14px] right-5 text-foreground">
             <Search size={20} />
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 w-full px-4 scrollbar-hide scroll-smooth">
+          <div className="flex gap-2 overflow-x-auto w-full px-4 scrollbar-hide scroll-smooth">
             <button
               onClick={() => setSelectedDepartment("學生須知")}
               className={`px-4 py-1 rounded-full whitespace-nowrap transition-all flex items-center gap-2 font-bold ${
@@ -171,7 +168,7 @@ export default function Page() {
                 onClick={() => setSelectedDepartment(dept)}
                 className={`px-4 py-2 rounded-full whitespace-nowrap transition-all font-medium ${
                   selectedDepartment === dept
-                    ? "bg-blue-100 text-blue-600"
+                    ? "bg-sky-100 dark:bg-sky-900 text-sky-600 dark:text-blue-200"
                     : "bg-hoverbg hover:bg-buttonBg"
                 }`}
               >
@@ -181,7 +178,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-
       <div className="relative">
         {displayedNews.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
@@ -192,16 +188,13 @@ export default function Page() {
             {displayedNews.map((news, index) => (
               <div
                 key={index}
-                className="border-b flex box-border p-5 px-6 border-borderColor"
+                className="flex box-border border-b border-border p-3 px-5 relative"
               >
-                <div className="flex items-center mr-2">
-                  <p className="m-1 ml-0 mb-auto h-[35px] w-[35px] flex justify-center items-center rounded-full font-medium text-sm bg-foreground text-background">
-                    {news.department[0]}
-                  </p>
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex mb-1 font-medium gap-2">
-                    <p>{news.department}</p>
+                <div className="flex flex-col gap-1 pt-2 w-full">
+                  <div className="flex mb-1 font-medium items-center justify-between w-full">
+                    <p className="font-medium p-2 border-b-0 px-3 border border-border dark:border-borderColor rounded-t-xl">
+                      {news.department}
+                    </p>
                     <p className="opacity-45 font-normal">
                       {formatDate(news.date)}
                     </p>
@@ -211,16 +204,10 @@ export default function Page() {
                 </div>
               </div>
             ))}
-
-            {/* 加載更多的公告 */}
             <div
               ref={observerTarget}
               className="h-10 flex items-center justify-center m-10"
-            >
-              {isLoading && displayCount < filteredNews.length && (
-                <div className="animate-spin h-5 w-5 border-2 border-foreground rounded-full border-t-transparent" />
-              )}
-            </div>
+            ></div>
           </>
         )}
       </div>
