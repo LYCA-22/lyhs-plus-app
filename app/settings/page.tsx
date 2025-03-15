@@ -10,6 +10,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTheme } from "next-themes";
+import {
+  SlidersHorizontal,
+  SignOut,
+  ArrowSquareOut,
+} from "@phosphor-icons/react";
+import { apiService } from "@/services/api";
 
 interface schemaItem {
   title: string;
@@ -87,6 +93,35 @@ export default function Page() {
         },
       ],
     },
+    {
+      groupTitle: "關於",
+      items: [
+        {
+          title: "更多介紹",
+          type: "link",
+          isOutLink: true,
+          href: "https://plus.lyhsca.org/",
+          access_manage: false,
+          icon: <ArrowSquareOut className="w-4 h-4" weight="bold" />,
+        },
+        {
+          title: "使用者條款",
+          type: "link",
+          isOutLink: true,
+          href: "/terms",
+          access_manage: false,
+          icon: <ChevronRight className="w-4 h-4" />,
+        },
+        {
+          title: "隱私權政策",
+          type: "link",
+          isOutLink: true,
+          href: "/privacy",
+          access_manage: false,
+          icon: <ChevronRight className="w-4 h-4" />,
+        },
+      ],
+    },
   ];
 
   const renderItem = (item: schemaItem) => {
@@ -145,19 +180,41 @@ export default function Page() {
     }
   };
 
+  const Logout = async (sessionId: string) => {
+    await apiService.Logout(sessionId);
+  };
+
   return (
     <div className="relative">
       <div className="w-full bg-hoverbg mb-4 p-5 px-6 flex flex-col">
         <p className="text-3xl font-medium">
           {userData.name ? <>{userData.name}</> : <>登入享用完整服務</>}
         </p>
-        {userData && (
+        {!userData.name && (
           <Link
             href="https://auth.lyhsca.org/account/login?redirect_url=https://beta.plus.lyhsca.org"
             className="p-3 bg-primary text-background rounded-full active:scale-90 transition-all flex items-center justify-center font-medium my-3 mt-6"
           >
             登入或註冊
           </Link>
+        )}
+        {userData.name && (
+          <div className="flex mt-6 gap-4">
+            <Link
+              href={"/account"}
+              className="bg-background flex flex-col w-28 p-4 font-medium text-medium gap-1 rounded-xl border border-border items-center justify-center"
+            >
+              <SlidersHorizontal size={25} />
+              管理帳號
+            </Link>
+            <button
+              onClick={() => Logout(userData.sessionId)}
+              className="bg-background flex flex-col w-28 p-4 font-medium text-medium gap-1 rounded-xl border border-border items-center justify-center"
+            >
+              <SignOut size={25} />
+              登出
+            </button>
+          </div>
         )}
       </div>
       <ul className="list-none flex flex-col gap-2">

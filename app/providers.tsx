@@ -32,26 +32,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <SystemCheck />
           <LoadingPage />
           <BetaAlert />
-          <main className="w-full h-dvh flex items-center justify-center">
-            <div className="flex grow items-center justify-center">
-              <div className="w-full sm:w-[550px] min-h-dvh flex flex-col relative">
+          <div className="w-full flex items-center justify-center">
+            <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
+              {pathname !== "/" && (
                 <div className="z-20 flex p-3 px-5 font-medium w-full items-center border-b border-border dark:border-borderColor bg-white dark:bg-zinc-800">
-                  <div className="flex items-center sm:opacity-70">
-                    {pathAllName[pathname] || "未知頁面"}
-                  </div>
+                  {pathAllName[pathname] || "未知頁面"}
                 </div>
-                <div
-                  id="main-area"
-                  className="bg-background overflow-hidden relative grow"
-                >
-                  <div className="overflow-y-auto overflow-x-hidden box-border max-h-screen-56 pb-20">
-                    {children}
-                  </div>
+              )}
+              <div
+                id="main-area"
+                className="bg-background overflow-hidden relative w-full grow"
+              >
+                <div className="overflow-y-auto overflow-x-hidden box-border h-full">
+                  {children}
                 </div>
               </div>
-            </div>
-            <NavBar />
-          </main>
+              <NavBar />
+            </main>
+          </div>
         </Provider>
       </ThemeProvider>
     </HeroUIProvider>

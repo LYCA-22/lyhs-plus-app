@@ -232,7 +232,7 @@ export default function NotificationTestPage() {
         {debugInfo()}
       </div>
 
-      {!isSubscribed && (
+      {isSubscribed && (
         <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
           <h3 className="font-medium text-green-800 mb-2">通知已開啟</h3>
           <p className="text-green-700 text-sm">

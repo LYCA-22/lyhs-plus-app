@@ -2,6 +2,7 @@
 import { apiService } from "@/services/api";
 import { useAppDispatch } from "@/store/hook";
 import { loadNews } from "@/store/newsSlice";
+import { updateSystemData } from "@/store/systemSlice";
 import {
   DotsThreeOutline,
   HandFist,
@@ -55,22 +56,20 @@ export function NavBar() {
   const [isPWA, setIsPWA] = useState(false);
   const dispatch = useAppDispatch();
 
+  const checkPWA = () => {
+    const isStandalone = (window.navigator as Navigator).standalone;
+    const isDisplayModeStandalone = window.matchMedia(
+      "(display-mode: standalone)",
+    ).matches;
+
+    setIsPWA(isStandalone || isDisplayModeStandalone);
+    dispatch(updateSystemData({ isPwa: isPWA }));
+  };
+
   useEffect(() => {
-    const checkPWA = () => {
-      const isStandalone = (window.navigator as Navigator).standalone;
-      const isDisplayModeStandalone = window.matchMedia(
-        "(display-mode: standalone)",
-      ).matches;
-
-      setIsPWA(isStandalone || isDisplayModeStandalone);
-    };
-
     checkPWA();
-
-    // 監聽顯示模式變化
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
     mediaQuery.addListener(checkPWA);
-
     return () => mediaQuery.removeListener(checkPWA);
   }, []);
 
@@ -88,9 +87,9 @@ export function NavBar() {
   }, [dispatch]);
 
   return (
-    <div className="w-full flex items-center justify-center fixed bottom-0 sm:bottom-5">
+    <div className="w-full flex items-center justify-center fixed bottom-0 max-sm:relative sm:bottom-5">
       <div
-        className={`flex justify-around w-full sm:w-[500px] sm:rounded-full sm:border sm:mx-auto ${isPWA ? "pb-8" : "py-2"} items-center bg-background dark:bg-zinc-800 z-20 border-t border-border dark:border-zinc-700`}
+        className={`flex justify-around sm:shadow-md w-full sm:w-[450px] sm:rounded-full sm:border sm:mx-auto ${isPWA ? "pb-8 pt-2" : "py-2"} items-center bg-background dark:bg-zinc-800 z-20 border-t border-border dark:border-zinc-700`}
       >
         {appSchema.map((app) => (
           <Link
@@ -103,7 +102,7 @@ export function NavBar() {
                 : "text-zinc-500 dark:text-zinc-400"
             }`}
           >
-            <div className="group-active:scale-85 transition-all">
+            <div className="group-active:scale-75 transition-all">
               {(app.path === "/" && pathname === "/") ||
               (app.path !== "/" && pathname.startsWith(app.path))
                 ? app.active_icon

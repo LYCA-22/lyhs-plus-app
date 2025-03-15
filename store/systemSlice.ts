@@ -8,6 +8,7 @@ interface UserState {
   browser: string;
   used: boolean;
   homeApps: homeApps[];
+  isPwa: boolean;
 }
 
 const initialState: UserState = {
@@ -17,11 +18,12 @@ const initialState: UserState = {
   browser: "",
   used: false,
   homeApps: [],
+  isPwa: false,
 };
 
 export const systemSlice = createSlice({
-  name: "systemStatus", // slice 的名稱
-  initialState, // 初始狀態
+  name: "systemStatus",
+  initialState,
   reducers: {
     updateStatus: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
