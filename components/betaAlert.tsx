@@ -58,6 +58,8 @@ export default function BetaAlert() {
               width={50}
               height={50}
               alt="logo"
+              preload
+              loading="eager"
             />
             <h1 className="text-xl font-bold m-2">歡迎使用 LYHS+ 測試版</h1>
             <p>

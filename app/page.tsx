@@ -180,6 +180,7 @@ export default function Home() {
                 width={20}
                 height={20}
                 priority
+                loading="eager"
               />
               <div className="w-full flex items-center justify-between absolute bottom-0 px-2">
                 <div>
@@ -208,6 +209,7 @@ export default function Home() {
                 width={20}
                 height={20}
                 priority
+                loading="eager"
               />
               <div className="w-full flex items-center justify-between">
                 <div>
@@ -298,6 +300,8 @@ export default function Home() {
                         src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
                         width={60}
                         height={60}
+                        priority
+                        loading="eager"
                       />
                       <p className="text-sm">{appData.name}</p>
                     </button>
@@ -311,6 +315,8 @@ export default function Home() {
                         src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
                         width={60}
                         height={60}
+                        priority
+                        loading="eager"
                       />
                       <p className="text-sm">{appData.name}</p>
                     </Link>
