@@ -2,12 +2,13 @@
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "next-themes";
-import { HeroUIProvider } from "@heroui/system";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname } from "next/navigation";
 import SystemCheck from "@/components/initUserCheck";
 import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/betaAlert";
+import Link from "next/link";
+import { CaretLeft } from "@phosphor-icons/react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,32 +27,41 @@ export function Providers({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <HeroUIProvider id="mainApp">
-      <ThemeProvider attribute="class" defaultTheme="system">
-        <Provider store={store}>
-          <SystemCheck />
-          <LoadingPage />
-          <BetaAlert />
-          <div className="w-full flex items-center justify-center">
-            <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
-              {pathname !== "/" && (
-                <div className="z-20 flex p-3 px-5 font-medium w-full items-center border-b border-border dark:border-borderColor bg-white dark:bg-zinc-800">
+    <ThemeProvider attribute="class" defaultTheme="system">
+      <Provider store={store}>
+        <SystemCheck />
+        <LoadingPage />
+        <BetaAlert />
+        <div className="w-full flex items-center justify-center">
+          <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
+            {pathname !== "/" && (
+              <div className="w-full flex pt-deviceTop items-center border-b border-border p-2 py-3 bg-white dark:bg-zinc-800">
+                {pathname.startsWith("/mailbox") && (
+                  <Link href={"/"}>
+                    <CaretLeft
+                      size={22}
+                      className="text-primary"
+                      weight="bold"
+                    />
+                  </Link>
+                )}
+                <div className="z-20 font-medium dark:border-borderColor mx-3">
                   {pathAllName[pathname] || "未知頁面"}
                 </div>
-              )}
-              <div
-                id="main-area"
-                className="bg-background overflow-hidden relative w-full grow"
-              >
-                <div className="overflow-y-auto overflow-x-hidden box-border h-full">
-                  {children}
-                </div>
               </div>
-              <NavBar />
-            </main>
-          </div>
-        </Provider>
-      </ThemeProvider>
-    </HeroUIProvider>
+            )}
+            <div
+              id="main-area"
+              className="bg-background overflow-hidden relative w-full grow"
+            >
+              <div className="overflow-y-auto overflow-x-hidden box-border h-full">
+                {children}
+              </div>
+            </div>
+            {!pathname.startsWith("/mailbox") && <NavBar />}
+          </main>
+        </div>
+      </Provider>
+    </ThemeProvider>
   );
 }

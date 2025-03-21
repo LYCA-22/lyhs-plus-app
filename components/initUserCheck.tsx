@@ -13,14 +13,12 @@ export default function SystemCheck() {
     let os = "Unknown";
     let browser = "Unknown";
 
-    // 檢測操作系統
     if (userAgent.indexOf("Win") !== -1) os = "Windows";
     if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
     if (userAgent.indexOf("Linux") !== -1) os = "Linux";
     if (userAgent.indexOf("Android") !== -1) os = "Android";
     if (userAgent.indexOf("iPhone") !== -1) os = "iOS";
 
-    // 檢測瀏覽器
     if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
     if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
     if (userAgent.indexOf("Safari") !== -1) browser = "Safari";

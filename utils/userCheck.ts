@@ -30,7 +30,14 @@ export async function checkUserSession(
   const homeApps = localStorage.getItem("lyps_homeApps");
   const apps: homeApps[] = homeApps
     ? JSON.parse(homeApps)
-    : ["eSchool", "studyHistory", "schoolWeb", "mailBox", "mailSearch"];
+    : [
+        "eSchool",
+        "studyHistory",
+        "schoolWeb",
+        "mailBox",
+        "mailSearch",
+        "calendar",
+      ];
   const used = end === "true" ? true : false;
 
   if (!used) {

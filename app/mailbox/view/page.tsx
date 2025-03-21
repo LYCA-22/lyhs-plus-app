@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/input-otp";
 import { studentData } from "@/types/index";
 import { icons } from "@/components/icons";
-import { CircularProgress } from "@heroui/react";
 import {
   RectangleEllipsis,
   Copy,
@@ -102,11 +101,7 @@ export default function Page() {
             disabled={code.length < 6 || isLoading}
             className="flex justify-center items-center bg-foreground text-background p-2 px-4 my-2 w-fit rounded-lg active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg"
           >
-            {isLoading ? (
-              <CircularProgress color={"default"} size={"sm"} strokeWidth={3} />
-            ) : (
-              "查詢"
-            )}
+            {isLoading ? <></> : "查詢"}
           </button>
           {/*
           <button className="flex justify-center items-center bg-buttonBg text-foreground p-2 px-4 my-2 w-fit rounded-lg active:scale-95 hover:opacity-70 transition-all disabled:text-borderColor disabled:bg-hoverbg">

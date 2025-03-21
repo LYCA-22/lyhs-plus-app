@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { apiService } from "@/services/api";
 import { icons } from "@/components/icons";
-import { CircularProgress } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
@@ -38,7 +37,7 @@ export default function Page() {
   };
 
   return (
-    <div>
+    <div className="px-5">
       <form onSubmit={handleSubmit}>
         <ul className="list-none">
           <li className="flex flex-col py-6 px-2 border-b border-borderColor mb-5">
@@ -216,15 +215,7 @@ export default function Page() {
               className="flex justify-center items-center bg-foreground text-rootBg p-3 font-medium rounded-full w-full m-2 mt-5 box-border hover:bg-buttonBg hover:text-foreground active:scale-95 transition-all disabled:bg-hoverbg disabled:text-buttonBg"
               disabled={loading}
             >
-              {loading ? (
-                <CircularProgress
-                  color={"default"}
-                  size={"sm"}
-                  strokeWidth={3}
-                />
-              ) : (
-                "送出"
-              )}
+              {loading ? <></> : "送出"}
             </button>
             <p className="text-sm opacity-50 mt-1 mb-5">
               若您按下送出，即同意我們的<strong>隱私權政策</strong>與

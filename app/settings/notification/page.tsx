@@ -10,14 +10,11 @@ export default function NotificationTestPage() {
   const [status, setStatus] = useState<string>("");
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
-  // 直接檢查環境變數是否存在
   const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 
   useEffect(() => {
-    // 檢查是否已經訂閱
     const checkSubscription = async () => {
       try {
-        // 檢查本地儲存
         const savedSubscription = localStorage.getItem("pushSubscription");
         if (savedSubscription) {
           setSubscription(JSON.parse(savedSubscription));
@@ -63,7 +60,6 @@ export default function NotificationTestPage() {
 
   const subscribeToNotifications = async () => {
     try {
-      // 首先檢查 VAPID 公鑰是否存在
       if (!vapidPublicKey) {
         setStatus("系統錯誤: VAPID 公鑰未設定，請聯繫管理員");
         console.error("VAPID 公鑰未在環境變數中設定");
@@ -85,8 +81,36 @@ export default function NotificationTestPage() {
         return;
       }
 
+      // 註冊 Service Worker
       const registration =
         await navigator.serviceWorker.register("/service-worker.js");
+
+      // 確保 Service Worker 已激活
+      if (registration.installing || registration.waiting) {
+        setStatus("等待 Service Worker 激活...");
+
+        // 等待 Service Worker 激活完成
+        await new Promise((resolve) => {
+          if (registration.installing) {
+            registration.installing.addEventListener("statechange", (e) => {
+              if ((e.target as ServiceWorker).state === "activated") {
+                resolve(true);
+              }
+            });
+          } else if (registration.waiting) {
+            registration.waiting.addEventListener("statechange", (e) => {
+              if ((e.target as ServiceWorker).state === "activated") {
+                resolve(true);
+              }
+            });
+          }
+        });
+      }
+
+      // 確保有活躍的 Service Worker
+      if (!registration.active) {
+        throw new Error("無法啟動 Service Worker");
+      }
 
       setStatus("正在訂閱推送通知...");
 
@@ -103,7 +127,6 @@ export default function NotificationTestPage() {
       );
       setSubscription(pushSubscription);
 
-      // 將訂閱信息發送到後端保存
       const response = await fetch(
         "https://api.lyhsca.org/v1/lyps/radio/subscribe",
         {
@@ -137,10 +160,8 @@ export default function NotificationTestPage() {
         throw new Error("無法找到訂閱信息");
       }
 
-      // 取消訂閱
       await subscription.unsubscribe();
 
-      // 通知後端取消訂閱
       const response = await fetch(
         "https://api.lyhsca.org/v1/lyps/radio/unsubscribe",
         {

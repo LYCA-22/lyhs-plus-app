@@ -13,6 +13,7 @@ import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { useAppSelector } from "@/store/hook";
 import { homeApps } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface App {
   name: string;
@@ -76,6 +77,7 @@ export default function Home() {
   const AUTO_PLAY_DELAY = 7000;
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [theme, setTheme] = useState<string>("");
+  const router = useRouter();
   const startProgress = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -156,13 +158,13 @@ export default function Home() {
   };
 
   return (
-    <div className="p-3 sm:p-0 max-sm:pt-5">
-      <div className="relative max-sm:px-1">
+    <div id="home-main">
+      <div className="relative">
         <Carousel
           plugins={[
             Autoplay({ delay: AUTO_PLAY_DELAY, stopOnInteraction: false }),
           ]}
-          className="rounded-2xl sm:rounded-none sm:rounded-br-none bg-gradient-to-br from-zinc-100 to-white p-5 dark:from-hoverbg dark:to-zinc-950 relative"
+          className="bg-gradient-to-br from-zinc-100 to-white p-4 pt-deviceTop dark:from-hoverbg dark:to-zinc-950 relative"
           opts={{
             align: "start",
             loop: true,
@@ -194,7 +196,7 @@ export default function Home() {
                 <div>
                   <Link
                     href="/"
-                    className="bg-primary text-background max-sm:text-xs font-medium p-2 px-4 max-sm:px-3 rounded-full hover:opacity-70 transition-all"
+                    className="bg-primary text-background font-medium p-2 px-4 max-sm:px-3 rounded-full hover:opacity-70 transition-all"
                   >
                     探索
                   </Link>
@@ -223,7 +225,7 @@ export default function Home() {
                 <div>
                   <Link
                     href="/"
-                    className="bg-primary text-medium max-sm:text-xs text-background font-medium p-2 px-4 max-sm:px-3 rounded-full hover:opacity-70 transition-all"
+                    className="bg-primary text-medium text-background font-medium p-2 px-4 max-sm:px-3 rounded-full hover:opacity-70 transition-all"
                   >
                     申請
                   </Link>
@@ -232,7 +234,7 @@ export default function Home() {
             </CarouselItem>
           </CarouselContent>
         </Carousel>
-        <div className="p-3 sm:px-7">
+        <div className="p-4 pl-6">
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
               {[0, 1].map((index) => (
@@ -259,7 +261,7 @@ export default function Home() {
                 onClick={() => {
                   scrollToSlide(currentSlide - 1);
                 }}
-                className="bg-hoverbg p-2 rounded-full hover:bg-buttonBg transition-all active:scale-95"
+                className="bg-gradient-to-br from-buttonBg to-background p-2 border-border border rounded-full transition-all active:scale-85"
               >
                 {icons["BarArrowLeft"]()}
               </button>
@@ -267,7 +269,7 @@ export default function Home() {
                 onClick={() => {
                   scrollToSlide(currentSlide + 1);
                 }}
-                className="bg-hoverbg p-2 rounded-full hover:bg-buttonBg transition-all active:scale-95"
+                className="bg-gradient-to-br from-buttonBg to-background p-2 border-border border rounded-full transition-all active:scale-85"
               >
                 {icons["BarArrowRight"]()}
               </button>
@@ -306,12 +308,12 @@ export default function Home() {
                       <p className="text-sm">{appData.name}</p>
                     </button>
                   ) : (
-                    <Link
-                      href={appData.link || "/"}
+                    <button
+                      onClick={() => router.push(appData.link || "/")}
                       className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
                     >
                       <Image
-                        alt="mailbox"
+                        alt={appData.icon}
                         src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
                         width={60}
                         height={60}
@@ -319,7 +321,7 @@ export default function Home() {
                         loading="eager"
                       />
                       <p className="text-sm">{appData.name}</p>
-                    </Link>
+                    </button>
                   )}
                 </div>
               );

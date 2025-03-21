@@ -51,8 +51,8 @@ const ContentBlock = ({
 }) => {
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12 max-sm:pt-20">
-        <div className="h-8 w-8 rounded-full border-4 border-t-primary animate-spinner-ease-spin" />
+      <div className="flex items-center justify-center py-56">
+        <div className="h-8 w-8 rounded-full border-4 border-t-primary animate-spin" />
       </div>
     );
   }

@@ -9,8 +9,7 @@ import {
   House,
   MegaphoneSimple,
 } from "@phosphor-icons/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 interface Navigator {
@@ -55,6 +54,7 @@ export function NavBar() {
   const pathname = usePathname();
   const [isPWA, setIsPWA] = useState(false);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const checkPWA = () => {
     const isStandalone = (window.navigator as Navigator).standalone;
@@ -86,30 +86,43 @@ export function NavBar() {
     fetchNews();
   }, [dispatch]);
 
+  const handleVibration = (path: string) => {
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+
+    if (
+      (path === "/" && pathname !== "/") ||
+      (path !== "/" && !pathname.startsWith(path))
+    ) {
+      router.push(path);
+    }
+  };
+
   return (
     <div className="w-full flex items-center justify-center fixed bottom-0 max-sm:relative sm:bottom-5">
       <div
-        className={`flex justify-around sm:shadow-md w-full sm:w-[450px] sm:rounded-full sm:border sm:mx-auto ${isPWA ? "pb-8 pt-2" : "py-2"} items-center bg-background dark:bg-zinc-800 z-20 border-t border-border dark:border-zinc-700`}
+        className={`flex justify-around sm:shadow-md w-full sm:w-[450px] sm:rounded-full sm:border sm:mx-auto ${isPWA ? "max-sm:pb-deviceBottom pt-2" : "py-2"} items-center bg-background dark:bg-zinc-800 z-20 border-t border-border dark:border-zinc-700`}
       >
         {appSchema.map((app) => (
-          <Link
+          <div
             key={app.path}
-            href={app.path}
-            className={`flex flex-col group items-center justify-center w-12 h-12 ${
+            onClick={() => handleVibration(app.path)}
+            className={`flex flex-col group items-center justify-center w-12 h-12 cursor-pointer ${
               (app.path === "/" && pathname === "/") ||
               (app.path !== "/" && pathname.startsWith(app.path))
                 ? "text-primary"
                 : "text-zinc-500 dark:text-zinc-400"
             }`}
           >
-            <div className="group-active:scale-75 transition-all">
+            <div className="group-active:scale-90 transition-transform duration-150 ease-out">
               {(app.path === "/" && pathname === "/") ||
               (app.path !== "/" && pathname.startsWith(app.path))
                 ? app.active_icon
                 : app.icon}
             </div>
             <span className="text-[10px] font-medium">{app.name}</span>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

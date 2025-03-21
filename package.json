@@ -11,11 +11,6 @@
     "export": "next export"
   },
   "dependencies": {
-    "@heroui/progress": "^2.2.7",
-    "@heroui/react": "^2.6.13",
-    "@heroui/system": "^2.4.6",
-    "@heroui/tabs": "^2.2.7",
-    "@heroui/theme": "^2.4.5",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-select": "^2.1.6",

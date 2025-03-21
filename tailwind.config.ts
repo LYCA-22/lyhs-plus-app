@@ -1,5 +1,4 @@
 import plugin from "tailwindcss/plugin";
-import { heroui } from "@heroui/theme";
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindScrollbarHide from "tailwind-scrollbar-hide";
@@ -15,8 +14,12 @@ const config = {
   theme: {
     extend: {
       margin: {
-        deviceTop: "var(--safe-area-inset-top)",
-        deviceBottom: "var(--safe-area-inset-bottom)",
+        deviceTop: "calc(env(safe-area-inset-top) + 10px)",
+        deviceBottom: "env(safe-area-inset-bottom)",
+      },
+      padding: {
+        deviceTop: "calc(env(safe-area-inset-top) + 10px)",
+        deviceBottom: "env(safe-area-inset-bottom)",
       },
       maxHeight: {
         "screen-56": "calc(var(--dvh) - 56px)",
@@ -80,7 +83,6 @@ const config = {
   },
   plugins: [
     tailwindcssAnimate,
-    heroui(),
     tailwindScrollbarHide,
     plugin(({ addUtilities }) => {
       addUtilities({
