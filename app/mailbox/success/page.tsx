@@ -1,10 +1,11 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { icons } from "@/components/icons";
 import Link from "next/link";
 
-export default function Page() {
+// 創建一個內部組件來使用 useSearchParams
+function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [code, setCode] = useState("");
@@ -76,5 +77,24 @@ export default function Page() {
         </Link>
       </div>
     </div>
+  );
+}
+
+// 創建一個加載狀態組件
+function LoadingState() {
+  return (
+    <div className="flex flex-col justify-center items-center h-full py-12">
+      <div className="animate-spin h-8 w-8 border-4 border-t-blue-500 rounded-full"></div>
+      <p className="mt-4">載入中...</p>
+    </div>
+  );
+}
+
+// 主頁面組件
+export default function Page() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <SuccessContent />
+    </Suspense>
   );
 }
