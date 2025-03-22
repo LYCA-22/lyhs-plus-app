@@ -8,6 +8,7 @@ import SystemCheck from "@/components/initUserCheck";
 import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/betaAlert";
 import { DynamicBack } from "@/components/dynamicBack";
+import SettingsDrawer from "@/components/settings/SettingsDrawer";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -50,6 +51,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
               </div>
             </div>
             {!pathname.startsWith("/mailbox") && <NavBar />}
+            <SettingsDrawer />
           </main>
         </div>
       </Provider>

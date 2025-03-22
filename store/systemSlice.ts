@@ -13,6 +13,7 @@ interface UserState {
   subscribe: [];
   isBack: boolean;
   BackLink: string;
+  isSetOpen: boolean;
 }
 
 const initialState: UserState = {
@@ -27,6 +28,7 @@ const initialState: UserState = {
   subscribe: [],
   isBack: false,
   BackLink: "",
+  isSetOpen: false,
 };
 
 export const systemSlice = createSlice({

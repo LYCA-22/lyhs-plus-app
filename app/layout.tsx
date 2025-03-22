@@ -54,7 +54,7 @@ export default function RootLayout({
         <meta name="robots" content="index, follow" />
       </head>
       <body>
-        <div id="_next">
+        <div id="_next" className="transition-all duration-500">
           <Providers>{children}</Providers>
         </div>
         <GoogleTagManager />

@@ -1,7 +1,7 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/store/hook";
 import { Switch } from "@/components/ui/switch";
-import { updateHomeApps, updateSystemData } from "@/store/systemSlice";
+import { updateHomeApps } from "@/store/systemSlice";
 import Image from "next/image";
 import { homeApps } from "@/types";
 import { useEffect } from "react";
@@ -38,24 +38,23 @@ export default function ShortcutsPage() {
   const homeApps = useAppSelector((state) => state.systemData.homeApps);
 
   useEffect(() => {
-    dispatch(
-      updateSystemData({
-        isBack: true,
-        BackLink: "/settings",
-      }),
-    );
     const savedApps = localStorage.getItem("lyps_homeApps");
     if (savedApps) {
       try {
         const parsedApps = JSON.parse(savedApps);
-        if (Array.isArray(parsedApps) && parsedApps.length > 0) {
+        // 檢查是否與當前狀態不同，只在不同時才更新
+        if (
+          Array.isArray(parsedApps) &&
+          parsedApps.length > 0 &&
+          JSON.stringify(parsedApps) !== JSON.stringify(homeApps)
+        ) {
           dispatch(updateHomeApps(parsedApps));
         }
       } catch (error) {
         console.error("Failed to parse homeApps from localStorage:", error);
       }
     }
-  }, [dispatch]);
+  }, [dispatch, homeApps]);
 
   useEffect(() => {
     localStorage.setItem("lyps_homeApps", JSON.stringify(homeApps));

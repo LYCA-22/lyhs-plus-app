@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useTheme } from "next-themes";
 import { ChevronRight, ArrowUpRight } from "lucide-react";
 import { SchemaGroup } from "@/types/index";
@@ -45,18 +45,18 @@ export const appSchema: SchemaGroup[] = [
       },
       {
         title: "快速捷徑",
-        type: "link",
+        type: "btn",
         isOutLink: false,
-        href: "/settings/shortcuts",
         access_manage: false,
+        btnfunction: "apps",
         icon: <ChevronRight className="w-4 h-4" />,
       },
       {
         title: "校園無聲廣播",
-        type: "link",
+        type: "btn",
         isOutLink: false,
-        href: "/settings/notification",
         access_manage: false,
+        btnfunction: "notification",
         icon: <ChevronRight className="w-4 h-4" />,
       },
     ],
@@ -70,7 +70,7 @@ export const appSchema: SchemaGroup[] = [
         isOutLink: true,
         href: "https://plus.lyhsca.org/",
         access_manage: false,
-        icon: <ArrowUpRight className="w-4 h-4" />,  // 修正了這裡，移除了不存在的 weight 屬性
+        icon: <ArrowUpRight className="w-4 h-4" />, // 修正了這裡，移除了不存在的 weight 屬性
       },
       {
         title: "使用者條款",

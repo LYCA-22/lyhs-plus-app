@@ -42,12 +42,6 @@ const appSchema: AppSchema[] = [
     active_icon: <HandFist size={25} weight="fill" />,
     path: "/lyca",
   },
-  {
-    name: "更多",
-    icon: <DotsThreeOutline size={25} />,
-    active_icon: <DotsThreeOutline size={25} weight="fill" />,
-    path: "/settings",
-  },
 ];
 
 export function NavBar() {
@@ -129,6 +123,12 @@ export function NavBar() {
           </div>
         ))}
       </div>
+      <button
+        onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
+        className={`flex items-center justify-center absolute right-5 w-10 h-10 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800 z-20 border rounded-full border-border dark:border-zinc-700`}
+      >
+        <DotsThreeOutline size={25} className="opacity-50" />
+      </button>
     </div>
   );
 }

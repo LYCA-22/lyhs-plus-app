@@ -8,7 +8,11 @@ import { closeBack } from "@/store/systemSlice";
 import { appSchema } from "./schema";
 import { schemaItem } from "@/types";
 
-export default function Page() {
+export default function SettingHome({
+  setPage,
+}: {
+  setPage: (page: string) => void;
+}) {
   const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
@@ -52,7 +56,7 @@ export default function Page() {
       case "btn":
         return (
           <button
-            onClick={item.btnfunction}
+            onClick={() => setPage(item.btnfunction || "")}
             className={`${commonClasses} w-full text-left`}
           >
             <p>{title}</p>

@@ -55,7 +55,7 @@ export interface schemaItem {
   userCheck?: boolean;
   component?: React.ReactNode;
   icon?: React.ReactNode;
-  btnfunction?: () => void;
+  btnfunction?: string;
 }
 
 export interface SchemaGroup {

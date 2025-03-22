@@ -4,7 +4,7 @@ import { urlBase64ToUint8Array } from "@/utils/base64ToUint8Array";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 
-export default function NotificationTestPage() {
+export default function NotificationPage() {
   const [status, setStatus] = useState<string>("");
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
