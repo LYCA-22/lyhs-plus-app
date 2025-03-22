@@ -42,3 +42,23 @@ export enum homeApps {
   mailSearch = "mailSearch",
   calendar = "calendar",
 }
+
+export interface schemaItem {
+  title: string;
+  title2?: string;
+  description?: string;
+  type: "link" | "btn" | "component";
+  isOutLink?: boolean;
+  href?: string;
+  href2?: string;
+  access_manage: boolean;
+  userCheck?: boolean;
+  component?: React.ReactNode;
+  icon?: React.ReactNode;
+  btnfunction?: () => void;
+}
+
+export interface SchemaGroup {
+  groupTitle: string;
+  items: schemaItem[];
+}

@@ -6,7 +6,7 @@ import { announcementSlice } from "./newsSlice";
 export const store = configureStore({
   reducer: {
     userData: userSlice.reducer,
-    systemStatus: systemSlice.reducer,
+    systemData: systemSlice.reducer,
     newsData: announcementSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

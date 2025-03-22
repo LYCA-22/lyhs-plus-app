@@ -7,8 +7,7 @@ import { usePathname } from "next/navigation";
 import SystemCheck from "@/components/initUserCheck";
 import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/betaAlert";
-import Link from "next/link";
-import { CaretLeft } from "@phosphor-icons/react";
+import { DynamicBack } from "@/components/dynamicBack";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -36,15 +35,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
             {pathname !== "/" && (
               <div className="w-full flex pt-deviceTop items-center border-b border-border p-2 py-3 bg-white dark:bg-zinc-800">
-                {pathname.startsWith("/mailbox") && (
-                  <Link href={"/"}>
-                    <CaretLeft
-                      size={22}
-                      className="text-primary"
-                      weight="bold"
-                    />
-                  </Link>
-                )}
+                <DynamicBack />
                 <div className="z-20 font-medium dark:border-borderColor mx-3">
                   {pathAllName[pathname] || "未知頁面"}
                 </div>

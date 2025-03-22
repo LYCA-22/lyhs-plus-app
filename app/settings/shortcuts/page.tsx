@@ -1,12 +1,10 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/store/hook";
 import { Switch } from "@/components/ui/switch";
-import { updateHomeApps } from "@/store/systemSlice";
+import { updateHomeApps, updateSystemData } from "@/store/systemSlice";
 import Image from "next/image";
 import { homeApps } from "@/types";
 import { useEffect } from "react";
-import Link from "next/link";
-import { CaretLeft } from "@phosphor-icons/react";
 
 const apps: Record<homeApps, { name: string; icon: string }> = {
   [homeApps.eSchool]: {
@@ -37,9 +35,15 @@ const apps: Record<homeApps, { name: string; icon: string }> = {
 
 export default function ShortcutsPage() {
   const dispatch = useAppDispatch();
-  const homeApps = useAppSelector((state) => state.systemStatus.homeApps);
+  const homeApps = useAppSelector((state) => state.systemData.homeApps);
 
   useEffect(() => {
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/settings",
+      }),
+    );
     const savedApps = localStorage.getItem("lyps_homeApps");
     if (savedApps) {
       try {
@@ -67,13 +71,6 @@ export default function ShortcutsPage() {
 
   return (
     <div className="p-7">
-      <Link
-        href="/settings"
-        className="flex items-center hover:bg-hoverbg justify-center rounded-full border border-border p-2 px-3 mb-3 w-fit"
-      >
-        <CaretLeft size={20} />
-        返回
-      </Link>
       <div className="space-y-4">
         {(Object.keys(apps) as Array<keyof typeof apps>).map((key) => (
           <div key={key} className="flex items-center justify-between py-2">

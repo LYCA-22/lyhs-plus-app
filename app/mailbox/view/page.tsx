@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiService } from "@/services/api";
 import {
   Dialog,
@@ -24,6 +24,8 @@ import {
   SquareArrowOutUpRight,
   Mail,
 } from "lucide-react";
+import { useAppDispatch } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
 
 export default function Page() {
   const [code, setCode] = useState("");
@@ -32,6 +34,16 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [projectData, setProjectData] = useState<studentData>();
   const [copied, setCopied] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/lyca",
+      }),
+    );
+  });
 
   const handleCopyCode = async () => {
     try {
@@ -73,7 +85,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-3 space-y-2">
+    <div className="flex flex-col items-center justify-center p-3 space-y-2 px-6">
       <div className="flex flex-col w-full max-w-md gap-3">
         <p className="text-foreground text-xl font-medium mt-3">
           請在下方輸入六位數查詢代碼

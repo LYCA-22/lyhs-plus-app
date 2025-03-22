@@ -100,9 +100,11 @@ export function NavBar() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center fixed bottom-0 max-sm:relative sm:bottom-5">
+    <div
+      className={`w-full flex items-center justify-center fixed bottom-0 max-sm:bg-gradient-to-t from-background to-white/10 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
+    >
       <div
-        className={`flex justify-around sm:shadow-md w-full sm:w-[450px] sm:rounded-full sm:border sm:mx-auto ${isPWA ? "max-sm:pb-deviceBottom pt-2" : "py-2"} items-center bg-background dark:bg-zinc-800 z-20 border-t border-border dark:border-zinc-700`}
+        className={`flex justify-around items-center p-1 px-2 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800 z-20 border rounded-full border-border dark:border-zinc-700`}
       >
         {appSchema.map((app) => (
           <div
@@ -121,7 +123,9 @@ export function NavBar() {
                 ? app.active_icon
                 : app.icon}
             </div>
-            <span className="text-[10px] font-medium">{app.name}</span>
+            {pathname === app.path && (
+              <div className="h-1 w-1 rounded-full bg-inputPrimary absolute bottom-2"></div>
+            )}
           </div>
         ))}
       </div>

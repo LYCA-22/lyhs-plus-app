@@ -3,13 +3,24 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { icons } from "@/components/icons";
 import Link from "next/link";
+import { useAppDispatch } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
 
-// 創建一個內部組件來使用 useSearchParams
 function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [code, setCode] = useState("");
   const [copied, setCopied] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/lyca",
+      }),
+    );
+  });
 
   useEffect(() => {
     const verificationCode = searchParams.get("code");

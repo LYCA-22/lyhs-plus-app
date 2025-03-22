@@ -1,128 +1,21 @@
 "use client";
-import { useAppSelector } from "@/store/hook";
-import { ChevronRight } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 import Link from "next/link";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useTheme } from "next-themes";
-import {
-  SlidersHorizontal,
-  SignOut,
-  ArrowSquareOut,
-} from "@phosphor-icons/react";
+import { SlidersHorizontal, SignOut } from "@phosphor-icons/react";
 import { apiService } from "@/services/api";
-
-interface schemaItem {
-  title: string;
-  title2?: string;
-  description?: string;
-  type: "link" | "btn" | "component";
-  isOutLink?: boolean;
-  href?: string;
-  href2?: string;
-  access_manage: boolean;
-  userCheck?: boolean;
-  component?: React.ReactNode;
-  icon?: React.ReactNode;
-  btnfunction?: () => void;
-}
-
-interface SchemaGroup {
-  groupTitle: string;
-  items: schemaItem[];
-}
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <Select defaultValue={theme} onValueChange={setTheme}>
-      <SelectTrigger className="w-[110px] bg-hoverbg rounded-full shadow-none">
-        <SelectValue placeholder="Theme" />
-      </SelectTrigger>
-      <SelectContent className="p-[6px] rounded-2xl gap-2 flex flex-col">
-        <SelectItem value="light" className="rounded-[10px] p-2 px-3">
-          亮色模式
-        </SelectItem>
-        <SelectItem value="dark" className="rounded-[10px] p-2 px-3">
-          暗色模式
-        </SelectItem>
-        <SelectItem value="system" className="rounded-[10px] p-2 px-3">
-          跟隨系統
-        </SelectItem>
-      </SelectContent>
-    </Select>
-  );
-}
+import { useEffect } from "react";
+import { closeBack } from "@/store/systemSlice";
+import { appSchema } from "./schema";
+import { schemaItem } from "@/types";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
+  const dispatch = useAppDispatch();
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
 
-  const appSchema: SchemaGroup[] = [
-    {
-      groupTitle: "應用程式設定",
-      items: [
-        {
-          title: "系統主題",
-          isOutLink: false,
-          type: "component",
-          access_manage: false,
-          component: <ThemeToggle />,
-        },
-        {
-          title: "快速捷徑",
-          type: "link",
-          isOutLink: false,
-          href: "/settings/shortcuts",
-          access_manage: false,
-          icon: <ChevronRight className="w-4 h-4" />,
-        },
-        {
-          title: "校園無聲廣播",
-          type: "link",
-          isOutLink: false,
-          href: "/settings/notification",
-          access_manage: false,
-          icon: <ChevronRight className="w-4 h-4" />,
-        },
-      ],
-    },
-    {
-      groupTitle: "關於",
-      items: [
-        {
-          title: "更多介紹",
-          type: "link",
-          isOutLink: true,
-          href: "https://plus.lyhsca.org/",
-          access_manage: false,
-          icon: <ArrowSquareOut className="w-4 h-4" weight="bold" />,
-        },
-        {
-          title: "使用者條款",
-          type: "link",
-          isOutLink: true,
-          href: "/terms",
-          access_manage: false,
-          icon: <ChevronRight className="w-4 h-4" />,
-        },
-        {
-          title: "隱私權政策",
-          type: "link",
-          isOutLink: true,
-          href: "/privacy",
-          access_manage: false,
-          icon: <ChevronRight className="w-4 h-4" />,
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    dispatch(closeBack());
+  });
 
   const renderItem = (item: schemaItem) => {
     if (item.access_manage && userData.type !== "staff") {
@@ -192,7 +85,7 @@ export default function Page() {
         </p>
         {!userData.name && (
           <Link
-            href="https://auth.lyhsca.org/account/login?redirect_url=https://beta.plus.lyhsca.org"
+            href="https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org"
             className="p-3 bg-primary text-background rounded-full active:scale-90 transition-all flex items-center justify-center font-medium my-3 mt-6"
           >
             登入或註冊

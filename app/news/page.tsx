@@ -1,8 +1,9 @@
 "use client";
 import { useMemo, useState, useRef, useEffect } from "react";
-import { useAppSelector } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { NewView } from "@/components/newView";
 import { Search, Sparkles } from "lucide-react";
+import { closeBack } from "@/store/systemSlice";
 const ITEMS_PER_PAGE = 8;
 
 export default function Page() {
@@ -12,6 +13,11 @@ export default function Page() {
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
   const [isLoading, setIsLoading] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(closeBack());
+  });
 
   const departments = useMemo(() => {
     const depts = new Set(NewsData.map((news) => news.department));

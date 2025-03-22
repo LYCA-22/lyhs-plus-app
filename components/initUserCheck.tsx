@@ -1,33 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { store } from "@/store/store";
-import { checkUserSession } from "@/utils/userCheck";
+import { systemLoad } from "@/utils/systemCheck";
+import { getDeviceInfo } from "@/utils/getDeviceInfo";
 
 export default function SystemCheck() {
   const [os, setOS] = useState("");
   const [browser, setBrowser] = useState("");
   const [isMobile, setIsMobile] = useState(false);
-
-  const getDeviceInfo = async () => {
-    const userAgent = navigator.userAgent;
-    let os = "Unknown";
-    let browser = "Unknown";
-
-    if (userAgent.indexOf("Win") !== -1) os = "Windows";
-    if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
-    if (userAgent.indexOf("Linux") !== -1) os = "Linux";
-    if (userAgent.indexOf("Android") !== -1) os = "Android";
-    if (userAgent.indexOf("iPhone") !== -1) os = "iOS";
-
-    if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
-    if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
-    if (userAgent.indexOf("Safari") !== -1) browser = "Safari";
-    if (userAgent.indexOf("Edge") !== -1) browser = "Edge";
-    if (userAgent.indexOf("Opera") !== -1) browser = "Opera";
-
-    setOS(os);
-    setBrowser(browser);
-  };
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -41,8 +21,8 @@ export default function SystemCheck() {
   }, []);
 
   useEffect(() => {
-    getDeviceInfo();
-    checkUserSession(store.dispatch, os, browser, isMobile);
+    getDeviceInfo(setOS, setBrowser);
+    systemLoad(store.dispatch, os, browser, isMobile);
   }, [os, browser, isMobile]);
 
   return null;

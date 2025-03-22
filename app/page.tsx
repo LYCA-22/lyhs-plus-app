@@ -12,7 +12,6 @@ import {
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { useAppSelector } from "@/store/hook";
-import { homeApps } from "@/types";
 import { useRouter } from "next/navigation";
 
 interface App {
@@ -65,12 +64,7 @@ const apps = {
 type AppKey = keyof typeof apps;
 
 export default function Home() {
-  const homeApps = useAppSelector(
-    (state) => state.systemStatus.homeApps,
-  ) as homeApps[];
-  const sysLoad = useAppSelector(
-    (state) => state.systemStatus.isLoading,
-  ) as boolean;
+  const AppData = useAppSelector((state) => state.systemData);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
   const [progress, setProgress] = useState(0);
@@ -285,8 +279,8 @@ export default function Home() {
           </button>
         </div>
         <div className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide flex-wrap max-sm:justify-evenly">
-          {!sysLoad &&
-            homeApps.map((app, index) => {
+          {!AppData.isLoading &&
+            AppData.homeApps.map((app, index) => {
               const appData = apps[app as AppKey];
               return (
                 <div key={index}>

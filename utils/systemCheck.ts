@@ -20,7 +20,7 @@ function getCookie(name: string) {
   }
 }
 
-export async function checkUserSession(
+export async function systemLoad(
   dispatch: AppDispatch,
   os: string,
   browser: string,
@@ -46,6 +46,18 @@ export async function checkUserSession(
 
   try {
     dispatch({ type: "systemStatus/setLoading", payload: true });
+    const subscribeInfo = localStorage.getItem(
+      "lyps_subscription",
+    ) as unknown as [];
+    if (subscribeInfo) {
+      dispatch(
+        updateSystemData({
+          isSubscribe: true,
+          subscribe: subscribeInfo,
+        }),
+      );
+    }
+
     const sessionId = getCookie("sessionId");
 
     if (!sessionId) {

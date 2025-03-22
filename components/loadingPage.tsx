@@ -6,7 +6,7 @@ import { useAppSelector } from "../store/hook";
 export function LoadingPage() {
   const [theme, setTheme] = useState("");
   const [imageOut, setImageOut] = useState(false);
-  const userLoading = useAppSelector((state) => state.systemStatus.isLoading);
+  const userLoading = useAppSelector((state) => state.systemData.isLoading);
   const NewsLoading = useAppSelector((state) => state.newsData.isLoading);
   const [outing, setOuting] = useState(false);
 

@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiService } from "@/services/api";
 import { icons } from "@/components/icons";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -15,6 +17,16 @@ export default function Page() {
   const [solution, setSolution] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/lyca",
+      }),
+    );
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

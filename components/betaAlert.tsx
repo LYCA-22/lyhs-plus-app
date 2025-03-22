@@ -5,7 +5,7 @@ import Image from "next/image";
 import { updateSystemData } from "@/store/systemSlice";
 
 export default function BetaAlert() {
-  const systemStatus = useAppSelector((state) => state.systemStatus);
+  const systemStatus = useAppSelector((state) => state.systemData);
   const [start, setStart] = useState<boolean>(false);
   const [theme, setTheme] = useState<string>("");
   const dispatch = useAppDispatch();

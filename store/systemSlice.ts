@@ -9,6 +9,10 @@ interface UserState {
   used: boolean;
   homeApps: homeApps[];
   isPwa: boolean;
+  isSubscribe: boolean;
+  subscribe: [];
+  isBack: boolean;
+  BackLink: string;
 }
 
 const initialState: UserState = {
@@ -19,10 +23,14 @@ const initialState: UserState = {
   used: false,
   homeApps: [],
   isPwa: false,
+  isSubscribe: false,
+  subscribe: [],
+  isBack: false,
+  BackLink: "",
 };
 
 export const systemSlice = createSlice({
-  name: "systemStatus",
+  name: "systemData",
   initialState,
   reducers: {
     updateStatus: (state, action: PayloadAction<boolean>) => {
@@ -34,8 +42,11 @@ export const systemSlice = createSlice({
     updateHomeApps: (state, action: PayloadAction<homeApps[]>) => {
       state.homeApps = action.payload;
     },
+    closeBack: (state) => {
+      state.isBack = false;
+    },
   },
 });
 
-export const { updateStatus, updateSystemData, updateHomeApps } =
+export const { updateStatus, updateSystemData, updateHomeApps, closeBack } =
   systemSlice.actions;
