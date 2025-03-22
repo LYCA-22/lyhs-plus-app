@@ -14,7 +14,7 @@ function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   return (
     <Select defaultValue={theme} onValueChange={setTheme}>
-      <SelectTrigger className="w-[110px] bg-hoverbg rounded-full shadow-none">
+      <SelectTrigger className="w-fit shadow-none border-0 p-0 text-[15px] gap-2 focus:ring-0">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
       <SelectContent className="p-[6px] rounded-2xl gap-2 flex flex-col">

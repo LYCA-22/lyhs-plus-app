@@ -9,9 +9,9 @@ import { appSchema } from "./schema";
 import { schemaItem } from "@/types";
 
 export default function SettingHome({
-  setPage,
+  setPageAction,
 }: {
-  setPage: (page: string) => void;
+  setPageAction: (page: string) => void;
 }) {
   const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ export default function SettingHome({
       case "btn":
         return (
           <button
-            onClick={() => setPage(item.btnfunction || "")}
+            onClick={() => setPageAction(item.btnfunction || "")}
             className={`${commonClasses} w-full text-left`}
           >
             <p>{title}</p>

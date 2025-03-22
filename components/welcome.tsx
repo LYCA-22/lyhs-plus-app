@@ -61,7 +61,7 @@ export default function BetaAlert() {
               priority
               loading="eager"
             />
-            <h1 className="text-xl font-bold m-2">歡迎使用 LYHS+ 測試版</h1>
+            <h1 className="text-xl font-bold m-2">歡迎使用 LYHS+</h1>
             <p>
               非常感謝你願意支持我們的應用程式！提醒您此應用程式正處於測試階段，可能會發生一些錯誤和無效回應。
             </p>

@@ -4,7 +4,6 @@ import { Switch } from "@/components/ui/switch";
 import { updateHomeApps } from "@/store/systemSlice";
 import Image from "next/image";
 import { homeApps } from "@/types";
-import { useEffect } from "react";
 
 const apps: Record<homeApps, { name: string; icon: string }> = {
   [homeApps.eSchool]: {
@@ -37,35 +36,13 @@ export default function ShortcutsPage() {
   const dispatch = useAppDispatch();
   const homeApps = useAppSelector((state) => state.systemData.homeApps);
 
-  useEffect(() => {
-    const savedApps = localStorage.getItem("lyps_homeApps");
-    if (savedApps) {
-      try {
-        const parsedApps = JSON.parse(savedApps);
-        // 檢查是否與當前狀態不同，只在不同時才更新
-        if (
-          Array.isArray(parsedApps) &&
-          parsedApps.length > 0 &&
-          JSON.stringify(parsedApps) !== JSON.stringify(homeApps)
-        ) {
-          dispatch(updateHomeApps(parsedApps));
-        }
-      } catch (error) {
-        console.error("Failed to parse homeApps from localStorage:", error);
-      }
-    }
-  }, [dispatch, homeApps]);
-
-  useEffect(() => {
-    localStorage.setItem("lyps_homeApps", JSON.stringify(homeApps));
-  }, [homeApps]);
-
   const handleToggle = (appKey: homeApps) => {
     const newApps = homeApps.includes(appKey)
       ? homeApps.filter((app: homeApps) => app !== appKey)
       : [...homeApps, appKey];
 
     dispatch(updateHomeApps(newApps as homeApps[]));
+    localStorage.setItem("lyps_homeApps", JSON.stringify(newApps));
   };
 
   return (

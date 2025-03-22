@@ -30,7 +30,7 @@ export default function RootLayout({
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-        <meta name="theme-color" content="#ffffff00" />
+        <meta name="theme-color" content="#000000" />
         <meta
           name="apple-mobile-web-app-title"
           content="LYHS+"

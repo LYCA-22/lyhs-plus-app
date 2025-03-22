@@ -6,9 +6,9 @@ import { LoadingPage } from "@/components/loadingPage";
 import { usePathname } from "next/navigation";
 import SystemCheck from "@/components/initUserCheck";
 import { NavBar } from "@/components/navBar";
-import BetaAlert from "@/components/betaAlert";
+import BetaAlert from "@/components/welcome";
 import { DynamicBack } from "@/components/dynamicBack";
-import SettingsDrawer from "@/components/settings/SettingsDrawer";
+import SettingsDrawer from "@/components/settings/drawer";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

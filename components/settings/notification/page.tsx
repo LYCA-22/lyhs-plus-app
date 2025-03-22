@@ -34,7 +34,7 @@ export default function NotificationPage() {
     };
 
     checkSubscription();
-  }, [AppData]);
+  }, [AppData, dispatch]);
 
   const subscribeToNotifications = async () => {
     try {

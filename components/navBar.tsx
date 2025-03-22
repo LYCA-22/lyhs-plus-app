@@ -65,7 +65,7 @@ export function NavBar() {
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
     mediaQuery.addListener(checkPWA);
     return () => mediaQuery.removeListener(checkPWA);
-  }, []);
+  });
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -95,10 +95,10 @@ export function NavBar() {
 
   return (
     <div
-      className={`w-full flex items-center justify-center fixed bottom-0 max-sm:bg-gradient-to-t from-background to-white/10 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
+      className={`w-full flex items-center justify-center fixed bottom-0 max-sm:bg-gradient-to-t from-background to-white/10 dark:to-gray-800/10 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
     >
       <div
-        className={`flex justify-around items-center p-1 px-2 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800 z-20 border rounded-full border-border dark:border-zinc-700`}
+        className={`flex justify-around items-center p-1 px-2 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800/75 z-20 border rounded-full border-border dark:border-zinc-700`}
       >
         {appSchema.map((app) => (
           <div
@@ -125,9 +125,9 @@ export function NavBar() {
       </div>
       <button
         onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
-        className={`flex items-center justify-center absolute right-5 w-10 h-10 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800 z-20 border rounded-full border-border dark:border-zinc-700`}
+        className={`flex items-center justify-center absolute right-5 w-10 h-10 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800/50 z-20 border rounded-full border-border dark:border-zinc-700`}
       >
-        <DotsThreeOutline size={25} className="opacity-50" />
+        <DotsThreeOutline size={22} className="opacity-50" />
       </button>
     </div>
   );

@@ -7,7 +7,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { CaretLeft, X } from "@phosphor-icons/react";
-import SettingHome from "./page";
+import SettingHome from "./main";
 import NotificationPage from "./notification/page";
 import ShortcutsPage from "./shortcuts/page";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
@@ -20,7 +20,7 @@ export default function SettingsDrawer() {
 
   const PageReturn = () => {
     if (page === "") {
-      return <SettingHome setPage={setPage} />;
+      return <SettingHome setPageAction={setPage} />;
     } else if (page === "notification") {
       return <NotificationPage />;
     } else if (page === "apps") {
@@ -31,6 +31,7 @@ export default function SettingsDrawer() {
   useEffect(() => {
     if (AppData.isSetOpen) {
       const root = document.getElementById("_next");
+      root?.classList.add("rounded-xl");
       root?.classList.add("scale-90");
     }
   }, [AppData]);
@@ -39,6 +40,7 @@ export default function SettingsDrawer() {
     const root = document.getElementById("_next");
     root?.classList.remove("scale-90");
     dispatch(updateSystemData({ isSetOpen: false }));
+    root?.classList.remove("rounded-xl");
   };
 
   return (
