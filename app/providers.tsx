@@ -34,7 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <BetaAlert />
         <div className="w-full flex items-center justify-center">
           <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
-            {pathname !== "/" && (
+            {pathname !== "/" && pathname !== "/news" && (
               <div className="w-full flex pt-deviceTop items-center border-b border-border p-2 py-3 bg-white dark:bg-zinc-800">
                 <DynamicBack />
                 <div className="z-20 font-medium dark:border-borderColor mx-3">

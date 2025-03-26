@@ -2,12 +2,14 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { NewView } from "@/components/newView";
-import { Search, Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 import { closeBack } from "@/store/systemSlice";
+import { formatDate } from "@/utils/formatDate";
 const ITEMS_PER_PAGE = 8;
 
 export default function Page() {
   const NewsData = useAppSelector((state) => state.newsData.announcements);
+  const AppData = useAppSelector((state) => state.systemData);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
@@ -21,11 +23,11 @@ export default function Page() {
 
   const departments = useMemo(() => {
     const depts = new Set(NewsData.map((news) => news.department));
-    return ["all", ...Array.from(depts)];
+    return ["all", "學生公告", ...Array.from(depts)];
   }, [NewsData]);
 
   const filteredNews = useMemo(() => {
-    if (selectedDepartment !== "學生須知") {
+    if (selectedDepartment !== "學生公告") {
       return NewsData.filter((news) => {
         const matchDepartment =
           selectedDepartment === "all" ||
@@ -39,19 +41,16 @@ export default function Page() {
       const displayNews = [];
       const text = [
         "補考",
-        "教育",
-        "報名",
-        "學生",
-        "學生證",
-        "學生證件",
-        "學生證明",
-        "學生證明文件",
         "段考",
+        "選修",
         "學測",
         "指考",
         "分科",
         "分發",
         "分發結果",
+        "繁星",
+        "編班名單",
+        "獎學金",
       ];
 
       for (let i = 0; i < NewsData.length; i++) {
@@ -94,54 +93,19 @@ export default function Page() {
     setDisplayCount(ITEMS_PER_PAGE);
   }, [selectedDepartment, searchQuery]);
 
-  const formatDate = (dateString: string): string => {
-    const now = new Date();
-    const date = new Date(dateString.replace(/\//g, "-"));
-    const diffTime = now.getTime() - date.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    // 如果是今天
-    if (diffDays === 0) {
-      const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-      if (diffHours < 24) {
-        if (diffHours === 0) {
-          const diffMinutes = Math.floor(diffTime / (1000 * 60));
-          if (diffMinutes < 60) {
-            return diffMinutes <= 0 ? "剛剛" : `${diffMinutes}分鐘前`;
-          }
-        }
-        return `${diffHours}小時前`;
-      }
-      return "今天";
-    }
-
-    // 如果是昨天
-    if (diffDays === 1) {
-      return "昨天";
-    }
-
-    // 如果是前天
-    if (diffDays === 2) {
-      return "前天";
-    }
-
-    // 如果是7天內
-    if (diffDays < 7) {
-      return `${diffDays}天前`;
-    }
-
-    // 如果是今年內
-    if (now.getFullYear() === date.getFullYear()) {
-      return `${date.getMonth() + 1}月${date.getDate()}日`;
-    }
-
-    // 其他情況返回完整日期
-    return dateString;
-  };
-
   return (
     <div className="relative w-full max-sm:w-screen">
-      <div className="sticky top-0 bg-background p-3 z-20 flex flex-col px-0">
+      <div
+        className={`flex px-5 ${AppData.isPwa ? "mt-deviceTop" : "mt-5"} justify-between`}
+      >
+        <h1 className={`text-2xl font-medium`}>校園公告</h1>
+        <button>
+          <Search className="text-zinc-500 dark:text-zinc-200" size={20} />
+        </button>
+      </div>
+      <div
+        className={`sticky ${AppData.isPwa ? "top-9" : "top-0"} p-3 z-20 flex flex-col px-0`}
+      >
         <div className="flex flex-col gap-3">
           <div className="p-2 px-4 rounded-full w-11/12 flex items-center gap-2 bg-hoverbg max-sm:hidden mx-4">
             <Search className="text-borderColor" size={20} />
@@ -153,34 +117,33 @@ export default function Page() {
               className="ring-0 grow bg-transparent focus:outline-none text-foreground"
             />
           </div>
-          <div className="sm:hidden flex fixed top-[14px] right-5 text-foreground">
-            <Search size={20} />
-          </div>
-          <div className="flex gap-2 overflow-x-auto w-full px-4 scrollbar-hide scroll-smooth">
-            <button
-              onClick={() => setSelectedDepartment("學生須知")}
-              className={`px-4 py-1 rounded-full whitespace-nowrap transition-all flex items-center gap-2 font-bold ${
-                selectedDepartment === "學生須知"
-                  ? "bg-foreground text-background bg-gradient-to-br from-orange-300 to-blue-500"
-                  : "hover:bg-buttonBg bg-hoverbg"
-              }`}
-            >
-              <Sparkles size={20} />
-              學生公告
-            </button>
-            {departments.map((dept) => (
-              <button
-                key={dept}
-                onClick={() => setSelectedDepartment(dept)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all font-medium ${
-                  selectedDepartment === dept
-                    ? "bg-sky-100 dark:bg-sky-900 text-sky-600 dark:text-blue-200"
-                    : "bg-hoverbg hover:bg-buttonBg"
-                }`}
-              >
-                {dept === "all" ? "全部" : dept}
-              </button>
-            ))}
+          <div className="flex gap-2 grow scrollbar-hide scroll-smooth p-2 px-4">
+            <div className="overflow-x-auto bg-zinc-900/70 dark:bg-zinc-50/70 backdrop-blur-md flex rounded-2xl overflow-y-hidden shadow-lg border border-borderColor scrollbar-hide">
+              {departments.map((dept, index) => {
+                const isActive = selectedDepartment === dept;
+                const isPrevActive =
+                  index > 0 && selectedDepartment === departments[index - 1];
+
+                return (
+                  <div key={index} className="flex items-center">
+                    {!isActive && !isPrevActive && index !== 0 && (
+                      <div className="w-[2px] bg-zinc-400 min-h-5 rounded-full"></div>
+                    )}
+                    <button
+                      key={dept}
+                      onClick={() => setSelectedDepartment(dept)}
+                      className={`p-3 px-4 rounded-xl whitespace-nowrap transition-all font-medium ${
+                        isActive
+                          ? "bg-background dark:bg-foreground text-foreground dark:text-background"
+                          : "text-background"
+                      }`}
+                    >
+                      {dept === "all" ? "全部" : dept}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
