@@ -56,9 +56,5 @@ export interface schemaItem {
   component?: React.ReactNode;
   icon?: React.ReactNode;
   btnfunction?: string;
-}
-
-export interface SchemaGroup {
-  groupTitle: string;
-  items: schemaItem[];
+  itemIcon: React.ReactNode;
 }

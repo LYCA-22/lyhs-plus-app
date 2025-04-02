@@ -50,7 +50,7 @@ export default function ShortcutsPage() {
       <div className="space-y-4">
         {(Object.keys(apps) as Array<keyof typeof apps>).map((key) => (
           <div key={key} className="flex items-center justify-between py-2">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 text-lg">
               <Image
                 src={`/serviceIcon/${apps[key as homeApps].icon}.svg`}
                 alt={apps[key as homeApps].name}
@@ -66,7 +66,7 @@ export default function ShortcutsPage() {
           </div>
         ))}
       </div>
-      <div className="border-t border-border my-4 p-3">
+      <div className="border-t-2 border-border mt-6 p-3">
         <p className="text-center text-sm text-muted-foreground">
           你可以在這裡依據你的使用頻率和個性設定要顯示在首頁的捷徑。
         </p>

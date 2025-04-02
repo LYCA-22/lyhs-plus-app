@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { closeBack } from "@/store/systemSlice";
 import { appSchema } from "./schema";
 import { schemaItem } from "@/types";
+import Image from "next/image";
 
 export default function SettingHome({
   setPageAction,
@@ -43,13 +44,16 @@ export default function SettingHome({
       : item.href;
 
     const commonClasses =
-      "flex items-center justify-between py-3 hover:opacity-60 transition-all";
+      "flex items-center justify-between py-3 hover:opacity-60 transition-all text-lg";
 
     switch (item.type) {
       case "component":
         return (
           <div className={commonClasses}>
-            <p>{item.title}</p>
+            <div className="flex items-center gap-3">
+              {item.itemIcon}
+              <p className="font-medium">{item.title}</p>
+            </div>
             {item.component}
           </div>
         );
@@ -59,8 +63,11 @@ export default function SettingHome({
             onClick={() => setPageAction(item.btnfunction || "")}
             className={`${commonClasses} w-full text-left`}
           >
-            <p>{title}</p>
-            {item.icon && item.icon}
+            <div className="flex items-center gap-3">
+              {item.itemIcon}
+              <p className="font-medium">{title}</p>
+            </div>
+            <div className="opacity-40">{item.icon && item.icon}</div>
           </button>
         );
       case "link":
@@ -70,8 +77,11 @@ export default function SettingHome({
             target={item.isOutLink ? "_blank" : "_self"}
             className={commonClasses}
           >
-            <p>{title}</p>
-            {item.icon && item.icon}
+            <div className="flex items-center gap-3">
+              {item.itemIcon}
+              <p className="font-medium">{title}</p>
+            </div>
+            <div className="opacity-40">{item.icon && item.icon}</div>
           </Link>
         );
     }
@@ -83,14 +93,14 @@ export default function SettingHome({
 
   return (
     <div className="relative">
-      <div className="w-full bg-hoverbg mb-4 p-5 px-6 flex flex-col">
+      <div className="bg-gradient-to-br from-buttonBg dark:from-zinc-700 to-white dark:to-zinc-900 m-4 mt-0 p-5 rounded-[30px] border-border border shadow-xl px-6 flex flex-col">
         <p className="text-3xl font-medium">
           {userData.name ? <>{userData.name}</> : <>登入享用完整服務</>}
         </p>
         {!userData.name && (
           <Link
             href="https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org"
-            className="p-3 bg-primary text-background rounded-full active:scale-90 transition-all flex items-center justify-center font-medium my-3 mt-6"
+            className="p-3 bg-primary text-background rounded-full active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
           >
             登入或註冊
           </Link>
@@ -114,28 +124,31 @@ export default function SettingHome({
           </div>
         )}
       </div>
-      <ul className="list-none flex flex-col gap-2">
-        {appSchema.map((group, groupIndex) => (
-          <li
-            key={groupIndex}
-            className="flex flex-col px-5 bg-background transition-all"
-          >
-            <h3 className="text-lg font-medium">{group.groupTitle}</h3>
-            <div className="flex flex-col">
-              {group.items.map((item, index) => (
-                <div
-                  key={index}
-                  className="border-b border-borderColor last:border-b-0"
-                >
-                  {renderItem(item)}
-                </div>
-              ))}
-            </div>
+      <ul className="list-none flex flex-col">
+        {appSchema.map((item, index) => (
+          <li key={index} className="flex flex-col transition-all mx-7 pt-1">
+            {renderItem(item)}
+            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
           </li>
         ))}
       </ul>
-      <div className="flex items-center justify-center p-2 font-mono text-sm opacity-40">
-        Version {version}
+      <div className="flex flex-col items-center m-5 mt-10 gap-2">
+        <Image
+          alt="LycaLogo"
+          src="/lyca/lyca-logo.svg"
+          width={20}
+          height={20}
+          className="opacity-30"
+        />
+        <div className="text-center">
+          <h1 className="opacity-40 font-medium">林園班聯 版權所有</h1>
+          <p className="text-sm opacity-40 font-normal">
+            本平台由林園高中班聯會資訊組建置與維護
+          </p>
+        </div>
+        <div className="flex items-center justify-center font-mono text-sm opacity-40">
+          Version {version}
+        </div>
       </div>
     </div>
   );

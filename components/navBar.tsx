@@ -95,7 +95,7 @@ export function NavBar() {
 
   return (
     <div
-      className={`w-full flex items-center justify-center fixed bottom-0 max-sm:bg-gradient-to-t from-background to-white/10 dark:to-gray-800/10 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
+      className={`w-full flex items-center justify-center fixed bottom-0 bg-gradient-to-t from-background to-white/10 dark:to-gray-800/10 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
     >
       <div
         className={`flex justify-around items-center p-1 px-2 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800/75 z-20 border rounded-full border-border dark:border-zinc-700`}

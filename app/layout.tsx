@@ -54,8 +54,14 @@ export default function RootLayout({
         <meta name="robots" content="index, follow" />
       </head>
       <body>
-        <div id="_next" className="transition-all duration-500">
+        <div id="_next" className="transition-all duration-500 sm:hidden">
           <Providers>{children}</Providers>
+        </div>
+        <div
+          aria-label="no-phone-alert-window"
+          className="w-full h-full flex items-center justify-center bg-white max-sm:hidden"
+        >
+          <h1>請使用手機瀏覽此網頁</h1>
         </div>
         <GoogleTagManager />
       </body>

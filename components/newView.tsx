@@ -4,17 +4,14 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
   DrawerClose,
 } from "@/components/ui/drawer";
-import { icons } from "./icons";
 import { apiService } from "@/services/api";
 import {
   Folder,
@@ -139,17 +136,22 @@ const ContentBlock = ({
   );
 };
 
-export function NewView({ url }: { url: string }) {
+export function NewView({
+  url,
+  setUrlAction,
+}: {
+  url: string;
+  setUrlAction: (url: string) => void;
+}) {
   const [loading, setLoading] = useState<boolean>(true);
   const [adData, setAdData] = useState<AdItem | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  // 檢測設備類型
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 640); // 'sm' breakpoint is typically 640px
+      setIsMobile(window.innerWidth < 640);
     };
 
     checkIsMobile();
@@ -162,6 +164,9 @@ export function NewView({ url }: { url: string }) {
 
   useEffect(() => {
     if (isOpen) {
+      const root = document.getElementById("_next");
+      root?.classList.add("rounded-3xl");
+      root?.classList.add("scale-90");
       const getData = async (url: string) => {
         setLoading(true);
         const result = await apiService.getAnnouncement(
@@ -173,85 +178,53 @@ export function NewView({ url }: { url: string }) {
         setLoading(false);
       };
       getData(url);
+    } else {
+      const root = document.getElementById("_next");
+      root?.classList.remove("scale-90");
+      root?.classList.remove("rounded-3xl");
     }
   }, [isOpen, url]);
 
   useEffect(() => {
-    if (isOpen) {
-      window.postMessage(
-        {
-          type: "Open",
-          payload: "視窗打開",
-        },
-        "*",
-      );
+    if (url !== "") {
+      setIsOpen(true);
     } else {
-      window.postMessage(
-        {
-          type: "Close",
-          payload: "視窗關閉",
-        },
-        "*",
-      );
+      setIsOpen(false);
     }
-  }, [isOpen]);
+  }, [url]);
 
-  // 共用的觸發器按鈕
-  const triggerButtonContent = (
-    <>
-      <div className="opacity-50 flex items-center gap-1 font-normal text-sm z-20">
-        {icons["eye"]()}
-        詳細資訊
-      </div>
-      <div className="absolute w-full h-full bg-hoverbg scale-75 z-10 opacity-0 top-0 right-0 rounded-full transition-all group-hover:opacity-100 group-hover:scale-100 group-active:bg-buttonBg" />
-    </>
-  );
-
-  const handleClick = () => {
-    setIsOpen(true);
-  };
-
-  return (
-    <div>
-      {/* 根據螢幕大小決定使用哪個組件 */}
-      {isMobile ? (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
-          <DrawerTrigger
-            onClick={handleClick}
-            className="flex gap-1 p-2 px-3 w-fit rounded-full mt-2 bg-transparent relative group -translate-x-3 cursor-pointer"
-          >
-            {triggerButtonContent}
-          </DrawerTrigger>
-          <DrawerContent className="h-[85vh]">
-            <DrawerHeader className="flex justify-between items-center">
-              <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
-              <DrawerClose className="bg-rootBg hover:bg-foreground hover:text-background transition-colors rounded-full p-2">
-                <X size={20} />
-              </DrawerClose>
-            </DrawerHeader>
-            <div className="px-4 pb-8 overflow-y-auto">
-              <ContentBlock loading={loading} error={error} adData={adData} />
-            </div>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger
-            onClick={handleClick}
-            className="flex gap-1 p-2 px-3 w-fit rounded-full mt-2 bg-transparent relative group -translate-x-3 cursor-pointer"
-          >
-            {triggerButtonContent}
-          </DialogTrigger>
-          <DialogContent className="max-h-[85vh] w-[90vw] max-w-3xl">
-            <DialogHeader className="flex justify-between items-center">
-              <DialogTitle className="text-xl">公告詳細內容</DialogTitle>
-            </DialogHeader>
-            <div className="mt-4 overflow-y-auto">
-              <ContentBlock loading={loading} error={error} adData={adData} />
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-    </div>
-  );
+  if (isMobile) {
+    return (
+      <Drawer
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        onClose={() => setUrlAction("")}
+      >
+        <DrawerContent className="transition-transform duration-300 ease-out pb-5 h-[85vh] rounded-t-3xl">
+          <DrawerHeader className="flex justify-between items-center rounded-t-3xl">
+            <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
+            <DrawerClose className="hover:bg-foreground bg-buttonBg hover:text-background transition-colors rounded-full p-2">
+              <X size={20} strokeWidth={4} className="opacity-50" />
+            </DrawerClose>
+          </DrawerHeader>
+          <div className="px-4 pb-8 overflow-y-auto">
+            <ContentBlock loading={loading} error={error} adData={adData} />
+          </div>
+        </DrawerContent>
+      </Drawer>
+    );
+  } else {
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-h-[85vh] w-[90vw] max-w-3xl">
+          <DialogHeader className="flex justify-between items-center">
+            <DialogTitle className="text-xl">公告詳細內容</DialogTitle>
+          </DialogHeader>
+          <div className="mt-4 overflow-y-auto">
+            <ContentBlock loading={loading} error={error} adData={adData} />
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 }

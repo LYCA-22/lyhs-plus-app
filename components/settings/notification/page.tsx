@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { urlBase64ToUint8Array } from "@/utils/base64ToUint8Array";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
+import { Rss } from "lucide-react";
 
 export default function NotificationPage() {
   const [status, setStatus] = useState<string>("");
@@ -127,7 +128,7 @@ export default function NotificationPage() {
 
   return (
     <div className="container mx-auto px-4 pb-6 max-w-lg">
-      <div className="bg-hoverbg p-6 rounded-2xl my-4">
+      <div className="bg-hoverbg p-6 rounded-3xl my-4">
         <h2 className="text-lg font-semibold mb-2">通知服務狀態</h2>
         <p
           className={`mb-4 ${isSubscribed ? "text-green-600" : "text-foreground"}`}
@@ -140,15 +141,16 @@ export default function NotificationPage() {
             <>
               <button
                 onClick={subscribeToNotifications}
-                className={`py-2 px-4 rounded-xl font-medium text-white ${
+                className={`py-2 px-4 rounded-full font-medium text-white flex items-center justify-center gap-3 ${
                   isSubscribed
                     ? "bg-red-600 hover:bg-red-700"
                     : "bg-blue-600 hover:bg-blue-700"
                 }`}
               >
+                <Rss size={20} strokeWidth={3} />
                 訂閱通知
               </button>
-              <div className="text-sm text-foreground mt-2">
+              <div className="text-sm text-foreground mt-2 opacity-40">
                 <p>訂閱後，即使您未開啟網站，也能收到重要更新和通知</p>
               </div>
             </>
@@ -170,9 +172,9 @@ export default function NotificationPage() {
         </div>
       )}
 
-      <div className="mt-8 px-2">
+      <div className="my-8 px-2">
         <h2 className="text-lg font-semibold mb-2">相關說明</h2>
-        <ul className="list-disc list-inside text-foreground space-y-1">
+        <ul className="list-inside text-foreground space-y-1">
           <li>訂閱通知需要您的瀏覽器授予權限</li>
           <li>您可以隨時取消訂閱</li>
           <li>通知會顯示學校重要公告和活動</li>
