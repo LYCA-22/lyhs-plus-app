@@ -1,13 +1,13 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import Link from "next/link";
-import { SlidersHorizontal, SignOut } from "@phosphor-icons/react";
 import { apiService } from "@/services/api";
 import { useEffect } from "react";
 import { closeBack } from "@/store/systemSlice";
 import { appSchema } from "./schema";
 import { schemaItem } from "@/types";
 import Image from "next/image";
+import { ChevronRight, IdCard, LogOut } from "lucide-react";
 
 export default function SettingHome({
   setPageAction,
@@ -93,44 +93,51 @@ export default function SettingHome({
 
   return (
     <div className="relative">
-      <div className="bg-gradient-to-br from-buttonBg dark:from-zinc-700 to-white dark:to-zinc-900 m-4 mt-0 p-5 rounded-[30px] border-border border shadow-xl px-6 flex flex-col">
-        <p className="text-3xl font-medium">
-          {userData.name ? <>{userData.name}</> : <>登入享用完整服務</>}
-        </p>
-        {!userData.name && (
+      {userData.name && (
+        <div className="bg-gradient-to-br from-buttonBg dark:from-zinc-700 to-white dark:to-zinc-900 m-4 mt-0 p-5 rounded-[30px] border-border border shadow-xl px-6 flex flex-col">
+          <p className="text-3xl font-medium">登入享用完整服務</p>
           <Link
             href="https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org"
             className="p-3 bg-primary text-background rounded-full active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
           >
             登入或註冊
           </Link>
-        )}
-        {userData.name && (
-          <div className="flex mt-6 gap-4">
-            <Link
-              href={"/account"}
-              className="bg-background flex flex-col w-28 p-4 font-medium text-medium gap-1 rounded-xl border border-border items-center justify-center"
-            >
-              <SlidersHorizontal size={25} />
-              管理帳號
-            </Link>
-            <button
-              onClick={() => Logout(userData.sessionId)}
-              className="bg-background flex flex-col w-28 p-4 font-medium text-medium gap-1 rounded-xl border border-border items-center justify-center"
-            >
-              <SignOut size={25} />
-              登出
-            </button>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
       <ul className="list-none flex flex-col">
+        {!userData.name && (
+          <>
+            <li className="flex flex-col transition-all mx-7 pt-1">
+              <div className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg">
+                <div className="flex items-center gap-3">
+                  <IdCard size={24} strokeWidth={2.5} />
+                  顯示名稱
+                </div>
+                <p className="opacity-50">{userData.name || "發生錯誤"}</p>
+              </div>
+              <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+            </li>
+          </>
+        )}
         {appSchema.map((item, index) => (
           <li key={index} className="flex flex-col transition-all mx-7 pt-1">
             {renderItem(item)}
             <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
           </li>
         ))}
+        <li className="flex flex-col transition-all mx-7 pt-1">
+          <button
+            onClick={() => Logout(userData.sessionId)}
+            className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg"
+          >
+            <div className="flex items-center gap-3">
+              <LogOut size={24} strokeWidth={2.5} />
+              登出帳號
+            </div>
+            <ChevronRight className="opacity-40" size={22} strokeWidth={2.5} />
+          </button>
+          <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+        </li>
       </ul>
       <div className="flex flex-col items-center m-5 mt-10 gap-2">
         <Image

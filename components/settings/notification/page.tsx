@@ -13,14 +13,17 @@ export default function NotificationPage() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/settings",
+      }),
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
     const checkSubscription = async () => {
       try {
-        dispatch(
-          updateSystemData({
-            isBack: true,
-            BackLink: "/settings",
-          }),
-        );
         const isSubscribe = AppData.isSubscribe;
         if (isSubscribe) {
           setIsSubscribed(true);
@@ -35,7 +38,7 @@ export default function NotificationPage() {
     };
 
     checkSubscription();
-  }, [AppData, dispatch]);
+  }, [AppData.isSubscribe]); // 只依賴於 AppData.isSubscribe，而不是整個 AppData
 
   const subscribeToNotifications = async () => {
     try {
@@ -116,6 +119,12 @@ export default function NotificationPage() {
         throw new Error("伺服器儲存訂閱失敗");
       }
 
+      dispatch(
+        updateSystemData({
+          isSubscribe: true,
+        }),
+      );
+
       setIsSubscribed(true);
       setStatus("成功訂閱通知！");
     } catch (error) {
@@ -127,51 +136,28 @@ export default function NotificationPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 pb-6 max-w-lg">
-      <div className="bg-hoverbg p-6 rounded-3xl my-4">
-        <h2 className="text-lg font-semibold mb-2">通知服務狀態</h2>
-        <p
-          className={`mb-4 ${isSubscribed ? "text-green-600" : "text-foreground"}`}
-        >
-          {status}
-        </p>
-
+    <div className="container pb-6 px-7">
+      <div className="flex justify-between items-center mx-2 my-3">
+        <div className="flex items-center gap-3">
+          <Rss size={24} strokeWidth={3} />
+          <div className="flex flex-col">
+            <h2 className="text-lg font-semibold">通知服務狀態</h2>
+            <p className={`opacity-50`}>{status}</p>
+          </div>
+        </div>
         <div className="flex flex-col space-y-4">
-          {!isSubscribed && (
-            <>
-              <button
-                onClick={subscribeToNotifications}
-                className={`py-2 px-4 rounded-full font-medium text-white flex items-center justify-center gap-3 ${
-                  isSubscribed
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-blue-600 hover:bg-blue-700"
-                }`}
-              >
-                <Rss size={20} strokeWidth={3} />
-                訂閱通知
-              </button>
-              <div className="text-sm text-foreground mt-2 opacity-40">
-                <p>訂閱後，即使您未開啟網站，也能收到重要更新和通知</p>
-              </div>
-            </>
-          )}
-          {isSubscribed && (
-            <div className="text-sm text-gray-600 mt-2">
-              <p>您將接收到來自 LYHS Plus 的通知</p>
-            </div>
-          )}
+          <button
+            disabled={isSubscribed}
+            onClick={subscribeToNotifications}
+            className={`py-2 px-4 rounded-full font-medium text-white flex items-center justify-center gap-3 ${
+              isSubscribed ? "bg-green-600" : "bg-blue-600"
+            }`}
+          >
+            {isSubscribed ? "已啟用" : "啟用"}
+          </button>
         </div>
       </div>
-
-      {isSubscribed && (
-        <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
-          <h3 className="font-medium text-green-800 mb-2">通知已開啟</h3>
-          <p className="text-green-700 text-sm">
-            您已成功訂閱通知。系統管理員發送的重要消息將會顯示在您的設備上。
-          </p>
-        </div>
-      )}
-
+      <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
       <div className="my-8 px-2">
         <h2 className="text-lg font-semibold mb-2">相關說明</h2>
         <ul className="list-inside text-foreground space-y-1">
