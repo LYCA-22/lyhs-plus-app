@@ -177,4 +177,22 @@ export const apiService = {
       throw error;
     }
   },
+  async addRepair(formData: FormData) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/v1/lyps/repair/add`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        return;
+      } else {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  },
 };

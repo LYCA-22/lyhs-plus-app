@@ -41,6 +41,7 @@ export enum homeApps {
   mailBox = "mailBox",
   mailSearch = "mailSearch",
   calendar = "calendar",
+  repair = "repair",
 }
 
 export interface schemaItem {

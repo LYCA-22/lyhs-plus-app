@@ -1,9 +1,7 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { useAppSelector } from "@/store/hook";
 import Link from "next/link";
 import { apiService } from "@/services/api";
-import { useEffect } from "react";
-import { closeBack } from "@/store/systemSlice";
 import { appSchema } from "./schema";
 import { schemaItem } from "@/types";
 import Image from "next/image";
@@ -15,12 +13,7 @@ export default function SettingHome({
   setPageAction: (page: string) => void;
 }) {
   const userData = useAppSelector((state) => state.userData);
-  const dispatch = useAppDispatch();
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
-
-  useEffect(() => {
-    dispatch(closeBack());
-  });
 
   const renderItem = (item: schemaItem) => {
     if (item.access_manage && userData.type !== "staff") {

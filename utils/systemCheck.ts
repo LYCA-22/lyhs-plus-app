@@ -37,6 +37,7 @@ export async function systemLoad(
         "mailBox",
         "mailSearch",
         "calendar",
+        "repair",
       ];
   const used = end === "true" ? true : false;
 

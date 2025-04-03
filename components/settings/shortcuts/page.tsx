@@ -30,6 +30,10 @@ const apps: Record<homeApps, { name: string; icon: string }> = {
     name: "行事曆",
     icon: "calendar",
   },
+  [homeApps.repair]: {
+    name: "線上報修",
+    icon: "repair",
+  },
 };
 
 export default function ShortcutsPage() {

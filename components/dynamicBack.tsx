@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/store/hook";
-import { CaretLeft } from "@phosphor-icons/react";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 export function DynamicBack() {
@@ -8,7 +8,7 @@ export function DynamicBack() {
   if (AppData.isBack) {
     return (
       <Link href={AppData.BackLink}>
-        <CaretLeft size={22} className="text-primary" weight="bold" />
+        <ChevronLeft size={22} strokeWidth={3} className="text-primary" />
       </Link>
     );
   }

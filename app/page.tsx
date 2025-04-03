@@ -59,6 +59,12 @@ const apps = {
     link: "/calendar",
     type: "link",
   } as App,
+  repair: {
+    name: "線上報修",
+    icon: "repair",
+    link: "/repair",
+    type: "link",
+  } as App,
 };
 
 type AppKey = keyof typeof apps;
