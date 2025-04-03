@@ -1,6 +1,5 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import { logout } from "@/store/userSlice";
-import { getDocsFromCollection } from "./Firebase";
 
 export const apiService = {
   async getUserData(sessionId: string) {
@@ -128,17 +127,6 @@ export const apiService = {
       }
     } catch (error) {
       console.error("Error in getData:", error);
-      throw error;
-    }
-  },
-  async getProposal() {
-    console.log("執行測試任務中。");
-    try {
-      const response = await getDocsFromCollection("政見進度");
-      console.log("測試任務結束。");
-      return response;
-    } catch (error) {
-      console.error("Error in getDocs:", error);
       throw error;
     }
   },

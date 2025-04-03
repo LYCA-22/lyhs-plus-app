@@ -55,7 +55,7 @@ export const appSchema: schemaItem[] = [
   },
   {
     itemIcon: <Radio size={24} strokeWidth={2.5} />,
-    title: "校園無聲廣播",
+    title: "校園無聲廣播 BETA",
     type: "btn",
     isOutLink: false,
     access_manage: false,

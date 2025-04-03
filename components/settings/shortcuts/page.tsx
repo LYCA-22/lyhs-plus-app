@@ -46,30 +46,33 @@ export default function ShortcutsPage() {
   };
 
   return (
-    <div className="p-7">
-      <div className="space-y-4">
+    <div className="px-7 pb-20">
+      <div className="px-2">
         {(Object.keys(apps) as Array<keyof typeof apps>).map((key) => (
-          <div key={key} className="flex items-center justify-between py-2">
-            <div className="flex items-center gap-3 text-lg">
-              <Image
-                src={`/serviceIcon/${apps[key as homeApps].icon}.svg`}
-                alt={apps[key as homeApps].name}
-                width={32}
-                height={32}
+          <div key={key} className="pt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 text-lg">
+                <Image
+                  src={`/serviceIcon/${apps[key as homeApps].icon}.svg`}
+                  alt={apps[key as homeApps].name}
+                  width={32}
+                  height={32}
+                />
+                <span>{apps[key as homeApps].name}</span>
+              </div>
+              <Switch
+                checked={homeApps.includes(key as homeApps)}
+                onCheckedChange={() => handleToggle(key as homeApps)}
               />
-              <span>{apps[key as homeApps].name}</span>
             </div>
-            <Switch
-              checked={homeApps.includes(key as homeApps)}
-              onCheckedChange={() => handleToggle(key as homeApps)}
-            />
+            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-4"></div>
           </div>
         ))}
       </div>
-      <div className="border-t-2 border-border mt-6 p-3">
-        <p className="text-center text-sm text-muted-foreground">
-          你可以在這裡依據你的使用頻率和個性設定要顯示在首頁的捷徑。
-        </p>
+      <div className="text-center mt-5">
+        <h1 className="opacity-40 font-medium">
+          你可以在這裡依據你的使用頻率設定首頁的捷徑
+        </h1>
       </div>
     </div>
   );

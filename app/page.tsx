@@ -44,13 +44,13 @@ const apps = {
   mailBox: {
     name: "學權信箱",
     icon: "mailboxIcon",
-    link: "/mailbox/student",
+    link: "/mail/stu",
     type: "link",
   } as App,
   mailSearch: {
     name: "信件查詢",
     icon: "searchMailIcon",
-    link: "/mailbox/view",
+    link: "/mail/view",
     type: "link",
   } as App,
   calendar: {

@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Providers } from "./providers";
 import { GoogleTagManager } from "@/components/GoogleAnalytics";
+import { Smartphone } from "lucide-react";
 
 export const viewport = {
   width: "device-width",
@@ -59,9 +60,13 @@ export default function RootLayout({
         </div>
         <div
           aria-label="no-phone-alert-window"
-          className="w-full h-full flex items-center justify-center bg-white max-sm:hidden"
+          className="w-full h-full flex flex-col gap-3 items-center justify-center bg-white max-sm:hidden text-black"
         >
-          <h1>請使用手機瀏覽此網頁</h1>
+          <Smartphone size={50} strokeWidth={2.5} />
+          <div className="text-center">
+            <h1 className="font-medium text-lg">請使用手機瀏覽此網頁</h1>
+            <p>本系統是專為手機設計，請勿在電腦瀏覽此網頁。</p>
+          </div>
         </div>
         <GoogleTagManager />
       </body>

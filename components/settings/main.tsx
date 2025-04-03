@@ -125,19 +125,25 @@ export default function SettingHome({
             <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
           </li>
         ))}
-        <li className="flex flex-col transition-all mx-7 pt-1">
-          <button
-            onClick={() => Logout(userData.sessionId)}
-            className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg"
-          >
-            <div className="flex items-center gap-3">
-              <LogOut size={24} strokeWidth={2.5} />
-              登出帳號
-            </div>
-            <ChevronRight className="opacity-40" size={22} strokeWidth={2.5} />
-          </button>
-          <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
-        </li>
+        {userData.name && (
+          <li className="flex flex-col transition-all mx-7 pt-1">
+            <button
+              onClick={() => Logout(userData.sessionId)}
+              className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg"
+            >
+              <div className="flex items-center gap-3">
+                <LogOut size={24} strokeWidth={2.5} />
+                登出帳號
+              </div>
+              <ChevronRight
+                className="opacity-40"
+                size={22}
+                strokeWidth={2.5}
+              />
+            </button>
+            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+          </li>
+        )}
       </ul>
       <div className="flex flex-col items-center m-5 mt-10 gap-2">
         <Image

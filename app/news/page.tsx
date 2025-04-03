@@ -2,7 +2,7 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { NewView } from "@/components/newView";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { closeBack } from "@/store/systemSlice";
 import { formatDate } from "@/utils/formatDate";
 import { icons } from "@/components/icons";
@@ -18,6 +18,7 @@ export default function Page() {
   const observerTarget = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const [url, setUrl] = useState("");
+  const [openSearch, setOpenSearch] = useState(false);
 
   useEffect(() => {
     dispatch(closeBack());
@@ -103,26 +104,32 @@ export default function Page() {
           className={`flex px-5 ${AppData.isPwa ? "mt-deviceTop" : "mt-5"} justify-between`}
         >
           <h1 className={`text-2xl font-medium`}>校園公告</h1>
-          <button>
-            <Search className="text-zinc-500 dark:text-zinc-200" size={20} />
+          <button onClick={() => setOpenSearch(!openSearch)}>
+            {openSearch ? (
+              <X className="text-zinc-500 dark:text-zinc-200" size={20} />
+            ) : (
+              <Search className="text-zinc-500 dark:text-zinc-200" size={20} />
+            )}
           </button>
         </div>
         <div
           className={`sticky ${AppData.isPwa ? "top-9" : "top-0"} p-3 z-20 flex flex-col px-0`}
         >
           <div className="flex flex-col gap-3">
-            <div className="p-2 px-4 rounded-full w-11/12 flex items-center gap-2 bg-hoverbg max-sm:hidden mx-4">
-              <Search className="text-borderColor" size={20} />
-              <input
-                type="text"
-                placeholder="搜尋公告"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="ring-0 grow bg-transparent focus:outline-none text-foreground"
-              />
-            </div>
+            {openSearch && (
+              <div className="p-2 px-4 rounded-2xl w-11/12 flex items-center gap-2 bg-hoverbg mx-4">
+                <Search className="text-borderColor" size={20} />
+                <input
+                  type="text"
+                  placeholder="搜尋公告"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="ring-0 grow bg-transparent focus:outline-none text-foreground"
+                />
+              </div>
+            )}
             <div className="flex gap-2 grow scrollbar-hide scroll-smooth p-2 px-4">
-              <div className="overflow-x-auto bg-zinc-900/70 dark:bg-zinc-50/70 backdrop-blur-md flex rounded-2xl overflow-y-hidden shadow-lg border border-borderColor scrollbar-hide">
+              <div className="overflow-x-auto bg-zinc-900/70 dark:bg-zinc-50/20 backdrop-blur-md flex rounded-2xl overflow-y-hidden shadow-lg border border-borderColor scrollbar-hide">
                 {departments.map((dept, index) => {
                   const isActive = selectedDepartment === dept;
                   const isPrevActive =
@@ -139,7 +146,7 @@ export default function Page() {
                         className={`p-3 px-4 rounded-xl whitespace-nowrap transition-all font-medium ${
                           isActive
                             ? "bg-background dark:bg-foreground text-foreground dark:text-background"
-                            : "text-background"
+                            : "text-background dark:text-zinc-300"
                         }`}
                       >
                         {dept === "all" ? "全部" : dept}

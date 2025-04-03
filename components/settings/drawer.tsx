@@ -57,7 +57,7 @@ export default function SettingsDrawer() {
           )}
           <DrawerTitle>設定</DrawerTitle>
         </DrawerHeader>
-        <div className="overflow-y-auto max-h-dvh">
+        <div className="overflow-y-auto max-h-screen-56">
           <PageReturn />
         </div>
       </DrawerContent>

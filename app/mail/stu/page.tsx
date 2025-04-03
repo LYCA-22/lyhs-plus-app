@@ -49,7 +49,7 @@ export default function Page() {
   };
 
   return (
-    <div className="px-5">
+    <div className="px-5 pb-28">
       <form onSubmit={handleSubmit}>
         <ul className="list-none">
           <li className="flex flex-col py-6 px-2 border-b border-borderColor mb-5">
