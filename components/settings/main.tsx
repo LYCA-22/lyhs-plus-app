@@ -93,7 +93,7 @@ export default function SettingHome({
 
   return (
     <div className="relative">
-      {userData.name && (
+      {!userData.name && (
         <div className="bg-gradient-to-br from-buttonBg dark:from-zinc-700 to-white dark:to-zinc-900 m-4 mt-0 p-5 rounded-[30px] border-border border shadow-xl px-6 flex flex-col">
           <p className="text-3xl font-medium">登入享用完整服務</p>
           <Link
@@ -105,7 +105,7 @@ export default function SettingHome({
         </div>
       )}
       <ul className="list-none flex flex-col">
-        {!userData.name && (
+        {userData.name && (
           <>
             <li className="flex flex-col transition-all mx-7 pt-1">
               <div className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg">
