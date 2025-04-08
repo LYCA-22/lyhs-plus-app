@@ -2,6 +2,7 @@
 
 import { apiService } from "@/services/api";
 import { updateSystemData } from "@/store/systemSlice";
+import { Check, CircleFadingArrowUp } from "lucide-react";
 import { FormEvent, useState, ChangeEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -66,8 +67,9 @@ export default function Page() {
   return (
     <div className="container mx-auto px-8 py-8 max-w-2xl pb-28">
       {success && (
-        <div className="bg-green-100 text-green-700 px-4 py-3 rounded-2xl mb-4">
-          報修申請已成功提交！
+        <div className="z-10 absolute flex items-center gap-2 top-0 left-0 w-full bg-green-100/90 backdrop-blur-sm dark:bg-green-800/50 dark:text-white/80 font-medium text-green-700 px-4 py-3">
+          <Check size={22} />
+          <span>報修申請已成功提交！</span>
         </div>
       )}
 
@@ -75,9 +77,12 @@ export default function Page() {
         <div>
           <label
             htmlFor="title"
-            className="block text-sm font-medium text-foreground mb-1"
+            className="block text-lg font-medium text-foreground mb-2"
           >
-            標題
+            <p>標題</p>
+            <p className="text-sm opacity-50 font-normal">
+              請填寫您要提交的標題
+            </p>
           </label>
           <input
             id="title"
@@ -86,18 +91,18 @@ export default function Page() {
             onChange={(e) => setTitle(e.target.value)}
             required
             className={
-              "w-full text-lg bg-background hover:bg-hoverbg border border-borderColor p-2 px-3 rounded-2xl outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent"
+              "w-full text-lg bg-hoverbg border-borderColor p-2 px-3 rounded-full outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent"
             }
-            placeholder="請簡要描述問題"
           />
         </div>
 
         <div>
           <label
             htmlFor="category"
-            className="block text-sm font-medium text-foreground mb-1"
+            className="block text-lg font-medium text-foreground mb-2"
           >
-            類別 <span className="text-red-500">*</span>
+            <p>類別</p>
+            <p className="text-sm opacity-50 font-normal">請選一個此案件類別</p>
           </label>
           <select
             id="category"
@@ -105,7 +110,7 @@ export default function Page() {
             onChange={(e) => setCategory(e.target.value)}
             required
             className={
-              "w-full text-lg bg-background hover:bg-hoverbg border border-borderColor p-2 px-3 rounded-2xl outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent"
+              "appearance-none w-full text-lg bg-hoverbg border-borderColor p-2 px-3 rounded-full outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent"
             }
           >
             <option value={""} disabled>
@@ -123,9 +128,12 @@ export default function Page() {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-foreground mb-1"
+            className="block text-lg font-medium text-foreground mb-2"
           >
-            詳細描述 <span className="text-red-500">*</span>
+            <p>詳細描述</p>
+            <p className="text-sm opacity-50 font-normal">
+              請詳細描述問題，包括何時發現、目前狀況等
+            </p>
           </label>
           <textarea
             id="description"
@@ -134,17 +142,19 @@ export default function Page() {
             required
             rows={4}
             className={
-              "w-full text-lg bg-background hover:bg-hoverbg border border-borderColor p-2 px-3 rounded-2xl outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent"
+              "appearance-none w-full text-lg bg-hoverbg border-borderColor p-2 px-3 rounded-2xl outline-none ring-inputPrimary ring-0 transition-all focus:bg-background focus:ring-2 focus:border-transparent"
             }
-            placeholder="請詳細描述問題，包括何時發現、目前狀況等"
           ></textarea>
         </div>
         <div>
           <label
             htmlFor="image-upload"
-            className="block text-sm font-medium text-foreground mb-1"
+            className="block text-lg font-medium text-foreground mb-2"
           >
-            上傳圖片（可選）
+            <p>設備照片（可選）</p>
+            <p className="text-sm opacity-50 font-normal">
+              你可以拍攝損壞的地方
+            </p>
           </label>
           <div className="relative w-full flex items-center justify-center border-dashed border rounded-2xl border-borderColor py-5">
             <input
@@ -154,9 +164,14 @@ export default function Page() {
               onChange={handleImageChange}
               className="opacity-0 absolute z-0 w-full h-full top-0"
             />
-            <p className="text-sm text-foreground z-10">
-              {image ? <>已選擇檔案: {image.name}</> : <>請選擇檔案</>}
-            </p>
+            <div className="flex flex-col items-center justify-center gap-3">
+              <div className="p-2 rounded-full bg-hoverbg">
+                <CircleFadingArrowUp size={30} />
+              </div>
+              <p className="text-sm text-foreground z-10">
+                {image ? <>{image.name}</> : <>請選擇檔案</>}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -164,11 +179,15 @@ export default function Page() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full px-4 py-2 text-white font-medium rounded-2xl ${
+            className={`w-full px-4 py-3 text-white font-medium rounded-full flex items-center justify-center ${
               loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
             } focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
           >
-            {loading ? "提交中..." : "提交報修"}
+            {loading ? (
+              <div className="border-2 border-white/50 border-t-white animate-spin h-6 w-6 rounded-full" />
+            ) : (
+              "提交報修"
+            )}
           </button>
         </div>
       </form>

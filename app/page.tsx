@@ -158,7 +158,7 @@ export default function Home() {
   };
 
   return (
-    <div id="home-main">
+    <div id="home-main" className="pb-24">
       <div className="relative">
         <Carousel
           plugins={[

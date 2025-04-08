@@ -38,7 +38,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             {pathname !== "/" && pathname !== "/news" && (
               <div className="w-full flex pt-deviceTop items-center border-b border-border dark:border-borderColor p-2 py-3 bg-white dark:bg-zinc-800">
                 <DynamicBack />
-                <div className="z-20 font-medium dark:border-borderColor mx-3">
+                <div className="z-20 font-medium dark:border-borderColor mx-1">
                   {pathAllName[pathname] || "未知頁面"}
                 </div>
               </div>

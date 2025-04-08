@@ -8,7 +8,7 @@ export function DynamicBack() {
   if (AppData.isBack) {
     return (
       <Link href={AppData.BackLink}>
-        <ChevronLeft size={22} strokeWidth={3} className="text-primary" />
+        <ChevronLeft size={28} strokeWidth={3} className="text-primary" />
       </Link>
     );
   }
