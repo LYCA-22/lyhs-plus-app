@@ -75,8 +75,10 @@ export default function Page() {
     setSelectedDate(new Date());
   };
 
+  const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+
   return (
-    <div className="container mx-auto px-3">
+    <div className="container mx-auto px-2">
       <div className="flex flex-col">
         <div className="flex flex-col justify-center items-center">
           <div className="w-full mx-2 mt-6 px-4">
@@ -94,7 +96,7 @@ export default function Page() {
                 </button>
                 <button
                   onClick={currentWeek}
-                  className="p-2 px-4 bg-inputPrimary text-white rounded-2xl"
+                  className="p-2 px-3 bg-inputPrimary font-medium text-white text-sm rounded-full"
                 >
                   本週
                 </button>
@@ -109,42 +111,41 @@ export default function Page() {
                   />
                 </button>
               </div>
-              <div className="text-2xl text-right">
-                <p className="text-lg">
+              <div className="text-xl text-right">
+                <p className="text-[16px]">
                   {format(selectedDate, "yyyy年", { locale: zhTW })}
                 </p>
-                <p>{format(selectedDate, "MM月dd日", { locale: zhTW })}</p>
+                <p className="font-bold">
+                  {format(selectedDate, "MM月dd日", { locale: zhTW })}
+                </p>
               </div>
             </div>
-            <div className="flex justify-between gap-2">
+            <div className="flex justify-between">
               {weekDays.map((date, i) => {
                 const isSelected = isSameDay(date, selectedDate);
                 const dateHasEvent = hasEvent(date);
 
                 return (
-                  <div key={i} className="flex flex-col items-center gap-2">
+                  <div
+                    key={i}
+                    className="flex flex-col items-center justify-center gap-2"
+                  >
                     <div
                       className={`h-[6px] w-[6px] rounded-full z-50 ${dateHasEvent ? "bg-red-600" : "bg-transparent"}`}
                     ></div>
                     <button
-                      className={`h-10 w-10  rounded-2xl flex items-center justify-center relative
+                      className={`p-2 px-3 w-9 h-9 rounded-2xl max-sm:text-sm flex items-center justify-center relative
                       ${isSelected ? "bg-primary text-primary-foreground" : "hover:bg-hoverbg"}`}
                       onClick={() => setSelectedDate(date)}
                     >
                       {format(date, "d")}
                     </button>
+                    <div className="font-medium text-sm opacity-50 pb-5">
+                      {weekdayNames[i]}
+                    </div>
                   </div>
                 );
               })}
-            </div>
-            <div className="flex justify-between gap-2 text-center mt-2 opacity-50">
-              {["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"].map(
-                (day, index) => (
-                  <div key={index} className="font-medium text-sm h-10 w-10">
-                    {day}
-                  </div>
-                ),
-              )}
             </div>
           </div>
         </div>
@@ -164,7 +165,7 @@ export default function Page() {
                       <div className="flex items-center space-x-2">
                         <h3 className="font-semibold">{event.title}</h3>
                         <div
-                          className={`rounded-xl px-2 p-1 text-sm text-white ${officeColors[event.office]}`}
+                          className={`rounded-full font-medium min-w-fit px-2 p-1 text-xs text-white ${officeColors[event.office]}`}
                         >
                           {officeZhName[event.office]}
                         </div>

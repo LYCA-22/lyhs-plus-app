@@ -54,6 +54,7 @@ export default function Page() {
         "繁星",
         "編班名單",
         "獎學金",
+        "競賽",
       ];
 
       for (let i = 0; i < NewsData.length; i++) {
@@ -99,7 +100,7 @@ export default function Page() {
   return (
     <>
       <NewView url={url} setUrlAction={setUrl} />
-      <div className="relative w-full max-sm:w-screen">
+      <div className="relative w-full">
         <div
           className={`flex px-5 ${AppData.isPwa ? "mt-deviceTop" : "mt-5"} justify-between`}
         >

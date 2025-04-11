@@ -9,6 +9,8 @@ import {
   House,
   MegaphoneSimple,
 } from "@phosphor-icons/react";
+import { X } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -49,6 +51,7 @@ export function NavBar() {
   const [isPWA, setIsPWA] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [badgeClose, setBagdeClose] = useState<boolean>(true);
 
   const checkPWA = () => {
     const isStandalone = (window.navigator as Navigator).standalone;
@@ -57,8 +60,22 @@ export function NavBar() {
     ).matches;
 
     setIsPWA(isStandalone || isDisplayModeStandalone);
+
     dispatch(updateSystemData({ isPwa: isPWA }));
   };
+
+  useEffect(() => {
+    const isStandalone = (window.navigator as Navigator).standalone;
+    const isDisplayModeStandalone = window.matchMedia(
+      "(display-mode: standalone)",
+    ).matches;
+
+    if (isStandalone || isDisplayModeStandalone) {
+      setBagdeClose(true);
+    } else {
+      setBagdeClose(false);
+    }
+  }, []);
 
   useEffect(() => {
     checkPWA();
@@ -95,8 +112,32 @@ export function NavBar() {
 
   return (
     <div
-      className={`w-full flex items-center justify-center fixed bottom-0 bg-gradient-to-t from-background to-white/10 dark:to-gray-800/10 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
+      className={`z-30 w-full flex items-center justify-center fixed bottom-0 bg-gradient-to-t from-background to-white/0 dark:to-gray-800/0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
     >
+      {!badgeClose && (
+        <div className="fixed top-0 p-5 w-full flex">
+          <div className="flex items-center justify-between bg-gradient-to-br from-inputPrimary to-zinc-200 p-2 px-4 text-white rounded-2xl w-full">
+            <div className="flex flex-col">
+              <h1 className="font-medium">安裝 LYHS+</h1>
+              <p className="text-xs">下載應用程式，使用更便利！</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link
+                href={"/install"}
+                className="px-2 p-1 rounded-full font-medium text-sm bg-inputPrimary text-white"
+              >
+                安裝
+              </Link>
+              <button
+                onClick={() => setBagdeClose(true)}
+                className="rounded-full p-1 bg-zinc-400 text-zinc-700"
+              >
+                <X size={16} strokeWidth={3} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div
         className={`flex justify-around items-center p-1 px-2 bg-zinc-100/75 shadow-2xl backdrop-blur-sm dark:bg-zinc-800/75 z-20 border rounded-full border-border dark:border-zinc-700`}
       >

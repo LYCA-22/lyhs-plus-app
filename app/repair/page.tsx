@@ -168,7 +168,7 @@ export default function Page() {
               <div className="p-2 rounded-full bg-hoverbg">
                 <CircleFadingArrowUp size={30} />
               </div>
-              <p className="text-sm text-foreground z-10">
+              <p className="text-sm text-foreground z-0">
                 {image ? <>{image.name}</> : <>請選擇檔案</>}
               </p>
             </div>

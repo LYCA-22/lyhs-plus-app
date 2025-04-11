@@ -38,7 +38,7 @@ const apps = {
   schoolWeb: {
     name: "學校網站",
     icon: "schoolWebIcon",
-    link: "https://www.ly.kh.edu.tw/view/index.php?WebID=336",
+    link: "/schoolweb",
     type: "link",
   } as App,
   mailBox: {
@@ -295,7 +295,7 @@ export default function Home() {
                       onClick={
                         appData.onclick === "eSchool" ? eSchool : () => {}
                       }
-                      className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
+                      className="min-w-fit p-2 px-4 text-foreground hover:opacity-70 flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1"
                     >
                       <Image
                         alt="mailbox"
@@ -310,7 +310,7 @@ export default function Home() {
                   ) : (
                     <button
                       onClick={() => router.push(appData.link || "/")}
-                      className="min-w-fit p-2 px-4 text-foreground hover:bg-hoverbg flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70 active:scale-95"
+                      className="min-w-fit p-2 px-4 text-foreground flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70"
                     >
                       <Image
                         alt={appData.icon}
