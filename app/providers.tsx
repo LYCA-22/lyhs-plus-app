@@ -9,7 +9,6 @@ import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/welcome";
 import { DynamicBack } from "@/components/dynamicBack";
 import SettingsDrawer from "@/components/settings/drawer";
-import { MonitorX } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,28 +47,59 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ThemeProvider attribute="class" defaultTheme="system">
       <Provider store={store}>
         {!isMobile ? (
-          <div className="w-full h-dvh flex flex-col gap-3 items-center justify-center bg-white text-black">
-            <MonitorX size={50} strokeWidth={2.5} />
-            <div className="text-center flex flex-col gap-2">
-              <h1 className="font-medium text-lg">
-                我們發現您正在使用電腦或平板！
-              </h1>
-              <p>本系統是專為手機設計，請使用手機打開。</p>
-            </div>
-            <div className="flex gap-2 items-center justify-center font-medium rounded-full border border-border pl-3 p-1">
+          <div className="bg-white p-10">
+            <div className="w-full h-dvh flex flex-col gap-3 justify-center text-black">
               <Image
-                alt="LycaLogo"
-                src="/lyca/lyca-logo.svg"
-                width={16}
-                height={16}
+                alt="logo"
+                src={"/logo.svg"}
+                width={50}
+                height={50}
+                className={`opacity-100 transition-all fixed top-10`}
               />
-              <p>此系統由林園高中班聯會建置與維護</p>
-              <Link
-                href={"https://www.instagram.com/lyca_22nd"}
-                className="bg-zinc-200 hover:bg-black hover:text-white p-1 rounded-full px-2 text-sm"
-              >
-                聯絡我們
-              </Link>
+              <div className="flex flex-col gap-2">
+                <h1 className="font-medium text-3xl">
+                  您正在使用
+                  <span className="text-inputPrimary">電腦或平板</span>
+                </h1>
+                <p>
+                  本平台是專為手機設計，請使用手機輸入此網址或掃描下方QRCode。
+                </p>
+                <div className="hover:scale-105 transition-all p-2 bg-gradient-to-br from-zinc-100 to-white border border-zinc-100 shadow-xl shadow-zinc-100 rounded-3xl flex items-center gap-4 w-fit pr-5 my-5">
+                  <Image
+                    alt="phone-qrcode"
+                    src={"/phone-qrcode.png"}
+                    width={100}
+                    height={100}
+                    className={`opacity-100 transition-all`}
+                  />
+                  <div className="flex flex-col gap-2">
+                    <h1 className="font-medium text-xl">
+                      打開您的手機掃描左方的QRCode
+                    </h1>
+                    <h1>
+                      或在網址列輸入
+                      <span className="p-1 rounded-md bg-zinc-200 px-2 m-1">
+                        app.lyhsca.org
+                      </span>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div className="fixed bottom-10 flex w-fit gap-2 items-center justify-center text-sm font-sans font-medium rounded-full border border-zinc-200 bg-zinc-100 shadow-xl pl-3 p-1">
+                <Image
+                  alt="LycaLogo"
+                  src="/lyca/lyca-logo.svg"
+                  width={16}
+                  height={16}
+                />
+                <p>此系統由林園高中班聯會建置與維護</p>
+                <Link
+                  href={"https://www.instagram.com/lyca_22nd"}
+                  className="bg-zinc-200 hover:bg-black hover:text-white p-1 rounded-full px-2 text-sm"
+                >
+                  聯絡我們
+                </Link>
+              </div>
             </div>
           </div>
         ) : (

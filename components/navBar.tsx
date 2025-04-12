@@ -116,7 +116,7 @@ export function NavBar() {
     >
       {!badgeClose && (
         <div className="fixed top-0 p-5 w-full flex">
-          <div className="flex items-center justify-between bg-gradient-to-br from-inputPrimary to-zinc-200 p-2 px-4 text-white rounded-2xl w-full">
+          <div className="flex items-center justify-between bg-gradient-to-br from-inputPrimary to-zinc-200 p-2 px-4 text-white rounded-full w-full">
             <div className="flex flex-col">
               <h1 className="font-medium">安裝 LYHS+</h1>
               <p className="text-xs">下載應用程式，使用更便利！</p>
@@ -130,7 +130,7 @@ export function NavBar() {
               </Link>
               <button
                 onClick={() => setBagdeClose(true)}
-                className="rounded-full p-1 bg-zinc-400 text-zinc-700"
+                className="rounded-full p-1 bg-zinc-50 text-zinc-700"
               >
                 <X size={16} strokeWidth={3} />
               </button>
