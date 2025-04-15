@@ -1,8 +1,10 @@
 "use client";
 
 import { apiService } from "@/services/api";
+import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import { Check, CircleFadingArrowUp } from "lucide-react";
+import { format } from "path/win32";
 import { FormEvent, useState, ChangeEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -14,6 +16,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
+  const UserData = useAppSelector((state) => state.userData);
 
   useEffect(() => {
     dispatch(
@@ -41,6 +44,11 @@ export default function Page() {
     formData.append("category", category);
     if (image) {
       formData.append("image", image);
+    }
+    if (UserData.name) {
+      formData.append("reward", UserData.name);
+    } else {
+      formData.append("reward", "");
     }
 
     try {

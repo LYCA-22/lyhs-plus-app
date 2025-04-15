@@ -30,6 +30,7 @@ export default function RootLayout({
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
+        <meta name="author" content="林園高中班聯會" />
         <meta name="theme-color" content="#000000" />
         <meta
           name="apple-mobile-web-app-title"
@@ -37,6 +38,12 @@ export default function RootLayout({
           data-next-head
         />
         <meta name="orientation" content="portrait" />
+        <meta name="twitter:title" content="LYHS Plus | 開啟林園高中智慧校園" />
+        <meta
+          name="twitter:description"
+          content="LYHS Plus 致力於改善校園資訊流通，讓校園生活更簡單、便利。"
+        />
+        <link rel="canonical" href="https://app.lyhsca.org" />
         <meta name="screen-orientation" content="portrait" />
         <meta property="og:title" content="LYHS Plus" />
         <meta
@@ -52,12 +59,41 @@ export default function RootLayout({
           content="LYHS+, LYHS Plus, 林園高中, 林中+, 林園高中, 林園高中資訊整合平台, 智慧林中, 智慧林園高中, 林園高中班聯會, LYCA, LYCA22, LYPS"
         />
         <meta name="robots" content="index, follow" />
+        <meta name="geo.region" content="TW" />
+        <meta name="geo.placename" content="林園" />
       </head>
       <body>
         <div id="_next" className="transition-all duration-500">
           <Providers>{children}</Providers>
         </div>
         <GoogleTagManager />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "LYHS Plus",
+              description: "林園高中智慧校園平台",
+              applicationCategory: "Education",
+              operatingSystem: "All",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "TWD",
+              },
+              author: {
+                "@type": "Organization",
+                name: "林園高中班聯會",
+              },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://app.lyhsca.org/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   );
