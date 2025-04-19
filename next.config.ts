@@ -3,10 +3,10 @@ import nextPwa from "next-pwa";
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com 'unsafe-inline';
+  script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com https://api.lyhsca.org 'unsafe-inline';
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: https://www.googletagmanager.com;
-  connect-src 'self' https://www.google-analytics.com;
+  img-src 'self' data: https://www.googletagmanager.com https://api.lyhsca.org;
+  connect-src 'self' https://www.google-analytics.com https://api.lyhsca.org;
   frame-src 'none';
   object-src 'none';
 `;
