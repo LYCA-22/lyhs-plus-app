@@ -1,11 +1,20 @@
 import type { NextConfig } from "next";
 import nextPwa from "next-pwa";
 
+const ContentSecurityPolicy = `
+  default-src 'self';
+  script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com 'unsafe-inline';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https://www.googletagmanager.com;
+  connect-src 'self' https://www.google-analytics.com;
+  frame-src 'none';
+  object-src 'none';
+`;
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none';",
+    value: ContentSecurityPolicy.replace(/\n/g, ""),
   },
   {
     key: "Strict-Transport-Security",
@@ -22,6 +31,10 @@ const securityHeaders = [
   {
     key: "Referrer-Policy",
     value: "strict-origin-when-cross-origin",
+  },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
   },
 ];
 
