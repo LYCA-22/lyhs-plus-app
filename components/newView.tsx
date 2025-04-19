@@ -200,10 +200,10 @@ export function NewView({
         onOpenChange={setIsOpen}
         onClose={() => setUrlAction("")}
       >
-        <DrawerContent className="transition-transform duration-300 ease-out pb-5 h-[85vh] rounded-t-3xl">
+        <DrawerContent className="transition-transform duration-300 ease-out pb-5 h-[90dvh] rounded-t-3xl">
           <DrawerHeader className="flex justify-between items-center rounded-t-3xl">
             <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
-            <DrawerClose className="hover:bg-foreground bg-buttonBg hover:text-background transition-colors rounded-full p-2">
+            <DrawerClose className="hover:bg-zinc-300 dark:hover:bg-zinc-700 bg-buttonBg transition-colors rounded-full p-2">
               <X size={20} strokeWidth={4} className="opacity-50" />
             </DrawerClose>
           </DrawerHeader>

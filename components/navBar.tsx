@@ -55,9 +55,9 @@ export function NavBar() {
 
   const checkPWA = () => {
     const isStandalone = (window.navigator as Navigator).standalone;
-    const isDisplayModeStandalone = window.matchMedia(
-      "(display-mode: standalone)",
-    ).matches;
+    const isDisplayModeStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.matchMedia("(display-mode: fullscreen)").matches;
 
     setIsPWA(isStandalone || isDisplayModeStandalone);
 
@@ -65,17 +65,12 @@ export function NavBar() {
   };
 
   useEffect(() => {
-    const isStandalone = (window.navigator as Navigator).standalone;
-    const isDisplayModeStandalone = window.matchMedia(
-      "(display-mode: standalone)",
-    ).matches;
-
-    if (isStandalone || isDisplayModeStandalone) {
+    if (isPWA) {
       setBagdeClose(true);
     } else {
       setBagdeClose(false);
     }
-  }, []);
+  }, [isPWA]);
 
   useEffect(() => {
     checkPWA();
@@ -112,11 +107,11 @@ export function NavBar() {
 
   return (
     <div
-      className={`z-30 w-full flex items-center justify-center fixed bottom-0 bg-gradient-to-t from-background to-white/0 dark:to-gray-800/0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "py-2"}`}
+      className={`z-30 w-full flex items-center justify-center fixed bottom-0 bg-gradient-to-t from-background to-white/0 dark:to-gray-800/0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "pt-2 pb-5"}`}
     >
       {!badgeClose && (
-        <div className="fixed top-0 p-5 w-full flex">
-          <div className="flex items-center justify-between bg-gradient-to-br from-inputPrimary to-zinc-200 p-2 px-4 text-white rounded-full w-full">
+        <div className="fixed top-0 w-full flex">
+          <div className="flex items-center justify-between bg-gradient-to-br from-inputPrimary to-zinc-200 p-2 px-4 text-white w-full">
             <div className="flex flex-col">
               <h1 className="font-medium">安裝 LYHS+</h1>
               <p className="text-xs">下載應用程式，使用更便利！</p>
@@ -124,15 +119,15 @@ export function NavBar() {
             <div className="flex items-center gap-2">
               <Link
                 href={"/install"}
-                className="px-2 p-1 rounded-full font-medium text-sm bg-inputPrimary text-white"
+                className="p-2 px-3 rounded-full text-sm bg-inputPrimary text-white"
               >
                 安裝
               </Link>
               <button
                 onClick={() => setBagdeClose(true)}
-                className="rounded-full p-1 bg-zinc-50 text-zinc-700"
+                className="rounded-full p-2 bg-zinc-50 text-zinc-700"
               >
-                <X size={16} strokeWidth={3} />
+                <X size={18} strokeWidth={3} />
               </button>
             </div>
           </div>
