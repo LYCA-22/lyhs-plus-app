@@ -6,7 +6,7 @@ const ContentSecurityPolicy = `
   script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com https://api.lyhsca.org 'unsafe-inline';
   style-src 'self' 'unsafe-inline';
   img-src 'self' data: https://www.googletagmanager.com https://api.lyhsca.org;
-  connect-src 'self' https://www.google-analytics.com https://api.lyhsca.org;
+  connect-src 'self' https://www.google-analytics.com https://api.lyhsca.org https://plus.lyhsca.org https://cloudflareinsights.com;
   frame-src 'none';
   object-src 'none';
 `;
