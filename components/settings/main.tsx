@@ -146,14 +146,16 @@ export default function SettingHome({
           height={20}
           className="opacity-30"
         />
+        {/*
         <div className="text-center">
           <h1 className="opacity-40 font-medium">林園班聯 版權所有</h1>
           <p className="text-sm opacity-40 font-normal">
             本平台由林園高中班聯會資訊組建置與維護
           </p>
         </div>
+        */}
         <div className="flex items-center justify-center font-mono text-sm opacity-40">
-          Version {version}
+          LYHS+ Version {version}
         </div>
       </div>
     </div>
