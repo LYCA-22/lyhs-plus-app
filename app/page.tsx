@@ -1,18 +1,8 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { icons } from "@/components/icons";
-import Link from "next/link";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselApi,
-} from "@/components/ui/carousel";
-
 import Image from "next/image";
-import Autoplay from "embla-carousel-autoplay";
 import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 interface App {
   name: string;
@@ -20,50 +10,67 @@ interface App {
   onclick?: string;
   link?: string;
   type: "btn" | "link";
+  color: string;
+  description: string;
 }
 
 const apps = {
   eSchool: {
     name: "校務系統",
     icon: "eschool",
-    onclick: "eSchool",
+    onclick: "eschool",
     type: "btn",
+    color: "bg-purple-100 dark:bg-purple-800",
+    description: "直接透過 OpenID 快速登入，查閱個人學業資料",
   } as App,
   studyHistory: {
     name: "學習歷程",
-    icon: "studyHistory",
+    icon: "studyhistory",
     link: "https://epf.kh.edu.tw/openId.do",
     type: "link",
+    color: "bg-red-50 dark:bg-red-800",
+    description: "直接透過 OpenID 快速登入，修改或新增學習歷程項目",
   } as App,
   schoolWeb: {
     name: "學校網站",
     icon: "schoolWebIcon",
-    link: "/schoolweb",
+    link: "https://www.ly.kh.edu.tw/view/index.php?WebID=336",
     type: "link",
+    color: "bg-sky-50 dark:bg-sky-800",
+    description: "此按鈕會開啟林園高中官方網站，可以查閱更多資訊",
   } as App,
   mailBox: {
     name: "學權信箱",
-    icon: "mailboxIcon2",
+    icon: "mailboxIcon",
     link: "/mail/stu",
     type: "link",
+    color: "bg-green-50 dark:bg-green-800",
+    description:
+      "若權利受損時，可以使用此管道讓我們知道，我們將盡快處理您的問題",
   } as App,
   mailSearch: {
     name: "信件查詢",
-    icon: "searchMailIcon",
+    icon: "searchmail",
     link: "/mail/view",
     type: "link",
+    color: "bg-yellow-50 dark:bg-yellow-800",
+    description: "查詢學權信箱信件進度與詳細資訊",
   } as App,
   calendar: {
     name: "行事曆",
     icon: "calendar",
     link: "/calendar",
     type: "link",
+    color: "bg-orange-50 dark:bg-orange-800",
+    description: "查詢校園行事曆、各項活動日期",
   } as App,
   repair: {
     name: "線上報修",
     icon: "repair",
     link: "/repair",
     type: "link",
+    color: "bg-green-50 dark:bg-green-800",
+    description: "線上化報修系統，提供快速、方便的報修服務",
   } as App,
 };
 
@@ -71,71 +78,7 @@ type AppKey = keyof typeof apps;
 
 export default function Home() {
   const AppData = useAppSelector((state) => state.systemData);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [api, setApi] = useState<CarouselApi>();
-  const [progress, setProgress] = useState(0);
-  const AUTO_PLAY_DELAY = 7000;
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const [theme, setTheme] = useState<string>("");
   const router = useRouter();
-  const startProgress = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-
-    setProgress(0);
-
-    timerRef.current = setInterval(() => {
-      setProgress((prev) => {
-        const nextVal = prev + (50 / AUTO_PLAY_DELAY) * 100;
-        return nextVal >= 100 ? 100 : nextVal;
-      });
-    }, 50);
-  };
-
-  useEffect(() => {
-    const html = document.querySelector("html");
-    const observer = new MutationObserver(() => {
-      if (html?.classList.contains("dark")) {
-        setTheme("dark");
-      } else {
-        setTheme("light");
-      }
-    });
-
-    observer.observe(html!, { attributes: true });
-
-    if (html?.classList.contains("dark")) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (progress >= 100 && timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-  }, [progress]);
-
-  useEffect(() => {
-    if (!api) return;
-    api.on("select", () => {
-      setCurrentSlide(api.selectedScrollSnap());
-      startProgress();
-    });
-
-    startProgress();
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [api]);
 
   const eSchool = () => {
     const form = document.createElement("form");
@@ -152,13 +95,9 @@ export default function Home() {
     form.submit();
   };
 
-  const scrollToSlide = (index: number) => {
-    api?.scrollTo(index);
-    startProgress();
-  };
-
   return (
     <div id="home-main" className="pb-24">
+      {/*
       <div className="relative">
         <Carousel
           plugins={[
@@ -277,53 +216,52 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="relative my-2">
-        <div className="flex items-center justify-between mx-4 pt-5 py-2">
-          <h1 className="text-xl font-medium">快速捷徑</h1>
-          <button className="p-2 px-3 rounded-full bg-hoverbg font-bold text-sm text-foreground/50">
-            顯示更多
-          </button>
+      */}
+      <div className="relative bg-zinc-100 dark:bg-zinc-900">
+        <div className="p-5 bg-background rounded-b-3xl pt-deviceTop">
+          <h1 className="text-xl font-medium">👋 歡迎使用 LYHS+</h1>
         </div>
-        <div className="flex overflow-x-auto px-2 relative scroll-smooth scrollbar-hide flex-wrap max-sm:justify-evenly">
+        <div className="flex items-center justify-center w-full my-4">
+          <div className="h-2 w-12 bg-zinc-300 dark:bg-zinc-600 rounded-full"></div>
+        </div>
+        <div className="grid bg-background rounded-t-[30px] grid-cols-2 gap-5 p-5 pt-6 overflow-x-auto relative scroll-smooth scrollbar-hide">
           {!AppData.isLoading &&
             AppData.homeApps.map((app, index) => {
               const appData = apps[app as AppKey];
               return (
-                <div key={index}>
-                  {appData.type === "btn" ? (
-                    <button
-                      onClick={
-                        appData.onclick === "eSchool" ? eSchool : () => {}
-                      }
-                      className="min-w-fit p-2 px-4 text-foreground hover:opacity-70 flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1"
-                    >
-                      <Image
-                        alt="mailbox"
-                        src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
-                        width={60}
-                        height={60}
-                        priority
-                        loading="eager"
-                      />
-                      <p className="text-sm">{appData.name}</p>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => router.push(appData.link || "/")}
-                      className="min-w-fit p-2 px-4 text-foreground flex flex-col justify-center items-center rounded-2xl transition-all font-medium m-1 hover:opacity-70"
-                    >
-                      <Image
-                        alt={appData.icon}
-                        src={`./serviceIcon/${appData.icon}${theme === "dark" ? "-dark" : ""}.svg`}
-                        width={60}
-                        height={60}
-                        priority
-                        loading="eager"
-                      />
-                      <p className="text-sm">{appData.name}</p>
-                    </button>
-                  )}
-                </div>
+                <button
+                  key={index}
+                  onClick={
+                    appData.type === "btn"
+                      ? appData.icon == "eschool"
+                        ? eSchool
+                        : () => {}
+                      : () => router.push(appData.link || "/")
+                  }
+                  className={`${appData.color} relative rounded-3xl hover:scale-105 transition-all`}
+                >
+                  <div className="h-full relative p-4 flex flex-col justify-center items-start gap-3 transition-all font-medium">
+                    <Image
+                      alt="mailbox"
+                      src={`./serviceIcon/${appData.icon}.svg`}
+                      width={28}
+                      height={28}
+                      priority
+                      loading="eager"
+                    />
+                    <div className="text-left flex flex-col gap-2">
+                      <h1 className="text-[16px] opacity-80 font-medium">
+                        {appData.name}
+                      </h1>
+                      <p className="opacity-50 text-sm text-left">
+                        {appData.description}
+                      </p>
+                    </div>
+                    <div className="w-full mt-auto">
+                      <ArrowRight className="opacity-50" />
+                    </div>
+                  </div>
+                </button>
               );
             })}
         </div>
