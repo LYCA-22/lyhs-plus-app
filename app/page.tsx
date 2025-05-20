@@ -219,7 +219,7 @@ export default function Home() {
         </div>
       </div>
       */}
-      <div className="relative bg-zinc-100">
+      <div className="relative bg-zinc-100 pt-deviceTop">
         <div className="px-5 pt-5 flex justify-between items-center">
           <h1 className="text-2xl font-medium">總覽</h1>
           <button
