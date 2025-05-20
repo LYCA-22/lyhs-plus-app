@@ -4,7 +4,7 @@ import { store } from "../store/store";
 import { ThemeProvider } from "next-themes";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname } from "next/navigation";
-import SystemCheck from "@/components/initUserCheck";
+import SystemCheck from "@/components/initSystemCheck";
 import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/welcome";
 import { DynamicBack } from "@/components/dynamicBack";
@@ -112,9 +112,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 {pathname !== "/" &&
                   pathname !== "/news" &&
                   pathname !== "/lyca" && (
-                    <div className="w-full flex pt-deviceTop items-center border-b border-border dark:border-borderColor p-2 py-3 bg-white dark:bg-zinc-800">
+                    <div className="w-full flex pt-deviceTop items-center justify-center p-2 py-3 bg-white dark:bg-zinc-800">
                       <DynamicBack />
-                      <div className="z-20 font-medium dark:border-borderColor mx-1">
+                      <div className="z-20 dark:border-borderColor text-[18px] opacity-80">
                         {pathAllName[pathname] || "未知頁面"}
                       </div>
                     </div>

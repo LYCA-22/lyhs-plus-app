@@ -8,11 +8,15 @@ export function DynamicBack() {
 
   if (AppData.isBack) {
     return (
-      <>
+      <div className="absolute left-3">
         <Link href={AppData.BackLink}>
-          <ChevronLeft size={28} strokeWidth={3} className="text-primary" />
+          <ChevronLeft
+            size={25}
+            strokeWidth={2}
+            className="text-zinc-600 dark:text-zinc-500"
+          />
         </Link>
-      </>
+      </div>
     );
   }
 }

@@ -23,6 +23,10 @@ export default function SystemCheck() {
   useEffect(() => {
     getDeviceInfo(setOS, setBrowser);
     systemLoad(store.dispatch, os, browser, isMobile);
+    const version = process.env.NEXT_PUBLIC_APP_VERSION;
+    if (version) {
+      localStorage.setItem("lyps_ver", version);
+    }
   }, [os, browser, isMobile]);
 
   return null;

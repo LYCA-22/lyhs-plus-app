@@ -43,7 +43,7 @@ const apps = {
   } as App,
   mailBox: {
     name: "學權信箱",
-    icon: "mailboxIcon",
+    icon: "mailboxIcon2",
     link: "/mail/stu",
     type: "link",
   } as App,

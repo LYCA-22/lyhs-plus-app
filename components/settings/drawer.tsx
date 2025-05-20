@@ -45,7 +45,7 @@ export default function SettingsDrawer() {
 
   return (
     <Drawer open={AppData.isSetOpen} onClose={closeDrawer}>
-      <DrawerContent className="pt-14 transition-transform duration-300 ease-out pb-5 max-h-dvh rounded-t-[40px]">
+      <DrawerContent className="pt-14 transition-transform duration-300 ease-out pb-5 max-h-dvh rounded-t-2xl">
         <DrawerHeader className="flex items-center justify-center rounded-t-[40px]">
           {page !== "" && (
             <button

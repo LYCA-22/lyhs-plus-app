@@ -10,16 +10,8 @@ export default function NotificationPage() {
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
   const AppData = useAppSelector((state) => state.systemData);
+  const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(
-      updateSystemData({
-        isBack: true,
-        BackLink: "/settings",
-      }),
-    );
-  }, [dispatch]);
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -29,7 +21,11 @@ export default function NotificationPage() {
           setIsSubscribed(true);
           setStatus("您已訂閱通知");
         } else {
-          setStatus("您尚未訂閱通知");
+          if (!userData.id) {
+            setStatus("請先登入");
+          } else {
+            setStatus("您尚未訂閱通知");
+          }
         }
       } catch (err) {
         console.error("檢查訂閱狀態出錯:", err);
@@ -147,11 +143,11 @@ export default function NotificationPage() {
         </div>
         <div className="flex flex-col space-y-4">
           <button
-            disabled={isSubscribed}
+            disabled={isSubscribed || !userData.id}
             onClick={subscribeToNotifications}
             className={`py-2 px-4 rounded-full font-medium text-white flex items-center justify-center gap-3 ${
               isSubscribed ? "bg-green-600" : "bg-blue-600"
-            }`}
+            } ${!userData.id && "bg-zinc-300 text-zinc-100 dark:bg-zinc-700 dark:text-zinc-600"}`}
           >
             {isSubscribed ? "已啟用" : "啟用"}
           </button>
