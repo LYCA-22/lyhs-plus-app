@@ -20,7 +20,7 @@ const apps = {
     icon: "eschool",
     onclick: "eschool",
     type: "btn",
-    color: "bg-purple-100 dark:bg-purple-800",
+    color: "bg-purple-100 dark:bg-purple-900/50",
     description: "直接透過 OpenID 快速登入，查閱個人學業資料",
   } as App,
   studyHistory: {
@@ -28,7 +28,7 @@ const apps = {
     icon: "studyhistory",
     link: "https://epf.kh.edu.tw/openId.do",
     type: "link",
-    color: "bg-red-50 dark:bg-red-800",
+    color: "bg-red-50 dark:bg-red-900/50",
     description: "直接透過 OpenID 快速登入，修改或新增學習歷程項目",
   } as App,
   schoolWeb: {
@@ -36,7 +36,7 @@ const apps = {
     icon: "schoolWebIcon",
     link: "https://www.ly.kh.edu.tw/view/index.php?WebID=336",
     type: "link",
-    color: "bg-sky-50 dark:bg-sky-800",
+    color: "bg-sky-50 dark:bg-sky-900/50",
     description: "此按鈕會開啟林園高中官方網站，可以查閱更多資訊",
   } as App,
   mailBox: {
@@ -44,7 +44,7 @@ const apps = {
     icon: "mailboxIcon",
     link: "/mail/stu",
     type: "link",
-    color: "bg-green-50 dark:bg-green-800",
+    color: "bg-green-50 dark:bg-green-900/50",
     description:
       "若權利受損時，可以使用此管道讓我們知道，我們將盡快處理您的問題",
   } as App,
@@ -53,7 +53,7 @@ const apps = {
     icon: "searchmail",
     link: "/mail/view",
     type: "link",
-    color: "bg-yellow-50 dark:bg-yellow-800",
+    color: "bg-yellow-50 dark:bg-yellow-900/50",
     description: "查詢學權信箱信件進度與詳細資訊",
   } as App,
   calendar: {
@@ -61,7 +61,7 @@ const apps = {
     icon: "calendar",
     link: "/calendar",
     type: "link",
-    color: "bg-orange-50 dark:bg-orange-800",
+    color: "bg-orange-50 dark:bg-orange-900/50",
     description: "查詢校園行事曆、各項活動日期",
   } as App,
   repair: {
@@ -69,7 +69,7 @@ const apps = {
     icon: "repair",
     link: "/repair",
     type: "link",
-    color: "bg-green-50 dark:bg-green-800",
+    color: "bg-green-50 dark:bg-green-900/50",
     description: "線上化報修系統，提供快速、方便的報修服務",
   } as App,
 };
@@ -218,10 +218,10 @@ export default function Home() {
       </div>
       */}
       <div className="relative bg-zinc-100 dark:bg-zinc-900">
-        <div className="p-5 bg-background rounded-b-3xl pt-deviceTop">
+        <div className="p-5 rounded-b-3xl pt-deviceTop">
           <h1 className="text-xl font-medium">👋 歡迎使用 LYHS+</h1>
         </div>
-        <div className="flex items-center justify-center w-full my-4">
+        <div className="flex items-center justify-center w-full mb-4">
           <div className="h-2 w-12 bg-zinc-300 dark:bg-zinc-600 rounded-full"></div>
         </div>
         <div className="grid bg-background rounded-t-[30px] grid-cols-2 gap-5 p-5 pt-6 overflow-x-auto relative scroll-smooth scrollbar-hide">
