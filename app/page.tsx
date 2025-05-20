@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
-import { useAppSelector } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Settings2 } from "lucide-react";
+import { updateSystemData } from "@/store/systemSlice";
 
 interface App {
   name: string;
@@ -79,6 +80,7 @@ type AppKey = keyof typeof apps;
 export default function Home() {
   const AppData = useAppSelector((state) => state.systemData);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const eSchool = () => {
     const form = document.createElement("form");
@@ -96,7 +98,7 @@ export default function Home() {
   };
 
   return (
-    <div id="home-main" className="pb-24">
+    <div id="home-main">
       {/*
       <div className="relative">
         <Carousel
@@ -217,14 +219,25 @@ export default function Home() {
         </div>
       </div>
       */}
-      <div className="relative bg-zinc-100 dark:bg-zinc-900">
-        <div className="p-5 rounded-b-3xl pt-deviceTop">
-          <h1 className="text-xl font-medium">👋 歡迎使用 LYHS+</h1>
+      <div className="relative bg-zinc-100">
+        <div className="px-5 pt-5 flex justify-between items-center">
+          <h1 className="text-2xl font-medium">總覽</h1>
+          <button
+            onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
+          >
+            <Settings2 size={22} className="opacity-50" />
+          </button>
         </div>
-        <div className="flex items-center justify-center w-full mb-4">
-          <div className="h-2 w-12 bg-zinc-300 dark:bg-zinc-600 rounded-full"></div>
+        <div className="bg-sky-500 rounded-b-3xl rounded-t-lg mx-5 mt-4 p-3 px-4 text-white">
+          <h1 className="text-[16px] font-medium">您正在使用新版介面</h1>
+          <p className="text-sky-800 text-sm">
+            此介面目前仍為測試版，使用請注意！
+          </p>
         </div>
-        <div className="grid bg-background rounded-t-[30px] grid-cols-2 gap-5 p-5 pt-6 overflow-x-auto relative scroll-smooth scrollbar-hide">
+        <div className="flex items-center justify-center w-full mt-3">
+          <div className="h-[6px] w-10 bg-zinc-300 dark:bg-zinc-600 rounded-full"></div>
+        </div>
+        <div className="bg-background mt-5 rounded-t-3xl pb-32 shadow-[0_0px_12px_0_rgba(0,0,0,0.15)] grid grid-cols-2 gap-5 p-5 pt-6 overflow-x-auto relative scroll-smooth scrollbar-hide">
           {!AppData.isLoading &&
             AppData.homeApps.map((app, index) => {
               const appData = apps[app as AppKey];
@@ -238,7 +251,7 @@ export default function Home() {
                         : () => {}
                       : () => router.push(appData.link || "/")
                   }
-                  className={`${appData.color} relative rounded-3xl hover:scale-105 transition-all`}
+                  className={`bg-zinc-100 relative rounded-3xl hover:scale-105 transition-all`}
                 >
                   <div className="h-full relative p-4 flex flex-col justify-center items-start gap-3 transition-all font-medium">
                     <Image
@@ -247,7 +260,6 @@ export default function Home() {
                       width={28}
                       height={28}
                       priority
-                      loading="eager"
                     />
                     <div className="text-left flex flex-col gap-2">
                       <h1 className="text-[16px] opacity-80 font-medium">
