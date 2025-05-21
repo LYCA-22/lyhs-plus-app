@@ -12,7 +12,7 @@ const apps: Record<homeApps, { name: string; icon: string }> = {
   },
   [homeApps.studyHistory]: {
     name: "學習歷程",
-    icon: "studyHistory",
+    icon: "studyhistory",
   },
   [homeApps.schoolWeb]: {
     name: "學校網站",
@@ -24,7 +24,7 @@ const apps: Record<homeApps, { name: string; icon: string }> = {
   },
   [homeApps.mailSearch]: {
     name: "信件查詢",
-    icon: "searchMailIcon",
+    icon: "searchmail",
   },
   [homeApps.calendar]: {
     name: "行事曆",

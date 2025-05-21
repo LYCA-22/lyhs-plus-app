@@ -1,24 +1,13 @@
+import { store } from "@/store/store";
+import { getDeviceInfo } from "@/utils/getDeviceInfo";
 import type { AppDispatch } from "@/store/store";
 import { apiService } from "@/services/api";
 import { updateStatus, updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
 import { homeApps } from "@/types";
-
-function getCookie(name: string) {
-  if (typeof window === "undefined") return null;
-
-  try {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      const lastPart = parts.pop();
-      return lastPart?.split(";")[0] ?? null;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
+import { getCookie } from "./getCookie";
+import { loadNews } from "@/store/newsSlice";
+import { Event, updateCalendarData } from "@/store/calendar";
 
 export async function systemLoad(
   dispatch: AppDispatch,
@@ -26,7 +15,7 @@ export async function systemLoad(
   browser: string,
   isMobile: boolean,
 ) {
-  const end = localStorage.getItem("lyps_used");
+  const isUsed = localStorage.getItem("lyps_used");
   const homeApps = localStorage.getItem("lyps_homeApps");
   const apps: homeApps[] = homeApps
     ? JSON.parse(homeApps)
@@ -39,14 +28,18 @@ export async function systemLoad(
         "calendar",
         "repair",
       ];
-  const used = end === "true" ? true : false;
+  const used = isUsed === "true" ? true : false;
 
   if (!used) {
     localStorage.setItem("lyps_homeApps", JSON.stringify(apps));
   }
 
   try {
-    dispatch({ type: "systemStatus/setLoading", payload: true });
+    // 先載入校園網站公告
+    const news = await apiService.getNews();
+    dispatch(loadNews(news.data));
+
+    // 檢查是否有訂閱資訊
     const subscribeInfo = localStorage.getItem(
       "lyps_subscription",
     ) as unknown as [];
@@ -59,15 +52,26 @@ export async function systemLoad(
       );
     }
 
-    const sessionId = getCookie("sessionId");
+    // 載入校園行事曆
+    const calendarData: Event[] = await apiService.getAllEvents();
+    if (calendarData) {
+      const dates = new Set<string>();
+      calendarData.forEach((event: Event) => {
+        dates.add(event.date);
+      });
+      dispatch(
+        updateCalendarData({ events: calendarData, dateWithEvents: dates }),
+      );
+    }
 
+    // 檢查用戶登入狀態
+    const sessionId = getCookie("sessionId");
     if (!sessionId) {
       setTimeout(() => {
         dispatch(updateStatus(false));
       }, 500);
       return;
     }
-
     const data = await apiService.getUserData(sessionId);
     dispatch(
       updateUserData({
@@ -84,11 +88,12 @@ export async function systemLoad(
       }),
     );
   } catch (error) {
-    console.error("Failed to check user:", error);
+    console.error("Failed to initialize LYHS+ app:", error);
   } finally {
     setTimeout(() => {
       dispatch(
         updateSystemData({
+          initialize: false,
           isLoading: false,
           os: os,
           browser: browser,
@@ -98,5 +103,17 @@ export async function systemLoad(
         }),
       );
     }, 1000);
+  }
+}
+
+export function SystemCheck() {
+  const isMobile = window.matchMedia("(max-width: 640px)").matches;
+  const { os, browser } = getDeviceInfo();
+  systemLoad(store.dispatch, os, browser, isMobile);
+
+  // 設置應用程式版本
+  const version = process.env.NEXT_PUBLIC_APP_VERSION;
+  if (version) {
+    localStorage.setItem("lyps_ver", version);
   }
 }

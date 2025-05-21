@@ -1,7 +1,4 @@
-export const getDeviceInfo = (
-  setOS: (os: string) => void,
-  setBrowser: (browser: string) => void,
-) => {
+export const getDeviceInfo = () => {
   const userAgent = navigator.userAgent;
   let os = "Unknown";
   let browser = "Unknown";
@@ -33,6 +30,5 @@ export const getDeviceInfo = (
     browser = "Safari";
   }
 
-  setOS(os);
-  setBrowser(browser);
+  return { os: os, browser: browser };
 };

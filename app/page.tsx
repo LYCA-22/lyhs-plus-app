@@ -219,8 +219,10 @@ export default function Home() {
         </div>
       </div>
       */}
-      <div className="relative bg-zinc-100 pt-deviceTop">
-        <div className="px-5 pt-5 flex justify-between items-center">
+      <div
+        className={`relative bg-zinc-100 ${AppData.isPwa ? "pt-deviceTop" : "pt-5"}`}
+      >
+        <div className="px-5 flex justify-between items-center">
           <h1 className="text-2xl font-medium">總覽</h1>
           <button
             onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
@@ -251,7 +253,7 @@ export default function Home() {
                         : () => {}
                       : () => router.push(appData.link || "/")
                   }
-                  className={`bg-zinc-100 relative rounded-3xl hover:scale-105 transition-all`}
+                  className={`bg-zinc-100 relative rounded-3xl hover:opacity-80 transition-all`}
                 >
                   <div className="h-full relative p-4 flex flex-col justify-center items-start gap-3 transition-all font-medium">
                     <Image

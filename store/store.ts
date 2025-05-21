@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./userSlice";
 import { systemSlice } from "./systemSlice";
+import { calendarSlice } from "./calendar";
 import { announcementSlice } from "./newsSlice";
 
 export const store = configureStore({
@@ -8,6 +9,7 @@ export const store = configureStore({
     userData: userSlice.reducer,
     systemData: systemSlice.reducer,
     newsData: announcementSlice.reducer,
+    calendarData: calendarSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

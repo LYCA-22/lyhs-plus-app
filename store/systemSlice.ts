@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { homeApps } from "@/types";
 
 interface UserState {
+  initialize: boolean;
   isLoading: boolean;
   os: string;
   isMobile: boolean;
@@ -17,6 +18,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
+  initialize: true,
   isLoading: true,
   os: "",
   isMobile: false,
@@ -47,8 +49,16 @@ export const systemSlice = createSlice({
     closeBack: (state) => {
       state.isBack = false;
     },
+    updateInitialize: (state, action: PayloadAction<boolean>) => {
+      state.initialize = action.payload;
+    },
   },
 });
 
-export const { updateStatus, updateSystemData, updateHomeApps, closeBack } =
-  systemSlice.actions;
+export const {
+  updateStatus,
+  updateSystemData,
+  updateHomeApps,
+  closeBack,
+  updateInitialize,
+} = systemSlice.actions;

@@ -1,38 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
-import { apiService } from "@/services/api";
 import { format, startOfWeek, addDays, isSameDay } from "date-fns";
 import { zhTW } from "date-fns/locale";
-import { CalendarX, ChevronLeft, ChevronRight } from "lucide-react";
-
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  office: string;
-}
+import { CalendarX, ChevronLeft, ChevronRight, RefreshCcw } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
+import { UpdateCalendar } from "@/utils/reloadCalendar";
 
 export default function Page() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const { events, dateWithEvents } = useAppSelector(
+    (state) => state.calendarData,
+  );
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [dateWithEvents, setDateWithEvents] = useState<Set<string>>(new Set());
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
     startOfWeek(new Date(), { weekStartsOn: 0 }), // 从周日开始
   );
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const getEvents = async () => {
-      const data = await apiService.getAllEvents();
-      setEvents(data);
-      const dates = new Set<string>();
-      data.forEach((event: Event) => {
-        dates.add(event.date);
-      });
-      setDateWithEvents(dates);
-    };
-    getEvents();
-  }, []);
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/",
+      }),
+    );
+  });
 
   const weekDays = Array(7)
     .fill(null)
@@ -70,15 +62,30 @@ export default function Page() {
     setCurrentWeekStart(addDays(currentWeekStart, 7));
   };
 
+  {
+    /*
   const currentWeek = () => {
     setCurrentWeekStart(startOfWeek(new Date(), { weekStartsOn: 0 })); // 从周日开始
     setSelectedDate(new Date());
   };
+  */
+  }
 
   const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
 
+  const reload = async () => {
+    dispatch(updateSystemData({ isLoading: true }));
+    await UpdateCalendar();
+    dispatch(updateSystemData({ isLoading: false }));
+  };
+
   return (
     <div className="container mx-auto px-2">
+      <div className="fixed top-0 z-[5000] right-5 pt-deviceTop">
+        <button onClick={reload}>
+          <RefreshCcw className="opacity-50 mt-1" size={22}></RefreshCcw>
+        </button>
+      </div>
       <div className="flex flex-col">
         <div className="flex flex-col justify-center items-center">
           <div className="w-full mx-2 mt-6 px-4">
@@ -86,7 +93,7 @@ export default function Page() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={prevWeek}
-                  className="p-2 bg-buttonBg rounded-2xl"
+                  className="p-2 bg-buttonBg rounded-full"
                 >
                   <ChevronLeft
                     size={20}
@@ -94,15 +101,17 @@ export default function Page() {
                     className="opacity-50"
                   />
                 </button>
+                {/*
                 <button
                   onClick={currentWeek}
                   className="p-2 px-3 bg-inputPrimary font-medium text-white text-sm rounded-full"
                 >
                   本週
                 </button>
+                */}
                 <button
                   onClick={nextWeek}
-                  className="p-2 bg-buttonBg rounded-2xl"
+                  className="p-2 bg-buttonBg rounded-full"
                 >
                   <ChevronRight
                     size={20}
@@ -131,10 +140,10 @@ export default function Page() {
                     className="flex flex-col items-center justify-center gap-2"
                   >
                     <div
-                      className={`h-[6px] w-[6px] rounded-full z-50 ${dateHasEvent ? "bg-red-600" : "bg-transparent"}`}
+                      className={`h-[6px] w-[6px] rounded-full z-10 ${dateHasEvent ? "bg-red-600" : "bg-transparent"}`}
                     ></div>
                     <button
-                      className={`p-2 px-3 w-9 h-9 rounded-2xl max-sm:text-sm flex items-center justify-center relative
+                      className={`p-2 px-3 w-9 h-9 rounded-full max-sm:text-sm flex items-center justify-center relative
                       ${isSelected ? "bg-primary text-primary-foreground" : "hover:bg-hoverbg"}`}
                       onClick={() => setSelectedDate(date)}
                     >
@@ -162,22 +171,21 @@ export default function Page() {
                 <div key={event.id}>
                   <div className="flex items-center p-4 pt-3">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="font-semibold">{event.title}</h3>
+                      <div className="flex items-start space-x-2">
                         <div
                           className={`rounded-full font-medium min-w-fit px-2 p-1 text-xs text-white ${officeColors[event.office]}`}
                         >
                           {officeZhName[event.office]}
                         </div>
+                        <h3 className="font-semibold">{event.title}</h3>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-2 bg-zinc-100 dark:bg-zinc-600/20 rounded-2xl p-3">
                         {event.description !== "無"
                           ? event.description
                           : "無描述"}
                       </p>
                     </div>
                   </div>
-                  <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mb-1"></div>
                 </div>
               ))}
             </div>

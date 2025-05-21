@@ -1,7 +1,5 @@
 "use client";
-import { apiService } from "@/services/api";
 import { useAppDispatch } from "@/store/hook";
-import { loadNews } from "@/store/newsSlice";
 import { updateSystemData } from "@/store/systemSlice";
 import {
   DotsThreeOutline,
@@ -79,19 +77,6 @@ export function NavBar() {
     return () => mediaQuery.removeListener(checkPWA);
   });
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const news = await apiService.getNews();
-        dispatch(loadNews(news.data));
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      }
-    };
-
-    fetchNews();
-  }, [dispatch]);
-
   const handleVibration = (path: string) => {
     if (navigator.vibrate) {
       navigator.vibrate(50);
@@ -105,7 +90,7 @@ export function NavBar() {
     }
   };
 
-  if (pathname === "/repair") {
+  if (pathname === "/repair" || pathname === "/calendar") {
     return;
   }
 

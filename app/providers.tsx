@@ -4,7 +4,7 @@ import { store } from "../store/store";
 import { ThemeProvider } from "next-themes";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname } from "next/navigation";
-import SystemCheck from "@/components/initSystemCheck";
+import { SystemCheck } from "@/utils/initSystemCheck";
 import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/welcome";
 import { DynamicBack } from "@/components/dynamicBack";
@@ -12,6 +12,7 @@ import SettingsDrawer from "@/components/settings/drawer";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { LoadingSvg } from "@/components/loadingSvg";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -42,6 +43,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       window.removeEventListener("resize", checkIsMobile);
     };
   });
+
+  useEffect(() => {
+    if (isMobile) {
+      SystemCheck();
+    }
+  }, [isMobile]);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
@@ -104,9 +111,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           </div>
         ) : (
           <>
-            <SystemCheck />
             <LoadingPage />
             <BetaAlert />
+            <LoadingSvg />
             <div className="w-full flex items-center justify-center">
               <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
                 {pathname !== "/" &&
