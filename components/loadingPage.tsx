@@ -46,7 +46,7 @@ export function LoadingPage() {
     <>
       {!imageOut && (
         <div
-          className={`transition-all delay-75 fixed top-0 flex z-50 w-full h-dvh bg-background items-center justify-center ${outing ? "opacity-0" : "opacity-100"} `}
+          className={`transition-all delay-75 fixed top-0 flex z-[10000] w-full h-dvh bg-background items-center justify-center ${outing ? "opacity-0" : "opacity-100"} `}
         >
           <Image
             alt="logo"
