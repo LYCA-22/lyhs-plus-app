@@ -4,7 +4,6 @@ import type { AppDispatch } from "@/store/store";
 import { apiService } from "@/services/api";
 import { updateStatus, updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
-import { homeApps } from "@/types";
 import { getCookie } from "./getCookie";
 import { loadNews } from "@/store/newsSlice";
 import { Event, updateCalendarData } from "@/store/calendar";
@@ -17,18 +16,16 @@ export async function systemLoad(
 ) {
   const isUsed = localStorage.getItem("lyps_used");
   const homeApps = localStorage.getItem("lyps_homeApps");
-  const apps: homeApps[] = homeApps
+  const apps = homeApps
     ? JSON.parse(homeApps)
-    : [
-        "eSchool",
-        "studyHistory",
-        "schoolWeb",
-        "mailBox",
-        "mailSearch",
-        "calendar",
-        "repair",
-      ];
+    : ["eSchool", "studyHistory", "schoolWeb", "calendar", "repair"];
   const used = isUsed === "true" ? true : false;
+
+  if (apps.includes("mailBox")) {
+    const new_apps = apps.filter((app: string) => app !== "mailBox");
+    const new_apps2 = new_apps.filter((app: string) => app !== "mailSearch");
+    localStorage.setItem("lyps_homeApps", JSON.stringify(new_apps2));
+  }
 
   if (!used) {
     localStorage.setItem("lyps_homeApps", JSON.stringify(apps));

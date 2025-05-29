@@ -44,6 +44,16 @@ export enum homeApps {
   repair = "repair",
 }
 
+export interface App {
+  name: string;
+  icon: string;
+  onclick?: string;
+  link?: string;
+  type: "btn" | "link";
+  color: string;
+  description: string;
+}
+
 export interface schemaItem {
   title: string;
   title2?: string;

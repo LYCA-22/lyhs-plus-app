@@ -195,4 +195,14 @@ export const apiService = {
       throw e;
     }
   },
+  async getSchoolSystemCode() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/v1/auth/school/validate`);
+      const result = await res.json();
+
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

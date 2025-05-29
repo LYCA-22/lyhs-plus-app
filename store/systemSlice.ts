@@ -15,6 +15,8 @@ interface UserState {
   isBack: boolean;
   BackLink: string;
   isSetOpen: boolean;
+  JSESSIONID: string;
+  SRV: string;
 }
 
 const initialState: UserState = {
@@ -31,6 +33,8 @@ const initialState: UserState = {
   isBack: false,
   BackLink: "",
   isSetOpen: false,
+  JSESSIONID: "",
+  SRV: "",
 };
 
 export const systemSlice = createSlice({
