@@ -21,6 +21,7 @@ interface AppSchema {
   path: string;
   icon: React.ReactNode;
   active_icon: React.ReactNode;
+  openw: string;
 }
 
 const appSchema: AppSchema[] = [
@@ -29,18 +30,21 @@ const appSchema: AppSchema[] = [
     icon: <House size={25} />,
     active_icon: <House size={25} weight="fill" />,
     path: "/",
+    openw: "w-20",
   },
   {
     name: "校園公告",
     icon: <MegaphoneSimple size={25} />,
     active_icon: <MegaphoneSimple size={25} weight="fill" />,
     path: "/news",
+    openw: "w-28",
   },
   {
     name: "班聯會",
     icon: <HandFist size={25} />,
     active_icon: <HandFist size={25} weight="fill" />,
     path: "/lyca",
+    openw: "w-24",
   },
 ];
 
@@ -96,7 +100,7 @@ export function NavBar() {
 
   return (
     <div
-      className={`z-30 w-full flex items-center justify-center fixed bottom-0 bg-gradient-to-t from-background to-white/0 dark:to-gray-800/0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "pt-2 pb-5"}`}
+      className={`z-30 w-full flex items-center justify-center fixed bottom-0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "pt-2 pb-5"}`}
     >
       {!badgeClose && (
         <div className="fixed top-0 w-full flex">
@@ -123,37 +127,41 @@ export function NavBar() {
         </div>
       )}
       <div
-        className={`flex justify-around items-center p-1 px-2 bg-zinc-100/75 shadow-2xl backdrop-blur-sm dark:bg-zinc-800/75 z-20 border rounded-full border-border dark:border-zinc-700`}
+        className={`flex justify-around items-center p-1 bg-zinc-900/70 shadow-lg backdrop-blur-xl dark:bg-zinc-50/20 z-20 rounded-full`}
       >
         {appSchema.map((app) => (
           <div
             key={app.path}
             onClick={() => handleVibration(app.path)}
-            className={`flex flex-col group items-center justify-center w-12 h-12 cursor-pointer ${
+            className={`flex group items-center transition-all p-3 gap-1 cursor-pointer ${
               (app.path === "/" && pathname === "/") ||
               (app.path !== "/" && pathname.startsWith(app.path))
-                ? "text-primary"
-                : "text-zinc-500 dark:text-zinc-400"
+                ? `bg-white rounded-full dark:bg-zinc-50/25 ${app.openw} justify-center`
+                : "text-background opacity-50 dark:text-zinc-400 w-12 overflow-hidden justify-start"
             }`}
           >
-            <div className="group-active:opacity-60 transition-all">
-              {(app.path === "/" && pathname === "/") ||
-              (app.path !== "/" && pathname.startsWith(app.path))
-                ? app.active_icon
-                : app.icon}
+            <div className="flex group items-center justify-center gap-1 whitespace-nowrap">
+              <div className="group-active:opacity-60 transition-all">
+                {(app.path === "/" && pathname === "/") ||
+                (app.path !== "/" && pathname.startsWith(app.path))
+                  ? app.active_icon
+                  : app.icon}
+              </div>
+              <p
+                className={`font-medium ${app.path == pathname ? "opacity-100" : "opacity-0"}`}
+              >
+                {app.name}
+              </p>
             </div>
-            {pathname === app.path && (
-              <div className="h-1 w-1 rounded-full bg-inputPrimary absolute bottom-2"></div>
-            )}
           </div>
         ))}
+        <button
+          className="flex group items-center justify-center p-3 cursor-pointer"
+          onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
+        >
+          <DotsThreeOutline size={22} className="text-background opacity-50" />
+        </button>
       </div>
-      <button
-        onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
-        className={`flex items-center justify-center shadow-xl absolute right-5 w-10 h-10 bg-zinc-100/75 backdrop-blur-sm dark:bg-zinc-800/50 z-20 border rounded-full border-border dark:border-zinc-700`}
-      >
-        <DotsThreeOutline size={22} className="opacity-50" />
-      </button>
     </div>
   );
 }

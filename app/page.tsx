@@ -74,7 +74,7 @@ export default function Home() {
     <div id="home-main">
       <div className={`relative`}>
         <div
-          className={`w-full ${AppData.isPwa ? "pt-deviceTop" : "pt-5 pb-2"} bg-gradient-to-b from-orange-200 to-background`}
+          className={`w-full ${AppData.isPwa ? "pt-deviceTop" : "pt-5 pb-2"} bg-gradient-to-b from-orange-200 dark:from-orange-200/20 to-background`}
         ></div>
         <div className="px-5 flex justify-between items-center bg-transparent">
           <div className="flex gap-3 items-center">
@@ -93,21 +93,21 @@ export default function Home() {
             <div className="flex gap-3 whitespace-nowrap min-w-min">
               <Link
                 href={"/"}
-                className="bg-foreground rounded-full p-3 px-4 text-white flex gap-2 items-center"
+                className="bg-foreground rounded-full p-3 px-4 text-background flex gap-2 items-center"
               >
                 <ChartColumn size={23} />
                 成績查詢
               </Link>
               <Link
                 href={"/repair"}
-                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-zinc-200 items-center"
+                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
               >
                 <Hammer size={23} />
                 線上報修
               </Link>
               <Link
                 href={"/news"}
-                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-zinc-200 items-center"
+                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
               >
                 <Bell size={23} />
                 查看今天最新的公告
@@ -129,7 +129,7 @@ export default function Home() {
                         : () => {}
                       : () => router.push(appData.link || "/")
                   }
-                  className={`bg-zinc-100 relative rounded-3xl hover:opacity-80 transition-all`}
+                  className={`bg-hoverbg relative rounded-3xl hover:opacity-80 transition-all`}
                 >
                   <div className="h-full relative p-4 flex flex-col justify-center items-start gap-3 transition-all font-medium">
                     <Image

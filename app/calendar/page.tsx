@@ -92,7 +92,7 @@ export default function Page() {
           <RefreshCcw className="opacity-50 mt-1" size={22}></RefreshCcw>
         </button>
       </div>
-      <div className="p-6 bg-zinc-100 grow max-h-dvh overflow-y-auto pb-72">
+      <div className="p-6 bg-hoverbg grow max-h-dvh overflow-y-auto pb-72">
         {selectedEvents.length === 0 ? (
           <div className="w-full flex items-center flex-col gap-2 justify-center p-4 py-8">
             <OctagonAlert size={30} strokeWidth={2} className="opacity-50" />

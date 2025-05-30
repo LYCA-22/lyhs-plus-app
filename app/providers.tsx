@@ -8,11 +8,11 @@ import { SystemCheck } from "@/utils/initSystemCheck";
 import { NavBar } from "@/components/navBar";
 import BetaAlert from "@/components/welcome";
 import { DynamicBack } from "@/components/dynamicBack";
-import SettingsDrawer from "@/components/settings/drawer";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LoadingSvg } from "@/components/loadingSvg";
+import SettingsDrawer from "@/components/settings/drawer";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -134,7 +134,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     {children}
                   </div>
                 </div>
-                {!pathname.startsWith("/mailbox") && <NavBar />}
+                <NavBar />
                 <SettingsDrawer />
               </main>
             </div>
