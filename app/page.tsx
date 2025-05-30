@@ -15,15 +15,8 @@ export default function Home() {
   const AppData = useAppSelector((state) => state.systemData);
   const NewsData = useAppSelector((state) => state.newsData);
   const calendarData = useAppSelector((state) => state.calendarData);
-  const [month, setMonth] = useState("");
-  const [date, setDate] = useState("");
   const collegeEntranceExamDate = new Date("2026-01-16T00:00:00");
-
-  useEffect(() => {
-    const iso_date = new Date().toISOString().split("T")[0];
-    setMonth(iso_date.split("-")[1]);
-    setDate(iso_date.split("-")[2]);
-  }, []);
+  const collegeEntranceExamDate2 = new Date("2025-07-11T00:00:00");
 
   const eSchool = () => {
     const form = document.createElement("form");
@@ -54,7 +47,7 @@ export default function Home() {
         </div>
         <div className="p-5 relative">
           <div aria-label="home-title" className="mb-10">
-            <h1 className="font-light text-3xl">今天需要什麼資訊呢？</h1>
+            <h1 className="font-medium text-3xl">今天需要什麼資訊呢？</h1>
             <p className="opacity-45 font-light text-lg my-2">
               點擊下面的按鈕，開啟更多豐富體驗
             </p>
@@ -116,7 +109,6 @@ export default function Home() {
                 href={"/news"}
                 className="bg-inputPrimary p-2 px-3 rounded-full text-white ml-auto flex gap-2 items-center"
               >
-                <p>看更多</p>
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
@@ -159,22 +151,27 @@ export default function Home() {
                 href={"/calendar"}
                 className="bg-hoverbg p-2 px-3 rounded-full text-foreground ml-auto mt-auto flex gap-2 items-center"
               >
-                <p>看更多</p>
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
-            <div className="border border-borderColor rounded-[30px] overflow-hidden">
-              <div className="p-3 text-white bg-gradient-to-t from-red-500 to-red-400 font-sans font-medium text-2xl flex items-center justify-center">
-                <p>{month} 月</p>
-              </div>
-              <div className="text-8xl font-light flex items-center justify-center p-3">
-                <p>{date}</p>
-              </div>
+            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch">
+              <CountdownTimer
+                targetDate={new Date("2025-06-23T00:00:00")}
+                title="第三次段考倒數"
+              />
+              <button className="mt-auto cursor-no-drop text-sm rounded-full w-full bg-zinc-200 text-zinc-500 p-2 flex items-center justify-center">
+                考程表尚未公開
+              </button>
             </div>
-            <div className="border border-borderColor rounded-[30px] overflow-hidden">
+            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3">
               <CountdownTimer
                 targetDate={collegeEntranceExamDate}
                 title="115 學測倒數"
+              />
+              <div className="w-full h-[1px] bg-zinc-200"></div>
+              <CountdownTimer
+                targetDate={collegeEntranceExamDate2}
+                title="114 分科倒數"
               />
             </div>
           </div>
