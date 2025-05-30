@@ -25,6 +25,15 @@
     overflow: hidden;
 }
 
+@font-face {
+    font-family: "OpenAI Sans";
+    src:
+        url("/fonts/OpenAISans-Regular.woff2") format("woff2"),
+        url("/fonts/OpenAISans-Medium.woff2") format("woff2");
+    font-weight: 400 500;
+    font-style: normal;
+}
+
 html,
 body {
     overflow: hidden;

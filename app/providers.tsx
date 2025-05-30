@@ -13,6 +13,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { LoadingSvg } from "@/components/loadingSvg";
 import SettingsDrawer from "@/components/settings/drawer";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -130,9 +132,17 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   id="main-area"
                   className="bg-background overflow-hidden relative w-full grow"
                 >
-                  <div className="overflow-y-auto overflow-x-hidden box-border h-full">
-                    {children}
-                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={pathname}
+                      initial={{ scale: 0.99, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", duration: 0.7 }}
+                      className="overflow-y-auto overflow-x-hidden box-border h-full"
+                    >
+                      {children}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
                 <NavBar />
                 <SettingsDrawer />

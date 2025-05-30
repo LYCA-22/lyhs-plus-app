@@ -17,6 +17,9 @@ const config = {
         deviceTop: "calc(env(safe-area-inset-top) + 10px)",
         deviceBottom: "env(safe-area-inset-bottom)",
       },
+      fontFamily: {
+        custom: ["OpenAI Sans", "sans-serif"],
+      },
       padding: {
         deviceTop: "calc(env(safe-area-inset-top) + 10px)",
         deviceBottom: "env(safe-area-inset-bottom)",

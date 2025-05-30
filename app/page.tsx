@@ -1,59 +1,29 @@
 "use client";
-import Image from "next/image";
 import { useAppSelector } from "@/store/hook";
-import { useRouter } from "next/navigation";
-import { ArrowRight, Bell, ChartColumn, Hammer } from "lucide-react";
-import { App } from "@/types";
+import {
+  ArrowRight,
+  Bell,
+  ChartColumn,
+  GraduationCap,
+  Hammer,
+} from "lucide-react";
 import Link from "next/link";
-
-const apps = {
-  eSchool: {
-    name: "校務系統",
-    icon: "eschool",
-    onclick: "eschool",
-    type: "btn",
-    color: "bg-purple-100 dark:bg-purple-900/50",
-    description: "直接透過 OpenID 快速登入，查閱個人學業資料",
-  } as App,
-  studyHistory: {
-    name: "學習歷程",
-    icon: "studyhistory",
-    link: "https://epf.kh.edu.tw/openId.do",
-    type: "link",
-    color: "bg-red-50 dark:bg-red-900/50",
-    description: "直接透過 OpenID 快速登入，修改或新增學習歷程項目",
-  } as App,
-  schoolWeb: {
-    name: "學校網站",
-    icon: "schoolWebIcon",
-    link: "https://www.ly.kh.edu.tw/view/index.php?WebID=336",
-    type: "link",
-    color: "bg-sky-50 dark:bg-sky-900/50",
-    description: "此按鈕會開啟林園高中官方網站，可以查閱更多資訊",
-  } as App,
-  calendar: {
-    name: "行事曆",
-    icon: "calendar",
-    link: "/calendar",
-    type: "link",
-    color: "bg-orange-50 dark:bg-orange-900/50",
-    description: "查詢校園行事曆、各項活動日期",
-  } as App,
-  repair: {
-    name: "線上報修",
-    icon: "repair",
-    link: "/repair",
-    type: "link",
-    color: "bg-green-50 dark:bg-green-900/50",
-    description: "線上化報修系統，提供快速、方便的報修服務",
-  } as App,
-};
-
-type AppKey = keyof typeof apps;
+import { useEffect, useState } from "react";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 export default function Home() {
   const AppData = useAppSelector((state) => state.systemData);
-  const router = useRouter();
+  const NewsData = useAppSelector((state) => state.newsData);
+  const calendarData = useAppSelector((state) => state.calendarData);
+  const [month, setMonth] = useState("");
+  const [date, setDate] = useState("");
+  const collegeEntranceExamDate = new Date("2026-01-16T00:00:00");
+
+  useEffect(() => {
+    const iso_date = new Date().toISOString().split("T")[0];
+    setMonth(iso_date.split("-")[1]);
+    setDate(iso_date.split("-")[2]);
+  }, []);
 
   const eSchool = () => {
     const form = document.createElement("form");
@@ -112,48 +82,102 @@ export default function Home() {
                 <Bell size={23} />
                 查看今天最新的公告
               </Link>
+              <button
+                onClick={() => eSchool}
+                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
+              >
+                <GraduationCap size={23} />
+                校務行政系統
+              </button>
             </div>
           </div>
         </div>
-        <div className="pb-32 grid grid-cols-2 gap-5 p-5 overflow-x-auto relative scroll-smooth scrollbar-hide">
-          {!AppData.isLoading &&
-            AppData.homeApps.map((app, index) => {
-              const appData = apps[app as AppKey];
-              return (
-                <button
-                  key={index}
-                  onClick={
-                    appData.type === "btn"
-                      ? appData.icon == "eschool"
-                        ? eSchool
-                        : () => {}
-                      : () => router.push(appData.link || "/")
-                  }
-                  className={`bg-hoverbg relative rounded-3xl hover:opacity-80 transition-all`}
-                >
-                  <div className="h-full relative p-4 flex flex-col justify-center items-start gap-3 transition-all font-medium">
-                    <Image
-                      alt="mailbox"
-                      src={`./serviceIcon/${appData.icon}.svg`}
-                      width={28}
-                      height={28}
-                      priority
-                    />
-                    <div className="text-left flex flex-col gap-2">
-                      <h1 className="text-[16px] opacity-80 font-medium">
-                        {appData.name}
-                      </h1>
-                      <p className="opacity-50 text-sm text-left">
-                        {appData.description}
-                      </p>
-                    </div>
-                    <div className="w-full mt-auto">
-                      <ArrowRight className="opacity-50" />
-                    </div>
+        <div className="p-5 pb-32 flex flex-col gap-3">
+          <h1 className="font-light text-2xl">快速小工具</h1>
+          <div className="relative grid grid-cols-2 gap-5 overflow-x-auto scroll-smooth scrollbar-hide">
+            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2">
+              <div>
+                <h1 className="text-xl font-medium">校園公告</h1>
+                <p className="opacity-50 text-xs">以下為最新的兩則公告</p>
+              </div>
+              {NewsData.announcements[3] ? (
+                <div className="flex flex-col gap-2">
+                  <div className="bg-hoverbg w-full overflow-hidden whitespace-nowrap rounded-full p-2">
+                    <p className="text-sm">{NewsData.announcements[2].title}</p>
                   </div>
-                </button>
-              );
-            })}
+                  <div className="bg-hoverbg w-full overflow-hidden whitespace-nowrap rounded-full p-2">
+                    <p className="text-sm">{NewsData.announcements[3].title}</p>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              <Link
+                href={"/news"}
+                className="bg-inputPrimary p-2 px-3 rounded-full text-white ml-auto flex gap-2 items-center"
+              >
+                <p>看更多</p>
+                <ArrowRight size={20} strokeWidth={3} />
+              </Link>
+            </div>
+            <div className="bg-inputPrimary text-white border rounded-[30px] p-4 relative w-full flex flex-col gap-2">
+              <div>
+                <h1 className="text-xl font-medium">今天的活動</h1>
+                <p className="opacity-50 text-xs">以下為最新的兩則事項</p>
+              </div>
+              {calendarData.events && calendarData.events.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {(() => {
+                    const today = new Date().toISOString().split("T")[0];
+
+                    const todayEvents = calendarData.events.filter(
+                      (event) => event.date === today,
+                    );
+
+                    return todayEvents.length > 0 ? (
+                      todayEvents.slice(0, 2).map((event, index) => (
+                        <div
+                          key={index}
+                          className="bg-zinc-800 w-full overflow-hidden rounded-full p-2"
+                        >
+                          <p className="text-sm truncate">{event.title}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="bg-hoverbg w-full overflow-hidden rounded-full p-2">
+                        <p className="text-sm truncate">今天沒有活動</p>
+                      </div>
+                    );
+                  })()}
+                </div>
+              ) : (
+                <div className="bg-hoverbg w-full overflow-hidden rounded-full p-2">
+                  <p className="text-sm truncate">載入中...</p>
+                </div>
+              )}
+              <Link
+                href={"/calendar"}
+                className="bg-hoverbg p-2 px-3 rounded-full text-foreground ml-auto mt-auto flex gap-2 items-center"
+              >
+                <p>看更多</p>
+                <ArrowRight size={20} strokeWidth={3} />
+              </Link>
+            </div>
+            <div className="border border-borderColor rounded-[30px] overflow-hidden">
+              <div className="p-3 text-white bg-gradient-to-t from-red-500 to-red-400 font-sans font-medium text-2xl flex items-center justify-center">
+                <p>{month} 月</p>
+              </div>
+              <div className="text-8xl font-light flex items-center justify-center p-3">
+                <p>{date}</p>
+              </div>
+            </div>
+            <div className="border border-borderColor rounded-[30px] overflow-hidden">
+              <CountdownTimer
+                targetDate={collegeEntranceExamDate}
+                title="115 學測倒數"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
