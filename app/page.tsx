@@ -47,14 +47,14 @@ export default function Home() {
         <div className="p-5 relative">
           <div aria-label="home-title" className="mb-10">
             <h1 className="font-medium text-3xl">今天需要什麼資訊呢？</h1>
-            <p className="opacity-45 font-light text-lg my-2">
+            <p className="opacity-45 font-normal text-lg my-2">
               點擊下面的按鈕，開啟更多豐富體驗
             </p>
           </div>
           <div className="overflow-auto w-full scrollbar-hide">
             <div className="flex gap-3 whitespace-nowrap min-w-min">
               <Link
-                href={"/"}
+                href={"/school"}
                 className="bg-foreground rounded-full p-3 px-4 text-background flex gap-2 items-center"
               >
                 <ChartColumn size={23} />
@@ -86,8 +86,8 @@ export default function Home() {
         </div>
         <div className="p-5 pb-32 flex flex-col gap-3">
           <h1 className="font-light text-2xl">快速小工具</h1>
-          <div className="relative grid grid-cols-2 gap-5 overflow-x-auto scroll-smooth scrollbar-hide">
-            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2">
+          <div className="relative grid grid-cols-2 gap-5 overflow-x-auto scroll-smooth scrollbar-hide pb-3">
+            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-md">
               <div>
                 <h1 className="text-xl font-medium">校園公告</h1>
                 <p className="opacity-50 text-xs">以下為最新的兩則公告</p>
@@ -111,7 +111,7 @@ export default function Home() {
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
-            <div className="bg-inputPrimary text-white border rounded-[30px] p-4 relative w-full flex flex-col gap-2">
+            <div className="bg-inputPrimary text-white border rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-md">
               <div>
                 <h1 className="text-xl font-medium">今天的活動</h1>
                 <p className="opacity-50 text-xs">以下為最新的兩則事項</p>
@@ -135,7 +135,7 @@ export default function Home() {
                         </div>
                       ))
                     ) : (
-                      <div className="bg-hoverbg w-full overflow-hidden rounded-full p-2">
+                      <div className="bg-zinc-800 w-full overflow-hidden rounded-full p-2">
                         <p className="text-sm truncate">今天沒有活動</p>
                       </div>
                     );
@@ -153,7 +153,7 @@ export default function Home() {
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
-            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch">
+            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch shadow-md">
               <CountdownTimer
                 targetDate={new Date("2025-06-23T00:00:00")}
                 title="第三次段考倒數"
@@ -162,7 +162,7 @@ export default function Home() {
                 考程表尚未公開
               </button>
             </div>
-            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3">
+            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-md">
               <CountdownTimer
                 targetDate={collegeEntranceExamDate}
                 title="115 學測倒數"

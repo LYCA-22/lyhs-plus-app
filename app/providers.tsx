@@ -32,6 +32,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/calendar": "行事曆",
     "/repair": "線上報修",
     "/schoolweb": "學校網站",
+    "/school": "校務系統",
+    "/school/verify": "驗證碼",
   };
   const [isMobile, setIsMobile] = useState<boolean>(true);
 

@@ -11,6 +11,7 @@ interface UserState {
   grade: string;
   class: string;
   isLoggedIn: boolean;
+  school_session: string;
 }
 
 const initialState: UserState = {
@@ -24,6 +25,7 @@ const initialState: UserState = {
   grade: "",
   class: "",
   isLoggedIn: false,
+  school_session: "",
 };
 
 export const userSlice = createSlice({

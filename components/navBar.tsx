@@ -159,7 +159,10 @@ export function NavBar() {
           className="flex group items-center justify-center p-3 cursor-pointer"
           onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
         >
-          <DotsThreeOutline size={22} className="text-background opacity-50" />
+          <DotsThreeOutline
+            size={22}
+            className="text-background opacity-40 dark:text-zinc-400"
+          />
         </button>
       </div>
     </div>

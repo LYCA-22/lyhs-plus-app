@@ -4,8 +4,6 @@ import {
   ChevronRight,
   ArrowUpRight,
   Palette,
-  Layers2,
-  Radio,
   CircleEllipsis,
   ScrollText,
   Scroll,
@@ -44,6 +42,7 @@ export const appSchema: schemaItem[] = [
     access_manage: false,
     component: <ThemeToggle />,
   },
+  /*
   {
     itemIcon: <Layers2 size={24} strokeWidth={2.5} />,
     title: "快速捷徑",
@@ -62,6 +61,7 @@ export const appSchema: schemaItem[] = [
     btnfunction: "notification",
     icon: <ChevronRight size={22} strokeWidth={2.5} />,
   },
+  */
   {
     itemIcon: <CircleEllipsis size={24} strokeWidth={2.5} />,
     title: "更多介紹",

@@ -205,4 +205,32 @@ export const apiService = {
       console.error(error);
     }
   },
+  async getSessionKey(
+    loginId: string,
+    password: string,
+    captcha: string,
+    JSESSIONID: string,
+    SRV: string,
+  ) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/v1/auth/school/session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          loginId: loginId,
+          password: password,
+          captcha: captcha,
+          JSESSIONID: JSESSIONID,
+          SRV: SRV,
+        }),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  },
 };
