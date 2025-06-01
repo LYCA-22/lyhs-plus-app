@@ -5,7 +5,7 @@ import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import { ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface scoreData {
@@ -20,7 +20,7 @@ interface scoreData {
   syear: number;
 }
 
-export default function Page() {
+function ScoreDetailContent() {
   const searchParams = useSearchParams();
   const year = searchParams.get("year") as string;
   const seme = searchParams.get("seme") as string;
@@ -94,5 +94,13 @@ export default function Page() {
         </ul>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <ScoreDetailContent />
+    </Suspense>
   );
 }
