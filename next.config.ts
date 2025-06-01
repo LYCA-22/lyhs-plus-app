@@ -1,21 +1,7 @@
 import type { NextConfig } from "next";
 import nextPwa from "next-pwa";
 
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com https://api.lyhsca.org 'unsafe-inline';
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: https://www.googletagmanager.com https://api.lyhsca.org;
-  connect-src 'self' https://www.google-analytics.com https://api.lyhsca.org https://plus.lyhsca.org https://cloudflareinsights.com;
-  frame-src 'none';
-  object-src 'none';
-`;
-
 const securityHeaders = [
-  {
-    key: "Content-Security-Policy",
-    value: ContentSecurityPolicy.replace(/\n/g, ""),
-  },
   {
     key: "Strict-Transport-Security",
     value: "max-age=63072000; includeSubDomains; preload",

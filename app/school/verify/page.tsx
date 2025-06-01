@@ -55,6 +55,8 @@ export default function Page() {
       dispatch(
         updateUserData({
           school_session: result.session_key,
+          JSESSIONID: jsessionId,
+          SRV: srv,
         }),
       );
       setTimeout(() => {
@@ -65,7 +67,13 @@ export default function Page() {
         );
       });
 
-      window.alert(`功能開發中`);
+      const info = await apiService.getScore(
+        result.session_key,
+        jsessionId,
+        srv,
+      );
+
+      console.log(info);
     } else {
       setTimeout(() => {
         dispatch(

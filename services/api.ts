@@ -233,4 +233,24 @@ export const apiService = {
       console.error(e);
     }
   },
+  async getScore(session_key: string, jsessionId: string, srv: string) {
+    try {
+      const res = await fetch(`https://api.lyhsca.org/v1/auth/school/score`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sessionKey: session_key,
+          jsessionId: jsessionId,
+          srv: srv,
+        }),
+      });
+
+      const result = await res.json();
+      return result;
+    } catch (e) {
+      console.error(e);
+    }
+  },
 };
