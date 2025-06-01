@@ -197,7 +197,7 @@ export const apiService = {
   },
   async getSchoolSystemCode() {
     try {
-      const res = await fetch(`${API_BASE_URL}/v1/auth/school/validate`);
+      const res = await fetch(`${API_BASE_URL}/v1/lyps/school/validate`);
       const result = await res.json();
 
       return result;
@@ -213,7 +213,7 @@ export const apiService = {
     SRV: string,
   ) {
     try {
-      const res = await fetch(`${API_BASE_URL}/v1/auth/school/session`, {
+      const res = await fetch(`${API_BASE_URL}/v1/lyps/school/session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -235,7 +235,36 @@ export const apiService = {
   },
   async getClassList(session_key: string, jsessionId: string, srv: string) {
     try {
-      const res = await fetch(`https://api.lyhsca.org/v1/auth/school/score`, {
+      const res = await fetch(
+        `https://api.lyhsca.org/v1/lyps/school/classlist`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sessionKey: session_key,
+            jsessionId: jsessionId,
+            srv: srv,
+          }),
+        },
+      );
+
+      const result = await res.json();
+      return result;
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  async getYearData(
+    session_key: string,
+    jsessionId: string,
+    srv: string,
+    year: string,
+    seme: string,
+  ) {
+    try {
+      const res = await fetch(`https://api.lyhsca.org/v1/lyps/school/year`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -244,11 +273,13 @@ export const apiService = {
           sessionKey: session_key,
           jsessionId: jsessionId,
           srv: srv,
+          year: year,
+          seme: seme,
         }),
       });
 
       const result = await res.json();
-      return result;
+      return result.result.dataRows;
     } catch (e) {
       console.error(e);
     }

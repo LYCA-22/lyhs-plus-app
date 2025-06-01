@@ -86,14 +86,16 @@ export default function Page() {
       <div className="relative p-5 w-full">
         <ul className="px-5 rounded-2xl bg-hoverbg flex flex-col w-full">
           {classList.map((item, index) => (
-            <>
+            <div
+              key={index}
+              className="border-b border-borderColor last:border-0"
+            >
               <li
-                key={`${index}-1`}
-                aria-label={`${index}-2`}
+                aria-label={`${index}-1`}
                 className="py-3 border-b border-borderColor flex justify-between items-center"
               >
                 <Link
-                  href={`/school/score/${item.syear}-1`}
+                  href={`/school/score/detail?year=${item.syear}&seme=1`}
                   className="flex justify-between items-center w-full"
                 >
                   <p>
@@ -107,12 +109,11 @@ export default function Page() {
                 </Link>
               </li>
               <li
-                key={`${index}-2`}
                 aria-label={`${index}-2`}
                 className="py-3 border-b border-borderColor last:border-0 flex justify-between items-center"
               >
                 <Link
-                  href={`/school/score/${item.syear}-2`}
+                  href={`/school/score/detail?year=${item.syear}&seme=2`}
                   className="flex justify-between items-center w-full"
                 >
                   <p>
@@ -125,9 +126,22 @@ export default function Page() {
                   />
                 </Link>
               </li>
-            </>
+            </div>
           ))}
         </ul>
+        <button
+          onClick={() => {
+            window.alert("功能未開放");
+          }}
+          className="flex justify-between items-center bg-hoverbg rounded-xl w-full px-5 py-3 my-5"
+        >
+          <p>高中總成績</p>
+          <ChevronRight
+            size={25}
+            strokeWidth={2}
+            className="text-zinc-600 dark:text-zinc-500"
+          />
+        </button>
       </div>
     </div>
   );
