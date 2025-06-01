@@ -4,6 +4,7 @@ import { apiService } from "@/services/api";
 import { updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -15,6 +16,7 @@ export default function Page() {
   const [userInput, setUserInput] = useState("");
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(
@@ -67,13 +69,7 @@ export default function Page() {
         );
       });
 
-      const info = await apiService.getScore(
-        result.session_key,
-        jsessionId,
-        srv,
-      );
-
-      console.log(info);
+      router.push("/school/score");
     } else {
       setTimeout(() => {
         dispatch(

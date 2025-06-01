@@ -34,6 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/schoolweb": "學校網站",
     "/school": "校務系統",
     "/school/verify": "驗證碼",
+    "/school/score": "選擇學期",
   };
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
