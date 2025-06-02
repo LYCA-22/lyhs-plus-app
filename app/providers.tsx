@@ -35,7 +35,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/school": "校務系統",
     "/school/verify": "驗證碼",
     "/school/score": "選擇學期",
-    "/school/score/detail": "成績資料",
+  };
+
+  const getPageTitle = (pathname: string) => {
+    if (/^\/school\/score\/[^/]+$/.test(pathname)) {
+      return "成績資料";
+    } else if (/^\/school\/score\/[^/]+\/[^/]+$/.test(pathname)) {
+      return "成績資料";
+    }
+    return pathAllName[pathname] || "未知頁面";
   };
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
@@ -128,7 +136,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     <div className="w-full flex pt-deviceTop items-center justify-center p-2 py-3 bg-white dark:bg-zinc-800">
                       <DynamicBack />
                       <div className="z-20 dark:border-borderColor text-[18px] opacity-80">
-                        {pathAllName[pathname] || "未知頁面"}
+                        {getPageTitle(pathname)}
                       </div>
                     </div>
                   )}

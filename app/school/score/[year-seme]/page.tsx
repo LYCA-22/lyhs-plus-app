@@ -4,8 +4,9 @@ import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import { ChevronRight } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface scoreData {
@@ -20,10 +21,11 @@ interface scoreData {
   syear: number;
 }
 
-function ScoreDetailContent() {
-  const searchParams = useSearchParams();
-  const year = searchParams.get("year") as string;
-  const seme = searchParams.get("seme") as string;
+export default function ScoreDetailContent() {
+  const params = useParams();
+  const text = params["year-seme"] as string;
+  const [year, seme] = text.split("-");
+
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -31,6 +33,8 @@ function ScoreDetailContent() {
   const [data, setData] = useState<scoreData[]>([]);
 
   useEffect(() => {
+    if (!seme || !year) return;
+
     const getData = async () => {
       if (!userData.school_session) {
         router.push("/school");
@@ -61,11 +65,22 @@ function ScoreDetailContent() {
     };
 
     getData();
-  }, [dispatch, seme, year, userData, router]);
+  }, [
+    dispatch,
+    seme,
+    year,
+    userData.school_session,
+    userData.JSESSIONID,
+    userData.SRV,
+    router,
+  ]);
 
   return (
     <div className="w-full flex flex-col items-center justify-center relative pt-5">
       <div className="flex flex-col gap-2 items-center justify-center">
+        <p className="text-inputPrimary font-medium">
+          {year}學年度 第{seme}學期
+        </p>
         <h1 className="text-xl font-medium">請在下方選擇要查詢的項目</h1>
       </div>
       <div className="relative p-5 w-full">
@@ -76,10 +91,8 @@ function ScoreDetailContent() {
               aria-label={`${index}-1`}
               className="py-3 border-b border-borderColor flex justify-between items-center last:border-0"
             >
-              <button
-                onClick={() => {
-                  window.alert("開發中");
-                }}
+              <Link
+                href={`/school/score/${year}-${seme}/${item.id}`}
                 className="flex justify-between items-center w-full"
               >
                 <p>{item.name}</p>
@@ -88,19 +101,11 @@ function ScoreDetailContent() {
                   strokeWidth={2}
                   className="text-zinc-600 dark:text-zinc-500"
                 />
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
     </div>
-  );
-}
-
-export default function Page() {
-  return (
-    <Suspense fallback={<div></div>}>
-      <ScoreDetailContent />
-    </Suspense>
   );
 }

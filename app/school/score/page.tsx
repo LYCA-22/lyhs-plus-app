@@ -46,6 +46,8 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!userData.school_session) return;
+
     const getClassList = async () => {
       dispatch(
         updateSystemData({
@@ -75,7 +77,13 @@ export default function Page() {
     };
 
     getClassList();
-  }, [dispatch, userData, router]);
+  }, [
+    dispatch,
+    userData.school_session,
+    userData.JSESSIONID,
+    userData.SRV,
+    router,
+  ]);
 
   return (
     <div className="w-full flex flex-col items-center justify-center relative pt-5">
@@ -95,7 +103,7 @@ export default function Page() {
                 className="py-3 border-b border-borderColor flex justify-between items-center"
               >
                 <Link
-                  href={`/school/score/detail?year=${item.syear}&seme=1`}
+                  href={`/school/score/${item.syear}-1`}
                   className="flex justify-between items-center w-full"
                 >
                   <p>
@@ -113,7 +121,7 @@ export default function Page() {
                 className="py-3 border-b border-borderColor last:border-0 flex justify-between items-center"
               >
                 <Link
-                  href={`/school/score/detail?year=${item.syear}&seme=2`}
+                  href={`/school/score/${item.syear}-2`}
                   className="flex justify-between items-center w-full"
                 >
                   <p>
@@ -133,9 +141,22 @@ export default function Page() {
           onClick={() => {
             window.alert("功能未開放");
           }}
-          className="flex justify-between items-center bg-hoverbg rounded-xl w-full px-5 py-3 my-5"
+          className="flex justify-between items-center bg-hoverbg rounded-t-xl w-full px-5 py-3 mt-8 border-b border-borderColor"
         >
           <p>高中總成績</p>
+          <ChevronRight
+            size={25}
+            strokeWidth={2}
+            className="text-zinc-600 dark:text-zinc-500"
+          />
+        </button>
+        <button
+          onClick={() => {
+            window.alert("功能未開放");
+          }}
+          className="flex justify-between items-center bg-hoverbg rounded-b-xl w-full px-5 py-3 mb-5"
+        >
+          <p>各科分析</p>
           <ChevronRight
             size={25}
             strokeWidth={2}
