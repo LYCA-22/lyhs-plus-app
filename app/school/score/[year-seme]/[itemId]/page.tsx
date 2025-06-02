@@ -96,12 +96,10 @@ export default function Page() {
 
   useEffect(() => {
     const getScore = async () => {
-      if (itemId && userData.school_session) {
+      if (itemId && userData.school_session && !data[0]) {
         dispatch(
           updateSystemData({
             isLoading: true,
-            isBack: true,
-            BackLink: "/school/score",
           }),
         );
 
@@ -126,7 +124,18 @@ export default function Page() {
     };
 
     getScore();
-  }, [dispatch, userData, itemId, router]);
+  }, [dispatch, userData, itemId, router, data]);
+
+  useEffect(() => {
+    if (data[0]) {
+      dispatch(
+        updateSystemData({
+          isBack: true,
+          BackLink: `/school/score/${data[0].syear}-${data[0].seme}`,
+        }),
+      );
+    }
+  });
 
   return (
     <div className="w-full h-full relative flex flex-col">
