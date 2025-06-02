@@ -7,6 +7,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+export const runtime = "edge";
+
 interface ScoreData {
   clsId: string;
   scS: number;
