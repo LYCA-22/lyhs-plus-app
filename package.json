@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "update": "tsx utils/version.js",
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "npm run update && next build",
     "start": "next start",
     "lint": "next lint",

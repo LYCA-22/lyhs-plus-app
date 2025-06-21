@@ -155,12 +155,17 @@ export default function Home() {
             </div>
             <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch shadow-md">
               <CountdownTimer
-                targetDate={new Date("2025-06-23T00:00:00")}
+                targetDate={new Date("2025-06-25T00:00:00")}
                 title="第三次段考倒數"
               />
-              <button className="mt-auto cursor-no-drop text-sm rounded-full w-full bg-zinc-200 text-zinc-500 p-2 flex items-center justify-center">
-                考程表尚未公開
-              </button>
+              <Link
+                href={
+                  "https://schoolmgn.kh.edu.tw/upload/336/104_64614/113-2期末考公告%20網.pdf"
+                }
+                className="mt-auto text-sm rounded-full w-full bg-sky-100 text-inputPrimary p-2 flex items-center justify-center"
+              >
+                點我查看
+              </Link>
             </div>
             <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-md">
               <CountdownTimer
