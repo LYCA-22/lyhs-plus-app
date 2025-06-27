@@ -9,6 +9,7 @@ export const apiService = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${sessionId}`,
+          "Login-Type": "WEB",
         },
       });
 
