@@ -8,7 +8,7 @@ export const apiService = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionId}`,
+          "Session-Id": sessionId,
           "Login-Type": "WEB",
         },
       });
