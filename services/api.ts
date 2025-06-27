@@ -1,6 +1,12 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import { logout } from "@/store/userSlice";
 
+import { store } from "@/store/store";
+
+// 獲取系統資料的輔助函數
+const getSystemData = () => store.getState().systemData;
+const systemData = getSystemData();
+
 export const apiService = {
   async getUserData(sessionId: string) {
     try {
@@ -9,7 +15,7 @@ export const apiService = {
         headers: {
           "Content-Type": "application/json",
           "Session-Id": sessionId,
-          "Login-Type": "WEB",
+          "Login-Type": systemData.isPwa ? "APP" : "WEB",
         },
       });
 
@@ -49,7 +55,8 @@ export const apiService = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionId}`,
+          "Session-Id": sessionId,
+          "Login-Type": systemData.isPwa ? "APP" : "WEB",
         },
       });
 
