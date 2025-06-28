@@ -69,7 +69,8 @@ export async function systemLoad(
       }, 500);
       return;
     }
-    const decoded = decodeURIComponent(sessionId);
+    let decoded = decodeURIComponent(sessionId);
+    decoded = decodeURIComponent(sessionId);
     console.log(decoded);
     const data = await apiService.getUserData(decoded);
     dispatch(
