@@ -62,7 +62,7 @@ export async function systemLoad(
     }
 
     // 檢查用戶登入狀態
-    const sessionId = getCookie("sessionId");
+    const sessionId = decodeURIComponent(getCookie("sessionId") ?? "");
     if (!sessionId) {
       setTimeout(() => {
         dispatch(updateStatus(false));
