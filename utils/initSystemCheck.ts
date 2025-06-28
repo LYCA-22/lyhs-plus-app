@@ -69,10 +69,8 @@ export async function systemLoad(
       }, 500);
       return;
     }
-    let decoded = decodeURIComponent(sessionId);
-    decoded = decodeURIComponent(sessionId);
-    console.log(decoded);
-    const data = await apiService.getUserData(decoded);
+    const decoded = decodeURIComponent(sessionId);
+    const data = await apiService.getUserData(decodeURIComponent(decoded));
     dispatch(
       updateUserData({
         sessionId: sessionId,
