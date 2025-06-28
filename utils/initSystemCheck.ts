@@ -62,14 +62,16 @@ export async function systemLoad(
     }
 
     // 檢查用戶登入狀態
-    const sessionId = decodeURIComponent(getCookie("sessionId") ?? "");
+    const sessionId = getCookie("sessionId");
     if (!sessionId) {
       setTimeout(() => {
         dispatch(updateStatus(false));
       }, 500);
       return;
     }
-    const data = await apiService.getUserData(sessionId);
+    const decoded = decodeURIComponent(sessionId);
+    console.log(decoded);
+    const data = await apiService.getUserData(decoded);
     dispatch(
       updateUserData({
         sessionId: sessionId,
