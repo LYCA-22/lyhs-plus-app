@@ -87,7 +87,7 @@ export default function Home() {
         <div className="p-5 pb-32 flex flex-col gap-3">
           <h1 className="font-light text-2xl">快速小工具</h1>
           <div className="relative grid grid-cols-2 gap-5 overflow-x-auto scroll-smooth scrollbar-hide pb-3">
-            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-md">
+            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-sm">
               <div>
                 <h1 className="text-xl font-medium">校園公告</h1>
                 <p className="opacity-50 text-xs">以下為最新的兩則公告</p>
@@ -111,7 +111,7 @@ export default function Home() {
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
-            <div className="bg-inputPrimary text-white border rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-md">
+            <div className="bg-inputPrimary text-white border rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-sm">
               <div>
                 <h1 className="text-xl font-medium">今天的活動</h1>
                 <p className="opacity-50 text-xs">以下為最新的兩則事項</p>
@@ -153,7 +153,7 @@ export default function Home() {
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
-            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch shadow-md">
+            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch shadow-sm">
               <CountdownTimer
                 targetDate={new Date("2025-06-25T00:00:00")}
                 title="第三次段考倒數"
@@ -167,7 +167,7 @@ export default function Home() {
                 點我查看
               </Link>
             </div>
-            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-md">
+            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-sm">
               <CountdownTimer
                 targetDate={collegeEntranceExamDate}
                 title="115 學測倒數"

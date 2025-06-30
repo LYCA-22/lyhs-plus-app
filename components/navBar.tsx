@@ -46,6 +46,13 @@ const appSchema: AppSchema[] = [
     path: "/lyca",
     openw: "w-24",
   },
+  {
+    name: "更多",
+    icon: <DotsThreeOutline size={25} />,
+    active_icon: <DotsThreeOutline size={25} weight="fill" />,
+    path: "/more",
+    openw: "w-24",
+  },
 ];
 
 export function NavBar() {
@@ -127,7 +134,7 @@ export function NavBar() {
         </div>
       )}
       <div
-        className={`flex justify-around items-center p-1 bg-zinc-900/70 shadow-lg backdrop-blur-xl dark:bg-zinc-50/20 z-20 rounded-full`}
+        className={`flex justify-around items-center p-1 bg-zinc-900/50 shadow-xl drop-shadow-xl backdrop-blur-sm dark:bg-zinc-50/20 z-20 rounded-[30px]`}
       >
         {appSchema.map((app) => (
           <div
@@ -136,7 +143,7 @@ export function NavBar() {
             className={`flex group items-center transition-all p-3 gap-1 cursor-pointer ${
               (app.path === "/" && pathname === "/") ||
               (app.path !== "/" && pathname.startsWith(app.path))
-                ? `bg-white rounded-full dark:bg-zinc-50/25 ${app.openw} justify-center`
+                ? `bg-white rounded-[26px] dark:bg-zinc-50/25 ${app.openw} justify-center`
                 : "text-background opacity-50 dark:text-zinc-400 w-12 overflow-hidden justify-start"
             }`}
           >
@@ -155,15 +162,6 @@ export function NavBar() {
             </div>
           </div>
         ))}
-        <button
-          className="flex group items-center justify-center p-3 cursor-pointer"
-          onClick={() => dispatch(updateSystemData({ isSetOpen: true }))}
-        >
-          <DotsThreeOutline
-            size={22}
-            className="text-background opacity-40 dark:text-zinc-400"
-          />
-        </button>
       </div>
     </div>
   );

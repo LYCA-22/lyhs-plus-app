@@ -132,7 +132,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
               <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
                 {pathname !== "/" &&
                   pathname !== "/news" &&
-                  pathname !== "/lyca" && (
+                  pathname !== "/lyca" &&
+                  pathname !== "/more" && (
                     <div className="w-full flex pt-deviceTop items-center justify-center p-2 py-3 bg-white dark:bg-zinc-800">
                       <DynamicBack />
                       <div className="z-20 dark:border-borderColor text-[18px] opacity-80">
