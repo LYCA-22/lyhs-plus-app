@@ -1,13 +1,16 @@
 "use client";
-import { apiService } from "@/services/api";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+
+import { useAppSelector } from "@/store/hook";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
-  const dispatch = useAppDispatch();
+
   const AppData = useAppSelector((state) => state.systemData);
 
+  /*
+    const dispatch = useAppDispatch();
+    import { updateSystemData } from "@/store/systemSlice";
+    import { apiService } from "@/services/api";
   const Logout = async (sessionId: string) => {
     try {
       dispatch(
@@ -28,6 +31,7 @@ export default function Page() {
       }, 500);
     }
   };
+  */
 
   return (
     <div
