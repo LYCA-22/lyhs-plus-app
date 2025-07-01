@@ -1,9 +1,10 @@
 "use client";
 import { appSchema } from "@/components/settings/schema";
 import { apiService } from "@/services/api";
-import { useAppSelector } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
 import { schemaItem } from "@/types";
-import { ChevronRight, CircleUser, IdCard, LogOut } from "lucide-react";
+import { ChevronRight, CircleUser, IdCard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,6 +12,7 @@ export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const AppData = useAppSelector((state) => state.systemData);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
+  const dispatch = useAppDispatch();
 
   const renderItem = (item: schemaItem) => {
     if (item.access_manage && userData.type !== "staff") {
@@ -75,7 +77,24 @@ export default function Page() {
   };
 
   const Logout = async (sessionId: string) => {
-    await apiService.Logout(sessionId);
+    try {
+      dispatch(
+        updateSystemData({
+          isLoading: true,
+        }),
+      );
+      await apiService.Logout(sessionId);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(() => {
+        dispatch(
+          updateSystemData({
+            isLoading: false,
+          }),
+        );
+      }, 500);
+    }
   };
 
   return (
@@ -85,27 +104,29 @@ export default function Page() {
       <div>
         <h1 className="text-2xl font-custom mx-6 font-medium">更多</h1>
       </div>
-      {!userData.name && (
-        <div className="bg-white dark:to-zinc-900 m-5 p-5 rounded-[30px] px-6 flex flex-col">
-          <p className="text-2xl font-medium">登入享用完整服務</p>
-          <div className="flex items-center justify-evenly relative gap-5 w-full">
-            <Link
-              href={`https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org&lgt=${AppData.isPwa ? "APP" : "WEB"}`}
-              className="p-3 bg-inputPrimary w-full text-background rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
-            >
-              登入
-            </Link>
-            <Link
-              href="https://auth.lyhsca.org/account/register"
-              className="p-3 bg-zinc-200 w-full text-foreground rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
-            >
-              註冊
-            </Link>
-          </div>
-        </div>
-      )}
-      <ul className="list-none flex flex-col bg-white m-5 pb-2 rounded-[30px]">
-        {userData.name && (
+
+      <div
+        className={`bg-white dark:to-zinc-900 m-5 rounded-[30px] ${!userData.name ? "px-6 p-5" : "pb-2"} flex flex-col`}
+      >
+        {!userData.name ? (
+          <>
+            <p className="text-2xl font-medium">登入享用完整服務</p>
+            <div className="flex items-center justify-evenly relative gap-5 w-full">
+              <Link
+                href={`https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org&lgt=${AppData.isPwa ? "APP" : "WEB"}`}
+                className="p-3 bg-inputPrimary w-full text-background rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
+              >
+                登入
+              </Link>
+              <Link
+                href="https://auth.lyhsca.org/account/register"
+                className="p-3 bg-zinc-200 w-full text-foreground rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
+              >
+                註冊
+              </Link>
+            </div>
+          </>
+        ) : (
           <>
             <li className="flex flex-col transition-all mx-7 pt-1">
               <div className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg">
@@ -118,7 +139,10 @@ export default function Page() {
               <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
             </li>
             <li className="flex flex-col transition-all mx-7 pt-1">
-              <div className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg">
+              <Link
+                href={"/mylyps"}
+                className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg"
+              >
                 <div className="flex items-center gap-3">
                   <CircleUser size={24} strokeWidth={2.5} />
                   管理我的帳號
@@ -128,11 +152,13 @@ export default function Page() {
                   size={22}
                   strokeWidth={2.5}
                 />
-              </div>
-              <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+              </Link>
             </li>
           </>
         )}
+      </div>
+
+      <ul className="list-none flex flex-col bg-white m-5 pb-2 rounded-[30px]">
         {appSchema.map((item, index) => (
           <li key={index} className="flex flex-col transition-all mx-7 pt-1">
             {renderItem(item)}
@@ -143,20 +169,11 @@ export default function Page() {
         ))}
         {userData.name && (
           <li className="flex flex-col transition-all mx-7 pt-1">
-            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mb-1"></div>
             <button
               onClick={() => Logout(userData.sessionId)}
-              className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg"
+              className="flex items-center font-medium justify-center py-3 mb-4 hover:opacity-60 bg-red-500 text-white rounded-xl transition-all text-lg"
             >
-              <div className="flex items-center gap-3">
-                <LogOut size={24} strokeWidth={2.5} />
-                登出帳號
-              </div>
-              <ChevronRight
-                className="opacity-40"
-                size={22}
-                strokeWidth={2.5}
-              />
+              <div className="flex items-center gap-3">登出帳號</div>
             </button>
           </li>
         )}

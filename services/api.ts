@@ -55,7 +55,7 @@ export const apiService = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Session-Id": sessionId,
+          "Session-Id": decodeURIComponent(decodeURIComponent(sessionId)),
           "Login-Type": systemData.isPwa ? "APP" : "WEB",
         },
       });
@@ -67,11 +67,17 @@ export const apiService = {
         window.location.reload();
       } else {
         const result = await response.json();
-        throw new Error(result.error);
+        return { success: false, error: result.error || "Logout failed" };
       }
     } catch (error) {
       console.error("Error in Logout:", error);
-      throw error;
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unknown error during logout",
+      };
     }
   },
   async addProject(
