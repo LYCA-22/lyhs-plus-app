@@ -92,7 +92,7 @@ export default function Page() {
         <h2 className="text-lg font-medium">請在下方選擇要查詢的學期</h2>
       </div>
       <div className="relative p-5 w-full">
-        <ul className="px-5 rounded-2xl bg-hoverbg flex flex-col w-full">
+        <ul className="rounded-[30px] bg-zinc-100 dark:bg-zinc-900 flex flex-col w-full overflow-hidden">
           {classList.map((item, index) => (
             <div
               key={index}
@@ -100,15 +100,13 @@ export default function Page() {
             >
               <li
                 aria-label={`${index}-1`}
-                className="py-3 border-b border-borderColor flex justify-between items-center"
+                className="py-3 px-5 hover:bg-hoverbg transition-all border-b border-zinc-200 dark:border-borderColor flex justify-between items-center"
               >
                 <Link
                   href={`/school/score/${item.syear}-1`}
                   className="flex justify-between items-center w-full"
                 >
-                  <p>
-                    {item.clsCname} <strong>第一學期</strong>
-                  </p>
+                  <p>{item.clsCname} 第一學期</p>
                   <ChevronRight
                     size={25}
                     strokeWidth={2}
@@ -118,15 +116,13 @@ export default function Page() {
               </li>
               <li
                 aria-label={`${index}-2`}
-                className="py-3 border-b border-borderColor last:border-0 flex justify-between items-center"
+                className="py-3 px-5 hover:bg-hoverbg transition-all border-b border-zinc-200 dark:border-borderColor last:border-0 flex justify-between items-center"
               >
                 <Link
                   href={`/school/score/${item.syear}-2`}
                   className="flex justify-between items-center w-full"
                 >
-                  <p>
-                    {item.clsCname} <strong>第二學期</strong>
-                  </p>
+                  <p>{item.clsCname} 第二學期</p>
                   <ChevronRight
                     size={25}
                     strokeWidth={2}
@@ -141,7 +137,7 @@ export default function Page() {
           onClick={() => {
             window.alert("功能未開放");
           }}
-          className="flex justify-between items-center bg-hoverbg rounded-t-xl w-full px-5 py-3 mt-8 border-b border-borderColor"
+          className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-900 rounded-t-[30px] w-full px-5 py-3 mt-8 border-b border-borderColor"
         >
           <p>高中總成績</p>
           <ChevronRight
@@ -154,7 +150,7 @@ export default function Page() {
           onClick={() => {
             window.alert("功能未開放");
           }}
-          className="flex justify-between items-center bg-hoverbg rounded-b-xl w-full px-5 py-3 mb-5"
+          className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-900 rounded-b-[30px] w-full px-5 py-3 mb-5"
         >
           <p>各科分析</p>
           <ChevronRight

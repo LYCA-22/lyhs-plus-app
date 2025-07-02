@@ -40,6 +40,7 @@ export default function ScoreDetailContent() {
     const getData = async () => {
       if (!userData.school_session) {
         router.push("/school");
+        return;
       }
 
       dispatch(
@@ -78,20 +79,22 @@ export default function ScoreDetailContent() {
   ]);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center relative pt-5">
+    <div className="w-full flex flex-col bg-background relative pt-5 min-h-dvh">
       <div className="flex flex-col gap-2 items-center justify-center">
-        <p className="text-inputPrimary font-medium">
+        <p className="text-foreground font-medium text-2xl">
           {year}學年度 第{seme}學期
         </p>
-        <h1 className="text-xl font-medium">請在下方選擇要查詢的項目</h1>
+        <h1 className="text-lg font-medium text-inputPrimary">
+          請在下方選擇要查詢的項目
+        </h1>
       </div>
       <div className="relative p-5 w-full">
-        <ul className="px-5 rounded-2xl bg-hoverbg flex flex-col w-full">
+        <ul className="rounded-[30px] bg-zinc-100 dark:bg-zinc-900 flex flex-col w-full overflow-hidden">
           {data.map((item, index) => (
             <li
               key={index}
               aria-label={`${index}-1`}
-              className="py-3 border-b border-borderColor flex justify-between items-center last:border-0"
+              className="py-3 px-5 hover:bg-zinc-300  transition-all dark:hover:bg-zinc-600 border-b border-zinc-200 dark:border-borderColor flex justify-between items-center last:border-0"
             >
               <Link
                 href={`/school/score/${year}-${seme}/${item.id}`}
@@ -106,6 +109,19 @@ export default function ScoreDetailContent() {
               </Link>
             </li>
           ))}
+          <li className="py-3 border-b  px-5  transition-all hover:bg-zinc-300 dark:hover:bg-zinc-600 border-borderColor flex justify-between items-center last:border-0">
+            <Link
+              href={`/`}
+              className="flex justify-between items-center w-full"
+            >
+              <p>學期總成績</p>
+              <ChevronRight
+                size={25}
+                strokeWidth={2}
+                className="text-zinc-600 dark:text-zinc-500"
+              />
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

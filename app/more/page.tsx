@@ -106,7 +106,7 @@ export default function Page() {
       </div>
 
       <div
-        className={`bg-white dark:to-zinc-900 m-5 rounded-[30px] ${!userData.name ? "px-6 p-5" : "pb-2"} flex flex-col`}
+        className={`bg-white dark:bg-zinc-900 m-5 rounded-[30px] ${!userData.name ? "px-6 p-5" : "pb-2"} flex flex-col`}
       >
         {!userData.name ? (
           <>
@@ -120,7 +120,7 @@ export default function Page() {
               </Link>
               <Link
                 href="https://auth.lyhsca.org/account/register"
-                className="p-3 bg-zinc-200 w-full text-foreground rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
+                className="p-3 bg-zinc-200 dark:bg-zinc-600 w-full text-foreground rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
               >
                 註冊
               </Link>
@@ -158,7 +158,7 @@ export default function Page() {
         )}
       </div>
 
-      <ul className="list-none flex flex-col bg-white m-5 pb-2 rounded-[30px]">
+      <ul className="list-none flex flex-col bg-white dark:bg-zinc-900 m-5 pb-2 rounded-[30px]">
         {appSchema.map((item, index) => (
           <li key={index} className="flex flex-col transition-all mx-7 pt-1">
             {renderItem(item)}

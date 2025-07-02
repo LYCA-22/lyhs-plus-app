@@ -6,6 +6,14 @@ import { updateSystemData } from "@/store/systemSlice";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const runtime = "edge";
 
@@ -138,49 +146,55 @@ export default function Page() {
   });
 
   return (
-    <div className="w-full h-full relative flex flex-col">
-      <div className="p-5 font-custom">
+    <div className="w-full min-h-dvh relative flex flex-col bg-background pb-20">
+      <div className="p-5 pb-0 font-custom">
         <div className="flex items-center gap-2">
-          <p className="p-2 text-sm px-3 w-fit font-medium bg-hoverbg rounded-full">
-            {data[0] ? `${data[0].syear}-${data[0].seme}` : "N/A"}
-          </p>
-          <h1 className="text-xl">{data[0] ? `${data[0].itemId}` : "N/A"}</h1>
+          <h1 className="text-2xl font-medium">
+            {data[0] ? `${data[0].itemId}` : "N/A"}
+          </h1>
         </div>
-        <div className="flex gap-2 justify-between items-center px-3 pt-5 relative">
+        <div className="flex gap-2 justify-between items-center px-5 pt-5 relative">
           <div className="flex flex-col items-center justify-center">
             <p className="text-sm">班排名</p>
-            <p className="text-xl text-inputPrimary">
+            <p className="text-2xl text-inputPrimary">
               {state[0] ? `${state[0].orderC}` : "N/A"}
             </p>
           </div>
           <div className="w-[1px] h-10 bg-borderColor"></div>
           <div className="flex flex-col items-center justify-center">
             <p className="text-sm">平均</p>
-            <p className="text-xl text-inputPrimary">
+            <p className="text-2xl text-inputPrimary">
               {state[0] ? `${state[0].scoreV.toFixed(1)}` : "N/A"}
             </p>
           </div>
           <div className="w-[1px] h-10 bg-borderColor"></div>
           <div className="flex flex-col items-center justify-center">
             <p className="text-sm">總分</p>
-            <p className="text-xl text-inputPrimary">
+            <p className="text-2xl text-inputPrimary">
               {state[0] ? `${state[0].scoreT}` : "N/A"}
             </p>
           </div>
         </div>
       </div>
-      <ul className="p-6 flex flex-col gap-2 bg-hoverbg grow pb-36">
-        <div className="bg-background rounded-2xl pl-5">
-          {data.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between font-custom border-b border-borderColor last:border-0 py-4 pr-5"
-            >
-              <p>{item.subjId}</p>
-              <p className="text-inputPrimary font-bold">{item.score}</p>
-            </li>
-          ))}
-        </div>
+      <ul className="p-6 flex flex-col gap-2 grow pb-36">
+        <Table className="bg-zinc-100 dark:bg-zinc-900 rounded-[30px] pl-5 overflow-hidden">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="p-4 w-fit">科目</TableHead>
+              <TableHead className="p-4 w-fit">分數</TableHead>
+              <TableHead className="p-4 w-fit">班平均</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="p-4">{item.subjId}</TableCell>
+                <TableCell className="p-4">{item.score}</TableCell>
+                <TableCell className="p-4">{item.yl}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </ul>
     </div>
   );
