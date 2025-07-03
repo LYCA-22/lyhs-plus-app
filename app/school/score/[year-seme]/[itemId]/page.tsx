@@ -153,11 +153,26 @@ export default function Page() {
             {data[0] ? `${data[0].itemId}` : "N/A"}
           </h1>
         </div>
-        <div className="flex gap-2 justify-between items-center px-5 pt-5 relative">
+        <div className="flex p-4 rounded-b-[30px] rounded-t-[10px] bg-inputPrimary text-background items-center justify-between my-5">
+          <div>
+            <h1 className="italic font-medium">班排名</h1>
+            {state[0] && (
+              <p className="text-sm">
+                {Number(state[0].orderC) < 10
+                  ? `太強了吧！居然考進前十名`
+                  : "沒有前十名的你也很棒！繼續加油～"}
+              </p>
+            )}
+          </div>
+          <p className="text-3xl font-bold font-custom italic mr-3">
+            {state[0] ? `${state[0].orderC}` : "N/A"}
+          </p>
+        </div>
+        <div className="flex gap-2 justify-between items-center px-5 pt-2 relative">
           <div className="flex flex-col items-center justify-center">
-            <p className="text-sm">班排名</p>
+            <p className="text-sm">類組排名</p>
             <p className="text-2xl text-inputPrimary">
-              {state[0] ? `${state[0].orderC}` : "N/A"}
+              {state[0] ? `${state[0].orderS}` : "N/A"}
             </p>
           </div>
           <div className="w-[1px] h-10 bg-borderColor"></div>

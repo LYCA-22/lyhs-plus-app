@@ -101,7 +101,11 @@ export function NavBar() {
     }
   };
 
-  if (pathname === "/repair" || pathname === "/calendar") {
+  if (
+    pathname === "/repair" ||
+    pathname === "/calendar" ||
+    pathname.startsWith("/school/login")
+  ) {
     return;
   }
 

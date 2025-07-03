@@ -1,0 +1,190 @@
+"use client";
+
+import { apiService } from "@/services/api";
+import { useAppSelector } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
+import { updateUserData } from "@/store/userSlice";
+import { Info } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+export default function Page() {
+  const dispatch = useDispatch();
+  const [src, setSrc] = useState("");
+  const [srv, setSrv] = useState("");
+  const [jsessionId, setJsessionId] = useState("");
+  const [userInput, setUserInput] = useState("");
+  const [account, setAccount] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const AppData = useAppSelector((state) => state.systemData);
+
+  useEffect(() => {
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/",
+      }),
+    );
+  });
+
+  const getCode = async () => {
+    const data = await apiService.getSchoolSystemCode();
+    setSrc(data.src);
+    setSrv(data.SRV);
+    setJsessionId(data.JSEESIONID);
+  };
+
+  useEffect(() => {
+    getCode();
+  }, []);
+
+  const StartLogin = async (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(
+      updateSystemData({
+        isLoading: true,
+      }),
+    );
+    const result = await apiService.getSessionKey(
+      account,
+      password,
+      userInput,
+      jsessionId,
+      srv,
+    );
+
+    if (result.session_key) {
+      dispatch(
+        updateUserData({
+          school_session: result.session_key,
+          JSESSIONID: jsessionId,
+          SRV: srv,
+        }),
+      );
+      setTimeout(() => {
+        dispatch(
+          updateSystemData({
+            isLoading: false,
+          }),
+        );
+      });
+
+      router.push("/school/score");
+    } else {
+      setTimeout(() => {
+        dispatch(
+          updateSystemData({
+            isLoading: false,
+          }),
+        );
+      });
+
+      window.alert(`發生不明錯誤（可能資料錯誤）`);
+      getCode();
+      setAccount("");
+      setPassword("");
+      setUserInput("");
+    }
+  };
+
+  return (
+    <div className="w-full p-5">
+      <div className="w-full flex flex-col items-center justify-center relative pb-20">
+        <div className="flex gap-3 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] p-2 mb-5">
+          <div className="bg-background rounded-full shadow-lg p-3 px-4">
+            帳密登入
+          </div>
+          <Link
+            href={"./openId"}
+            className="p-3 px-4 rounded-full hover:bg-buttonBg transition-all"
+          >
+            OPENID
+          </Link>
+        </div>
+        <form onSubmit={StartLogin} className="relative w-full">
+          <div className="flex flex-col justify-center gap-2 w-full relative px-4">
+            <label htmlFor="code" className="text-sm opacity-50">
+              驗證碼
+            </label>
+            <div className="flex gap-2">
+              <input
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder="Code"
+                required
+                className="p-3 focus:ring-0 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] outline-0"
+              ></input>
+              <div className="flex items-center justify-center">
+                {src ? (
+                  <Image src={src} width={120} height={22} alt="code"></Image>
+                ) : (
+                  <div>載入中</div>
+                )}
+              </div>
+            </div>
+            <label htmlFor="account" className="text-sm opacity-50">
+              帳號
+            </label>
+            <input
+              value={account}
+              onChange={(e) => setAccount(e.target.value)}
+              placeholder="Account"
+              required
+              className="p-3 focus:ring-0 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] outline-0 w-full"
+            ></input>
+            <label htmlFor="password" className="text-sm opacity-50">
+              密碼
+            </label>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              type="password"
+              className="p-3 focus:ring-0 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] outline-0 w-full"
+            ></input>
+            <div
+              className={`${AppData.isPwa ? "pb-deviceBottom" : ""} fixed left-0 z-50 bottom-0 bg-background dark:bg-zinc-900 shadow-black shadow-xl w-full flex p-8 py-5 border-t-2 border-zinc-200 dark:border-zinc-800`}
+            >
+              <Link
+                href={"/"}
+                className="w-fit mr-3 text-sky-950 dark:text-white whitespace-nowrap p-3 px-8 font-medium rounded-[30px] bg-hoverbg hover:bg-buttonBg transition-all"
+              >
+                取消
+              </Link>
+              <button className="dark:bg-foreground bg-sky-950 text-background p-3 rounded-[30px] font-medium w-full hover:opacity-80 transition-all">
+                繼續
+              </button>
+            </div>
+          </div>
+        </form>
+        <div className="m-4 p-5 mt-8 rounded-[30px] bg-zinc-100 dark:bg-zinc-900 flex flex-col justify-center">
+          <h1>您正在使用舊登入方式</h1>
+          <p className="text-sm opacity-50">
+            依照高雄市教育局最新規定，將於114學年度起關閉學生使用舊登入方式存取系統。系統將會於9月初前移除此登入方式。
+          </p>
+          <Link
+            href={"./openId"}
+            className="bg-sky-950 dark:bg-white rounded-[20px] p-3 px-5 mt-5 text-background w-fit"
+          >
+            使用 OpenId 登入
+          </Link>
+        </div>
+        <div className="flex flex-col gap-2 items-center justify-center border-t border-t-borderColor m-4 py-5">
+          <h1 className="font-medium text-lg flex items-center gap-2">
+            <Info /> 使用須知
+          </h1>
+          <p className="text-sm opacity-50">當你按下繼續，即同意此使用須知。</p>
+          <p className="opacity-50 text-sm flex p-5 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] mt-2">
+            此系統將會使用您提供之帳號密碼進行登入，並僅會獲取您請求的資料（例如：學期成績、單項段考成績）。所有資料皆不會直接儲存在任何地方，全部以雲端方式儲存在高雄市教育局校務行政系統伺服器。本APP為開源專案，如有疑慮可上
+            Github 查詢程式碼或是聯絡林園高中學生會。
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

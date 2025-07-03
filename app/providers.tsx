@@ -33,7 +33,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/repair": "線上報修",
     "/schoolweb": "學校網站",
     "/school": "校務系統",
-    "/school/verify": "驗證碼",
+    "/school/login/old": "校務系統登入",
+    "/school/login/openId": "校務系統登入",
     "/school/score": "選擇學期",
   };
 

@@ -247,6 +247,25 @@ export const apiService = {
       console.error(e);
     }
   },
+  async getSessionKeyByOpenId(loginId: string, password: string) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/v1/lyps/school/openid`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: loginId,
+          password: password,
+        }),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  },
   async getClassList(session_key: string, jsessionId: string, srv: string) {
     try {
       const res = await fetch(
