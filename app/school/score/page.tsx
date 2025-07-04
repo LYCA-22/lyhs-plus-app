@@ -235,7 +235,7 @@ export default function Page() {
                 className="py-3 px-5 hover:bg-buttonBg transition-all border-b border-zinc-200 dark:border-borderColor flex justify-between items-center last:border-0"
               >
                 <Link
-                  href={`/school/score/${item.syear}-1`}
+                  href={`/school/score/${item.syear}-${item.seme}`}
                   className="flex justify-between items-center w-full"
                 >
                   <p>
