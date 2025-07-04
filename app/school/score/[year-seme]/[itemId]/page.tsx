@@ -108,17 +108,9 @@ export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [itemName, setItemName] = useState<string>("");
   const [chartData, setChartData] = useState<
     { subject: string; score: number }[]
   >([]);
-
-  const chartConfig = {
-    score: {
-      label: itemName,
-      color: "#4f46e5",
-    },
-  } satisfies ChartConfig;
 
   useEffect(() => {
     const getScore = async () => {
@@ -138,11 +130,6 @@ export default function Page() {
 
         setData(res.result.dataRows);
         setstate(res.state.dataRows);
-        if (res.state.dataRows[0].itemId) {
-          setItemName(res.state.dataRows[0].itemId);
-        } else {
-          setItemName("成績");
-        }
 
         const newChartData: { subject: string; score: number }[] = [];
         for (let i = 0; i < res.result.dataRows.length; i++) {
@@ -176,6 +163,13 @@ export default function Page() {
       );
     }
   });
+
+  const chartConfig = {
+    score: {
+      label: data[0] ? data[0].itemId : "N/A",
+      color: "#4f46e5",
+    },
+  } satisfies ChartConfig;
 
   return (
     <div className="w-full min-h-dvh relative flex flex-col bg-background pb-28">

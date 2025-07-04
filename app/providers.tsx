@@ -35,7 +35,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/school": "校務系統",
     "/school/login/old": "校務系統登入",
     "/school/login/openId": "校務系統登入",
-    "/school/score": "選擇學期",
+    "/school/score": "成績系統",
   };
 
   const getPageTitle = (pathname: string) => {

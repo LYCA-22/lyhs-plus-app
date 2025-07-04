@@ -266,10 +266,33 @@ export const apiService = {
       console.error(e);
     }
   },
-  async getClassList(session_key: string, jsessionId: string, srv: string) {
+  async getSemeScore(session_key: string, jsessionId: string, srv: string) {
     try {
       const res = await fetch(
-        `https://api.lyhsca.org/v1/lyps/school/classlist`,
+        `https://api.lyhsca.org/v1/lyps/school/semeScore`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sessionKey: session_key,
+            jsessionId: jsessionId,
+            srv: srv,
+          }),
+        },
+      );
+
+      const result = await res.json();
+      return result;
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  async getYearScore(session_key: string, jsessionId: string, srv: string) {
+    try {
+      const res = await fetch(
+        `https://api.lyhsca.org/v1/lyps/school/yearScore`,
         {
           method: "POST",
           headers: {
