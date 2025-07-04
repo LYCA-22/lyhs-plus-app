@@ -14,6 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 export const runtime = "edge";
 
@@ -101,6 +108,17 @@ export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [itemName, setItemName] = useState<string>("");
+  const [chartData, setChartData] = useState<
+    { subject: string; score: number }[]
+  >([]);
+
+  const chartConfig = {
+    score: {
+      label: itemName,
+      color: "#4f46e5",
+    },
+  } satisfies ChartConfig;
 
   useEffect(() => {
     const getScore = async () => {
@@ -120,6 +138,20 @@ export default function Page() {
 
         setData(res.result.dataRows);
         setstate(res.state.dataRows);
+        if (res.state.dataRows[0].itemId) {
+          setItemName(res.state.dataRows[0].itemId);
+        } else {
+          setItemName("成績");
+        }
+
+        const newChartData: { subject: string; score: number }[] = [];
+        for (let i = 0; i < res.result.dataRows.length; i++) {
+          newChartData.push({
+            subject: res.result.dataRows[i].subjId,
+            score: res.result.dataRows[i].score,
+          });
+        }
+        setChartData(newChartData);
 
         dispatch(
           updateSystemData({
@@ -146,7 +178,7 @@ export default function Page() {
   });
 
   return (
-    <div className="w-full min-h-dvh relative flex flex-col bg-background pb-20">
+    <div className="w-full min-h-dvh relative flex flex-col bg-background pb-28">
       <div className="p-5 pb-0 font-custom">
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-medium">
@@ -158,7 +190,7 @@ export default function Page() {
             <h1 className="italic font-medium">班排名</h1>
             {state[0] && (
               <p className="text-sm">
-                {Number(state[0].orderC) < 10
+                {state[0].orderC !== null && Number(state[0].orderC) < 10
                   ? `太強了吧！居然考進前十名`
                   : "沒有前十名的你也很棒！繼續加油～"}
               </p>
@@ -191,7 +223,45 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <ul className="p-6 flex flex-col gap-2 grow pb-36">
+      <div className="p-4">
+        <ChartContainer config={chartConfig}>
+          <AreaChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="subject"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              interval={0}
+              angle={-45}
+              textAnchor="end"
+              height={60}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <defs>
+              <linearGradient id="fillScore" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#1E9BDE" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#1E9BDE" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
+            <Area
+              dataKey="score"
+              type="natural"
+              fill="url(#fillScore)"
+              fillOpacity={0.4}
+              stroke="#0E7BBF"
+            />
+          </AreaChart>
+        </ChartContainer>
+      </div>
+      <ul className="p-6 flex flex-col gap-2 grow">
         <Table className="bg-zinc-100 dark:bg-zinc-900 rounded-[30px] pl-5 overflow-hidden">
           <TableHeader>
             <TableRow>
@@ -211,6 +281,11 @@ export default function Page() {
           </TableBody>
         </Table>
       </ul>
+      <div className="flex items-center justify-center px-10">
+        <p className="text-sm opacity-50 text-center">
+          所有成績資料皆來自於高雄市教育局校務行政系統，如有任何問題請向教務處反應。
+        </p>
+      </div>
     </div>
   );
 }

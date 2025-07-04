@@ -42,6 +42,8 @@ export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const [classList, setClassList] = useState<ClassList[]>([]);
   const [stdName, setStdName] = useState("");
+  const [clsCname, setClsCname] = useState("");
+  const [stdNo, setStdNo] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -68,6 +70,8 @@ export default function Page() {
       const result = classList.result.dataRows;
       setClassList(result);
       setStdName(result[0].stdCname);
+      setClsCname(result[0].clsCname);
+      setStdNo(result[0].stdNo);
 
       dispatch(
         updateSystemData({
@@ -87,16 +91,18 @@ export default function Page() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center relative pt-5">
-      <div className="flex flex-col gap-2 items-center justify-center">
-        <h1 className="text-xl">歡迎，{stdName}</h1>
-        <h2 className="text-lg font-medium">請在下方選擇要查詢的學期</h2>
+      <div className="flex flex-col gap-2 justify-center w-full px-7">
+        <h1 className="text-2xl">歡迎使用 LYHS+ 成績系統</h1>
+        <h2 className="text-lg font-medium opacity-50">
+          {stdName}｜{clsCname}｜{stdNo}
+        </h2>
       </div>
       <div className="relative p-5 w-full">
         <ul className="rounded-[30px] bg-zinc-100 dark:bg-zinc-900 flex flex-col w-full overflow-hidden">
           {classList.map((item, index) => (
             <div
               key={index}
-              className="border-b border-borderColor last:border-0"
+              className="border-b border-zinc-200 dark:border-borderColor last:border-0"
             >
               <li
                 aria-label={`${index}-1`}
@@ -137,22 +143,9 @@ export default function Page() {
           onClick={() => {
             window.alert("功能未開放");
           }}
-          className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-900 rounded-t-[30px] w-full px-5 py-3 mt-8 border-b border-borderColor"
+          className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-900 rounded-[30px] w-full px-5 py-3 mt-8"
         >
           <p>高中總成績</p>
-          <ChevronRight
-            size={25}
-            strokeWidth={2}
-            className="text-zinc-600 dark:text-zinc-500"
-          />
-        </button>
-        <button
-          onClick={() => {
-            window.alert("功能未開放");
-          }}
-          className="flex justify-between items-center bg-zinc-100 dark:bg-zinc-900 rounded-b-[30px] w-full px-5 py-3 mb-5"
-        >
-          <p>各科分析</p>
           <ChevronRight
             size={25}
             strokeWidth={2}
