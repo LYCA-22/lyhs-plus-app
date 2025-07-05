@@ -93,7 +93,7 @@ export default function ScoreDetailContent() {
           {data.map((item, index) => (
             <li
               key={index}
-              aria-label={`${index}-1`}
+              aria-label={`${index}`}
               className="py-3 px-5 hover:bg-zinc-300  transition-all dark:hover:bg-zinc-600 border-b border-zinc-200 dark:border-borderColor flex justify-between items-center last:border-0"
             >
               <Link

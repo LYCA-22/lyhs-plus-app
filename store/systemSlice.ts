@@ -16,6 +16,7 @@ interface UserState {
   BackLink: string;
   isSetOpen: boolean;
   JSESSIONID: string;
+  Error: string;
   SRV: string;
 }
 
@@ -34,6 +35,7 @@ const initialState: UserState = {
   BackLink: "",
   isSetOpen: false,
   JSESSIONID: "",
+  Error: "",
   SRV: "",
 };
 

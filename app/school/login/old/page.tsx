@@ -92,15 +92,15 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full p-5">
-      <div className="w-full flex flex-col items-center justify-center relative pb-20">
-        <div className="flex gap-3 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] p-2 mb-5">
-          <div className="bg-background rounded-full shadow-lg p-3 px-4">
+    <div className="w-full p-5 pt-0">
+      <div className="w-full flex flex-col items-center justify-center relative pb-32">
+        <div className="z-50 sticky top-2 flex gap-1 font-medium bg-zinc-100 dark:bg-zinc-900/50 shadow-lg dark:shadow-zinc-700/20 backdrop-blur-md rounded-[30px] p-1 mb-5">
+          <div className="bg-background dark:bg-hoverbg rounded-full shadow-lg p-2 px-5">
             帳密登入
           </div>
           <Link
             href={"./openId"}
-            className="p-3 px-4 rounded-full hover:bg-buttonBg transition-all"
+            className="p-2 px-5 rounded-full hover:bg-hoverbg transition-all"
           >
             OPENID
           </Link>
@@ -169,20 +169,35 @@ export default function Page() {
           </p>
           <Link
             href={"./openId"}
-            className="bg-sky-950 dark:bg-white rounded-[20px] p-3 px-5 mt-5 text-background w-fit"
+            className="bg-sky-950 dark:bg-white rounded-[20px] p-2 px-5 mt-5 text-background w-fit font-medium text-sm"
           >
             使用 OpenId 登入
           </Link>
         </div>
-        <div className="flex flex-col gap-2 items-center justify-center border-t border-t-borderColor m-4 py-5">
-          <h1 className="font-medium text-lg flex items-center gap-2">
-            <Info /> 使用須知
-          </h1>
-          <p className="text-sm opacity-50">當你按下繼續，即同意此使用須知。</p>
-          <p className="opacity-50 text-sm flex p-5 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] mt-2">
-            此系統將會使用您提供之帳號密碼進行登入，並僅會獲取您請求的資料（例如：學期成績、單項段考成績）。所有資料皆不會直接儲存在任何地方，全部以雲端方式儲存在高雄市教育局校務行政系統伺服器。本APP為開源專案，如有疑慮可上
-            Github 查詢程式碼或是聯絡林園高中學生會。
-          </p>
+        <div className="flex gap-3 items-center pt-5 w-full px-5 pb-3">
+          <Info />
+          <div>
+            <h1 className="font-medium text-[16px] flex items-center gap-2">
+              使用須知
+            </h1>
+            <p className="text-sm opacity-50">
+              當你按下繼續，即同意此使用須知。
+            </p>
+          </div>
+        </div>
+        <div className="px-5">
+          <div className="w-full flex flex-col p-5 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] mt-2">
+            <p className="opacity-50 text-sm whitespace-pre-line">
+              此系統將會使用您提供之帳號密碼進行登入，並僅會獲取您請求的資料（例如：學期成績、單項段考成績）。所有資料皆不會直接儲存在任何地方，全部以雲端方式儲存在高雄市教育局校務行政系統伺服器。本APP為開源專案，如有疑慮可上
+              Github 查詢程式碼或是聯絡林園高中學生會。
+            </p>
+            <Link
+              href={"https://www.instagram.com/lyca_22nd"}
+              className="bg-sky-950 dark:bg-white rounded-[20px] p-2 px-5 mt-5 text-background w-fit text-sm font-medium"
+            >
+              聯絡我們
+            </Link>
+          </div>
         </div>
       </div>
     </div>

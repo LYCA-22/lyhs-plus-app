@@ -81,7 +81,6 @@ export default function Page() {
       );
 
       if (!userData.school_session) {
-        window.alert("找不到用戶資料");
         router.push("/school");
         return;
       }
