@@ -16,6 +16,12 @@ export interface Announcement {
   link: string;
 }
 
+export interface QuizData {
+  question: string;
+  answer: string;
+  explanation: string;
+}
+
 // mailbox
 export interface studentData {
   id: string;

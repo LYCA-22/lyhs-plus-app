@@ -7,6 +7,7 @@ import {
   CircleEllipsis,
   ScrollText,
   Scroll,
+  Bot,
 } from "lucide-react";
 import { schemaItem } from "@/types/index";
 import {
@@ -62,6 +63,15 @@ export const appSchema: schemaItem[] = [
     icon: <ChevronRight size={22} strokeWidth={2.5} />,
   },
   */
+  {
+    itemIcon: <Bot size={24} strokeWidth={2.5} />,
+    title: "單字AI測驗（BETA）",
+    type: "link",
+    isOutLink: false,
+    href: "/learn",
+    access_manage: true,
+    icon: <ArrowUpRight size={22} strokeWidth={2.5} />,
+  },
   {
     itemIcon: <CircleEllipsis size={24} strokeWidth={2.5} />,
     title: "更多介紹",

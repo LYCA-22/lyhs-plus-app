@@ -104,7 +104,8 @@ export function NavBar() {
   if (
     pathname === "/repair" ||
     pathname === "/calendar" ||
-    pathname.startsWith("/school/login")
+    pathname.startsWith("/school/login") ||
+    pathname.startsWith("/learn")
   ) {
     return;
   }

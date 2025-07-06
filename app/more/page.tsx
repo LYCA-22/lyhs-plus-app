@@ -41,37 +41,46 @@ export default function Page() {
     switch (item.type) {
       case "component":
         return (
-          <div className={commonClasses}>
-            <div className="flex items-center gap-3">
-              {item.itemIcon}
-              <p className="font-medium">{item.title}</p>
+          <>
+            <div className={commonClasses}>
+              <div className="flex items-center gap-3">
+                {item.itemIcon}
+                <p className="font-medium">{item.title}</p>
+              </div>
+              {item.component}
             </div>
-            {item.component}
-          </div>
+            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+          </>
         );
       case "btn":
         return (
-          <button className={`${commonClasses} w-full text-left`}>
-            <div className="flex items-center gap-3">
-              {item.itemIcon}
-              <p className="font-medium">{title}</p>
-            </div>
-            <div className="opacity-40">{item.icon && item.icon}</div>
-          </button>
+          <>
+            <button className={`${commonClasses} w-full text-left`}>
+              <div className="flex items-center gap-3">
+                {item.itemIcon}
+                <p className="font-medium">{title}</p>
+              </div>
+              <div className="opacity-40">{item.icon && item.icon}</div>
+            </button>
+            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+          </>
         );
       case "link":
         return (
-          <Link
-            href={href || ""}
-            target={item.isOutLink ? "_blank" : "_self"}
-            className={commonClasses}
-          >
-            <div className="flex items-center gap-3">
-              {item.itemIcon}
-              <p className="font-medium">{title}</p>
-            </div>
-            <div className="opacity-40">{item.icon && item.icon}</div>
-          </Link>
+          <>
+            <Link
+              href={href || ""}
+              target={item.isOutLink ? "_blank" : "_self"}
+              className={commonClasses}
+            >
+              <div className="flex items-center gap-3">
+                {item.itemIcon}
+                <p className="font-medium">{title}</p>
+              </div>
+              <div className="opacity-40">{item.icon && item.icon}</div>
+            </Link>
+            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
+          </>
         );
     }
   };
@@ -162,9 +171,6 @@ export default function Page() {
         {appSchema.map((item, index) => (
           <li key={index} className="flex flex-col transition-all mx-7 pt-1">
             {renderItem(item)}
-            {index < appSchema.length - 1 && (
-              <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
-            )}
           </li>
         ))}
         {userData.name && (
