@@ -7,7 +7,6 @@ import {
   CircleEllipsis,
   ScrollText,
   Scroll,
-  Bot,
 } from "lucide-react";
 import { schemaItem } from "@/types/index";
 import {
@@ -22,7 +21,7 @@ function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   return (
     <Select defaultValue={theme} onValueChange={setTheme}>
-      <SelectTrigger className="w-fit shadow-none border-0 p-0 text-lg gap-2 focus:ring-0">
+      <SelectTrigger className="w-fit shadow-none border-0 p-0 gap-2 text-lg focus:ring-0">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
       <SelectContent>
@@ -36,7 +35,7 @@ function ThemeToggle() {
 
 export const appSchema: schemaItem[] = [
   {
-    itemIcon: <Palette size={24} strokeWidth={2.5} />,
+    itemIcon: <Palette size={24} strokeWidth={2} />,
     title: "系統主題",
     isOutLink: false,
     type: "component",
@@ -45,58 +44,49 @@ export const appSchema: schemaItem[] = [
   },
   /*
   {
-    itemIcon: <Layers2 size={24} strokeWidth={2.5} />,
+    itemIcon: <Layers2 size={24} strokeWidth={2} />,
     title: "快速捷徑",
     type: "btn",
     isOutLink: false,
     access_manage: false,
     btnfunction: "apps",
-    icon: <ChevronRight size={22} strokeWidth={2.5} />,
+    icon: <ChevronRight size={22} strokeWidth={2} />,
   },
   {
-    itemIcon: <Radio size={24} strokeWidth={2.5} />,
+    itemIcon: <Radio size={24} strokeWidth={2} />,
     title: "校園無聲廣播 BETA",
     type: "btn",
     isOutLink: false,
     access_manage: false,
     btnfunction: "notification",
-    icon: <ChevronRight size={22} strokeWidth={2.5} />,
+    icon: <ChevronRight size={22} strokeWidth={2} />,
   },
   */
   {
-    itemIcon: <Bot size={24} strokeWidth={2.5} />,
-    title: "單字AI測驗（BETA）",
-    type: "link",
-    isOutLink: false,
-    href: "/learn",
-    access_manage: true,
-    icon: <ArrowUpRight size={22} strokeWidth={2.5} />,
-  },
-  {
-    itemIcon: <CircleEllipsis size={24} strokeWidth={2.5} />,
+    itemIcon: <CircleEllipsis size={24} strokeWidth={2} />,
     title: "更多介紹",
     type: "link",
     isOutLink: true,
     href: "https://plus.lyhsca.org/",
     access_manage: false,
-    icon: <ArrowUpRight size={22} strokeWidth={2.5} />,
+    icon: <ArrowUpRight size={22} strokeWidth={2} />,
   },
   {
-    itemIcon: <ScrollText size={24} strokeWidth={2.5} />,
+    itemIcon: <ScrollText size={24} strokeWidth={2} />,
     title: "使用者條款",
     type: "link",
     isOutLink: true,
     href: "/terms",
     access_manage: false,
-    icon: <ChevronRight size={22} strokeWidth={2.5} />,
+    icon: <ChevronRight size={22} strokeWidth={2} />,
   },
   {
-    itemIcon: <Scroll size={24} strokeWidth={2.5} />,
+    itemIcon: <Scroll size={24} strokeWidth={2} />,
     title: "隱私權政策",
     type: "link",
     isOutLink: true,
     href: "/privacy",
     access_manage: false,
-    icon: <ChevronRight size={22} strokeWidth={2.5} />,
+    icon: <ChevronRight size={22} strokeWidth={2} />,
   },
 ];

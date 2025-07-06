@@ -87,7 +87,7 @@ export default function Home() {
         <div className="p-5 pb-32 flex flex-col gap-3">
           <h1 className="font-light text-2xl">快速小工具</h1>
           <div className="relative grid grid-cols-2 gap-5 overflow-x-auto scroll-smooth scrollbar-hide pb-3">
-            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-sm">
+            <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-sm dark:bg-zinc-800/40">
               <div>
                 <h1 className="text-xl font-medium">校園公告</h1>
                 <p className="opacity-50 text-xs">以下為最新的兩則公告</p>
@@ -153,7 +153,7 @@ export default function Home() {
                 <ArrowRight size={20} strokeWidth={3} />
               </Link>
             </div>
-            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch shadow-sm">
+            <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-stretch shadow-sm dark:bg-zinc-800/40">
               <CountdownTimer
                 targetDate={new Date("2025-06-25T00:00:00")}
                 title="第三次段考倒數"
@@ -162,12 +162,12 @@ export default function Home() {
                 href={
                   "https://schoolmgn.kh.edu.tw/upload/336/104_64614/113-2期末考公告%20網.pdf"
                 }
-                className="mt-auto text-sm rounded-full w-full bg-sky-100 text-inputPrimary p-2 flex items-center justify-center"
+                className="mt-auto text-sm rounded-full w-full bg-sky-100 text-inputPrimary dark:bg-sky-900/50 p-2 flex items-center justify-center"
               >
                 點我查看
               </Link>
             </div>
-            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-sm">
+            <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-sm dark:bg-zinc-800/40">
               <CountdownTimer
                 targetDate={collegeEntranceExamDate}
                 title="115 學測倒數"

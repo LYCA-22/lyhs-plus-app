@@ -136,7 +136,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   pathname !== "/lyca" &&
                   pathname !== "/more" &&
                   pathname !== "/mylyps" && (
-                    <div className="w-full flex pt-deviceTop items-center justify-center p-2 py-3 bg-white dark:bg-zinc-800">
+                    <div className="w-full flex pt-deviceTop items-center justify-center p-2 py-3 bg-background">
                       <DynamicBack />
                       <div className="z-20 dark:border-borderColor text-[18px] opacity-80">
                         {getPageTitle(pathname)}

@@ -69,12 +69,12 @@ body {
 }
 
 .dark {
-    --rootBg: #27272a;
-    --background: #27272a;
+    --rootBg: #141416;
+    --background: #141416;
     --foreground: white;
-    --hoverbg: #343436;
-    --borderColor: #5e5d5d;
-    --buttonBg: #1e1e20;
+    --hoverbg: #27272a;
+    --borderColor: #2f2f32;
+    --buttonBg: #202023;
 }
 
 @layer base {

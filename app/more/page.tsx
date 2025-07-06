@@ -4,14 +4,14 @@ import { apiService } from "@/services/api";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import { schemaItem } from "@/types";
-import { ChevronRight, CircleUser, IdCard } from "lucide-react";
-import Image from "next/image";
+import { ChevronRight, CircleUser, Info, LogOut } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const AppData = useAppSelector((state) => state.systemData);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
+  const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
   const dispatch = useAppDispatch();
 
   const renderItem = (item: schemaItem) => {
@@ -35,52 +35,42 @@ export default function Page() {
         : item.href2
       : item.href;
 
-    const commonClasses =
-      "flex items-center justify-between py-3 hover:opacity-60 transition-all text-lg";
+    const commonClasses = "flex items-center justify-between text-lg py-3";
 
     switch (item.type) {
       case "component":
         return (
-          <>
-            <div className={commonClasses}>
-              <div className="flex items-center gap-3">
-                {item.itemIcon}
-                <p className="font-medium">{item.title}</p>
-              </div>
-              {item.component}
+          <div className={commonClasses}>
+            <div className="flex items-center gap-3">
+              {item.itemIcon}
+              <p>{item.title}</p>
             </div>
-            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
-          </>
+            {item.component}
+          </div>
         );
       case "btn":
         return (
-          <>
-            <button className={`${commonClasses} w-full text-left`}>
-              <div className="flex items-center gap-3">
-                {item.itemIcon}
-                <p className="font-medium">{title}</p>
-              </div>
-              <div className="opacity-40">{item.icon && item.icon}</div>
-            </button>
-            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
-          </>
+          <button className={`${commonClasses} w-full text-left`}>
+            <div className="flex items-center gap-3">
+              {item.itemIcon}
+              <p>{title}</p>
+            </div>
+            <div className="opacity-40">{item.icon && item.icon}</div>
+          </button>
         );
       case "link":
         return (
-          <>
-            <Link
-              href={href || ""}
-              target={item.isOutLink ? "_blank" : "_self"}
-              className={commonClasses}
-            >
-              <div className="flex items-center gap-3">
-                {item.itemIcon}
-                <p className="font-medium">{title}</p>
-              </div>
-              <div className="opacity-40">{item.icon && item.icon}</div>
-            </Link>
-            <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
-          </>
+          <Link
+            href={href || ""}
+            target={item.isOutLink ? "_blank" : "_self"}
+            className={commonClasses}
+          >
+            <div className="flex items-center gap-3">
+              {item.itemIcon}
+              <p>{title}</p>
+            </div>
+            <div className="opacity-40">{item.icon && item.icon}</div>
+          </Link>
         );
     }
   };
@@ -108,52 +98,44 @@ export default function Page() {
 
   return (
     <div
-      className={`relative bg-zinc-100 dark:bg-zinc-800 h-dvh pb-32 border-t border-zinc-200 overflow-y-auto ${AppData.isPwa ? "pt-deviceTop" : "pt-5"}`}
+      className={`relative min-h-dvh pb-32 ${AppData.isPwa ? "pt-deviceTop" : "pt-5"}`}
     >
       <div>
-        <h1 className="text-2xl font-custom mx-6 font-medium">更多</h1>
+        <h1 className="text-3xl font-custom mx-6 mt-4">更多</h1>
       </div>
-
-      <div
-        className={`bg-white dark:bg-zinc-900 m-5 rounded-[30px] ${!userData.name ? "px-6 p-5" : "pb-2"} flex flex-col`}
-      >
+      <div className={`mx-6 pb-6 flex flex-col border-b border-borderColor`}>
         {!userData.name ? (
           <>
-            <p className="text-2xl font-medium">登入享用完整服務</p>
-            <div className="flex items-center justify-evenly relative gap-5 w-full">
+            <p className="text-lg opacity-50">登入享用完整服務</p>
+            <div className="flex items-center justify-evenly relative gap-2 w-full mt-4">
               <Link
                 href={`https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org&lgt=${AppData.isPwa ? "APP" : "WEB"}`}
-                className="p-3 bg-inputPrimary w-full text-background rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
+                className="p-3 bg-zinc-900 dark:bg-zinc-200 w-full text-background rounded-[30px] active:scale-90 font-custom transition-all flex items-center justify-center font-medium"
               >
-                登入
+                登入 Login
               </Link>
               <Link
                 href="https://auth.lyhsca.org/account/register"
-                className="p-3 bg-zinc-200 dark:bg-zinc-600 w-full text-foreground rounded-xl active:scale-90 transition-all flex items-center justify-center font-medium mt-6 mb-2"
+                className="p-3 bg-zinc-200 dark:bg-zinc-800 w-full text-foreground rounded-[30px] active:scale-90 font-custom transition-all flex items-center justify-center font-medium"
               >
-                註冊
+                註冊 Register
               </Link>
             </div>
           </>
         ) : (
-          <>
-            <li className="flex flex-col transition-all mx-7 pt-1">
-              <div className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg">
-                <div className="flex items-center gap-3">
-                  <IdCard size={24} strokeWidth={2.5} />
-                  顯示名稱
-                </div>
-                <p className="opacity-50">{userData.name || "發生錯誤"}</p>
+          <div className="flex flex-col pt-5 mt-5 border-t border-t-borderColor">
+            <li className="flex flex-col transition-all px-4 font-custom font-medium">
+              <div className="flex items-center justify-between py-3 hover:opacity-60 transition-all text-xl">
+                {userData.name || "發生錯誤"}
               </div>
-              <div className="w-full bg-border h-[2px] rounded-full dark:bg-zinc-700 opacity-50 mt-1"></div>
             </li>
-            <li className="flex flex-col transition-all mx-7 pt-1">
+            <li className="flex flex-col px-4 transition-all rounded-[30px] hover:bg-hoverbg">
               <Link
                 href={"/mylyps"}
-                className="flex items-center font-medium justify-between py-3 hover:opacity-60 transition-all text-lg"
+                className="flex items-center justify-between py-3 text-lg"
               >
                 <div className="flex items-center gap-3">
-                  <CircleUser size={24} strokeWidth={2.5} />
+                  <CircleUser size={24} strokeWidth={2} />
                   管理我的帳號
                 </div>
                 <ChevronRight
@@ -163,43 +145,53 @@ export default function Page() {
                 />
               </Link>
             </li>
-          </>
+          </div>
         )}
       </div>
 
-      <ul className="list-none flex flex-col bg-white dark:bg-zinc-900 m-5 pb-2 rounded-[30px]">
+      <ul className="list-none flex flex-col py-4 border-b border-b-borderColor mx-6">
         {appSchema.map((item, index) => (
-          <li key={index} className="flex flex-col transition-all mx-7 pt-1">
+          <li
+            key={index}
+            className="flex flex-col transition-all rounded-[30px] hover:bg-hoverbg px-4"
+          >
             {renderItem(item)}
           </li>
         ))}
         {userData.name && (
-          <li className="flex flex-col transition-all mx-7 pt-1">
+          <li className="flex flex-col transition-all rounded-[30px] text-red-500 hover:bg-hoverbg px-4">
             <button
               onClick={() => Logout(userData.sessionId)}
-              className="flex items-center font-medium justify-center py-3 mb-4 hover:opacity-60 bg-red-500 text-white rounded-xl transition-all text-lg"
+              className="flex items-center justify-between text-lg py-3"
             >
-              <div className="flex items-center gap-3">登出帳號</div>
+              <div className="flex gap-3 items-center">
+                <LogOut size={24} strokeWidth={2} />
+                <div className="flex items-center gap-3">登出帳號</div>
+              </div>
+              <ChevronRight size={22} strokeWidth={2} />
             </button>
           </li>
         )}
       </ul>
-      <div className="flex flex-col items-center m-5 mt-10 gap-2">
-        <Image
-          alt="LycaLogo"
-          src="/lyca/lyca-logo.svg"
-          width={20}
-          height={20}
-          className="opacity-30"
-        />
-        <div className="text-center">
-          <h1 className="opacity-40 font-medium">林園高中學生會 版權所有</h1>
+      <ul className="list-none flex flex-col py-6 border-b border-b-borderColor mx-6">
+        <li className="flex justify-between px-4 text-lg font-custom">
+          <div className="items-center flex gap-3">
+            <Info size={24} strokeWidth={2} />
+            <h1>版本資訊</h1>
+          </div>
+          <p className="opacity-50">
+            {version} ({gitHash})
+          </p>
+        </li>
+      </ul>
+      <div className="flex flex-col justify-center m-6 mx-8 my-6 gap-2">
+        <div>
           <p className="text-sm opacity-40 font-normal">
             本平台由林園高中學生會資訊組建置與維護
           </p>
-        </div>
-        <div className="flex items-center justify-center font-custom text-sm opacity-40">
-          <p>LYHS Plus Version {version} TW</p>
+          <h1 className="opacity-40 font-custom text-[14px]">
+            Copyright © 2024 - 2025 LYSA.
+          </h1>
         </div>
       </div>
     </div>

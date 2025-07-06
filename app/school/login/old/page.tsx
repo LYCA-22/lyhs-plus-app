@@ -94,7 +94,7 @@ export default function Page() {
   return (
     <div className="w-full p-5 pt-0">
       <div className="w-full flex flex-col items-center justify-center relative pb-32">
-        <div className="z-50 sticky top-2 flex gap-1 font-medium bg-zinc-100 dark:bg-zinc-900/50 shadow-lg dark:shadow-zinc-700/20 backdrop-blur-md rounded-[30px] p-1 mb-5">
+        <div className="z-50 sticky top-2 flex gap-1 font-medium  bg-zinc-100 dark:bg-zinc-800/70 shadow-xl dark:shadow-zinc-800/50 backdrop-blur-md rounded-[30px] p-1 mb-5">
           <div className="bg-background dark:bg-hoverbg rounded-full shadow-lg p-2 px-5">
             帳密登入
           </div>
@@ -116,7 +116,7 @@ export default function Page() {
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder="Code"
                 required
-                className="p-3 focus:ring-0 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] outline-0"
+                className="p-3 focus:ring-0 bg-zinc-100 dark:bg-hoverbg rounded-[30px] outline-0"
               ></input>
               <div className="flex items-center justify-center">
                 {src ? (
@@ -134,7 +134,7 @@ export default function Page() {
               onChange={(e) => setAccount(e.target.value)}
               placeholder="Account"
               required
-              className="p-3 focus:ring-0 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] outline-0 w-full"
+              className="p-3 focus:ring-0 bg-zinc-100 dark:bg-hoverbg rounded-[30px] outline-0 w-full"
             ></input>
             <label htmlFor="password" className="text-sm opacity-50">
               密碼
@@ -145,7 +145,7 @@ export default function Page() {
               placeholder="Password"
               required
               type="password"
-              className="p-3 focus:ring-0 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] outline-0 w-full"
+              className="p-3 focus:ring-0 bg-zinc-100 dark:bg-hoverbg rounded-[30px] outline-0 w-full"
             ></input>
             <div
               className={`${AppData.isPwa ? "pb-deviceBottom" : ""} fixed left-0 z-50 bottom-0 bg-background dark:bg-zinc-900 shadow-black shadow-xl w-full flex p-8 py-5 border-t-2 border-zinc-200 dark:border-zinc-800`}
@@ -162,7 +162,7 @@ export default function Page() {
             </div>
           </div>
         </form>
-        <div className="m-4 p-5 mt-8 rounded-[30px] bg-zinc-100 dark:bg-zinc-900 flex flex-col justify-center">
+        <div className="m-4 p-5 mt-8 rounded-[30px] bg-zinc-100 dark:bg-hoverbg flex flex-col justify-center">
           <h1>您正在使用舊登入方式</h1>
           <p className="text-sm opacity-50">
             依照高雄市教育局最新規定，將於114學年度起關閉學生使用舊登入方式存取系統。系統將會於9月初前移除此登入方式。
@@ -186,7 +186,7 @@ export default function Page() {
           </div>
         </div>
         <div className="px-5">
-          <div className="w-full flex flex-col p-5 bg-zinc-100 dark:bg-zinc-900 rounded-[30px] mt-2">
+          <div className="w-full flex flex-col p-5 bg-zinc-100 dark:bg-hoverbg rounded-[30px] mt-2">
             <p className="opacity-50 text-sm whitespace-pre-line">
               此系統將會使用您提供之帳號密碼進行登入，並僅會獲取您請求的資料（例如：學期成績、單項段考成績）。所有資料皆不會直接儲存在任何地方，全部以雲端方式儲存在高雄市教育局校務行政系統伺服器。本APP為開源專案，如有疑慮可上
               Github 查詢程式碼或是聯絡林園高中學生會。

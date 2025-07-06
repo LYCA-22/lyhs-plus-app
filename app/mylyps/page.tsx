@@ -35,14 +35,9 @@ export default function Page() {
 
   return (
     <div
-      className={`relative flex flex-col gap-5 bg-zinc-100 dark:bg-zinc-800 w-full p-5 min-h-dvh ${AppData.isPwa ? "pt-deviceTop" : "pt-5"}`}
+      className={`relative flex flex-col gap-5 w-full p-5 min-h-dvh ${AppData.isPwa ? "pt-deviceTop" : "pt-5"}`}
     >
       <p className="font-custom font-bold mb-2">MyLYPS 帳號管理中心</p>
-      <div className="bg-sky-200 w-full p-5 py-2 rounded-[30px]">
-        <h2 className="text-sm font-custom text-sky-700 font-medium">
-          歡迎來到全新的帳號管理中心！這裡讓您管理帳號的所有資訊。
-        </h2>
-      </div>
       <div className="bg-white w-full p-5 rounded-[30px]">
         <h2 className="text-3xl font-custom font-medium">{userData.name}</h2>
         <div className="flex items-center justify-evenly relative pt-3 border-t-2 border-t-borderColor mt-3">
