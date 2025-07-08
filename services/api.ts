@@ -151,7 +151,7 @@ export const apiService = {
   ) {
     try {
       const encodedUrl = encodeURIComponent(url);
-      const apiUrl = `https://plus.lyhsca.org/api/v1/getAdDetail?url=${encodedUrl}`;
+      const apiUrl = `https://plus.lyhsca.org/api/v1/adDetail?url=${encodedUrl}`;
       const response = await fetch(apiUrl, {
         method: "GET",
       });

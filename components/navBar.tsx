@@ -38,7 +38,7 @@ const appSchema: AppSchema[] = [
     openw: "w-28",
   },
   {
-    name: "班聯會",
+    name: "學生會",
     icon: <HandFist size={25} />,
     active_icon: <HandFist size={25} weight="fill" />,
     path: "/lyca",

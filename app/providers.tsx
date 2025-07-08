@@ -21,7 +21,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const pathAllName: Record<string, string> = {
     "/": "首頁",
     "/news": "校園公告",
-    "/lyca": "班聯會",
+    "/lyca": "學生會",
     "/apps": "更多服務",
     "/mail/stu": "學權信箱",
     "/mail/success": "學權信箱",

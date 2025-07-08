@@ -1,27 +1,13 @@
 import { useState, useEffect } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   Drawer,
   DrawerContent,
-  DrawerHeader,
   DrawerTitle,
   DrawerClose,
 } from "@/components/ui/drawer";
 import { apiService } from "@/services/api";
-import {
-  Folder,
-  FileText,
-  Signature,
-  User,
-  CalendarDays,
-  ArrowDownToLine,
-  X,
-} from "lucide-react";
+import { Folder, ArrowDownToLine, X } from "lucide-react";
+import Link from "next/link";
 
 interface Attachments {
   name: string;
@@ -41,10 +27,12 @@ const ContentBlock = ({
   loading,
   error,
   adData,
+  url,
 }: {
   loading: boolean;
   error: string | null;
   adData: AdItem | null;
+  url: string;
 }) => {
   if (loading) {
     return (
@@ -63,9 +51,12 @@ const ContentBlock = ({
   }
 
   return (
-    <div className="space-y-6 max-sm:pt-20">
-      <h1 className="text-xl font-bold">{adData?.title}</h1>
-      <div className="space-y-4 opacity-70">
+    <div className="space-y-6 font-custom h-full">
+      <div className="p-4 bg-gradient-to-br from-background to-sky-50 dark:to-sky-950 border-y border-y-border flex flex-col border-l-4 border-inputPrimary">
+        <h1 className="text-xl font-medium">{adData?.title}</h1>
+        <p className="mt-3 opacity-50">發佈處室｜{adData?.publisher}</p>
+      </div>
+      <div className="space-y-4 opacity-70 w-full overflow-x-auto px-4">
         {adData?.content.map((content, index) => (
           <p
             key={index}
@@ -74,7 +65,7 @@ const ContentBlock = ({
           />
         ))}
       </div>
-      <div className="flex gap-3 flex-col bg-hoverbg p-5 rounded-2xl mb-2">
+      <div className="flex gap-3 flex-col bg-background p-5 mt-auto">
         {adData?.attachments && adData?.attachments.length > 0 && (
           <div className="flex flex-col gap-2 border-b border-borderColor pb-5">
             <p className="text-lg font-medium flex items-center gap-2 m-1">
@@ -84,9 +75,6 @@ const ContentBlock = ({
             {adData?.attachments.map((attachment, index) => (
               <div key={index} className="flex ml-8 max-sm:ml-4">
                 <div className="flex items-center gap-2">
-                  <div>
-                    <FileText size={20} />
-                  </div>
                   <a
                     href={`https://www.ly.kh.edu.tw${attachment.url}`}
                     target="_blank"
@@ -108,29 +96,32 @@ const ContentBlock = ({
             ))}
           </div>
         )}
-        <div className="text-medium sm:flex justify-between">
-          <div className="flex gap-2 justify-between items-center mt-1">
-            <div className="flex items-center gap-2">
-              <Signature />
-              <p className="font-medium">發布處室</p>
-            </div>
-            <p>{adData?.publisher}</p>
-          </div>
-          <div className="flex gap-2 justify-between items-center my-3">
-            <div className="flex items-center gap-2">
-              <User />
-              <p className="font-medium">發布者</p>
-            </div>
+        <div className="text-sm flex justify-start gap-5 opacity-55">
+          <div className="flex gap-2 items-center">
+            <p>發布者</p>
             <p>{adData?.author}</p>
           </div>
-          <div className="flex gap-2 justify-between items-center">
-            <div className="flex items-center gap-2">
-              <CalendarDays />
-              <p className="font-medium">日期</p>
-            </div>
+          <div className="flex gap-2 items-center">
+            <p>日期</p>
             <p>{adData?.dateRange}</p>
           </div>
         </div>
+        <p className="opacity-70 text-sm leading-6">
+          所有資料皆來自
+          <a
+            className="underline underline-offset-4 bg-hoverbg hover:bg-buttonBg transition-all p-1"
+            href="https://www.ly.kh.edu.tw/index.php?WebID=336"
+          >
+            林園高中校網
+          </a>
+          ，如有任何問題，請聯絡該處室。
+          <a
+            className="underline underline-offset-4 bg-hoverbg hover:bg-buttonBg transition-all p-1"
+            href={url}
+          >
+            或是點這裡到校網看
+          </a>
+        </p>
       </div>
     </div>
   );
@@ -147,43 +138,19 @@ export function NewView({
   const [adData, setAdData] = useState<AdItem | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const getData = async (url: string) => {
+    setLoading(true);
+    const result = await apiService.getAnnouncement(url, setError, setLoading);
+    setAdData(result.data);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIsMobile);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      const root = document.getElementById("_next");
-      root?.classList.add("rounded-3xl");
-      root?.classList.add("scale-90");
-      const getData = async (url: string) => {
-        setLoading(true);
-        const result = await apiService.getAnnouncement(
-          url,
-          setError,
-          setLoading,
-        );
-        setAdData(result.data);
-        setLoading(false);
-      };
+    if (url !== "") {
       getData(url);
-    } else {
-      const root = document.getElementById("_next");
-      root?.classList.remove("scale-90");
-      root?.classList.remove("rounded-3xl");
     }
-  }, [isOpen, url]);
+  }, [url]);
 
   useEffect(() => {
     if (url !== "") {
@@ -193,38 +160,28 @@ export function NewView({
     }
   }, [url]);
 
-  if (isMobile) {
-    return (
-      <Drawer
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        onClose={() => setUrlAction("")}
-      >
-        <DrawerContent className="transition-transform duration-300 ease-out pb-5 h-[90dvh] rounded-t-3xl">
-          <DrawerHeader className="flex justify-between items-center rounded-t-3xl">
-            <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
-            <DrawerClose className="hover:bg-zinc-300 dark:hover:bg-zinc-700 bg-buttonBg transition-colors rounded-full p-2">
-              <X size={20} strokeWidth={4} className="opacity-50" />
-            </DrawerClose>
-          </DrawerHeader>
-          <div className="px-4 pb-8 overflow-y-auto">
-            <ContentBlock loading={loading} error={error} adData={adData} />
-          </div>
-        </DrawerContent>
-      </Drawer>
-    );
-  } else {
-    return (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-h-[85vh] w-[90vw] max-w-3xl">
-          <DialogHeader className="flex justify-between items-center">
-            <DialogTitle className="text-xl">公告詳細內容</DialogTitle>
-          </DialogHeader>
-          <div className="mt-4 overflow-y-auto">
-            <ContentBlock loading={loading} error={error} adData={adData} />
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
+  return (
+    <Drawer
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      onClose={() => setUrlAction("")}
+    >
+      <DrawerContent className="transition-transform duration-300 ease-out h-[90dvh] rounded-t-3xl bg-white/90 backdrop-blur-[10px] dark:bg-zinc-800/70 border-0 flex flex-col">
+        <div className="flex justify-between space-y-1.5 bg-white/0 p-4 sticky top-0">
+          <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
+          <DrawerClose className="hover:bg-zinc-300 dark:hover:bg-zinc-700 bg-buttonBg transition-colors rounded-full p-2">
+            <X size={20} strokeWidth={4} className="opacity-50" />
+          </DrawerClose>
+        </div>
+        <div className="overflow-y-auto grow relative">
+          <ContentBlock
+            loading={loading}
+            error={error}
+            adData={adData}
+            url={url}
+          />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
 }

@@ -36,10 +36,10 @@ export function LoadingPage() {
   if (!userLoading && !NewsLoading) {
     setTimeout(() => {
       setOuting(true);
-    }, 400);
+    }, 100);
     setTimeout(() => {
       setImageOut(true);
-    }, 600);
+    }, 300);
   }
 
   return (
