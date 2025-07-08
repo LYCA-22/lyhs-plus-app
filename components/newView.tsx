@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/drawer";
 import { apiService } from "@/services/api";
 import { Folder, ArrowDownToLine, X } from "lucide-react";
-import Link from "next/link";
 
 interface Attachments {
   name: string;
