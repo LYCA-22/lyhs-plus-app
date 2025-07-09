@@ -1,3 +1,4 @@
+"use client";
 import { formatDate } from "@/utils/formatDate";
 import React from "react";
 import { Search } from "lucide-react";

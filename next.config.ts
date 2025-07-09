@@ -62,19 +62,6 @@ const nextConfig: NextConfig = {
     domains: ["highschool.kh.edu.tw"],
   },
   output: "standalone",
-  webpack: (config) => {
-    config.optimization.splitChunks = {
-      chunks: "all",
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all",
-        },
-      },
-    };
-    return config;
-  },
 };
 
 export default withPWA(nextConfig);
