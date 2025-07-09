@@ -34,7 +34,7 @@ export default function NotificationPage() {
     };
 
     checkSubscription();
-  }, [AppData.isSubscribe]); // 只依賴於 AppData.isSubscribe，而不是整個 AppData
+  }, [AppData.isSubscribe, userData.id]); // 只依賴於 AppData.isSubscribe，而不是整個 AppData
 
   const subscribeToNotifications = async () => {
     try {
