@@ -1,2 +1,25 @@
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://app.lyhsca.org/sitemap.xml
+
+# Disallow crawling of admin or private areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow crawling of main content
+Allow: /news
+Allow: /mail/
+Allow: /calendar
+Allow: /repair
+Allow: /school/
+Allow: /learn
+Allow: /lyca
+Allow: /more
+Allow: /desktop
+
+# Crawl delay (optional - helps prevent server overload)
+Crawl-delay: 1
