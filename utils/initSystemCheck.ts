@@ -64,9 +64,7 @@ export async function systemLoad(
     // 檢查用戶登入狀態
     const sessionId = getCookie("sessionId");
     if (!sessionId) {
-      setTimeout(() => {
-        dispatch(updateStatus(false));
-      }, 500);
+      dispatch(updateStatus(false));
       return;
     }
     const decoded = decodeURIComponent(sessionId);
@@ -88,19 +86,17 @@ export async function systemLoad(
   } catch (error) {
     console.error("Failed to initialize LYHS+ app:", error);
   } finally {
-    setTimeout(() => {
-      dispatch(
-        updateSystemData({
-          initialize: false,
-          isLoading: false,
-          os: os,
-          browser: browser,
-          isMobile: isMobile,
-          used: used,
-          homeApps: apps,
-        }),
-      );
-    }, 1000);
+    dispatch(
+      updateSystemData({
+        initialize: false,
+        isLoading: false,
+        os: os,
+        browser: browser,
+        isMobile: isMobile,
+        used: used,
+        homeApps: apps,
+      }),
+    );
   }
 }
 

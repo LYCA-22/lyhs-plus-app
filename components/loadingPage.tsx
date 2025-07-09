@@ -42,7 +42,7 @@ export function LoadingPage() {
     <>
       {!imageOut && (
         <div
-          className={`transition-all delay-75 fixed top-0 flex z-[10000] w-full h-dvh bg-background items-center justify-center opacity-100`}
+          className={`fixed top-0 flex z-[10000] w-full h-dvh bg-background items-center justify-center opacity-100`}
         >
           <Image
             alt="logo"
