@@ -18,31 +18,31 @@ export default function Page() {
     }
   }, [userData.school_session, router]);
 
-  const getAllCredit = async () => {
-    try {
-      dispatch(
-        updateSystemData({
-          isLoading: true,
-        }),
-      );
-    } catch (error) {
-      dispatch(
-        updateSystemData({
-          Error: (error as string) || "發生不明錯誤",
-        }),
-      );
-    } finally {
-      dispatch(
-        updateSystemData({
-          isLoading: false,
-        }),
-      );
-    }
-  };
-
   useEffect(() => {
+    const getAllCredit = async () => {
+      try {
+        dispatch(
+          updateSystemData({
+            isLoading: true,
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          updateSystemData({
+            Error: (error as string) || "發生不明錯誤",
+          }),
+        );
+      } finally {
+        dispatch(
+          updateSystemData({
+            isLoading: false,
+          }),
+        );
+      }
+    };
+
     getAllCredit();
-  }, []);
+  }, [dispatch]);
 
   return;
 }

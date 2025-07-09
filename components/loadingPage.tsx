@@ -8,7 +8,6 @@ export function LoadingPage() {
   const [imageOut, setImageOut] = useState(false);
   const userLoading = useAppSelector((state) => state.systemData.isLoading);
   const NewsLoading = useAppSelector((state) => state.newsData.isLoading);
-  const [outing, setOuting] = useState(false);
 
   useEffect(() => {
     // 可以加入對主題變化的監聽
@@ -33,27 +32,23 @@ export function LoadingPage() {
     return () => observer.disconnect();
   }, []);
 
-  if (!userLoading && !NewsLoading) {
-    setTimeout(() => {
-      setOuting(true);
-    }, 100);
-    setTimeout(() => {
+  useEffect(() => {
+    if (!userLoading && !NewsLoading) {
       setImageOut(true);
-    }, 300);
-  }
+    }
+  }, [userLoading, NewsLoading]);
 
   return (
     <>
       {!imageOut && (
         <div
-          className={`transition-all delay-75 fixed top-0 flex z-[10000] w-full h-dvh bg-background items-center justify-center ${outing ? "opacity-0" : "opacity-100"} `}
+          className={`transition-all delay-75 fixed top-0 flex z-[10000] w-full h-dvh bg-background items-center justify-center opacity-100`}
         >
           <Image
             alt="logo"
             src={`${theme === "dark" ? "/logo-light.svg" : "/logo.svg"}`}
             width={70}
             height={70}
-            className={`${outing ? "opacity-10" : "opacity-100"} transition-all`}
           />
         </div>
       )}

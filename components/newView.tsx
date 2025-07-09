@@ -6,7 +6,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 import { apiService } from "@/services/api";
-import { Folder, ArrowDownToLine, X } from "lucide-react";
+import { Folder, ArrowDownToLine, X, Copy, Check } from "lucide-react";
 
 interface Attachments {
   name: string;
@@ -33,6 +33,21 @@ const ContentBlock = ({
   adData: AdItem | null;
   url: string;
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    if (!adData) return;
+
+    const textToCopy = `${adData.title}\n\n${adData.content.map((content) => content.replace(/<[^>]*>/g, "")).join("\n\n")}\n\n發布處室：${adData.publisher}\n發布者：${adData.author}\n日期：${adData.dateRange}`;
+
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("複製失敗:", err);
+    }
+  };
   if (loading) {
     return (
       <div className="flex items-center justify-center py-56">
@@ -52,8 +67,19 @@ const ContentBlock = ({
   return (
     <div className="space-y-6 font-custom h-full">
       <div className="p-4 bg-gradient-to-br from-background to-sky-50 dark:to-sky-950 border-y border-y-border flex flex-col border-l-4 border-inputPrimary">
-        <h1 className="text-xl font-medium">{adData?.title}</h1>
-        <p className="mt-3 opacity-50">發佈處室｜{adData?.publisher}</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-xl font-medium">{adData?.title}</h1>
+            <p className="mt-3 opacity-50">發佈處室｜{adData?.publisher}</p>
+          </div>
+          <button
+            onClick={copyToClipboard}
+            className="flex items-center gap-2 px-3 py-2 bg-background hover:bg-buttonBg transition-colors rounded-full text-sm"
+          >
+            {copied ? <Check size={16} /> : <Copy size={16} />}
+            {copied ? "已複製" : "複製"}
+          </button>
+        </div>
       </div>
       <div className="space-y-4 opacity-70 w-full overflow-x-auto px-4">
         {adData?.content.map((content, index) => (

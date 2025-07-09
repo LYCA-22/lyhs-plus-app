@@ -1,5 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
 import {
   ChevronRight,
   ArrowUpRight,
@@ -19,10 +20,31 @@ import {
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <Select disabled>
+        <SelectTrigger className="w-fit shadow-none border-0 p-0 gap-2 text-lg focus:ring-0">
+          <SelectValue placeholder="載入中..." />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="light">亮色模式</SelectItem>
+          <SelectItem value="dark">暗色模式</SelectItem>
+          <SelectItem value="system">跟隨系統</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+  }
+
   return (
-    <Select defaultValue={theme} onValueChange={setTheme}>
+    <Select value={theme} onValueChange={setTheme}>
       <SelectTrigger className="w-fit shadow-none border-0 p-0 gap-2 text-lg focus:ring-0">
-        <SelectValue placeholder="Theme" />
+        <SelectValue placeholder="選擇主題" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="light">亮色模式</SelectItem>
