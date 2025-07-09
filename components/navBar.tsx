@@ -90,15 +90,6 @@ export function NavBar() {
     }
   };
 
-  if (
-    pathname === "/repair" ||
-    pathname === "/calendar" ||
-    pathname.startsWith("/school/login") ||
-    pathname.startsWith("/learn")
-  ) {
-    return;
-  }
-
   return (
     <div
       className={`z-30 w-full flex items-center justify-center fixed bottom-0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "pt-2 pb-5"}`}

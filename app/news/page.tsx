@@ -1,12 +1,25 @@
 "use client";
-import { useMemo, useState, useRef, useEffect } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { NewView } from "@/components/newView";
 import { Search, X } from "lucide-react";
 import { closeBack } from "@/store/systemSlice";
-import { formatDate } from "@/utils/formatDate";
-import { icons } from "@/components/icons";
+import { NewView } from "@/components/news/newView";
+import { EmptyState, NewsItem, SearchBox } from "@/components/news/component";
 const ITEMS_PER_PAGE = 8;
+const STUDENT_KEYWORDS = [
+  "補考",
+  "段考",
+  "選修",
+  "學測",
+  "指考",
+  "分科",
+  "分發",
+  "分發結果",
+  "繁星",
+  "編班名單",
+  "獎學金",
+  "競賽",
+];
 
 export default function Page() {
   const NewsData = useAppSelector((state) => state.newsData.announcements);
@@ -20,9 +33,14 @@ export default function Page() {
   const [url, setUrl] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
 
+  const normalizedSearchQuery = useMemo(
+    () => searchQuery.toLowerCase().trim(),
+    [searchQuery],
+  );
+
   useEffect(() => {
     dispatch(closeBack());
-  });
+  }, [dispatch]);
 
   const departments = useMemo(() => {
     const depts = new Set(NewsData.map((news) => news.department));
@@ -30,41 +48,21 @@ export default function Page() {
   }, [NewsData]);
 
   const filteredNews = useMemo(() => {
-    if (selectedDepartment !== "學生公告") {
-      return NewsData.filter((news) => {
-        const matchDepartment =
-          selectedDepartment === "all" ||
-          news.department === selectedDepartment;
-        const matchSearch = news.title
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-        return matchDepartment && matchSearch;
-      });
-    } else {
-      const displayNews = [];
-      const text = [
-        "補考",
-        "段考",
-        "選修",
-        "學測",
-        "指考",
-        "分科",
-        "分發",
-        "分發結果",
-        "繁星",
-        "編班名單",
-        "獎學金",
-        "競賽",
-      ];
-
-      for (let i = 0; i < NewsData.length; i++) {
-        if (text.some((keyword) => NewsData[i].title.includes(keyword))) {
-          displayNews.push(NewsData[i]);
-        }
-      }
-      return displayNews;
+    if (selectedDepartment === "學生公告") {
+      return NewsData.filter((news) =>
+        STUDENT_KEYWORDS.some((keyword) => news.title.includes(keyword)),
+      );
     }
-  }, [NewsData, selectedDepartment, searchQuery]);
+
+    return NewsData.filter((news) => {
+      const matchDepartment =
+        selectedDepartment === "all" || news.department === selectedDepartment;
+      const matchSearch =
+        normalizedSearchQuery === "" ||
+        news.title.toLowerCase().includes(normalizedSearchQuery);
+      return matchDepartment && matchSearch;
+    });
+  }, [NewsData, selectedDepartment, normalizedSearchQuery]);
 
   const displayedNews = useMemo(() => {
     return filteredNews.slice(0, displayCount);
@@ -117,18 +115,11 @@ export default function Page() {
           className={`sticky ${AppData.isPwa ? "top-9" : "top-0"} p-3 z-20 flex flex-col px-0`}
         >
           <div className="flex flex-col gap-3">
-            {openSearch && (
-              <div className="p-2 px-4 rounded-2xl w-11/12 flex items-center gap-2 bg-hoverbg mx-4">
-                <Search className="text-borderColor" size={20} />
-                <input
-                  type="text"
-                  placeholder="搜尋公告"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="ring-0 grow bg-transparent focus:outline-none text-foreground"
-                />
-              </div>
-            )}
+            <SearchBox
+              isOpen={openSearch}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            />
             <div className="flex gap-2 grow scrollbar-hide scroll-smooth p-2 px-4">
               <div className="overflow-x-auto bg-zinc-900/70 dark:bg-zinc-50/20 backdrop-blur-md flex rounded-2xl overflow-y-hidden shadow-lg border border-borderColor scrollbar-hide">
                 {departments.map((dept, index) => {
@@ -161,42 +152,11 @@ export default function Page() {
         </div>
         <div className="relative">
           {displayedNews.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
-              沒有符合條件的公告
-            </div>
+            <EmptyState />
           ) : (
             <>
               {displayedNews.map((news, index) => (
-                <div
-                  key={index}
-                  className="flex box-border border-b border-border p-3 px-5 relative"
-                >
-                  <div className="flex flex-col gap-1 pt-2 w-full">
-                    <div className="flex mb-1 font-medium items-center justify-between w-full">
-                      <p className="font-medium p-2 border-b-0 px-3 border border-border dark:border-borderColor rounded-t-xl">
-                        {news.department}
-                      </p>
-                      <p className="opacity-45 font-normal">
-                        {formatDate(news.date)}
-                      </p>
-                    </div>
-                    <h2 className="text-medium font-normal flex">
-                      {news.title}
-                    </h2>
-                    <button
-                      onClick={() => {
-                        setUrl(news.link);
-                      }}
-                      className="flex gap-1 p-2 px-3 w-fit rounded-full mt-2 bg-transparent relative group -translate-x-3 cursor-pointer"
-                    >
-                      <div className="opacity-50 flex items-center gap-1 font-normal text-sm z-20">
-                        {icons["eye"]()}
-                        詳細資訊
-                      </div>
-                      <div className="absolute w-full h-full bg-hoverbg scale-75 z-10 opacity-0 top-0 right-0 rounded-full transition-all group-hover:opacity-100 group-hover:scale-100 group-active:bg-buttonBg" />
-                    </button>
-                  </div>
-                </div>
+                <NewsItem key={index} news={news} onViewDetails={setUrl} />
               ))}
               <div
                 ref={observerTarget}

@@ -6,7 +6,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 import { apiService } from "@/services/api";
-import { Folder, ArrowDownToLine, X, Copy, Check } from "lucide-react";
+import { Folder, ArrowDownToLine, X, Check, Share } from "lucide-react";
 
 interface Attachments {
   name: string;
@@ -38,7 +38,7 @@ const ContentBlock = ({
   const copyToClipboard = async () => {
     if (!adData) return;
 
-    const textToCopy = `${adData.title}\n\n${adData.content.map((content) => content.replace(/<[^>]*>/g, "")).join("\n\n")}\n\n發布處室：${adData.publisher}\n發布者：${adData.author}\n日期：${adData.dateRange}`;
+    const textToCopy = `看看我發現了什麼！${adData.publisher}發布了一個新公告：${adData.title}\n點這裡看更多${url}`;
 
     try {
       await navigator.clipboard.writeText(textToCopy);
@@ -68,17 +68,18 @@ const ContentBlock = ({
     <div className="space-y-6 font-custom h-full">
       <div className="p-4 bg-gradient-to-br from-background to-sky-50 dark:to-sky-950 border-y border-y-border flex flex-col border-l-4 border-inputPrimary">
         <div className="flex justify-between items-start">
-          <div>
+          <div className="flex flex-col">
             <h1 className="text-xl font-medium">{adData?.title}</h1>
-            <p className="mt-3 opacity-50">發佈處室｜{adData?.publisher}</p>
+            <div className="flex items-center gap-2 justify-between w-full">
+              <p className="opacity-50">發佈處室｜{adData?.publisher}</p>
+              <button
+                onClick={copyToClipboard}
+                className="flex border border-borderColor items-center gap-2 p-2 bg-hoverbg hover:bg-buttonBg transition-colors rounded-full text-sm"
+              >
+                {copied ? <Check size={16} /> : <Share size={16} />}
+              </button>
+            </div>
           </div>
-          <button
-            onClick={copyToClipboard}
-            className="flex items-center gap-2 px-3 py-2 bg-background hover:bg-buttonBg transition-colors rounded-full text-sm"
-          >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
-            {copied ? "已複製" : "複製"}
-          </button>
         </div>
       </div>
       <div className="space-y-4 opacity-70 w-full overflow-x-auto px-4">
@@ -121,7 +122,7 @@ const ContentBlock = ({
             ))}
           </div>
         )}
-        <div className="text-sm flex justify-start gap-5 opacity-55">
+        <div className="whitespace-nowrap text-sm flex justify-start gap-5 opacity-55 w-full overflow-x-auto">
           <div className="flex gap-2 items-center">
             <p>發布者</p>
             <p>{adData?.author}</p>
@@ -191,7 +192,7 @@ export function NewView({
       onOpenChange={setIsOpen}
       onClose={() => setUrlAction("")}
     >
-      <DrawerContent className="transition-transform duration-300 ease-out h-[90dvh] rounded-t-3xl bg-white/90 backdrop-blur-[10px] dark:bg-zinc-800/70 border-0 flex flex-col">
+      <DrawerContent className="transition-transform duration-300 ease-out h-[90dvh] mx-2 rounded-3xl bg-white/90 backdrop-blur-[10px] dark:bg-zinc-800/70 border-0 flex flex-col">
         <div className="flex justify-between space-y-1.5 bg-white/0 p-4 sticky top-0">
           <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
           <DrawerClose className="hover:bg-zinc-300 dark:hover:bg-zinc-700 bg-buttonBg transition-colors rounded-full p-2">

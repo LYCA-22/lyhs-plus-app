@@ -5,17 +5,18 @@ import { ThemeProvider } from "next-themes";
 import { LoadingPage } from "@/components/loadingPage";
 import { usePathname, useRouter } from "next/navigation";
 import { SystemCheck } from "@/utils/initSystemCheck";
-import { NavBar } from "@/components/navBar";
 import { DynamicBack } from "@/components/dynamicBack";
 import { useEffect, useState } from "react";
 import { LoadingSvg } from "@/components/loadingSvg";
-import SettingsDrawer from "@/components/settings/drawer";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
+import { NavBar } from "@/components/navBar";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [navBarOpen, setNavBarOpen] = useState(false);
+
   const pathAllName: Record<string, string> = {
     "/mail/stu": "學權信箱",
     "/mail/success": "學權信箱",
@@ -50,6 +51,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
       window.removeEventListener("resize", checkIsMobile);
     };
   });
+
+  useEffect(() => {
+    if (
+      pathname === "/repair" ||
+      pathname === "/calendar" ||
+      pathname.startsWith("/school/login") ||
+      pathname.startsWith("/learn")
+    ) {
+      setNavBarOpen(false);
+    } else {
+      setNavBarOpen(true);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (isMobile) {
@@ -93,8 +107,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 </motion.div>
               </AnimatePresence>
             </div>
-            <NavBar />
-            <SettingsDrawer />
+            {navBarOpen ? <NavBar /> : null}
           </main>
         </div>
       </Provider>
