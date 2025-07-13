@@ -11,7 +11,7 @@
     "export": "next export"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "1.13.11",
+    "@cloudflare/next-on-pages": "1.13.3",
     "@google/genai": "^1.8.0",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-dialog": "^1.1.4",
