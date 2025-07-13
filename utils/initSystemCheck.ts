@@ -7,6 +7,7 @@ import { updateUserData } from "@/store/userSlice";
 import { getCookie } from "./getCookie";
 import { loadNews } from "@/store/newsSlice";
 import { Event, updateCalendarData } from "@/store/calendar";
+import * as Sentry from "@sentry/react";
 
 export async function systemLoad(
   dispatch: AppDispatch,
@@ -14,90 +15,84 @@ export async function systemLoad(
   browser: string,
   isMobile: boolean,
 ) {
-  const isUsed = localStorage.getItem("lyps_used");
-  const homeApps = localStorage.getItem("lyps_homeApps");
-  const apps = homeApps
-    ? JSON.parse(homeApps)
-    : ["eSchool", "studyHistory", "schoolWeb", "calendar", "repair"];
-  const used = isUsed === "true" ? true : false;
+  await Sentry.startSpan(
+    {
+      name: "App System Load",
+      op: "initSystemCheck",
+    },
+    async () => {
+      try {
+        // 先載入校園網站公告
+        const news = await apiService.getNews();
+        dispatch(loadNews(news.data));
 
-  if (apps.includes("mailBox")) {
-    const new_apps = apps.filter((app: string) => app !== "mailBox");
-    const new_apps2 = new_apps.filter((app: string) => app !== "mailSearch");
-    localStorage.setItem("lyps_homeApps", JSON.stringify(new_apps2));
-  }
+        // 檢查是否有訂閱資訊
+        const subscribeInfo = localStorage.getItem(
+          "lyps_subscription",
+        ) as unknown as [];
+        if (subscribeInfo) {
+          dispatch(
+            updateSystemData({
+              isSubscribe: true,
+              subscribe: subscribeInfo,
+            }),
+          );
+        }
 
-  if (!used) {
-    localStorage.setItem("lyps_homeApps", JSON.stringify(apps));
-  }
+        // 載入校園行事曆
+        const calendarData: Event[] = await apiService.getAllEvents();
+        if (calendarData) {
+          const dates = new Set<string>();
+          calendarData.forEach((event: Event) => {
+            dates.add(event.date);
+          });
+          dispatch(
+            updateCalendarData({
+              events: calendarData,
+              dateWithEvents: dates,
+            }),
+          );
+        }
 
-  try {
-    // 先載入校園網站公告
-    const news = await apiService.getNews();
-    dispatch(loadNews(news.data));
+        // 檢查用戶登入狀態
+        const sessionId = getCookie("sessionId");
+        if (!sessionId) {
+          dispatch(updateStatus(false));
+          return;
+        }
+        const decoded = decodeURIComponent(sessionId);
+        const data = await apiService.getUserData(decodeURIComponent(decoded));
+        dispatch(
+          updateUserData({
+            sessionId: sessionId,
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            level: data.level,
+            type: data.type,
+            role: data.role,
+            grade: data.grade,
+            class: data.class,
+            isLoggedIn: true,
+          }),
+        );
 
-    // 檢查是否有訂閱資訊
-    const subscribeInfo = localStorage.getItem(
-      "lyps_subscription",
-    ) as unknown as [];
-    if (subscribeInfo) {
-      dispatch(
-        updateSystemData({
-          isSubscribe: true,
-          subscribe: subscribeInfo,
-        }),
-      );
-    }
-
-    // 載入校園行事曆
-    const calendarData: Event[] = await apiService.getAllEvents();
-    if (calendarData) {
-      const dates = new Set<string>();
-      calendarData.forEach((event: Event) => {
-        dates.add(event.date);
-      });
-      dispatch(
-        updateCalendarData({ events: calendarData, dateWithEvents: dates }),
-      );
-    }
-
-    // 檢查用戶登入狀態
-    const sessionId = getCookie("sessionId");
-    if (!sessionId) {
-      dispatch(updateStatus(false));
-      return;
-    }
-    const decoded = decodeURIComponent(sessionId);
-    const data = await apiService.getUserData(decodeURIComponent(decoded));
-    dispatch(
-      updateUserData({
-        sessionId: sessionId,
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        level: data.level,
-        type: data.type,
-        role: data.role,
-        grade: data.grade,
-        class: data.class,
-        isLoggedIn: true,
-      }),
-    );
-  } catch (error) {
-    console.error("Failed to initialize LYHS+ app:", error);
-  } finally {
-    dispatch(
-      updateSystemData({
-        initialize: false,
-        isLoading: false,
-        os: os,
-        browser: browser,
-        isMobile: isMobile,
-        used: used,
-        homeApps: apps,
-      }),
-    );
-  }
+        dispatch(
+          updateSystemData({
+            initialize: false,
+            isLoading: false,
+            os: os,
+            browser: browser,
+            isMobile: isMobile,
+          }),
+        );
+      } catch (error) {
+        console.error("Failed to initialize LYHS+ app:", error);
+        Sentry.captureException(error, { level: "fatal" });
+        throw error;
+      }
+    },
+  );
 }
 
 export function SystemCheck() {

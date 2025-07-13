@@ -75,3 +75,11 @@ export interface schemaItem {
   btnfunction?: string;
   itemIcon: React.ReactNode;
 }
+
+// Sentry Error
+export class SentryExampleFrontendError extends Error {
+  constructor(message: string | undefined) {
+    super(message);
+    this.name = "SentryExampleFrontendError";
+  }
+}

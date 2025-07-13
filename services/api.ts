@@ -2,6 +2,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 import { logout } from "@/store/userSlice";
 
 import { store } from "@/store/store";
+import { Announcement } from "@/types";
 
 // 獲取系統資料的輔助函數
 const getSystemData = () => store.getState().systemData;
@@ -37,16 +38,19 @@ export const apiService = {
         method: "GET",
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
+      if (!response.ok) {
         const result = await response.json();
         throw new Error(result.error);
+      } else {
+        const data = await response.json();
+        return data as { data: Announcement[] };
       }
     } catch (error) {
       console.error("Error in getNews:", error);
-      throw error;
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("Unknown error occurred");
     }
   },
   async Logout(sessionId: string) {
