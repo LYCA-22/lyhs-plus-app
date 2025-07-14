@@ -7,6 +7,7 @@ import { updateUserData } from "@/store/userSlice";
 import { getCookie } from "./getCookie";
 import { loadNews } from "@/store/newsSlice";
 import { Event, updateCalendarData } from "@/store/calendar";
+import * as Sentry from "@sentry/react";
 
 export async function systemLoad(
   dispatch: AppDispatch,
@@ -14,75 +15,84 @@ export async function systemLoad(
   browser: string,
   isMobile: boolean,
 ) {
-  try {
-    // 先載入校園網站公告
-    const news = await apiService.getNews();
-    dispatch(loadNews(news.data));
+  await Sentry.startSpan(
+    {
+      name: "App System Load",
+      op: "initSystemCheck",
+    },
+    async () => {
+      try {
+        // 先載入校園網站公告
+        const news = await apiService.getNews();
+        dispatch(loadNews(news.data));
 
-    // 檢查是否有訂閱資訊
-    const subscribeInfo = localStorage.getItem(
-      "lyps_subscription",
-    ) as unknown as [];
-    if (subscribeInfo) {
-      dispatch(
-        updateSystemData({
-          isSubscribe: true,
-          subscribe: subscribeInfo,
-        }),
-      );
-    }
+        // 檢查是否有訂閱資訊
+        const subscribeInfo = localStorage.getItem(
+          "lyps_subscription",
+        ) as unknown as [];
+        if (subscribeInfo) {
+          dispatch(
+            updateSystemData({
+              isSubscribe: true,
+              subscribe: subscribeInfo,
+            }),
+          );
+        }
 
-    // 載入校園行事曆
-    const calendarData: Event[] = await apiService.getAllEvents();
-    if (calendarData) {
-      const dates = new Set<string>();
-      calendarData.forEach((event: Event) => {
-        dates.add(event.date);
-      });
-      dispatch(
-        updateCalendarData({
-          events: calendarData,
-          dateWithEvents: dates,
-        }),
-      );
-    }
+        // 載入校園行事曆
+        const calendarData: Event[] = await apiService.getAllEvents();
+        if (calendarData) {
+          const dates = new Set<string>();
+          calendarData.forEach((event: Event) => {
+            dates.add(event.date);
+          });
+          dispatch(
+            updateCalendarData({
+              events: calendarData,
+              dateWithEvents: dates,
+            }),
+          );
+        }
 
-    // 檢查用戶登入狀態
-    const sessionId = getCookie("sessionId");
-    if (!sessionId) {
-      dispatch(updateStatus(false));
-      return;
-    }
-    const decoded = decodeURIComponent(sessionId);
-    const data = await apiService.getUserData(decodeURIComponent(decoded));
-    dispatch(
-      updateUserData({
-        sessionId: sessionId,
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        level: data.level,
-        type: data.type,
-        role: data.role,
-        grade: data.grade,
-        class: data.class,
-        isLoggedIn: true,
-      }),
-    );
+        // 檢查用戶登入狀態
+        const sessionId = getCookie("sessionId");
+        if (!sessionId) {
+          dispatch(updateStatus(false));
+          return;
+        }
+        const decoded = decodeURIComponent(sessionId);
+        const data = await apiService.getUserData(decodeURIComponent(decoded));
+        dispatch(
+          updateUserData({
+            sessionId: sessionId,
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            level: data.level,
+            type: data.type,
+            role: data.role,
+            grade: data.grade,
+            class: data.class,
+            isLoggedIn: true,
+          }),
+        );
 
-    dispatch(
-      updateSystemData({
-        initialize: false,
-        isLoading: false,
-        os: os,
-        browser: browser,
-        isMobile: isMobile,
-      }),
-    );
-  } catch (error) {
-    console.error("Failed to initialize LYHS+ app:", error);
-    throw error;
-  }
+        dispatch(
+          updateSystemData({
+            initialize: false,
+            isLoading: false,
+            os: os,
+            browser: browser,
+            isMobile: isMobile,
+          }),
+        );
+      } catch (error) {
+        console.error("Failed to initialize LYHS+ app:", error);
+        Sentry.captureException(error, { level: "fatal" });
+        throw error;
+      }
+    },
+  );
 }
 
 export function SystemCheck() {
