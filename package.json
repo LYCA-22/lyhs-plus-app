@@ -11,7 +11,6 @@
     "export": "next export"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "1.13.3",
     "@google/genai": "^1.8.0",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -23,7 +22,6 @@
     "@react-spring/web": "^9.7.5",
     "@reduxjs/toolkit": "^2.5.0",
     "@sentry/nextjs": "^9.38.0",
-    "@sentry/tracing": "^7.120.3",
     "chart.js": "^4.4.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
