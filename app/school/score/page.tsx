@@ -282,6 +282,18 @@ export default function Page() {
           />
         </button>
       </div>
+      <button
+        onClick={() => {
+          if (userData.role !== "staff") {
+            window.alert("身分錯誤");
+          } else {
+            router.push("/school/absence");
+          }
+        }}
+        className="bg-hoverbg rounded-lg p-1 px-2 w-fit"
+      >
+        缺曠課查詢 [測試]
+      </button>
       <div className="flex items-center justify-center px-10 mt-3">
         <p className="text-sm opacity-50 text-center">
           所有成績資料皆來自於高雄市教育局校務行政系統，如有任何問題請向教務處反應。

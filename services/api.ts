@@ -370,4 +370,28 @@ export const apiService = {
       console.error(e);
     }
   },
+  async getAbsence(session_key: string, jsessionId: string, srv: string) {
+    try {
+      const res = await fetch(`https://api.lyhsca.org/v1/lyps/school/absence`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sessionKey: session_key,
+          jsessionId: jsessionId,
+          srv: srv,
+        }),
+      });
+
+      const result = await res.json();
+      return result.result.dataRows;
+    } catch (e) {
+      console.error(e);
+      if (e instanceof Error) {
+        throw new Error(e.message);
+      }
+      throw new Error("Unknown error while fetching absence data");
+    }
+  },
 };

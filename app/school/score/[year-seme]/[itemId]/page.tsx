@@ -184,7 +184,7 @@ export default function Page() {
             <h1 className="italic font-medium">班排名</h1>
             {state[0] && (
               <p className="text-sm">
-                {state[0].orderC !== null && Number(state[0].orderC) < 10
+                {state[0].orderC !== null && Number(state[0].orderC) <= 10
                   ? `太強了吧！居然考進前十名`
                   : "沒有前十名的你也很棒！繼續加油～"}
               </p>

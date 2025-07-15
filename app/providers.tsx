@@ -29,6 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/school/login/openId": "校務系統登入",
     "/school/score": "成績系統",
     "/mylyps": "MyLYPS 帳號管理中心",
+    "/school/absence": "缺曠課資料",
   };
 
   const getPageTitle = (pathname: string) => {

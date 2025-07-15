@@ -94,8 +94,8 @@ export default function Page() {
   return (
     <div className="w-full p-5 pt-0">
       <div className="w-full flex flex-col items-center justify-center relative pb-32">
-        <div className="z-50 sticky top-2 flex gap-1 font-medium  bg-zinc-100 dark:bg-zinc-800/70 shadow-xl dark:shadow-zinc-800/50 backdrop-blur-md rounded-[30px] p-1 mb-5">
-          <div className="bg-background dark:bg-hoverbg rounded-full shadow-lg p-2 px-5">
+        <div className="z-50 sticky top-2 flex gap-1 font-medium  bg-zinc-100/50 dark:bg-zinc-800/70  border border-border dark:border-borderColor backdrop-blur-md rounded-[30px] p-1 mb-5">
+          <div className="bg-background dark:bg-zinc-700 rounded-full shadow-lg p-2 px-5">
             帳密登入
           </div>
           <Link
@@ -104,6 +104,12 @@ export default function Page() {
           >
             OPENID
           </Link>
+        </div>
+        <div className="m-4 p-5 mt-3 rounded-[30px] bg-red-100 dark:bg-red-950 border-2 dark:border-red-900 border-red-200 flex flex-col justify-center">
+          <h1>強烈建議使用 OpenID 登入</h1>
+          <p className="text-sm opacity-50">
+            依照高雄市教育局最新規定，將於114學年度起關閉學生使用舊登入方式存取系統。
+          </p>
         </div>
         <form onSubmit={StartLogin} className="relative w-full">
           <div className="flex flex-col justify-center gap-2 w-full relative px-4">
@@ -162,18 +168,6 @@ export default function Page() {
             </div>
           </div>
         </form>
-        <div className="m-4 p-5 mt-8 rounded-[30px] bg-zinc-100 dark:bg-hoverbg flex flex-col justify-center">
-          <h1>您正在使用舊登入方式</h1>
-          <p className="text-sm opacity-50">
-            依照高雄市教育局最新規定，將於114學年度起關閉學生使用舊登入方式存取系統。系統將會於9月初前移除此登入方式。
-          </p>
-          <Link
-            href={"./openId"}
-            className="bg-sky-950 dark:bg-white rounded-[20px] p-2 px-5 mt-5 text-background w-fit font-medium text-sm"
-          >
-            使用 OpenId 登入
-          </Link>
-        </div>
         <div className="flex gap-3 items-center pt-5 w-full px-5 pb-3">
           <Info />
           <div>

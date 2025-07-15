@@ -70,7 +70,7 @@ export default function Page() {
   return (
     <div className="w-full p-5 pt-0">
       <div className="w-full flex flex-col items-center justify-center relative pb-32">
-        <div className="sticky top-2 z-50 flex gap-1 font-medium  bg-zinc-100 dark:bg-zinc-800/70 shadow-xl dark:shadow-zinc-800/50 backdrop-blur-md rounded-[30px] p-1 mb-5">
+        <div className="sticky top-2 z-50 flex gap-1 font-medium  bg-zinc-100/50 border border-border dark:border-borderColor dark:bg-zinc-800/70 backdrop-blur-md rounded-[30px] p-1 mb-5">
           <Link
             href={"./old"}
             className="p-2 px-5 flex justify-center items-center rounded-full hover:bg-hoverbg transition-all"
