@@ -4,8 +4,15 @@ import { apiService } from "@/services/api";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import { schemaItem } from "@/types";
-import { ChevronRight, CircleUser, Info, LogOut } from "lucide-react";
+import {
+  ChevronRight,
+  CircleUser,
+  FlaskConical,
+  Info,
+  LogOut,
+} from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
@@ -13,6 +20,7 @@ export default function Page() {
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
   const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const renderItem = (item: schemaItem) => {
     if (item.access_manage && userData.type !== "staff") {
@@ -173,8 +181,26 @@ export default function Page() {
           </li>
         )}
       </ul>
-      <ul className="list-none flex flex-col py-6 border-b border-b-borderColor mx-6">
-        <li className="flex justify-between px-4 text-lg font-custom">
+      <ul className="list-none flex flex-col py-4 border-b border-b-borderColor mx-6">
+        <li className="flex justify-between px-4 text-lg font-custom hover:bg-hoverbg rounded-[30px]">
+          <button
+            onClick={() => {
+              if (userData.type == "staff") {
+                router.push("/lab");
+              } else {
+                window.alert("存取失敗（身份錯誤）");
+              }
+            }}
+            className="py-3 flex w-full items-center justify-between"
+          >
+            <div className="items-center flex gap-3">
+              <FlaskConical size={24} strokeWidth={2} />
+              <h1>工作人員測試入口</h1>
+            </div>
+            <ChevronRight size={22} strokeWidth={2} className="opacity-40" />
+          </button>
+        </li>
+        <li className="flex justify-between px-4 py-3 text-lg font-custom">
           <div className="items-center flex gap-3">
             <Info size={24} strokeWidth={2} />
             <h1>版本資訊</h1>

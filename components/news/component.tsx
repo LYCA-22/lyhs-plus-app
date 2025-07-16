@@ -14,6 +14,7 @@ const NewsItem = React.memo(
     onViewDetails: (link: string) => void;
   }) => {
     const [copied, setCopied] = React.useState(false);
+    const [shareStatus, setShareStatus] = React.useState(false);
 
     const copyToClipboard = async () => {
       if (!news) return;
@@ -26,6 +27,25 @@ const NewsItem = React.memo(
         setTimeout(() => setCopied(false), 2000);
       } catch (err) {
         console.error("複製失敗:", err);
+      }
+    };
+
+    const handleShare = () => {
+      if (navigator.share) {
+        navigator
+          .share({
+            text: `看看我發現了什麼！${news.department}發布了一個新公告：${news.title}\n\n點這裡看更多：${news.link}`,
+          })
+          .then(() => {
+            setShareStatus(true);
+            setTimeout(() => setShareStatus(false), 2000);
+          })
+          .catch((error) => {
+            // 可以顯示錯誤提示
+            console.error("分享失敗", error);
+          });
+      } else {
+        alert("此瀏覽器不支援分享功能");
       }
     };
 
@@ -45,10 +65,16 @@ const NewsItem = React.memo(
               查看更多
             </button>
             <button
+              onClick={() => handleShare()}
+              className="flex gap-1 p-2 px-3 font-medium w-fit items-center opacity-85 rounded-full mt-2 bg-hoverbg hover:bg-buttonBg transition-all"
+            >
+              {shareStatus ? "分享成功" : "分享"}
+            </button>
+            <button
               onClick={() => copyToClipboard()}
               className="flex gap-1 p-2 px-3 font-medium w-fit items-center opacity-85 rounded-full mt-2 bg-hoverbg hover:bg-buttonBg transition-all"
             >
-              {copied ? "已複製文字" : "分享"}
+              {copied ? "已複製文字" : "複製"}
             </button>
           </div>
         </div>
