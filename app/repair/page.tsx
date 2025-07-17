@@ -193,15 +193,15 @@ export default function Page() {
           <p className="text-sm opacity-50 mb-2">提交前請再次確認資料無誤</p>
           <button
             type="submit"
-            disabled={loading}
+            disabled={true}
             className={`w-full px-4 py-3 text-white font-medium rounded-xl flex items-center justify-center ${
               loading ? "bg-gray-400" : "bg-sky-800 hover:bg-sky-700"
-            } focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
+            } focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 disabled:opacity-50`}
           >
             {loading ? (
               <div className="border-2 border-white/50 border-t-white animate-spin h-6 w-6 rounded-full" />
             ) : (
-              "提交報修"
+              "服務目前無法使用"
             )}
           </button>
         </div>

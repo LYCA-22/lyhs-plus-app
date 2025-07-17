@@ -1,7 +1,7 @@
 "use client";
 import { formatDate } from "@/utils/formatDate";
 import React from "react";
-import { Search } from "lucide-react";
+import { Check, CircleEllipsis, Copy, Search, Share } from "lucide-react";
 import { Announcement } from "@/types";
 
 // NewsItem 組件
@@ -14,7 +14,6 @@ const NewsItem = React.memo(
     onViewDetails: (link: string) => void;
   }) => {
     const [copied, setCopied] = React.useState(false);
-    const [shareStatus, setShareStatus] = React.useState(false);
 
     const copyToClipboard = async () => {
       if (!news) return;
@@ -36,10 +35,6 @@ const NewsItem = React.memo(
           .share({
             text: `看看我發現了什麼！${news.department}發布了一個新公告：${news.title}\n\n點這裡看更多：${news.link}`,
           })
-          .then(() => {
-            setShareStatus(true);
-            setTimeout(() => setShareStatus(false), 2000);
-          })
           .catch((error) => {
             // 可以顯示錯誤提示
             console.error("分享失敗", error);
@@ -57,24 +52,25 @@ const NewsItem = React.memo(
             <p className="opacity-45 font-normal">{formatDate(news.date)}</p>
           </div>
           <h2 className="text-medium font-normal flex">{news.title}</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => onViewDetails(news.link)}
-              className="flex gap-1 p-2 px-3 font-medium w-fit items-center text-background opacity-85 rounded-full mt-2 bg-foreground hover:opacity-50 transition-opacity"
+              className="flex gap-2 p-2 px-3 font-medium w-fit items-center text-background opacity-85 rounded-full mt-2 bg-foreground hover:opacity-50 transition-opacity"
             >
+              <CircleEllipsis size={20} />
               查看更多
             </button>
             <button
               onClick={() => handleShare()}
-              className="flex gap-1 p-2 px-3 font-medium w-fit items-center opacity-85 rounded-full mt-2 bg-hoverbg hover:bg-buttonBg transition-all"
+              className="border border-border flex gap-2 p-2 font-medium w-fit items-center opacity-85 rounded-full mt-2 ml-auto bg-hoverbg hover:bg-buttonBg transition-all"
             >
-              {shareStatus ? "分享成功" : "分享"}
+              <Share size={18} />
             </button>
             <button
               onClick={() => copyToClipboard()}
-              className="flex gap-1 p-2 px-3 font-medium w-fit items-center opacity-85 rounded-full mt-2 bg-hoverbg hover:bg-buttonBg transition-all"
+              className="border border-border flex gap-2 p-2 font-medium w-fit items-center opacity-85 rounded-full mt-2 bg-hoverbg hover:bg-buttonBg transition-all"
             >
-              {copied ? "已複製文字" : "複製"}
+              {copied ? <Check size={18} /> : <Copy size={20} />}
             </button>
           </div>
         </div>
@@ -142,7 +138,7 @@ const SearchBox = React.memo(
     if (!isOpen) return null;
 
     return (
-      <div className="p-2 px-4 rounded-2xl w-11/12 flex items-center gap-2 bg-hoverbg mx-4">
+      <div className="p-3 px-4 rounded-2xl w-11/12 flex items-center gap-2 bg-zinc-100/80 backdrop-blur-xl mx-4 shadow-xl shadow-hoverbg border border-zinc-200 dark:border-borderColor">
         <Search className="text-borderColor" size={20} />
         <input
           type="text"

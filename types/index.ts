@@ -76,6 +76,36 @@ export interface schemaItem {
   itemIcon: React.ReactNode;
 }
 
+export interface ClassList {
+  sco4: null;
+  clsId: number;
+  sco3: null;
+  sco6: number;
+  hourTot: number;
+  sco5: null;
+  sco2: null;
+  sco1: number;
+  stdCname: string;
+  stdNo: string;
+  hourSum: number;
+  credSum: number;
+  stdId: number;
+  retainM: null;
+  id: number;
+  seme: number;
+  upgrade: string;
+  credTot: number;
+  subjTot: number;
+  subjSum: number;
+  credMust: number;
+  seat: string;
+  stdSemeId: number;
+  clsCname: string;
+  grade: number;
+  syear: number;
+  stdSeme1Id: number;
+}
+
 // Sentry Error
 export class SentryExampleFrontendError extends Error {
   constructor(message: string | undefined) {

@@ -192,11 +192,11 @@ export function NewView({
       onOpenChange={setIsOpen}
       onClose={() => setUrlAction("")}
     >
-      <DrawerContent className="transition-transform duration-300 ease-out h-[90dvh] mx-2 rounded-3xl bg-white/90 backdrop-blur-[10px] dark:bg-zinc-800/70 border-0 flex flex-col">
+      <DrawerContent className="transition-transform duration-300 ease-out h-[90dvh] mx-2 rounded-[35px] rounded-t-3xl bg-white/90 backdrop-blur-[10px] overflow-x-hidden dark:bg-zinc-800/70 border-0 flex flex-col">
         <div className="flex justify-between space-y-1.5 bg-white/0 p-4 sticky top-0">
           <DrawerTitle className="text-lg">公告詳細內容</DrawerTitle>
           <DrawerClose className="hover:bg-zinc-300 dark:hover:bg-zinc-700 bg-buttonBg transition-colors rounded-full p-2">
-            <X size={20} strokeWidth={4} className="opacity-50" />
+            <X size={20} strokeWidth={3} className="opacity-50" />
           </DrawerClose>
         </div>
         <div className="overflow-y-auto grow relative">

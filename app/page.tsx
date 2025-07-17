@@ -54,7 +54,7 @@ export default function Home() {
           <div className="overflow-auto w-full scrollbar-hide">
             <div className="flex gap-3 whitespace-nowrap min-w-min">
               <Link
-                href={"/school"}
+                href={"/school/login/openId?path=/school/score"}
                 className="bg-foreground rounded-full p-3 px-4 text-background flex gap-2 items-center"
               >
                 <ChartColumn size={23} />

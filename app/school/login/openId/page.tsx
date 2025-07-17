@@ -6,7 +6,7 @@ import { updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
 import { Info } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -14,8 +14,11 @@ export default function Page() {
   const dispatch = useDispatch();
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
+  const [path, setPath] = useState("");
+  const searchParams = useSearchParams();
   const router = useRouter();
   const AppData = useAppSelector((state) => state.systemData);
+  const UserData = useAppSelector((state) => state.userData);
 
   useEffect(() => {
     dispatch(
@@ -24,7 +27,17 @@ export default function Page() {
         BackLink: "/",
       }),
     );
-  });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (searchParams.get("path")) {
+      setPath(searchParams.get("path") || "");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (UserData.school_session) router.push(path || "/school");
+  }, [UserData.school_session, router, path]);
 
   const StartLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -51,7 +64,11 @@ export default function Page() {
         );
       });
 
-      router.push("/school/score");
+      if (path) {
+        router.push(path);
+      } else {
+        router.push("/school");
+      }
     } else {
       setTimeout(() => {
         dispatch(

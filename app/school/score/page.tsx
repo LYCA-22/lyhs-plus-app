@@ -8,42 +8,13 @@ import {
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
-import { ChevronRight } from "lucide-react";
+import { ClassList } from "@/types";
+import { ChevronRight, CircleUser } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
-
-interface ClassList {
-  sco4: null;
-  clsId: number;
-  sco3: null;
-  sco6: number;
-  hourTot: number;
-  sco5: null;
-  sco2: null;
-  sco1: number;
-  stdCname: string;
-  stdNo: string;
-  hourSum: number;
-  credSum: number;
-  stdId: number;
-  retainM: null;
-  id: number;
-  seme: number;
-  upgrade: string;
-  credTot: number;
-  subjTot: number;
-  subjSum: number;
-  credMust: number;
-  seat: string;
-  stdSemeId: number;
-  clsCname: string;
-  grade: number;
-  syear: number;
-  stdSeme1Id: number;
-}
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
@@ -72,78 +43,91 @@ export default function Page() {
       color: "var(--foreground)",
     },
   } satisfies ChartConfig;
-  useEffect(() => {
-    const getClassList = async () => {
-      dispatch(
-        updateSystemData({
-          isLoading: true,
-        }),
+
+  const getClassList = useCallback(async () => {
+    dispatch(
+      updateSystemData({
+        isLoading: true,
+        isBack: true,
+        BackLink: "/school",
+      }),
+    );
+
+    if (!userData.school_session) {
+      router.push("/school");
+      return;
+    }
+
+    try {
+      const classList = await apiService.getSemeScore(
+        userData.school_session,
+        userData.JSESSIONID,
+        userData.SRV,
       );
 
-      if (!userData.school_session) {
-        router.push("/school");
-        return;
+      const result = classList.result?.dataRows || [];
+      setClassList(result);
+
+      if (result.length > 0) {
+        setStdName(result[0]?.stdCname || "");
+        setStdNo(result[0]?.stdNo || "");
+
+        // 尋找包含 credAdd 屬性的最後一個元素
+        const lastItemWithCredAdd = [...result]
+          .reverse()
+          .find((item) => item && typeof item.credAdd === "number");
+        setCredit(lastItemWithCredAdd?.credAdd || 0);
+      } else {
+        setStdName("");
+        setStdNo("");
+        setCredit(0);
       }
 
-      try {
-        const classList = await apiService.getSemeScore(
-          userData.school_session,
-          userData.JSESSIONID,
-          userData.SRV,
-        );
+      dispatch(
+        updateSystemData({
+          isLoading: false,
+        }),
+      );
+    } catch (error) {
+      console.error("獲取學期成績時出錯:", error);
+      window.alert("獲取成績資料時發生錯誤");
 
-        const result = classList.result?.dataRows || [];
-        setClassList(result);
-
-        if (result.length > 0) {
-          setStdName(result[0]?.stdCname || "");
-          setStdNo(result[0]?.stdNo || "");
-
-          // 尋找包含 credAdd 屬性的最後一個元素
-          const lastItemWithCredAdd = [...result]
-            .reverse()
-            .find((item) => item && typeof item.credAdd === "number");
-          setCredit(lastItemWithCredAdd?.credAdd || 0);
-        } else {
-          setStdName("");
-          setStdNo("");
-          setCredit(0);
-        }
-
-        dispatch(
-          updateSystemData({
-            isBack: false,
-            isLoading: false,
-          }),
-        );
-      } catch (error) {
-        console.error("獲取學期成績時出錯:", error);
-        window.alert("獲取成績資料時發生錯誤");
-
-        dispatch(
-          updateSystemData({
-            isLoading: false,
-          }),
-        );
-      }
-    };
-
-    getClassList();
+      dispatch(
+        updateSystemData({
+          isLoading: false,
+        }),
+      );
+    }
   }, [
     dispatch,
-    userData.school_session,
-    userData.JSESSIONID,
-    userData.SRV,
+    userData,
+    setClassList,
+    setStdName,
+    setStdNo,
+    setCredit,
     router,
   ]);
 
+  useEffect(() => {
+    getClassList();
+  }, [getClassList]);
+
   return (
     <div className="w-full flex flex-col items-center justify-center relative pb-36">
-      <div className="flex flex-col gap-2 justify-center w-full px-5 pt-2">
-        <h1 className="text-2xl font-medium">歡迎，{stdName}同學</h1>
-        <h2 className="text-sm font-medium w-fit bg-inputPrimary rounded-r-[30px] rounded-l-xl p-2 px-3 text-background">
-          學號 {stdNo}
-        </h2>
+      <div className="w-full shadow-xl shadow-hoverbg  dark:shadow-zinc-800/50 bg-background flex items-center p-5 px-8 mb-3 justify-between">
+        <div className="flex items-center gap-4">
+          <CircleUser></CircleUser>
+          <div>
+            <h2 className="text-sm">林園高中 {stdNo}</h2>
+            <h2 className="text-xl font-medium">{stdName} 同學</h2>
+          </div>
+        </div>
+        <button
+          onClick={() => window.alert("功能未開放")}
+          className="rounded-xl border border-inputPrimary font-medium p-2 px-3 hover:bg-inputPrimary hover:text-white transition-all"
+        >
+          登出
+        </button>
       </div>
       <div className="flex justify-center items-start p-5 h-[150px] overflow-hidden mt-5">
         <ChartContainer

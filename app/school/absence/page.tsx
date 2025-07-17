@@ -7,6 +7,7 @@ import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { updateSystemData } from "@/store/systemSlice";
+import { CircleUser } from "lucide-react";
 
 interface AbsenceData {
   absence1: number;
@@ -80,6 +81,8 @@ export default function Page() {
           dispatch(
             updateSystemData({
               isLoading: true,
+              isBack: true,
+              BackLink: "/school",
             }),
           );
           const data = await apiService.getAbsence(
@@ -111,7 +114,7 @@ export default function Page() {
     if (userData.JSESSIONID) {
       getAbsence();
     } else {
-      router.push("./");
+      router.push("/school");
     }
   }, [getAbsence, userData.JSESSIONID, router]);
 
@@ -156,20 +159,23 @@ export default function Page() {
   return (
     <div className="relative font-custom">
       {data[0] && (
-        <div className="shadow-xl shadow-hoverbg dark:shadow-zinc-800/50 border-b border-border  dark:border-borderColor bg-background flex items-center p-3 px-5 mb-3 justify-between">
-          <div>
-            <h2 className="text-sm">林園高中 {data[0].stdNo}</h2>
-            <h2 className="text-lg font-medium">{data[0].stdCname} 同學</h2>
+        <div className="shadow-xl shadow-hoverbg  dark:shadow-zinc-800/50 bg-background flex items-center p-5 px-8 mb-3 justify-between">
+          <div className="flex items-center gap-4">
+            <CircleUser></CircleUser>
+            <div>
+              <h2 className="text-sm">林園高中 {data[0].stdNo}</h2>
+              <h2 className="text-xl font-medium">{data[0].stdCname} 同學</h2>
+            </div>
           </div>
           <button
             onClick={() => window.alert("功能未開放")}
-            className="rounded-xl bg-zinc-100 dark:bg-zinc-900 border-2 border-border p-2 px-3"
+            className="rounded-xl border border-inputPrimary font-medium p-2 px-3 hover:bg-inputPrimary hover:text-white transition-all"
           >
             資料錯誤
           </button>
         </div>
       )}
-      <div className="shadow-xl shadow-hoverbg dark:shadow-zinc-800/50 border-b border-border dark:border-borderColor bg-background flex justify-between py-5 px-7">
+      <div className="shadow-xl shadow-hoverbg dark:shadow-zinc-800/50 border-b border-border dark:border-borderColor bg-background flex justify-between py-5 px-9">
         <div className="flex flex-col items-center justify-center font-medium border-r border-border pr-5">
           <h1>請假</h1>
           <h1>統計</h1>
