@@ -8,6 +8,14 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { updateSystemData } from "@/store/systemSlice";
 import { CircleUser } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface AbsenceData {
   absence1: number;
@@ -145,7 +153,7 @@ export default function Page() {
             count2++;
           } else if (value === "3") {
             count3++;
-          } else if (value === "4") {
+          } else if (value === "5") {
             count4++;
           }
         }
@@ -155,6 +163,20 @@ export default function Page() {
       setSum4(count4);
     }
   }, [data, userData, alllesson]);
+
+  const changeName = (name: string) => {
+    if (name == "2") {
+      return "事";
+    } else if (name == "3") {
+      return "病";
+    } else if (name == "5") {
+      return "公";
+    } else if (name == "1") {
+      return "曠";
+    } else {
+      return "";
+    }
+  };
 
   return (
     <div className="relative font-custom">
@@ -191,6 +213,44 @@ export default function Page() {
         <div className="flex flex-col justify-center items-center gap-1">
           <h2>公假</h2>
           <p className="text-xl text-inputPrimary">{sum4}</p>
+        </div>
+      </div>
+      <div className="w-full overflow-y-auto p-5 pb-32">
+        <h1 className="m-2 font-medium text-xl">詳細資料</h1>
+        <Table className="overflow-hidden">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-fit">日期</TableHead>
+              <TableHead className="w-fit">1</TableHead>
+              <TableHead className="w-fit">2</TableHead>
+              <TableHead className="w-fit">3</TableHead>
+              <TableHead className="w-fit">4</TableHead>
+              <TableHead className="w-fit">5</TableHead>
+              <TableHead className="w-fit">6</TableHead>
+              <TableHead className="w-fit">7</TableHead>
+              <TableHead className="w-fit">8</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="py-4">{item.absenceDt}</TableCell>
+                <TableCell>{changeName(item.lesson1 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson2 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson3 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson4 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson5 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson6 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson7 || "")}</TableCell>
+                <TableCell>{changeName(item.lesson8 || "")}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className="flex items-center justify-center mt-5">
+          <p className="text-sm opacity-50 text-center">
+            所有缺曠課資料皆來自於高雄市教育局校務行政系統，如有任何問題請向學務處反應。
+          </p>
         </div>
       </div>
     </div>

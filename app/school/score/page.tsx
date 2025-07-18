@@ -8,6 +8,7 @@ import {
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
+import { updateUserData } from "@/store/userSlice";
 import { ClassList } from "@/types";
 import { ChevronRight, CircleUser } from "lucide-react";
 import Link from "next/link";
@@ -54,7 +55,7 @@ export default function Page() {
     );
 
     if (!userData.school_session) {
-      router.push("/school");
+      router.push("/school/login/openId?path=/school/score");
       return;
     }
 
@@ -90,7 +91,6 @@ export default function Page() {
       );
     } catch (error) {
       console.error("獲取學期成績時出錯:", error);
-      window.alert("獲取成績資料時發生錯誤");
 
       dispatch(
         updateSystemData({
@@ -112,6 +112,32 @@ export default function Page() {
     getClassList();
   }, [getClassList]);
 
+  const Logout = async () => {
+    dispatch(
+      updateSystemData({
+        isLoading: true,
+      }),
+    );
+    try {
+      dispatch(
+        updateUserData({
+          JSESSIONID: "",
+          school_session: "",
+          SRV: "",
+        }),
+      );
+    } catch (e) {
+      console.error("登出時出錯:", e);
+      window.alert("登出時發生錯誤");
+    } finally {
+      dispatch(
+        updateSystemData({
+          isLoading: false,
+        }),
+      );
+    }
+  };
+
   return (
     <div className="w-full flex flex-col items-center justify-center relative pb-36">
       <div className="w-full shadow-xl shadow-hoverbg  dark:shadow-zinc-800/50 bg-background flex items-center p-5 px-8 mb-3 justify-between">
@@ -123,7 +149,7 @@ export default function Page() {
           </div>
         </div>
         <button
-          onClick={() => window.alert("功能未開放")}
+          onClick={() => Logout()}
           className="rounded-xl border border-inputPrimary font-medium p-2 px-3 hover:bg-inputPrimary hover:text-white transition-all"
         >
           登出

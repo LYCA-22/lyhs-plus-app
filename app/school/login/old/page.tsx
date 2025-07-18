@@ -4,7 +4,7 @@ import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
-import { Info } from "lucide-react";
+import { Bell, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -92,7 +92,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full p-5 pt-0">
+    <div className="w-full">
       <div className="w-full flex flex-col items-center justify-center relative pb-32">
         <div className="z-50 sticky top-2 flex gap-1 font-medium  bg-zinc-100/50 dark:bg-zinc-800/70  border border-border dark:border-borderColor backdrop-blur-md rounded-[30px] p-1 mb-5">
           <div className="bg-background dark:bg-zinc-700 rounded-full shadow-lg p-2 px-5">
@@ -105,13 +105,11 @@ export default function Page() {
             OPENID
           </Link>
         </div>
-        <div className="m-4 p-5 mt-3 rounded-[30px] bg-red-100 dark:bg-red-950 border-2 dark:border-red-900 border-red-200 flex flex-col justify-center">
-          <h1>強烈建議使用 OpenID 登入</h1>
-          <p className="text-sm opacity-50">
-            依照高雄市教育局最新規定，將於114學年度起關閉學生使用舊登入方式存取系統。
-          </p>
+        <div className="flex font-medium text-sm items-center w-full p-3 px-5 text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900 gap-3">
+          <Bell size={16} />
+          <h1>此登入管道將於8/1關閉，造成不便請見諒。</h1>
         </div>
-        <form onSubmit={StartLogin} className="relative w-full">
+        <form onSubmit={StartLogin} className="relative w-full p-5">
           <div className="flex flex-col justify-center gap-2 w-full relative px-4">
             <label htmlFor="code" className="text-sm opacity-50">
               驗證碼
@@ -168,29 +166,31 @@ export default function Page() {
             </div>
           </div>
         </form>
-        <div className="flex gap-3 items-center pt-5 w-full px-5 pb-3">
-          <Info />
-          <div>
-            <h1 className="font-medium text-[16px] flex items-center gap-2">
-              使用須知
-            </h1>
-            <p className="text-sm opacity-50">
-              當你按下繼續，即同意此使用須知。
-            </p>
+        <div className="m-5">
+          <div className="flex gap-3 items-center pt-5 w-full px-5 pb-3">
+            <Info />
+            <div>
+              <h1 className="font-medium text-[16px] flex items-center gap-2">
+                使用須知
+              </h1>
+              <p className="text-sm opacity-50">
+                當你按下繼續，即同意此使用須知。
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="px-5">
-          <div className="w-full flex flex-col p-5 bg-zinc-100 dark:bg-hoverbg rounded-[30px] mt-2">
-            <p className="opacity-50 text-sm whitespace-pre-line">
-              此系統將會使用您提供之帳號密碼進行登入，並僅會獲取您請求的資料（例如：學期成績、單項段考成績）。所有資料皆不會直接儲存在任何地方，全部以雲端方式儲存在高雄市教育局校務行政系統伺服器。本APP為開源專案，如有疑慮可上
-              Github 查詢程式碼或是聯絡林園高中學生會。
-            </p>
-            <Link
-              href={"https://www.instagram.com/lyca_22nd"}
-              className="bg-sky-950 dark:bg-white rounded-[20px] p-2 px-5 mt-5 text-background w-fit text-sm font-medium"
-            >
-              聯絡我們
-            </Link>
+          <div className="px-5">
+            <div className="w-full flex flex-col p-5 bg-zinc-100 dark:bg-hoverbg rounded-[30px] mt-2">
+              <p className="opacity-50 text-sm whitespace-pre-line">
+                此系統將會使用您提供之帳號密碼進行登入，並僅會獲取您請求的資料（例如：學期成績、單項段考成績）。所有資料皆不會直接儲存在任何地方，全部以雲端方式儲存在高雄市教育局校務行政系統伺服器。本APP為開源專案，如有疑慮可上
+                Github 查詢程式碼或是聯絡林園高中學生會。
+              </p>
+              <Link
+                href={"https://www.instagram.com/lyca_22nd"}
+                className="bg-sky-950 dark:bg-white rounded-[20px] p-2 px-5 mt-5 text-background w-fit text-sm font-medium"
+              >
+                聯絡我們
+              </Link>
+            </div>
           </div>
         </div>
       </div>

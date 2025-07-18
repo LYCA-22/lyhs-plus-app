@@ -6,7 +6,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 import { apiService } from "@/services/api";
-import { Folder, ArrowDownToLine, X, Check, Share } from "lucide-react";
+import { Folder, ArrowDownToLine, X, Share } from "lucide-react";
 
 interface Attachments {
   name: string;
@@ -33,21 +33,21 @@ const ContentBlock = ({
   adData: AdItem | null;
   url: string;
 }) => {
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = async () => {
-    if (!adData) return;
-
-    const textToCopy = `看看我發現了什麼！${adData.publisher}發布了一個新公告：${adData.title}\n點這裡看更多${url}`;
-
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("複製失敗:", err);
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          text: `看看我發現了什麼！${adData?.publisher}發布了一個新公告：${adData?.title}\n\n點這裡看更多：${url}`,
+        })
+        .catch((error) => {
+          // 可以顯示錯誤提示
+          console.error("分享失敗", error);
+        });
+    } else {
+      alert("此瀏覽器不支援分享功能");
     }
   };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-56">
@@ -65,31 +65,33 @@ const ContentBlock = ({
   }
 
   return (
-    <div className="space-y-6 font-custom h-full">
-      <div className="p-4 bg-gradient-to-br from-background to-sky-50 dark:to-sky-950 border-y border-y-border flex flex-col border-l-4 border-inputPrimary">
-        <div className="flex justify-between items-start">
-          <div className="flex flex-col">
-            <h1 className="text-xl font-medium">{adData?.title}</h1>
-            <div className="flex items-center gap-2 justify-between w-full">
-              <p className="opacity-50">發佈處室｜{adData?.publisher}</p>
-              <button
-                onClick={copyToClipboard}
-                className="flex border border-borderColor items-center gap-2 p-2 bg-hoverbg hover:bg-buttonBg transition-colors rounded-full text-sm"
-              >
-                {copied ? <Check size={16} /> : <Share size={16} />}
-              </button>
+    <div className="space-y-6 font-custom h-full relative flex flex-col justify-between">
+      <div>
+        <div className="p-4 bg-gradient-to-br from-background to-sky-50 dark:to-sky-950 border-y border-y-border flex flex-col border-l-4 border-inputPrimary">
+          <div className="flex justify-between items-start relative w-full">
+            <div className="flex flex-col w-full gap-1">
+              <h1 className="text-xl font-medium">{adData?.title}</h1>
+              <div className="flex items-center gap-2 justify-between w-full">
+                <p className="opacity-50">發佈處室｜{adData?.publisher}</p>
+                <button
+                  onClick={handleShare}
+                  className="flex border border-borderColor items-center gap-2 p-2 bg-hoverbg hover:bg-buttonBg transition-colors rounded-full text-sm"
+                >
+                  <Share size={16} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="space-y-4 opacity-70 w-full overflow-x-auto px-4">
-        {adData?.content.map((content, index) => (
-          <p
-            key={index}
-            dangerouslySetInnerHTML={{ __html: content }}
-            className="leading-relaxed"
-          />
-        ))}
+        <div className="space-y-4 opacity-70 w-full overflow-x-auto px-4 mt-6">
+          {adData?.content.map((content, index) => (
+            <p
+              key={index}
+              dangerouslySetInnerHTML={{ __html: content }}
+              className="leading-relaxed"
+            />
+          ))}
+        </div>
       </div>
       <div className="flex gap-3 flex-col bg-background p-5 mt-auto">
         {adData?.attachments && adData?.attachments.length > 0 && (

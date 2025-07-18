@@ -1,12 +1,6 @@
 "use client";
 import { useAppSelector } from "@/store/hook";
-import {
-  ArrowRight,
-  Bell,
-  ChartColumn,
-  GraduationCap,
-  Hammer,
-} from "lucide-react";
+import { ArrowRight, ChartPie, Database, Hammer } from "lucide-react";
 import Link from "next/link";
 import { CountdownTimer } from "@/components/CountdownTimer";
 
@@ -16,21 +10,6 @@ export default function Home() {
   const calendarData = useAppSelector((state) => state.calendarData);
   const collegeEntranceExamDate = new Date("2026-01-16T00:00:00");
   const collegeEntranceExamDate2 = new Date("2025-07-11T00:00:00");
-
-  const eSchool = () => {
-    const form = document.createElement("form");
-    form.action = "https://highschool.kh.edu.tw/OpenIdLogin.action";
-    form.method = "post";
-
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "school";
-    input.value = "124311D";
-
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
-  };
 
   return (
     <div id="home-main">
@@ -57,8 +36,15 @@ export default function Home() {
                 href={"/school/login/openId?path=/school/score"}
                 className="bg-foreground rounded-full p-3 px-4 text-background flex gap-2 items-center"
               >
-                <ChartColumn size={23} />
+                <ChartPie size={23} />
                 成績查詢
+              </Link>
+              <Link
+                href={"/school/login/openId?path=/school/absence"}
+                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
+              >
+                <Database size={23} />
+                缺曠課查詢
               </Link>
               <Link
                 href={"/repair"}
@@ -67,20 +53,6 @@ export default function Home() {
                 <Hammer size={23} />
                 線上報修
               </Link>
-              <Link
-                href={"/news"}
-                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
-              >
-                <Bell size={23} />
-                查看今天最新的公告
-              </Link>
-              <button
-                onClick={() => eSchool}
-                className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
-              >
-                <GraduationCap size={23} />
-                校務行政系統
-              </button>
             </div>
           </div>
         </div>

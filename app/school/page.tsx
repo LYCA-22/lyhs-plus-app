@@ -2,6 +2,7 @@
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
+import { updateUserData } from "@/store/userSlice";
 import { ChartPie, ChevronRight, CircleUser, Database } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,16 +23,22 @@ export default function Page() {
   }, [userData.JSESSIONID, router]);
 
   const getClassList = useCallback(async () => {
+    if (!userData.school_session) {
+      dispatch(
+        updateSystemData({
+          isLoading: false,
+        }),
+      );
+
+      router.push("/school/login/openId");
+      return;
+    }
+
     dispatch(
       updateSystemData({
         isLoading: true,
       }),
     );
-
-    if (!userData.school_session) {
-      router.push("/school");
-      return;
-    }
 
     try {
       const classList = await apiService.getSemeScore(
@@ -72,6 +79,32 @@ export default function Page() {
     getClassList();
   }, [getClassList]);
 
+  const Logout = async () => {
+    dispatch(
+      updateSystemData({
+        isLoading: true,
+      }),
+    );
+    try {
+      dispatch(
+        updateUserData({
+          JSESSIONID: "",
+          school_session: "",
+          SRV: "",
+        }),
+      );
+    } catch (e) {
+      console.error("登出時出錯:", e);
+      window.alert("登出時發生錯誤");
+    } finally {
+      dispatch(
+        updateSystemData({
+          isLoading: false,
+        }),
+      );
+    }
+  };
+
   return (
     <div className="w-full relative">
       <div className="shadow-xl shadow-hoverbg  dark:shadow-zinc-800/50 bg-background flex items-center p-5 px-8 mb-3 justify-between">
@@ -83,33 +116,35 @@ export default function Page() {
           </div>
         </div>
         <button
-          onClick={() => window.alert("功能未開放")}
+          onClick={() => Logout()}
           className="rounded-xl border border-inputPrimary font-medium p-2 px-3 hover:bg-inputPrimary hover:text-white transition-all"
         >
           登出
         </button>
       </div>
       <div className="my-2 w-full flex flex-col p-3 px-8">
-        <Link
-          href={"/school/score"}
-          className="p-3 rounded-t-xl border-b border-borderColor w-full flex justify-between items-center gap-2 text-lg hover:bg-hoverbg transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <ChartPie />
-            <p>成績查詢</p>
-          </div>
-          <ChevronRight className="opacity-50" />
-        </Link>
-        <Link
-          href={"/school/absence"}
-          className="p-3 w-full flex justify-between items-center gap-2 text-lg hover:bg-hoverbg transition-colors rounded-b-xl"
-        >
-          <div className="flex items-center gap-3">
-            <Database />
-            <p>缺曠課查詢</p>
-          </div>
-          <ChevronRight className="opacity-50" />
-        </Link>
+        <div className="rounded-3xl overflow-hidden">
+          <Link
+            href={"/school/score"}
+            className="p-3 border-b border-borderColor w-full flex justify-between items-center gap-2 text-lg hover:bg-hoverbg transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <ChartPie />
+              <p>成績查詢</p>
+            </div>
+            <ChevronRight className="opacity-50" />
+          </Link>
+          <Link
+            href={"/school/absence"}
+            className="p-3 w-full flex justify-between items-center gap-2 text-lg hover:bg-hoverbg transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <Database />
+              <p>缺曠課查詢</p>
+            </div>
+            <ChevronRight className="opacity-50" />
+          </Link>
+        </div>
       </div>
       <div className="px-5 mx-2">
         <div className="w-full flex flex-col p-5 bg-zinc-100 dark:bg-hoverbg rounded-[30px] mt-2">
