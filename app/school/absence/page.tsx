@@ -7,7 +7,7 @@ import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { updateSystemData } from "@/store/systemSlice";
-import { CircleUser } from "lucide-react";
+import { CircleUser, Grid2x2, List } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -73,10 +73,17 @@ export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const [data, setData] = useState<AbsenceData[]>([]);
   const router = useRouter();
-  const [sum2, setSum2] = useState<number>(0);
-  const [sum3, setSum3] = useState<number>(0);
-  const [sum4, setSum4] = useState<number>(0);
   const dispatch = useDispatch();
+  const [dataSum, setDataSum] = useState({
+    "1": { name: "曠課", sum: 0, date: [] as string[] },
+    "2": { name: "事假", sum: 0, date: [] as string[] },
+    "3": { name: "病假", sum: 0, date: [] as string[] },
+    "4": { name: "喪假", sum: 0, date: [] as string[] },
+    "5": { name: "公假", sum: 0, date: [] as string[] },
+    "7": { name: "遲到", sum: 0, date: [] as string[] },
+    I: { name: "心理假", sum: 0, date: [] as string[] },
+  });
+  const [mode, setMode] = useState<"table" | "chart">("table");
 
   const getAbsence = useCallback(() => {
     Sentry.startSpan(
@@ -143,24 +150,57 @@ export default function Page() {
 
   useEffect(() => {
     if (data.length > 0) {
-      let count2 = 0;
-      let count3 = 0;
-      let count4 = 0;
+      const newDataSum = {
+        "1": { name: "曠課", sum: 0, date: [] as string[] },
+        "2": { name: "事假", sum: 0, date: [] as string[] },
+        "3": { name: "病假", sum: 0, date: [] as string[] },
+        "4": { name: "喪假", sum: 0, date: [] as string[] },
+        "5": { name: "公假", sum: 0, date: [] as string[] },
+        "7": { name: "遲到", sum: 0, date: [] as string[] },
+        I: { name: "心理假", sum: 0, date: [] as string[] },
+      };
       for (let i = 0; i < data.length; i++) {
         for (const lesson of alllesson) {
           const value = data[i][lesson as keyof AbsenceData];
           if (value === "2") {
-            count2++;
+            newDataSum["2"]["sum"]++;
+            newDataSum["2"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
           } else if (value === "3") {
-            count3++;
+            newDataSum["3"]["sum"]++;
+            newDataSum["3"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
           } else if (value === "5") {
-            count4++;
+            newDataSum["5"]["sum"]++;
+            newDataSum["5"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
+          } else if (value === "4") {
+            newDataSum["4"]["sum"]++;
+            newDataSum["4"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
+          } else if (value === "I") {
+            newDataSum["I"]["sum"]++;
+            newDataSum["I"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
+          } else if (value === "7") {
+            newDataSum["7"]["sum"]++;
+            newDataSum["7"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
+          } else if (value === "1") {
+            newDataSum["1"]["sum"]++;
+            newDataSum["1"]["date"].push(
+              `${data[i].absenceDt} 第${lesson.split("lesson")[1]}節課` || "",
+            );
           }
         }
       }
-      setSum2(count2);
-      setSum3(count3);
-      setSum4(count4);
+      setDataSum(newDataSum);
     }
   }, [data, userData, alllesson]);
 
@@ -173,6 +213,12 @@ export default function Page() {
       return "公";
     } else if (name == "1") {
       return "曠";
+    } else if (name == "4") {
+      return "喪";
+    } else if (name == "7") {
+      return "遲";
+    } else if (name == "I") {
+      return "身";
     } else {
       return "";
     }
@@ -204,49 +250,94 @@ export default function Page() {
         </div>
         <div className="flex flex-col justify-center items-center gap-1">
           <h2>事假</h2>
-          <p className="text-xl text-inputPrimary">{sum2}</p>
+          <p className="text-xl text-inputPrimary">{dataSum["2"]["sum"]}</p>
         </div>
         <div className="flex flex-col justify-center items-center gap-1">
           <h2>病假</h2>
-          <p className="text-xl text-inputPrimary">{sum3}</p>
+          <p className="text-xl text-inputPrimary">{dataSum["3"]["sum"]}</p>
         </div>
         <div className="flex flex-col justify-center items-center gap-1">
           <h2>公假</h2>
-          <p className="text-xl text-inputPrimary">{sum4}</p>
+          <p className="text-xl text-inputPrimary">{dataSum["5"]["sum"]}</p>
+        </div>
+        <div className="flex flex-col justify-center items-center gap-1">
+          <h2>曠課</h2>
+          <p className="text-xl text-inputPrimary">{dataSum["1"]["sum"]}</p>
         </div>
       </div>
       <div className="w-full overflow-y-auto p-5 pb-32">
-        <h1 className="m-2 font-medium text-xl">詳細資料</h1>
-        <Table className="overflow-hidden">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-fit">日期</TableHead>
-              <TableHead className="w-fit">1</TableHead>
-              <TableHead className="w-fit">2</TableHead>
-              <TableHead className="w-fit">3</TableHead>
-              <TableHead className="w-fit">4</TableHead>
-              <TableHead className="w-fit">5</TableHead>
-              <TableHead className="w-fit">6</TableHead>
-              <TableHead className="w-fit">7</TableHead>
-              <TableHead className="w-fit">8</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell className="py-4">{item.absenceDt}</TableCell>
-                <TableCell>{changeName(item.lesson1 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson2 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson3 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson4 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson5 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson6 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson7 || "")}</TableCell>
-                <TableCell>{changeName(item.lesson8 || "")}</TableCell>
+        <div className="flex justify-between items-center">
+          <h1 className="mx-2 font-medium text-xl">詳細資料</h1>
+          <div className="p-1 rounded-[30px] bg-hoverbg flex items-center w-fit m-2">
+            <button
+              className={`${mode === "table" ? "bg-primary text-white" : ""} w-fit p-2 px-3 rounded-full`}
+              onClick={() => setMode("table")}
+            >
+              <Grid2x2 />
+            </button>
+            <button
+              className={`${mode === "chart" ? "bg-primary text-white" : ""} w-fit p-2 px-3 rounded-full`}
+              onClick={() => setMode("chart")}
+            >
+              <List />
+            </button>
+          </div>
+        </div>
+        {mode === "table" ? (
+          <Table className="overflow-hidden">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-fit">日期</TableHead>
+                <TableHead className="w-fit">1</TableHead>
+                <TableHead className="w-fit">2</TableHead>
+                <TableHead className="w-fit">3</TableHead>
+                <TableHead className="w-fit">4</TableHead>
+                <TableHead className="w-fit">5</TableHead>
+                <TableHead className="w-fit">6</TableHead>
+                <TableHead className="w-fit">7</TableHead>
+                <TableHead className="w-fit">8</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {data.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className="py-4">{item.absenceDt}</TableCell>
+                  <TableCell>{changeName(item.lesson1 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson2 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson3 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson4 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson5 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson6 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson7 || "")}</TableCell>
+                  <TableCell>{changeName(item.lesson8 || "")}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <div className="">
+            {Object.entries(dataSum).map(
+              ([key, value]) =>
+                value.sum > 0 && (
+                  <div key={key} className="mb-6">
+                    <div className="flex items-center gap-2 m-2">
+                      <h3 className="font-semibold text-inputPrimary">
+                        {value.name}
+                      </h3>
+                      <p className="bg-inputPrimary text-white rounded-full flex items-center justify-center p-1 px-3">
+                        {value.sum}
+                      </p>
+                    </div>
+                    <ul className="rounded-2xl border-borderColor border shadow-lg p-3 gap-3 text-[14px] grid grid-cols-2">
+                      {value.date.map((record, idx) => (
+                        <li key={idx}>{record}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ),
+            )}
+          </div>
+        )}
         <div className="flex items-center justify-center mt-5">
           <p className="text-sm opacity-50 text-center">
             所有缺曠課資料皆來自於高雄市教育局校務行政系統，如有任何問題請向學務處反應。
