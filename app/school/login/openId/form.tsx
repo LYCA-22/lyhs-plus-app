@@ -115,7 +115,7 @@ export function LoginForm() {
                 onChange={(e) => setAccount(e.target.value)}
                 placeholder="Account"
                 required
-                className="p-3 focus:ring-0 bg-zinc-100 dark:bg-hoverbg rounded-[30px] outline-0 w-full focus:border-borderColor focus:scale-105 border border-transparent focus:shadow-xl focus:bg-transparent transition-all outline-none ring-0"
+                className="p-3 focus:ring-0 bg-hoverbg rounded-[30px] outline-0 w-full focus:border-borderColor focus:scale-105 border border-transparent focus:shadow-xl focus:bg-background transition-all outline-none ring-0"
               ></input>
               <label
                 htmlFor="password"
@@ -129,7 +129,7 @@ export function LoginForm() {
                 placeholder="Password"
                 required
                 type="password"
-                className="p-3 focus:ring-0 bg-zinc-100 dark:bg-hoverbg rounded-[30px] outline-0 w-full  focus:border-borderColor focus:scale-105 border border-transparent focus:shadow-xl focus:bg-transparent transition-all outline-none ring-0"
+                className="p-3 focus:ring-0 bg-hoverbg rounded-[30px] outline-0 w-full  focus:border-borderColor focus:scale-105 border border-transparent focus:shadow-xl focus:bg-background transition-all outline-none ring-0"
               ></input>
               <div className="mt-2 text-sm font-medium text-inputPrimary">
                 <button

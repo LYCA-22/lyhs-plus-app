@@ -31,7 +31,7 @@ export function LoadingSvg() {
     <div
       className={`${name} transition-all z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
     >
-      <div className="bg-zinc-800 dark:bg-zinc-700 backdrop-blur-3xl rounded-[15px] p-4">
+      <div className="bg-zinc-800/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[15px] p-4 shadow-lg">
         {mode == "LOADING" ? (
           <svg
             width="50"

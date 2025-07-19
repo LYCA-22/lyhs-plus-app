@@ -270,13 +270,13 @@ export default function Page() {
           <h1 className="mx-2 font-medium text-xl">詳細資料</h1>
           <div className="p-1 rounded-[30px] bg-hoverbg flex items-center w-fit m-2">
             <button
-              className={`${mode === "table" ? "bg-primary text-white" : ""} w-fit p-2 px-3 rounded-full`}
+              className={`${mode === "table" ? "bg-primary text-background" : "text-foreground"} w-fit p-2 px-3 rounded-full`}
               onClick={() => setMode("table")}
             >
               <Grid2x2 />
             </button>
             <button
-              className={`${mode === "chart" ? "bg-primary text-white" : ""} w-fit p-2 px-3 rounded-full`}
+              className={`${mode === "chart" ? "bg-primary text-background" : "text-foreground"} w-fit p-2 px-3 rounded-full`}
               onClick={() => setMode("chart")}
             >
               <List />
