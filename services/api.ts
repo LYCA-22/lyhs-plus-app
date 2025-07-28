@@ -30,7 +30,6 @@ export const apiService = {
       }
     } catch (e) {
       console.error("Error in getUserData:", e);
-      throw e;
     }
   },
   async getNews() {
