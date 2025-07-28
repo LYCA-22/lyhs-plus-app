@@ -54,7 +54,7 @@ export default function Page() {
   return (
     <div className="relative w-full">
       <div className={`w-full px-5 ${AppData.isPwa ? "mt-deviceTop" : "mt-5"}`}>
-        <h1 className={`text-2xl font-medium`}>班聯會</h1>
+        <h1 className={`text-2xl font-medium`}>學生會</h1>
         <div className="h-36 flex items-center gap-7 backdrop-blur-sm rounded-3xl py-5 px-3 mt-5">
           <div className="w-28 h-28">
             {chartLoaded && (

@@ -88,36 +88,30 @@ export default function Home() {
                 <h1 className="text-xl font-medium">今天的活動</h1>
                 <p className="opacity-50 text-xs">以下為最新的兩則事項</p>
               </div>
-              {calendarData.events && calendarData.events.length > 0 ? (
-                <div className="flex flex-col gap-2">
-                  {(() => {
-                    const today = new Date().toISOString().split("T")[0];
+              <div className="flex flex-col gap-2 bg-zinc-800 rounded-full">
+                {(() => {
+                  const today = new Date().toISOString().split("T")[0];
 
-                    const todayEvents = calendarData.events.filter(
-                      (event) => event.date === today,
-                    );
+                  const todayEvents = calendarData.events.filter(
+                    (event) => event.date === today,
+                  );
 
-                    return todayEvents.length > 0 ? (
-                      todayEvents.slice(0, 2).map((event, index) => (
-                        <div
-                          key={index}
-                          className="bg-zinc-800 w-full overflow-hidden rounded-full p-2"
-                        >
-                          <p className="text-sm truncate">{event.title}</p>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="bg-zinc-800 w-full overflow-hidden rounded-full p-2">
-                        <p className="text-sm truncate">今天沒有活動</p>
+                  return todayEvents.length > 0 ? (
+                    todayEvents.slice(0, 2).map((event, index) => (
+                      <div
+                        key={index}
+                        className="w-full overflow-hidden rounded-full p-2"
+                      >
+                        <p className="text-sm truncate">{event.title}</p>
                       </div>
-                    );
-                  })()}
-                </div>
-              ) : (
-                <div className="bg-hoverbg w-full overflow-hidden rounded-full p-2">
-                  <p className="text-sm truncate">載入中...</p>
-                </div>
-              )}
+                    ))
+                  ) : (
+                    <div className="w-full overflow-hidden rounded-full p-2">
+                      <p className="text-sm truncate">今天沒有活動</p>
+                    </div>
+                  );
+                })()}
+              </div>
               <Link
                 href={"/calendar"}
                 className="bg-hoverbg p-2 px-3 rounded-full text-foreground ml-auto mt-auto flex gap-2 items-center"

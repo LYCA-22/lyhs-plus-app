@@ -62,20 +62,25 @@ export async function systemLoad(
         }
         const decoded = decodeURIComponent(sessionId);
         const data = await apiService.getUserData(decodeURIComponent(decoded));
-        dispatch(
-          updateUserData({
-            sessionId: sessionId,
-            id: data.id,
-            name: data.name,
-            email: data.email,
-            level: data.level,
-            type: data.type,
-            role: data.role,
-            grade: data.grade,
-            class: data.class,
-            isLoggedIn: true,
-          }),
-        );
+        if (data) {
+          dispatch(
+            updateUserData({
+              sessionId: sessionId,
+              id: data.id,
+              name: data.name,
+              email: data.email,
+              level: data.level,
+              type: data.type,
+              role: data.role,
+              grade: data.grade,
+              class: data.class,
+              isLoggedIn: true,
+            }),
+          );
+        } else {
+          document.cookie =
+            "sessionId=; domain=lyhsca.org; Secure;path=/; max-age=0";
+        }
 
         dispatch(
           updateSystemData({
