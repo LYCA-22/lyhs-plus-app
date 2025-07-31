@@ -1,13 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { apiService } from "@/services/api";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTitle,
-  DrawerHeader,
-  DrawerDescription,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import {
   InputOTP,
   InputOTPGroup,
@@ -21,7 +15,6 @@ import {
   Info,
   FileText,
   ShieldCheck,
-  SquareArrowOutUpRight,
   Mail,
 } from "lucide-react";
 import { useAppDispatch } from "@/store/hook";
