@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import {
   Drawer,
@@ -50,8 +51,9 @@ const ContentBlock = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-56">
-        <div className="h-8 w-8 rounded-full border-4 border-t-primary animate-spin" />
+      <div className="w-full h-full flex items-center justify-center flex-col gap-2 pb-20">
+        <div className="h-6 w-6 rounded-full border-2 border-t-foreground border-inputPrimary animate-spin"></div>
+        <p>載入中，請稍候</p>
       </div>
     );
   }

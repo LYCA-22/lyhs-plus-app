@@ -85,7 +85,7 @@ export function LoadingSvg() {
       ) : (
         <div className="bg-zinc-300/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[30px] p-5 mx-10 relative shadow-lg">
           <div>
-            <h1 className="font-medium text-xl">系統錯誤資訊</h1>
+            <h2 className="font-medium text-xl">系統錯誤資訊</h2>
             <p className="opacity-50">{AppData.error.message}</p>
             <p className="opacity-50">錯誤代碼 {AppData.error.code}</p>
           </div>

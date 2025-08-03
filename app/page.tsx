@@ -59,11 +59,11 @@ export default function Home() {
       </div>
 
       <div className="px-5 pb-32 flex flex-col gap-3">
-        <h1 className="font-light text-2xl">快速小工具</h1>
+        <h2 className="font-light text-2xl">快速小工具</h2>
         <div className="relative grid grid-cols-2 gap-5 overflow-x-auto scroll-smooth scrollbar-hide pb-3">
           <div className="border border-borderColor rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-sm dark:bg-zinc-800/40">
             <div>
-              <h1 className="text-xl font-medium">校園公告</h1>
+              <h3 className="text-xl font-medium">校園公告</h3>
               <p className="opacity-50 text-xs">以下為最新的兩則公告</p>
             </div>
 
@@ -89,7 +89,7 @@ export default function Home() {
           </div>
           <div className="bg-inputPrimary text-white border rounded-[30px] p-4 relative w-full flex flex-col gap-2 shadow-sm">
             <div>
-              <h1 className="text-xl font-medium">今天的活動</h1>
+              <h3 className="text-xl font-medium">今天的活動</h3>
               <p className="opacity-50 text-xs">以下為最新的兩則事項</p>
             </div>
             <div className="flex flex-col gap-2 bg-zinc-800 rounded-full">

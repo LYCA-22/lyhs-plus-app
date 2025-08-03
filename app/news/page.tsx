@@ -3,8 +3,8 @@ import React, { useMemo, useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { Search, X } from "lucide-react";
 import { closeBack } from "@/store/systemSlice";
-import { NewView } from "@/components/news/newView";
-import { EmptyState, NewsItem, SearchBox } from "@/components/news/component";
+import { NewView } from "@/components/news/newsDrawer";
+import { EmptyState, NewsItem, SearchBox } from "@/components/news/Components";
 const ITEMS_PER_PAGE = 8;
 const STUDENT_KEYWORDS = [
   "補考",

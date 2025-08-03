@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { SystemCheck } from "@/utils/initSystemCheck";
 import { DynamicBack } from "@/components/dynamicBack";
 import { useEffect, useState } from "react";
-import { LoadingSvg } from "@/components/loadingSvg";
+import { LoadingSvg } from "@/components/statusControl";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { NavBar } from "@/components/navBar";
