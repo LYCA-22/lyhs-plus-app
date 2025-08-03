@@ -29,7 +29,11 @@ export default function Page() {
       } catch (error) {
         dispatch(
           updateSystemData({
-            Error: (error as string) || "發生不明錯誤",
+            error: {
+              status: true,
+              message: (error as string) || "發生不明錯誤",
+              code: "UNKNOWN_CODE",
+            },
           }),
         );
       } finally {
