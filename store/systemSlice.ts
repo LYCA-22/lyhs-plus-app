@@ -1,42 +1,65 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { homeApps } from "@/types";
+
+interface serverError {
+  status: boolean;
+  code: string;
+  message: string;
+}
+
+interface school {
+  SRV: string;
+  JSESSIONID: string;
+}
+
+interface subscribe {
+  status: boolean;
+  info: [];
+}
+
+interface device {
+  os: string;
+  isMobile: boolean;
+  browser: string;
+}
 
 interface UserState {
   initialize: boolean;
   isLoading: boolean;
-  os: string;
-  isMobile: boolean;
-  browser: string;
+  deviceInfo: device;
   used: boolean;
-  homeApps: homeApps[];
   isPwa: boolean;
-  isSubscribe: boolean;
-  subscribe: [];
+  subscribe: subscribe;
   isBack: boolean;
   BackLink: string;
-  isSetOpen: boolean;
-  JSESSIONID: string;
-  Error: string;
-  SRV: string;
+  error: serverError;
+  school: school;
 }
 
 const initialState: UserState = {
   initialize: true,
   isLoading: true,
-  os: "",
-  isMobile: false,
-  browser: "",
+  deviceInfo: {
+    os: "",
+    isMobile: false,
+    browser: "",
+  },
   used: false,
-  homeApps: [],
   isPwa: false,
-  isSubscribe: false,
-  subscribe: [],
+  subscribe: {
+    status: false,
+    info: [],
+  },
   isBack: false,
   BackLink: "",
-  isSetOpen: false,
-  JSESSIONID: "",
-  Error: "",
-  SRV: "",
+  error: {
+    status: false,
+    code: "",
+    message: "",
+  },
+  school: {
+    SRV: "",
+    JSESSIONID: "",
+  },
 };
 
 export const systemSlice = createSlice({
@@ -49,9 +72,6 @@ export const systemSlice = createSlice({
     updateSystemData: (state, action: PayloadAction<Partial<UserState>>) => {
       Object.assign(state, action.payload);
     },
-    updateHomeApps: (state, action: PayloadAction<homeApps[]>) => {
-      state.homeApps = action.payload;
-    },
     closeBack: (state) => {
       state.isBack = false;
     },
@@ -61,10 +81,5 @@ export const systemSlice = createSlice({
   },
 });
 
-export const {
-  updateStatus,
-  updateSystemData,
-  updateHomeApps,
-  closeBack,
-  updateInitialize,
-} = systemSlice.actions;
+export const { updateStatus, updateSystemData, closeBack, updateInitialize } =
+  systemSlice.actions;

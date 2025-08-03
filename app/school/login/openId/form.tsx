@@ -77,7 +77,7 @@ export function LoginForm() {
         );
       });
 
-      window.alert(`發生不明錯誤（可能資料錯誤）`);
+      window.alert(`發生不明錯誤`);
       setAccount("");
       setPassword("");
     }
@@ -86,17 +86,6 @@ export function LoginForm() {
   return (
     <div className="w-full relative">
       <div className="w-full flex flex-col items-center justify-center relative pb-32">
-        <div className="sticky top-2 z-50 flex gap-1 font-medium  bg-zinc-100/50 border border-border dark:border-borderColor dark:bg-zinc-800/70 backdrop-blur-md rounded-[30px] p-1 mb-5">
-          <Link
-            href={"./old"}
-            className="p-2 px-5 flex justify-center items-center rounded-full hover:bg-hoverbg transition-all"
-          >
-            帳密登入
-          </Link>
-          <div className="bg-background dark:bg-zinc-700 rounded-full shadow-lg p-2 px-5">
-            OPENID
-          </div>
-        </div>
         <div className="flex font-medium text-sm items-center w-full p-3 px-5 bg-hoverbg gap-3">
           <Smile size={16} className="opacity-50" />
           <h1 className="opacity-50">歡迎使用 OpenId 登入！</h1>

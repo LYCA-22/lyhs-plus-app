@@ -4,9 +4,11 @@ import { logout } from "@/store/userSlice";
 
 import { store } from "@/store/store";
 import { Announcement } from "@/types";
+import { updateSystemData } from "@/store/systemSlice";
 
 // 獲取系統資料的輔助函數
 const getSystemData = () => store.getState().systemData;
+const dispatch = store.dispatch;
 const systemData = getSystemData();
 
 export const apiService = {
@@ -26,7 +28,17 @@ export const apiService = {
         return result.data;
       } else {
         const result = await response.json();
-        throw new Error(result.error);
+        dispatch(
+          updateSystemData({
+            error: {
+              status: true,
+              code: `${result.error.code}` || "",
+              message: `存取用戶資料發生錯誤：${result.error.message}` || "",
+            },
+          }),
+        );
+
+        return;
       }
     } catch (e) {
       console.error("Error in getUserData:", e);
@@ -40,17 +52,23 @@ export const apiService = {
 
       if (!response.ok) {
         const result = await response.json();
-        throw new Error(result.error);
+        dispatch(
+          updateSystemData({
+            error: {
+              status: true,
+              code: `${result.error.code}` || "",
+              message: `存取校網公告發生錯誤：${result.error.message}` || "",
+            },
+          }),
+        );
+
+        return { data: [] } as { data: Announcement[] };
       } else {
         const data = await response.json();
         return data as { data: Announcement[] };
       }
-    } catch (error) {
-      console.error("Error in getNews:", error);
-      if (error instanceof Error) {
-        throw error;
-      }
-      throw new Error("Unknown error occurred");
+    } catch (e) {
+      console.error(e);
     }
   },
   async Logout(sessionId: string) {

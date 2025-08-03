@@ -1,38 +1,28 @@
 "use client";
-import { useAppSelector } from "@/store/hook";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
 
 export function LoadingSvg() {
   const AppData = useAppSelector((state) => state.systemData);
-  const [mode, setMode] = useState("");
-  const [name, setName] = useState("");
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (mode != "") {
-      setName("scale-100 opacity-100");
-    } else {
-      setName("scale-0 opacity-0");
-    }
-  }, [mode]);
-
-  useEffect(() => {
-    if (AppData.isLoading) {
-      setMode("LOADING");
-    } else if (AppData.Error) {
-      setMode("ERROR");
-      setError(AppData.Error);
-    } else {
-      setMode("");
-    }
-  }, [AppData.isLoading, AppData.Error]);
+  const dispatch = useAppDispatch();
+  const cleanError = () => {
+    dispatch(
+      updateSystemData({
+        error: {
+          status: false,
+          message: "",
+          code: "",
+        },
+      }),
+    );
+  };
 
   return (
     <div
-      className={`${name} transition-all z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
+      className={`transition-all ${AppData.isLoading || AppData.error.status ? "scale-100 opacity-100" : "scale-0 opacity-0"} z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
     >
-      <div className="bg-zinc-800/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[15px] p-4 shadow-lg">
-        {mode == "LOADING" ? (
+      {AppData.isLoading ? (
+        <div className="bg-zinc-800/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[15px] p-4 shadow-lg">
           <svg
             width="50"
             height="50"
@@ -91,10 +81,30 @@ export function LoadingSvg() {
               dur="1300ms"
             />
           </svg>
-        ) : (
-          <p>{error}</p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="bg-zinc-300/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[30px] p-5 mx-10 relative shadow-lg">
+          <div>
+            <h1 className="font-medium text-xl">系統錯誤資訊</h1>
+            <p className="opacity-50">{AppData.error.message}</p>
+            <p className="opacity-50">錯誤代碼 {AppData.error.code}</p>
+          </div>
+          <div className="w-full relative mt-3 flex flex-col gap-2">
+            <button
+              onClick={() => cleanError()}
+              className="bg-foreground text-background opacity-90 p-3 w-full rounded-full hover:opacity-50"
+            >
+              關閉
+            </button>
+            <button
+              onClick={() => cleanError()}
+              className="bg-background text-foreground opacity-90 p-3 w-full rounded-full hover:opacity-50"
+            >
+              請求技術支援
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

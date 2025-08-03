@@ -8,6 +8,7 @@ import { getCookie } from "./getCookie";
 import { loadNews } from "@/store/newsSlice";
 import { Event, updateCalendarData } from "@/store/calendar";
 import * as Sentry from "@sentry/react";
+import { Announcement } from "@/types";
 
 export async function systemLoad(
   dispatch: AppDispatch,
@@ -23,21 +24,8 @@ export async function systemLoad(
     async () => {
       try {
         // 先載入校園網站公告
-        const news = await apiService.getNews();
+        const news = (await apiService.getNews()) as { data: Announcement[] };
         dispatch(loadNews(news.data));
-
-        // 檢查是否有訂閱資訊
-        const subscribeInfo = localStorage.getItem(
-          "lyps_subscription",
-        ) as unknown as [];
-        if (subscribeInfo) {
-          dispatch(
-            updateSystemData({
-              isSubscribe: true,
-              subscribe: subscribeInfo,
-            }),
-          );
-        }
 
         // 載入校園行事曆
         const calendarData: Event[] = await apiService.getAllEvents();
@@ -86,15 +74,16 @@ export async function systemLoad(
           updateSystemData({
             initialize: false,
             isLoading: false,
-            os: os,
-            browser: browser,
-            isMobile: isMobile,
+            deviceInfo: {
+              os: os,
+              browser: browser,
+              isMobile: isMobile,
+            },
           }),
         );
       } catch (error) {
         console.error("Failed to initialize LYHS+ app:", error);
         Sentry.captureException(error, { level: "fatal" });
-        throw error;
       }
     },
   );
