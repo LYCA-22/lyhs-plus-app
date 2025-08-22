@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角形範例 - Tailwind CSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">三角形製作範例</h1>
+
+        <!-- 使用 border 方法製作三角形 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-700">1. 使用 Border 製作三角形</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- 向上三角形 -->
+                <div class="text-center">
+                    <div class="w-0 h-0 border-l-[50px] border-r-[50px] border-b-[80px] border-l-transparent border-r-transparent border-b-blue-500 mx-auto mb-2"></div>
+                    <p class="text-sm text-gray-600">向上三角形</p>
+                </div>
+
+                <!-- 向下三角形 -->
+                <div class="text-center">
+                    <div class="w-0 h-0 border-l-[50px] border-r-[50px] border-t-[80px] border-l-transparent border-r-transparent border-t-red-500 mx-auto mb-2"></div>
+                    <p class="text-sm text-gray-600">向下三角形</p>
+                </div>
+
+                <!-- 向左三角形 -->
+                <div class="text-center">
+                    <div class="w-0 h-0 border-t-[50px] border-b-[50px] border-r-[80px] border-t-transparent border-b-transparent border-r-green-500 mx-auto mb-2"></div>
+                    <p class="text-sm text-gray-600">向左三角形</p>
+                </div>
+
+                <!-- 向右三角形 -->
+                <div class="text-center">
+                    <div class="w-0 h-0 border-t-[50px] border-b-[50px] border-l-[80px] border-t-transparent border-b-transparent border-l-purple-500 mx-auto mb-2"></div>
+                    <p class="text-sm text-gray-600">向右三角形</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用 clip-path 製作三角形 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-700">2. 使用 Clip-path 製作三角形</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- 等腰三角形 -->
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-pink-500 mx-auto mb-2" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)"></div>
+                    <p class="text-sm text-gray-600">等腰三角形</p>
+                </div>
+
+                <!-- 直角三角形 -->
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-yellow-500 mx-auto mb-2" style="clip-path: polygon(0% 0%, 0% 100%, 100% 100%)"></div>
+                    <p class="text-sm text-gray-600">直角三角形</p>
+                </div>
+
+                <!-- 倒三角形 -->
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-indigo-500 mx-auto mb-2" style="clip-path: polygon(50% 100%, 0% 0%, 100% 0%)"></div>
+                    <p class="text-sm text-gray-600">倒三角形</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用 transform rotate 製作三角形 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-700">3. 使用 Transform 製作三角形</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- 正方形旋转45度製作菱形，再隱藏一半 -->
+                <div class="text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-2 overflow-hidden">
+                        <div class="w-14 h-14 bg-teal-500 transform rotate-45 absolute top-3 left-3"></div>
+                    </div>
+                    <p class="text-sm text-gray-600">旋轉三角形</p>
+                </div>
+
+                <!-- 組合多個元素 -->
+                <div class="text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-2">
+                        <div class="w-0 h-0 border-l-[40px] border-r-[40px] border-b-[60px] border-l-transparent border-r-transparent border-b-orange-500 absolute top-2 left-0"></div>
+                    </div>
+                    <p class="text-sm text-gray-600">漸層三角形</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 實際應用範例 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-700">4. 實際應用範例</h2>
+
+            <!-- 對話氣泡 -->
+            <div class="mb-8">
+                <h3 class="text-lg font-medium mb-4 text-gray-600">對話氣泡</h3>
+                <div class="relative bg-blue-500 text-white p-4 rounded-lg max-w-xs">
+                    <p>這是一個對話氣泡範例！</p>
+                    <div class="absolute bottom-0 left-6 transform translate-y-full">
+                        <div class="w-0 h-0 border-l-[15px] border-r-[15px] border-t-[15px] border-l-transparent border-r-transparent border-t-blue-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 通知提示 -->
+            <div class="mb-8">
+                <h3 class="text-lg font-medium mb-4 text-gray-600">通知提示</h3>
+                <div class="relative bg-green-500 text-white p-4 rounded-lg max-w-sm">
+                    <p>✓ 操作成功完成！</p>
+                    <div class="absolute top-4 right-0 transform translate-x-full">
+                        <div class="w-0 h-0 border-t-[10px] border-b-[10px] border-l-[10px] border-t-transparent border-b-transparent border-l-green-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 麵包屑導航 -->
+            <div class="mb-8">
+                <h3 class="text-lg font-medium mb-4 text-gray-600">麵包屑導航</h3>
+                <nav class="flex items-center space-x-1">
+                    <a href="#" class="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">首頁</a>
+                    <div class="w-0 h-0 border-t-[12px] border-b-[12px] border-l-[8px] border-t-transparent border-b-transparent border-l-gray-400"></div>
+                    <a href="#" class="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">產品</a>
+                    <div class="w-0 h-0 border-t-[12px] border-b-[12px] border-l-[8px] border-t-transparent border-b-transparent border-l-gray-400"></div>
+                    <span class="px-4 py-2 bg-blue-500 text-white">詳細頁面</span>
+                </nav>
+            </div>
+
+            <!-- 標籤 -->
+            <div>
+                <h3 class="text-lg font-medium mb-4 text-gray-600">標籤設計</h3>
+                <div class="flex flex-wrap gap-4">
+                    <div class="relative bg-red-500 text-white px-4 py-2 pr-8">
+                        <span>重要</span>
+                        <div class="absolute top-0 right-0 transform translate-x-full">
+                            <div class="w-0 h-0 border-t-[20px] border-b-[20px] border-l-[10px] border-t-transparent border-b-transparent border-l-red-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="relative bg-yellow-500 text-white px-4 py-2 pr-8">
+                        <span>警告</span>
+                        <div class="absolute top-0 right-0 transform translate-x-full">
+                            <div class="w-0 h-0 border-t-[20px] border-b-[20px] border-l-[10px] border-t-transparent border-b-transparent border-l-yellow-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="relative bg-green-500 text-white px-4 py-2 pr-8">
+                        <span>完成</span>
+                        <div class="absolute top-0 right-0 transform translate-x-full">
+                            <div class="w-0 h-0 border-t-[20px] border-b-[20px] border-l-[10px] border-t-transparent border-b-transparent border-l-green-500"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 程式碼說明 -->
+        <section class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">程式碼說明</h2>
+            <div class="space-y-4 text-sm text-gray-600">
+                <div>
+                    <h3 class="font-medium text-gray-800">Border 方法：</h3>
+                    <p>使用 <code class="bg-gray-100 px-2 py-1 rounded">border-l-[50px] border-r-[50px] border-b-[80px] border-l-transparent border-r-transparent border-b-blue-500</code></p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-800">Clip-path 方法：</h3>
+                    <p>使用 <code class="bg-gray-100 px-2 py-1 rounded">style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)"</code></p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-800">Transform 方法：</h3>
+                    <p>結合 <code class="bg-gray-100 px-2 py-1 rounded">transform rotate-45</code> 和 <code class="bg-gray-100 px-2 py-1 rounded">overflow-hidden</code></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

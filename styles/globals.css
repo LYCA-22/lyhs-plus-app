@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "neue";
+    src: url("/fonts/neue/NeuePower-Light.ttf") format("truetype");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "neue";
+    src: url("/fonts/neue/NeuePower-Regular-qo7lrz.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "neue";
+    src: url("/fonts/neue/NeuePower-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "neue";
+    src: url("/fonts/neue/NeuePower-Ultra.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     padding: 0;
     --background: white;

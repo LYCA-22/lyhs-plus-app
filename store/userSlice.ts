@@ -14,6 +14,8 @@ interface UserState {
   school_session: string;
   JSESSIONID: string;
   SRV: string;
+  number: number;
+  stu_id: string;
 }
 
 const initialState: UserState = {
@@ -30,6 +32,8 @@ const initialState: UserState = {
   school_session: "",
   JSESSIONID: "",
   SRV: "",
+  number: 0,
+  stu_id: "",
 };
 
 export const userSlice = createSlice({

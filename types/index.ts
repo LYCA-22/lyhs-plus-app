@@ -113,3 +113,18 @@ export class SentryExampleFrontendError extends Error {
     this.name = "SentryExampleFrontendError";
   }
 }
+
+export enum Class {
+  C1 = "忠",
+  C2 = "孝",
+  C3 = "仁",
+  C4 = "愛",
+  C5 = "信",
+  C6 = "義",
+}
+
+export enum Grade {
+  G1 = "高一",
+  G2 = "高二",
+  G3 = "高三",
+}

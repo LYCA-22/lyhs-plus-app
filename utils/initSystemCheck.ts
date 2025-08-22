@@ -62,6 +62,8 @@ export async function systemLoad(
               role: data.role,
               grade: data.grade,
               class: data.class,
+              stu_id: data.stu_id,
+              number: data.number,
               isLoggedIn: true,
             }),
           );

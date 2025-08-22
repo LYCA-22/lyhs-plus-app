@@ -28,7 +28,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/school/login/old": "校務系統登入",
     "/school/login/openId": "校務系統登入",
     "/school/score": "成績系統",
-    "/mylyps": "MyLYPS 帳號管理中心",
+    "/mylyps": "帳號管理",
     "/school/absence": "缺曠課資料",
     "/lab": "Lyps Lab",
   };

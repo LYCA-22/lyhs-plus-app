@@ -32,7 +32,7 @@ export default function Page() {
           height={50}
         />
         <div className="flex flex-col gap-2 items-center justify-center">
-          <h1 className="font-medium text-3xl">
+          <h1 className="font-medium text-4xl">
             您正在使用
             <span className="text-inputPrimary">電腦或平板</span>
           </h1>

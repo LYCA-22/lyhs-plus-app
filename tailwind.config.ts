@@ -19,6 +19,7 @@ const config = {
       },
       fontFamily: {
         custom: ["OpenAI Sans", "sans-serif"],
+        custom2: ["neue", "sans-serif"],
       },
       padding: {
         deviceTop: "calc(env(safe-area-inset-top) + 10px)",
