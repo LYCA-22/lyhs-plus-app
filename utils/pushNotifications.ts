@@ -26,13 +26,8 @@ export async function subscribeToPushNotifications(): Promise<PushSubscription |
     let subscription = await registration.pushManager.getSubscription();
 
     if (!subscription) {
-      const publicKey = process.env.VAPID_PUBLIC_KEY as string;
-
-      const applicationServerKey = urlBase64ToUint8Array(publicKey);
-
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey,
       });
     }
 
@@ -86,7 +81,7 @@ export function getSubscriptionFromLocalStorage(): PushSubscription | null {
 }
 
 // Base64 URL 轉 Uint8Array (用於 applicationServerKey)
-function urlBase64ToUint8Array(base64String: string): Uint8Array {
+export function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
 
