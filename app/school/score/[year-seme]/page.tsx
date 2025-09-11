@@ -110,6 +110,7 @@ export default function ScoreDetailContent() {
             </li>
           ))}
         </ul>
+        {/*
         <ul className="rounded-[30px] bg-zinc-100 dark:bg-zinc-900 flex flex-col w-full overflow-hidden mt-5">
           <li className="py-3 border-b  px-5  transition-all hover:bg-zinc-300 dark:hover:bg-zinc-600 border-borderColor flex justify-between items-center last:border-0">
             <Link
@@ -138,6 +139,7 @@ export default function ScoreDetailContent() {
             </Link>
           </li>
         </ul>
+        */}
       </div>
     </div>
   );

@@ -264,6 +264,7 @@ export default function Page() {
             </div>
           )}
         </ul>
+        {/*
         <p className="font-medium opacity-50 p-3 text-sm">其他功能</p>
         <button
           onClick={() => {
@@ -291,6 +292,7 @@ export default function Page() {
             className="text-zinc-600 dark:text-zinc-500"
           />
         </button>
+        */}
       </div>
       <div className="flex items-center justify-center px-10 mt-3">
         <p className="text-sm opacity-50 text-center">

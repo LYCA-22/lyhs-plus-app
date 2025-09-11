@@ -9,7 +9,7 @@ export async function requestNotificationPermission(): Promise<boolean> {
 }
 
 // 後端 API 的基礎 URL
-const API_BASE_URL = "https://api.lyhsca.org"; // 替換為你實際的後端 URL
+const API_BASE_URL = "https://api.lyhsca.org";
 
 // 訂閱推送通知
 export async function subscribeToPushNotifications(): Promise<PushSubscription | null> {

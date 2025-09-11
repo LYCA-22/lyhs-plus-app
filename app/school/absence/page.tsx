@@ -236,7 +236,7 @@ export default function Page() {
             </div>
           </div>
           <button
-            onClick={() => window.alert("功能未開放")}
+            onClick={() => window.alert("請將錯誤資訊告知學務處")}
             className="rounded-xl border border-inputPrimary font-medium p-2 px-3 hover:bg-inputPrimary hover:text-white transition-all"
           >
             資料錯誤

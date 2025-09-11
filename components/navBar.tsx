@@ -3,7 +3,6 @@ import { useAppDispatch } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
 import {
   DotsThreeOutline,
-  HandFist,
   House,
   MegaphoneSimple,
 } from "@phosphor-icons/react";
@@ -37,13 +36,14 @@ const appSchema: AppSchema[] = [
     path: "/news",
     openw: "w-28",
   },
+  /*
   {
     name: "學生會",
     icon: <HandFist size={25} />,
     active_icon: <HandFist size={25} weight="fill" />,
     path: "/lyca",
     openw: "w-24",
-  },
+    },*/
   {
     name: "更多",
     icon: <DotsThreeOutline size={25} />,
