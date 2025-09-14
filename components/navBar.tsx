@@ -27,14 +27,14 @@ const appSchema: AppSchema[] = [
     icon: <House size={25} />,
     active_icon: <House size={25} weight="fill" />,
     path: "/",
-    openw: "w-20",
+    openw: "w-24",
   },
   {
     name: "校園公告",
     icon: <MegaphoneSimple size={25} />,
     active_icon: <MegaphoneSimple size={25} weight="fill" />,
     path: "/news",
-    openw: "w-28",
+    openw: "w-32",
   },
   /*
   {
@@ -101,10 +101,10 @@ export function NavBar() {
           <div
             key={app.path}
             onClick={() => handleVibration(app.path)}
-            className={`flex group items-center transition-all p-3 gap-1 cursor-pointer ${
+            className={`flex group items-center transition-all rounded-[26px] p-3 gap-1 cursor-pointer ${
               (app.path === "/" && pathname === "/") ||
               (app.path !== "/" && pathname.startsWith(app.path))
-                ? `bg-white rounded-[26px] dark:bg-zinc-50/25 ${app.openw} justify-center`
+                ? `bg-white dark:bg-zinc-50/25 ${app.openw} justify-center`
                 : "text-background opacity-50 dark:text-zinc-400 w-12 overflow-hidden justify-start"
             }`}
           >
@@ -116,7 +116,7 @@ export function NavBar() {
                   : app.icon}
               </div>
               <p
-                className={`font-medium ${app.path == pathname ? "opacity-100" : "opacity-0"}`}
+                className={`font-medium ${app.path == pathname ? "opacity-100" : "opacity-0"} text-[18px]`}
               >
                 {app.name}
               </p>

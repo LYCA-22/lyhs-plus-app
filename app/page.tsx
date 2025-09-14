@@ -26,30 +26,33 @@ export default function Home() {
       {/* Top Components */}
       <div className="p-5 relative">
         <div aria-label="home-title">
-          <h1 className="font-medium text-3xl">今天需要什麼資訊呢？</h1>
+          <h1 className="font-medium text-3xl">今天過得怎麼樣呢？</h1>
           <p className="opacity-45 font-normal text-lg my-2">
             點擊下面的按鈕，開啟更多豐富體驗
           </p>
         </div>
         <div className="overflow-auto w-full scrollbar-hide my-8">
           <div className="flex gap-3 whitespace-nowrap min-w-min">
-            <Link
-              href={"/school/login/openId?path=/school/score"}
-              className="bg-foreground rounded-full p-3 px-4 text-background flex gap-2 items-center"
-            >
-              <ChartPie size={23} />
-              成績查詢
-            </Link>
-            <Link
-              href={"/school/login/openId?path=/school/absence"}
-              className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
-            >
-              <Database size={23} />
-              缺曠課查詢
-            </Link>
+            <div className="flex rounded-3xl overflow-x-hidden bg-foreground bg-opacity-60 text-white">
+              <Link
+                href={"/school/login/openId?path=/school/score"}
+                className="p-3 px-4 flex gap-2 items-center"
+              >
+                <ChartPie size={23} />
+                成績查詢
+              </Link>
+              <div className="h-full w-[1px] bg-borderColor opacity-50"></div>
+              <Link
+                href={"/school/login/openId?path=/school/absence"}
+                className="p-3 px-4 flex gap-2 items-center"
+              >
+                <Database size={23} />
+                缺曠課查詢
+              </Link>
+            </div>
             <Link
               href={"/repair"}
-              className="bg-background rounded-full p-3 px-4 flex gap-2 border border-borderColor items-center"
+              className="bg-hoverbg rounded-full p-3 px-4 flex gap-2 items-center"
             >
               <Hammer size={23} />
               線上報修
@@ -123,11 +126,26 @@ export default function Home() {
               <ArrowRight size={20} strokeWidth={3} />
             </Link>
           </div>
-          <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col items-center justify-center gap-3 shadow-sm dark:bg-zinc-800/40">
+          <div className="relative border border-borderColor rounded-[30px] overflow-hidden p-3 pb-0 px-4 flex flex-col items-center justify-center gap-3 shadow-sm dark:bg-zinc-800/40">
             <CountdownTimer
               targetDate={collegeEntranceExamDate}
               title="115 學測倒數"
             />
+          </div>
+          <div className="border border-borderColor rounded-[30px] overflow-hidden p-3 px-4 flex flex-col gap-3 shadow-sm dark:bg-zinc-800/40">
+            <div>
+              <h3 className="text-[14px]">114-1</h3>
+              <p className="text-xl">第一次段考</p>
+              <p className="text-xs opacity-50">提供段考相關資訊</p>
+            </div>
+            <button
+              onClick={() => {
+                window.alert("尚未公布");
+              }}
+              className="bg-sky-200 rounded-full p-2 text-sky-950 dark:bg-sky-950 dark:text-sky-100"
+            >
+              段考考程
+            </button>
           </div>
         </div>
       </div>

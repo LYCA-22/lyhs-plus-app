@@ -30,7 +30,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/school/score": "成績系統",
     "/mylyps": "帳號管理",
     "/school/absence": "缺曠課資料",
-    "/lab": "Lyps Lab",
+    "/school/getId": "OPENID 查詢",
   };
 
   const getPageTitle = (pathname: string) => {

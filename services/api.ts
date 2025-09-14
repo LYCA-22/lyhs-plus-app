@@ -412,4 +412,16 @@ export const apiService = {
       throw new Error("Unknown error while fetching absence data");
     }
   },
+  async getClassOpenId(classId: string, gradeId: string) {
+    try {
+      const res = await fetch(
+        `${API_BASE_URL}/v1/lyps/school/getId?class=${classId}&grade=${gradeId}`,
+      );
+      const result = await res.json();
+
+      return result.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

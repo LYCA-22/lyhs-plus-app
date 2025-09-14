@@ -129,6 +129,9 @@ export function LoginForm() {
                 >
                   忘記密碼？
                 </button>
+                <Link href={"/school/getId"} type="button">
+                  不知道帳號？
+                </Link>
               </div>
               <div
                 className={`${AppData.isPwa ? "pb-deviceBottom" : ""} fixed left-0 z-50 bottom-0 bg-background dark:bg-zinc-900 shadow-black shadow-xl w-full flex p-8 py-5 border-t-2 border-zinc-200 dark:border-zinc-800`}
