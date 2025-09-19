@@ -50,6 +50,7 @@ export default function Home() {
                 缺曠課查詢
               </Link>
             </div>
+            {/*
             <Link
               href={"/repair"}
               className="bg-hoverbg rounded-full p-3 px-4 flex gap-2 items-center"
@@ -57,6 +58,7 @@ export default function Home() {
               <Hammer size={23} />
               線上報修
             </Link>
+            */}
           </div>
         </div>
       </div>
