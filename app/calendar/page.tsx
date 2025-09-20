@@ -1,6 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { format, startOfWeek, addDays, isSameDay, parseISO } from "date-fns";
+import {
+  format,
+  startOfWeek,
+  addDays,
+  isSameDay,
+  parseISO,
+  isWithinInterval,
+} from "date-fns";
 import { zhTW } from "date-fns/locale";
 import {
   ChevronLeft,
@@ -35,8 +42,18 @@ export default function Page() {
     .map((_, i) => addDays(currentWeekStart, i));
 
   const selectedEvents = events.filter((event) => {
-    const eventDate = parseISO(event.start_time);
-    return isSameDay(eventDate, selectedDate);
+    const eventStartDate = parseISO(event.start_time);
+    const eventEndDate = parseISO(event.end_time);
+
+    // 檢查選中的日期是否在事件時間範圍內
+    return (
+      isSameDay(eventStartDate, selectedDate) ||
+      isSameDay(eventEndDate, selectedDate) ||
+      isWithinInterval(selectedDate, {
+        start: eventStartDate,
+        end: eventEndDate,
+      })
+    );
   });
 
   const officeColors: Record<string, string> = {
@@ -57,8 +74,18 @@ export default function Page() {
 
   const hasEvent = (date: Date) => {
     return events.some((event) => {
-      const eventDate = parseISO(event.start_time);
-      return isSameDay(eventDate, date);
+      const eventStartDate = parseISO(event.start_time);
+      const eventEndDate = parseISO(event.end_time);
+
+      // 檢查指定日期是否在事件時間範圍內
+      return (
+        isSameDay(eventStartDate, date) ||
+        isSameDay(eventEndDate, date) ||
+        isWithinInterval(date, {
+          start: eventStartDate,
+          end: eventEndDate,
+        })
+      );
     });
   };
 

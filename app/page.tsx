@@ -3,7 +3,7 @@ import { useAppSelector } from "@/store/hook";
 import { ArrowRight, ChartPie, Database } from "lucide-react";
 import Link from "next/link";
 import { CountdownTimer } from "@/components/CountdownTimer";
-import { parseISO, isSameDay } from "date-fns";
+import { parseISO, isSameDay, isWithinInterval } from "date-fns";
 
 export default function Home() {
   const AppData = useAppSelector((state) => state.systemData);
@@ -103,8 +103,18 @@ export default function Home() {
                 const today = new Date();
 
                 const todayEvents = calendarData.events.filter((event) => {
-                  const eventDate = parseISO(event.start_time);
-                  return isSameDay(eventDate, today);
+                  const eventStartDate = parseISO(event.start_time);
+                  const eventEndDate = parseISO(event.end_time);
+
+                  // 檢查今天是否在事件時間範圍內
+                  return (
+                    isSameDay(eventStartDate, today) ||
+                    isSameDay(eventEndDate, today) ||
+                    isWithinInterval(today, {
+                      start: eventStartDate,
+                      end: eventEndDate,
+                    })
+                  );
                 });
 
                 return todayEvents.length > 0 ? (
