@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { format, startOfWeek, addDays, isSameDay } from "date-fns";
+import { format, startOfWeek, addDays, isSameDay, parseISO } from "date-fns";
 import { zhTW } from "date-fns/locale";
 import {
   ChevronLeft,
@@ -13,9 +13,7 @@ import { updateSystemData } from "@/store/systemSlice";
 import { UpdateCalendar } from "@/utils/reloadCalendar";
 
 export default function Page() {
-  const { events, dateWithEvents } = useAppSelector(
-    (state) => state.calendarData,
-  );
+  const { events } = useAppSelector((state) => state.calendarData);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
     startOfWeek(new Date(), { weekStartsOn: 0 }), // 从周日开始
@@ -36,9 +34,10 @@ export default function Page() {
     .fill(null)
     .map((_, i) => addDays(currentWeekStart, i));
 
-  const selectedEvents = events.filter(
-    (event) => event.date === format(selectedDate, "yyyy-MM-dd"),
-  );
+  const selectedEvents = events.filter((event) => {
+    const eventDate = parseISO(event.start_time);
+    return isSameDay(eventDate, selectedDate);
+  });
 
   const officeColors: Record<string, string> = {
     stu: "bg-blue-500",
@@ -57,7 +56,10 @@ export default function Page() {
   };
 
   const hasEvent = (date: Date) => {
-    return dateWithEvents.has(format(date, "yyyy-MM-dd"));
+    return events.some((event) => {
+      const eventDate = parseISO(event.start_time);
+      return isSameDay(eventDate, date);
+    });
   };
 
   const prevWeek = () => {
@@ -103,15 +105,34 @@ export default function Page() {
             {selectedEvents.map((event) => (
               <div key={event.id}>
                 <div className="flex items-center p-3 bg-background rounded-xl">
-                  <div className={`relative flex items-center space-x-2 h-fit`}>
+                  <div
+                    className={`relative flex items-center space-x-2 h-fit w-full`}
+                  >
                     <div
                       className={`h-10 w-1 rounded-full ${officeColors[event.office]}`}
                     ></div>
-                    <div className="flex flex-col items-start justify-center">
+                    <div className="flex flex-col items-start justify-center flex-grow">
                       <h3 className="font-semibold">{event.title}</h3>
-                      <div className={`min-w-fit text-sm opacity-50`}>
-                        {officeZhName[event.office]}
+                      <div className="flex items-center gap-2 text-sm opacity-70">
+                        <span>{officeZhName[event.office]}</span>
+                        {!event.all_day && (
+                          <span>
+                            {format(parseISO(event.start_time), "HH:mm")} -{" "}
+                            {format(parseISO(event.end_time), "HH:mm")}
+                          </span>
+                        )}
+                        {event.all_day && <span>全天</span>}
                       </div>
+                      {event.location && (
+                        <div className="text-xs opacity-50 mt-1">
+                          📍 {event.location}
+                        </div>
+                      )}
+                      {event.description && (
+                        <div className="text-xs opacity-60 mt-1 line-clamp-2">
+                          {event.description}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

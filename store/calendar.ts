@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Event {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  date: string;
+  start_time: string;
+  end_time: string;
+  all_day: number;
+  location: string;
   office: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface calendarData {

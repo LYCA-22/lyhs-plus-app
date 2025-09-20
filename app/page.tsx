@@ -1,8 +1,9 @@
 "use client";
 import { useAppSelector } from "@/store/hook";
-import { ArrowRight, ChartPie, Database, Hammer } from "lucide-react";
+import { ArrowRight, ChartPie, Database } from "lucide-react";
 import Link from "next/link";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { parseISO, isSameDay } from "date-fns";
 
 export default function Home() {
   const AppData = useAppSelector((state) => state.systemData);
@@ -99,11 +100,12 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-2 bg-zinc-800 rounded-full">
               {(() => {
-                const today = new Date().toISOString().split("T")[0];
+                const today = new Date();
 
-                const todayEvents = calendarData.events.filter(
-                  (event) => event.date === today,
-                );
+                const todayEvents = calendarData.events.filter((event) => {
+                  const eventDate = parseISO(event.start_time);
+                  return isSameDay(eventDate, today);
+                });
 
                 return todayEvents.length > 0 ? (
                   todayEvents.slice(0, 2).map((event, index) => (

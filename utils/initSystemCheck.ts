@@ -9,6 +9,7 @@ import { loadNews } from "@/store/newsSlice";
 import { Event, updateCalendarData } from "@/store/calendar";
 import * as Sentry from "@sentry/react";
 import { Announcement } from "@/types";
+import { format, parseISO } from "date-fns";
 
 export async function systemLoad(
   dispatch: AppDispatch,
@@ -32,7 +33,8 @@ export async function systemLoad(
         if (calendarData) {
           const dates = new Set<string>();
           calendarData.forEach((event: Event) => {
-            dates.add(event.date);
+            const eventDate = format(parseISO(event.start_time), "yyyy-MM-dd");
+            dates.add(eventDate);
           });
           dispatch(
             updateCalendarData({

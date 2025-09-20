@@ -1,6 +1,7 @@
 import { apiService } from "@/services/api";
 import { Event, updateCalendarData } from "@/store/calendar";
 import { store } from "@/store/store";
+import { format, parseISO } from "date-fns";
 
 export async function UpdateCalendar() {
   const UpdateData = (dates: Set<string>, calendarData: Event[]) => {
@@ -13,7 +14,8 @@ export async function UpdateCalendar() {
   if (calendarData) {
     const dates = new Set<string>();
     calendarData.forEach((event: Event) => {
-      dates.add(event.date);
+      const eventDate = format(parseISO(event.start_time), "yyyy-MM-dd");
+      dates.add(eventDate);
     });
     UpdateData(dates, calendarData);
   }
