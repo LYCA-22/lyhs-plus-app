@@ -1,10 +1,12 @@
 "use client";
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { Search, X } from "lucide-react";
+import { Bookmark, Search, X } from "lucide-react";
 import { closeBack } from "@/store/systemSlice";
-import { NewView } from "@/components/news/newsDrawer";
-import { EmptyState, NewsItem, SearchBox } from "@/components/news/Components";
+import { NewView } from "@/components/news/display";
+import { EmptyState, NewsItem, SearchBox } from "@/components/news/components";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import FavoritesList from "@/components/news/favoritesList";
 const ITEMS_PER_PAGE = 8;
 const STUDENT_KEYWORDS = [
   "補考",
@@ -103,13 +105,26 @@ export default function Page() {
           className={`flex px-5 ${AppData.isPwa ? "mt-deviceTop" : "mt-5"} justify-between`}
         >
           <h1 className={`text-2xl font-medium`}>校園公告</h1>
-          <button onClick={() => setOpenSearch(!openSearch)}>
-            {openSearch ? (
-              <X className="text-zinc-500 dark:text-zinc-200" size={20} />
-            ) : (
-              <Search className="text-zinc-500 dark:text-zinc-200" size={20} />
-            )}
-          </button>
+          <div className="flex items-center gap-5">
+            <button onClick={() => setOpenSearch(!openSearch)}>
+              {openSearch ? (
+                <X className="text-zinc-500 dark:text-zinc-200" size={20} />
+              ) : (
+                <Search
+                  className="text-zinc-500 dark:text-zinc-200"
+                  size={20}
+                />
+              )}
+            </button>
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Bookmark size={20} />
+              </DrawerTrigger>
+              <DrawerContent className="transition-transform duration-300 ease-out mx-2 rounded-[35px] rounded-t-3xl bg-white/90 backdrop-blur-[10px] overflow-x-hidden dark:bg-zinc-800/70 border-0 flex flex-col p-5 pt-3">
+                <FavoritesList />
+              </DrawerContent>
+            </Drawer>
+          </div>
         </div>
         <div
           className={`sticky ${AppData.isPwa ? "top-9" : "top-0"} p-3 z-20 flex flex-col px-0`}

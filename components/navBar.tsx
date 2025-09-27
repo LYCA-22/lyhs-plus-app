@@ -95,7 +95,7 @@ export function NavBar() {
       className={`z-30 w-full flex items-center justify-center fixed bottom-0 sm:bottom-5 ${isPWA ? "pt-5 max-sm:pb-deviceBottom" : "pt-2 pb-5"}`}
     >
       <div
-        className={`flex justify-around items-center p-1 bg-zinc-800/50 shadow-xl drop-shadow-xl backdrop-blur-sm dark:bg-zinc-800/80 z-20 rounded-[30px]`}
+        className={`flex justify-around items-center p-1 bg-zinc-900/70 dark:bg-zinc-50/20 backdrop-blur-md shadow-lg z-20 rounded-[30px]`}
       >
         {appSchema.map((app) => (
           <div

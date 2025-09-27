@@ -1,5 +1,5 @@
 "use client";
-import { appSchema } from "@/components/settings/schema";
+import { appSchema } from "@/app/more/schema";
 import { apiService } from "@/services/api";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { updateSystemData } from "@/store/systemSlice";
@@ -103,7 +103,7 @@ export default function Page() {
       <div>
         <h1 className="text-3xl font-custom mx-6 mt-4">更多</h1>
       </div>
-      <div className={`mx-6 pb-6 flex flex-col border-b border-borderColor`}>
+      <div className={`mx-6 pb-6 flex flex-col`}>
         {!userData.name ? (
           <>
             <p className="text-lg opacity-50">登入享用完整服務</p>
@@ -149,17 +149,17 @@ export default function Page() {
         )}
       </div>
 
-      <ul className="list-none flex flex-col py-4 border-b border-b-borderColor mx-6">
+      <ul className="list-none flex flex-col p-2 bg-hoverbg rounded-3xl mx-6">
         {appSchema.map((item, index) => (
           <li
             key={index}
-            className="flex flex-col transition-all rounded-[30px] hover:bg-hoverbg px-4"
+            className="flex flex-col transition-all rounded-2xl hover:bg-buttonBg px-4"
           >
             {renderItem(item)}
           </li>
         ))}
         {userData.name && (
-          <li className="flex flex-col transition-all rounded-[30px] text-red-500 hover:bg-hoverbg px-4">
+          <li className="flex flex-col transition-all rounded-2xl text-red-500 hover:bg-buttonBg px-4">
             <button
               onClick={() => Logout(userData.sessionId)}
               className="flex items-center justify-between text-lg py-3"

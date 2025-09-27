@@ -1,5 +1,5 @@
 "use client";
-import { DotPattern } from "@/components/magicui/dot-pattern";
+import { DotPattern } from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/store/hook";
 import { Class, Grade } from "@/types";

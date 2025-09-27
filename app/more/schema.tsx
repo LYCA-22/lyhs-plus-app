@@ -8,6 +8,7 @@ import {
   CircleEllipsis,
   ScrollText,
   Scroll,
+  Radio,
 } from "lucide-react";
 import { schemaItem } from "@/types/index";
 import {
@@ -74,16 +75,18 @@ export const appSchema: schemaItem[] = [
     btnfunction: "apps",
     icon: <ChevronRight size={22} strokeWidth={2} />,
   },
+  */
   {
     itemIcon: <Radio size={24} strokeWidth={2} />,
-    title: "校園無聲廣播 BETA",
-    type: "btn",
+    title: "應用程式通知 BETA",
+    type: "link",
     isOutLink: false,
+    href: "/more/notification",
     access_manage: false,
     btnfunction: "notification",
     icon: <ChevronRight size={22} strokeWidth={2} />,
   },
-  */
+
   {
     itemIcon: <CircleEllipsis size={24} strokeWidth={2} />,
     title: "更多介紹",

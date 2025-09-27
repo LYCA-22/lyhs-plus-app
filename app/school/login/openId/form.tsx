@@ -130,7 +130,7 @@ export function LoginForm() {
                   忘記密碼？
                 </button>
                 <Link href={"/school/getId"} type="button">
-                  不知道帳號？
+                  ｜我要查詢帳號
                 </Link>
               </div>
               <div

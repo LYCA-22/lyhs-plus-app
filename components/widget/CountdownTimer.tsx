@@ -4,9 +4,14 @@ import { useEffect, useState } from "react";
 interface CountdownProps {
   targetDate: Date;
   title: string;
+  description: string;
 }
 
-export function CountdownTimer({ targetDate, title }: CountdownProps) {
+export function CountdownTimer({
+  targetDate,
+  title,
+  description,
+}: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -35,16 +40,14 @@ export function CountdownTimer({ targetDate, title }: CountdownProps) {
   }, [targetDate]);
 
   return (
-    <div className="flex flex-col relative w-full gap-2 h-full">
-      <h1 className="text-xl font-normal">{title}</h1>
-      <div className=" font-extrabold w-full font-custom text-inputPrimary grow flex items-center justify-between">
-        <div className="h-full p-3 px-4 bg-inputPrimary text-white rounded-tl-2xl flex items-center gap-2">
-          <p className="text-5xl">{timeLeft.days}</p>
-          <p className="text-sm h-9 w-9 flex items-center justify-center rounded-full bg-foreground text-background">
-            天
-          </p>
-        </div>
-      </div>
+    <div className="bg-hoverbg rounded-3xl p-4 m-2 space-y-3 flex flex-col items-center justify-center text-inputPrimary text-center font-mono">
+      <h1 className="font-sans text-[16px] font-medium text-foreground">
+        {title}
+      </h1>
+      <p className="text-7xl font-bold">{timeLeft.days}</p>
+      <p className="text-xs font-sans text-foreground opacity-50 border-t pt-2 border-borderColor">
+        {description}
+      </p>
     </div>
   );
 }
