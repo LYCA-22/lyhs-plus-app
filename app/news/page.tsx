@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { Bookmark, Search, X } from "lucide-react";
 import { closeBack } from "@/store/systemSlice";
 import { NewView } from "@/components/news/display";
-import { EmptyState, NewsItem, SearchBox } from "@/components/news/components";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import FavoritesList from "@/components/news/favoritesList";
+import { EmptyState, NewsItem, SearchBox } from "@/components/news/module";
 const ITEMS_PER_PAGE = 8;
 const STUDENT_KEYWORDS = [
   "補考",
