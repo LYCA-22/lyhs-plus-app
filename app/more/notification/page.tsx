@@ -1,24 +1,31 @@
 "use client";
 import { useState, useEffect } from "react";
+import { urlBase64ToUint8Array } from "@/utils/base64ToUint8Array";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { updateSystemData } from "@/store/systemSlice";
+import { CircleCheck, Rss } from "lucide-react";
 
-export default function NotificationTestPage() {
-  const [subscription, setSubscription] = useState<PushSubscription | null>(
-    null,
-  );
+export default function NotificationPage() {
   const [status, setStatus] = useState<string>("");
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
-
-  // 直接檢查環境變數是否存在
   const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+  const AppData = useAppSelector((state) => state.systemData);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // 檢查是否已經訂閱
+    dispatch(
+      updateSystemData({
+        isBack: true,
+        BackLink: "/more",
+      }),
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
     const checkSubscription = async () => {
       try {
-        // 檢查本地儲存
-        const savedSubscription = localStorage.getItem("pushSubscription");
-        if (savedSubscription) {
-          setSubscription(JSON.parse(savedSubscription));
+        const isSubscribe = AppData.subscribe.status;
+        if (isSubscribe) {
           setIsSubscribed(true);
           setStatus("您已訂閱通知");
         } else {
@@ -31,37 +38,10 @@ export default function NotificationTestPage() {
     };
 
     checkSubscription();
-  }, []);
-
-  const urlBase64ToUint8Array = (base64String: string) => {
-    try {
-      if (!base64String) {
-        throw new Error("VAPID 公鑰為空");
-      }
-
-      const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-      const base64 = (base64String + padding)
-        .replace(/-/g, "+")
-        .replace(/_/g, "/");
-
-      const rawData = window.atob(base64);
-      const outputArray = new Uint8Array(rawData.length);
-
-      for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-      }
-      return outputArray;
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("轉換 VAPID 公鑰出錯:", error);
-        throw new Error(`無法處理 VAPID 公鑰: ${error.message}`);
-      }
-    }
-  };
+  }, [AppData.subscribe.status]); // 只依賴於 AppData.isSubscribe，而不是整個 AppData
 
   const subscribeToNotifications = async () => {
     try {
-      // 首先檢查 VAPID 公鑰是否存在
       if (!vapidPublicKey) {
         setStatus("系統錯誤: VAPID 公鑰未設定，請聯繫管理員");
         console.error("VAPID 公鑰未在環境變數中設定");
@@ -86,6 +66,30 @@ export default function NotificationTestPage() {
       const registration =
         await navigator.serviceWorker.register("/service-worker.js");
 
+      if (registration.installing || registration.waiting) {
+        setStatus("等待 Service Worker 啟用...");
+
+        await new Promise((resolve) => {
+          if (registration.installing) {
+            registration.installing.addEventListener("statechange", (e) => {
+              if ((e.target as ServiceWorker).state === "activated") {
+                resolve(true);
+              }
+            });
+          } else if (registration.waiting) {
+            registration.waiting.addEventListener("statechange", (e) => {
+              if ((e.target as ServiceWorker).state === "activated") {
+                resolve(true);
+              }
+            });
+          }
+        });
+      }
+
+      if (!registration.active) {
+        throw new Error("無法啟動 Service Worker");
+      }
+
       setStatus("正在訂閱推送通知...");
 
       const applicationServerKey = urlBase64ToUint8Array(vapidPublicKey);
@@ -95,13 +99,32 @@ export default function NotificationTestPage() {
         applicationServerKey: applicationServerKey,
       });
 
-      localStorage.setItem(
-        "pushSubscription",
-        JSON.stringify(pushSubscription),
-      );
-      setSubscription(pushSubscription);
+      const subscribeInfoData = {
+        endpoint: pushSubscription.endpoint,
+        expirationTime: pushSubscription.expirationTime?.toString() || "",
+        keys: {
+          p256dh: pushSubscription.getKey("p256dh")
+            ? btoa(
+                String.fromCharCode(
+                  ...new Uint8Array(pushSubscription.getKey("p256dh")!),
+                ),
+              )
+            : "",
+          auth: pushSubscription.getKey("auth")
+            ? btoa(
+                String.fromCharCode(
+                  ...new Uint8Array(pushSubscription.getKey("auth")!),
+                ),
+              )
+            : "",
+        },
+      };
 
-      // 將訂閱信息發送到後端保存
+      localStorage.setItem(
+        "lyps_subscription",
+        JSON.stringify(subscribeInfoData),
+      );
+
       const response = await fetch(
         "https://api.lyhsca.org/v1/lyps/radio/subscribe",
         {
@@ -117,6 +140,15 @@ export default function NotificationTestPage() {
         throw new Error("伺服器儲存訂閱失敗");
       }
 
+      dispatch(
+        updateSystemData({
+          subscribe: {
+            status: true,
+            info: subscribeInfoData,
+          },
+        }),
+      );
+
       setIsSubscribed(true);
       setStatus("成功訂閱通知！");
     } catch (error) {
@@ -127,119 +159,38 @@ export default function NotificationTestPage() {
     }
   };
 
-  const unsubscribeFromNotifications = async () => {
-    try {
-      setStatus("正在取消訂閱...");
-
-      if (!subscription) {
-        throw new Error("無法找到訂閱信息");
-      }
-
-      // 取消訂閱
-      await subscription.unsubscribe();
-
-      // 通知後端取消訂閱
-      const response = await fetch(
-        "https://api.lyhsca.org/v1/lyps/radio/unsubscribe",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ subscription }),
-        },
-      );
-
-      if (!response.ok) {
-        console.warn("伺服器移除訂閱失敗，但本地已取消訂閱");
-      }
-
-      // 清除本地儲存
-      localStorage.removeItem("pushSubscription");
-      setSubscription(null);
-      setIsSubscribed(false);
-      setStatus("已取消訂閱通知");
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("取消訂閱失敗:", error);
-        setStatus(`取消訂閱失敗: ${error.message}`);
-      }
-    }
-  };
-
-  // 顯示VAPID公鑰狀態（僅用於調試）
-  const debugInfo = () => {
-    if (process.env.NODE_ENV === "development") {
-      return (
-        <div className="mt-2 pt-2 border-t border-borderColor bg-gray-100 rounded text-xs">
-          <p>VAPID 公鑰狀態: {vapidPublicKey ? "已設定" : "未設定"}</p>
-          {vapidPublicKey && (
-            <p>公鑰前10個字符: {vapidPublicKey.substring(0, 10)}...</p>
-          )}
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
-    <div className="container mx-auto px-4 pb-6 max-w-lg">
-      <div className="bg-gray-100 p-6 rounded-2xl mb-6">
-        <h2 className="text-lg font-semibold mb-2">通知服務狀態</h2>
-        <p
-          className={`mb-4 ${isSubscribed ? "text-green-600" : "text-gray-600"}`}
-        >
-          {status}
-        </p>
-
-        <div className="flex flex-col space-y-4">
-          <button
-            onClick={
-              isSubscribed
-                ? unsubscribeFromNotifications
-                : subscribeToNotifications
-            }
-            className={`py-2 px-4 rounded-xl font-medium text-white ${
-              isSubscribed
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {isSubscribed ? "取消訂閱通知" : "訂閱通知"}
-          </button>
-
-          {isSubscribed && (
-            <div className="text-sm text-gray-600 mt-2">
-              <p>您將接收到來自 LYHS Plus 的通知</p>
-            </div>
-          )}
-
-          {!isSubscribed && (
-            <div className="text-sm text-gray-600 mt-2">
-              <p>訂閱後，即使您未開啟網站，也能收到重要更新和通知</p>
-            </div>
-          )}
+    <div className="pb-6 px-7">
+      <div className="flex justify-between items-center mx-2 my-3">
+        <div className="flex items-center justify-center flex-col gap-6 w-full p-5">
+          <Rss size={40} strokeWidth={3} />
+          <div className="flex flex-col items-center justify-center">
+            <h2 className="text-lg font-semibold">通知服務狀態</h2>
+            <p className={`opacity-50 text-sm`}>{status}</p>
+          </div>
         </div>
-        {debugInfo()}
       </div>
-
-      {isSubscribed && (
-        <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
-          <h3 className="font-medium text-green-800 mb-2">通知已開啟</h3>
-          <p className="text-green-700 text-sm">
-            您已成功訂閱通知。系統管理員發送的重要消息將會顯示在您的設備上。
-          </p>
-        </div>
-      )}
-
-      <div className="mt-8 px-2">
+      <div className="my-8 rounded-3xl bg-hoverbg p-5">
         <h2 className="text-lg font-semibold mb-2">相關說明</h2>
-        <ul className="list-disc list-inside text-gray-700 space-y-1">
-          <li>訂閱通知需要您的瀏覽器授予權限</li>
-          <li>您可以隨時取消訂閱</li>
-          <li>通知會顯示學校重要公告和活動</li>
-          <li>即使關閉網站，您也能收到通知</li>
+        <ul className="list-inside text-foreground space-y-1">
+          <li className="flex items-center gap-2">
+            <CircleCheck /> <p>不漏掉任何最新資訊</p>
+          </li>
+          <li className="flex items-center gap-2">
+            <CircleCheck /> <p>即使關閉網站，您也能收到通知</p>
+          </li>
         </ul>
+      </div>
+      <div className="flex flex-col space-y-4">
+        <button
+          disabled={isSubscribed}
+          onClick={subscribeToNotifications}
+          className={`py-2 rounded-full text-lg font-medium text-white flex items-center justify-center gap-3 ${
+            isSubscribed ? "bg-green-600" : "bg-inputPrimary"
+          }`}
+        >
+          {isSubscribed ? "已啟用" : "啟用"}
+        </button>
       </div>
     </div>
   );

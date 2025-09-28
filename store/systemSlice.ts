@@ -11,9 +11,18 @@ interface school {
   JSESSIONID: string;
 }
 
+export interface subscribeInfo {
+  endpoint: string;
+  expirationTime: string;
+  keys: {
+    p256dh: string;
+    auth: string;
+  };
+}
+
 interface subscribe {
   status: boolean;
-  info: [];
+  info: subscribeInfo;
 }
 
 interface device {
@@ -47,7 +56,14 @@ const initialState: UserState = {
   isPwa: false,
   subscribe: {
     status: false,
-    info: [],
+    info: {
+      endpoint: "",
+      expirationTime: "",
+      keys: {
+        p256dh: "",
+        auth: "",
+      },
+    },
   },
   isBack: false,
   BackLink: "",

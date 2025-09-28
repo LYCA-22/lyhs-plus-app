@@ -187,7 +187,7 @@ export default function HRegularExam() {
                   </button>
                 ))}
               </div>
-              <div className="p-5 pt-0 max-h-[600px] overflow-y-auto">
+              <div className="p-5 pt-0 max-h-[60dvh] overflow-y-auto">
                 <ol className="space-y-3">
                   {learnSources
                     .filter(

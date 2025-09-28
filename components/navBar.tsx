@@ -116,7 +116,12 @@ export function NavBar() {
                   : app.icon}
               </div>
               <p
-                className={`font-medium ${app.path == pathname ? "opacity-100" : "opacity-0"} text-[18px]`}
+                className={`font-medium ${
+                  (app.path === "/" && pathname === "/") ||
+                  (app.path !== "/" && pathname.startsWith(app.path))
+                    ? "opacity-100"
+                    : "opacity-0"
+                } text-[18px]`}
               >
                 {app.name}
               </p>

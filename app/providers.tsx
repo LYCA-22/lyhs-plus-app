@@ -31,6 +31,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     "/mylyps": "帳號管理",
     "/school/absence": "缺曠課資料",
     "/school/getId": "OPENID 查詢",
+    "/more/notification": "應用程式通知設定",
   };
 
   const getPageTitle = (pathname: string) => {
