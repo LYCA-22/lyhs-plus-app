@@ -11,20 +11,6 @@ interface school {
   JSESSIONID: string;
 }
 
-export interface subscribeInfo {
-  endpoint: string;
-  expirationTime: string;
-  keys: {
-    p256dh: string;
-    auth: string;
-  };
-}
-
-interface subscribe {
-  status: boolean;
-  info: subscribeInfo;
-}
-
 interface device {
   os: string;
   isMobile: boolean;
@@ -37,7 +23,6 @@ interface UserState {
   deviceInfo: device;
   used: boolean;
   isPwa: boolean;
-  subscribe: subscribe;
   isBack: boolean;
   BackLink: string;
   error: serverError;
@@ -54,17 +39,6 @@ const initialState: UserState = {
   },
   used: false,
   isPwa: false,
-  subscribe: {
-    status: false,
-    info: {
-      endpoint: "",
-      expirationTime: "",
-      keys: {
-        p256dh: "",
-        auth: "",
-      },
-    },
-  },
   isBack: false,
   BackLink: "",
   error: {

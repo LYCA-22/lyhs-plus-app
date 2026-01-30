@@ -1,5 +1,4 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://api.lyhsca.org";
+const API_BASE_URL = "https://lyhs-app-backend.lysa23.workers.dev";
 import { logout } from "@/store/userSlice";
 
 import { store } from "@/store/store";
@@ -173,7 +172,7 @@ export const apiService = {
   ) {
     try {
       const encodedUrl = encodeURIComponent(url);
-      const apiUrl = `https://plus.lyhsca.org/api/v1/adDetail?url=${encodedUrl}`;
+      const apiUrl = `https://lyhs-plus-web.vercel.app/api/v1/adDetail?url=${encodedUrl}`;
       const response = await fetch(apiUrl, {
         method: "GET",
       });

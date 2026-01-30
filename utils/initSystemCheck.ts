@@ -2,11 +2,7 @@ import { store } from "@/store/store";
 import { getDeviceInfo } from "@/utils/getDeviceInfo";
 import type { AppDispatch } from "@/store/store";
 import { apiService } from "@/services/api";
-import {
-  subscribeInfo,
-  updateStatus,
-  updateSystemData,
-} from "@/store/systemSlice";
+import { updateStatus, updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
 import { getCookie } from "./getCookie";
 import { loadNews } from "@/store/newsSlice";
@@ -14,6 +10,7 @@ import { Event, updateCalendarData } from "@/store/calendar";
 import * as Sentry from "@sentry/react";
 import { Announcement } from "@/types";
 import { format, parseISO, eachDayOfInterval } from "date-fns";
+import { SystemApiService } from "@/services/api/service";
 
 export async function systemLoad(
   dispatch: AppDispatch,
@@ -28,25 +25,7 @@ export async function systemLoad(
     },
     async () => {
       try {
-        // 檢查是否有訂閱資訊
-        const subscribeInfoString = localStorage.getItem("lyps_subscription");
-        if (subscribeInfoString) {
-          try {
-            const subscribeInfoData = JSON.parse(
-              subscribeInfoString,
-            ) as subscribeInfo;
-            dispatch(
-              updateSystemData({
-                subscribe: {
-                  status: true,
-                  info: subscribeInfoData,
-                },
-              }),
-            );
-          } catch (error) {
-            console.error("Failed to parse subscription info:", error);
-          }
-        }
+        await SystemApiService.checkBackendStatus();
 
         // 先載入校園網站公告
         const news = (await apiService.getNews()) as { data: Announcement[] };
