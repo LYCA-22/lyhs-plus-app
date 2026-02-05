@@ -4,7 +4,7 @@ import { apiService } from "@/services/api";
 import { icons } from "@/components/icons";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 
 export default function Page() {
   const [name, setName] = useState("");

@@ -6,7 +6,7 @@ import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { CircleUser, Grid2x2, List } from "lucide-react";
 import {
   Table,

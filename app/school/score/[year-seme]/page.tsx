@@ -2,7 +2,7 @@
 
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";

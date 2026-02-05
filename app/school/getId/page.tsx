@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { useEffect, useState } from "react";
 import {
   Select,

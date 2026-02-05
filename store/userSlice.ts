@@ -1,53 +1,33 @@
+import { userMemberData } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
-  sessionId: string;
-  id: string;
-  name: string;
-  email: string;
-  level: string;
-  type: "staff" | "normal" | "";
-  role: string;
-  grade: string;
-  class: string;
-  isLoggedIn: boolean;
-  school_session: string;
-  JSESSIONID: string;
-  SRV: string;
-  number: number;
-  stu_id: string;
-}
-
-const initialState: UserState = {
-  sessionId: "",
-  id: "",
-  name: "",
-  email: "",
-  level: "",
-  type: "",
-  role: "",
-  grade: "",
-  class: "",
-  isLoggedIn: false,
-  school_session: "",
-  JSESSIONID: "",
-  SRV: "",
+const initialState: userMemberData = {
+  uuid: "",
+  display_name: "",
+  zh_name: "",
+  role: "studentMember",
+  is_disabled: false,
+  class_name: "忠",
+  grade: "高一",
   number: 0,
   stu_id: "",
+  is_member: false,
+  ksa_enabled: false,
+  openid_account: null,
+  openid_password: null,
+  created_at: "",
+  updated_at: "",
 };
 
 export const userSlice = createSlice({
   name: "user", // slice 的名稱
   initialState, // 初始狀態
   reducers: {
-    updateUserData: (state, action: PayloadAction<Partial<UserState>>) => {
+    loadUserData: (state, action: PayloadAction<userMemberData>) => {
       Object.assign(state, action.payload);
-    },
-    logout: (state) => {
-      Object.assign(state, initialState);
     },
   },
 });
 
-export const { updateUserData, logout } = userSlice.actions;
+export const { loadUserData } = userSlice.actions;
 export default userSlice.reducer;

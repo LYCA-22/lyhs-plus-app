@@ -2,19 +2,17 @@
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "next-themes";
-import { LoadingPage } from "@/components/loadingPage";
-import { usePathname, useRouter } from "next/navigation";
-import { SystemCheck } from "@/utils/initSystemCheck";
+import { usePathname } from "next/navigation";
 import { DynamicBack } from "@/components/dynamicBack";
 import { useEffect, useState } from "react";
 import { LoadingSvg } from "@/components/statusControl";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { NavBar } from "@/components/navBar";
+import { InitPage } from "@/components/appInit/page";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [navBarOpen, setNavBarOpen] = useState(false);
 
   const pathAllName: Record<string, string> = {
@@ -42,18 +40,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }
     return pathAllName[pathname] || "未知頁面";
   };
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    return () => {
-      window.removeEventListener("resize", checkIsMobile);
-    };
-  });
 
   useEffect(() => {
     if (
@@ -68,18 +54,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (isMobile) {
-      SystemCheck();
-    } else {
-      router.push("/desktop");
-    }
-  }, [isMobile, router]);
-
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
       <Provider store={store}>
-        <LoadingPage />
+        <InitPage />
         <LoadingSvg />
         <div className="w-full flex items-center justify-center">
           <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">

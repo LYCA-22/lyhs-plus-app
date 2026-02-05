@@ -4,12 +4,12 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 export function DynamicBack() {
-  const AppData = useAppSelector((state) => state.systemData);
+  const AppData = useAppSelector((state) => state.appStatus);
 
-  if (AppData.isBack) {
+  if (AppData.service_status.isBack) {
     return (
       <div className="absolute left-5 flex items-center justify-center">
-        <Link href={AppData.BackLink}>
+        <Link href={AppData.service_status.backLink}>
           <ChevronLeft
             size={30}
             strokeWidth={2}

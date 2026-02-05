@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { icons } from "@/components/icons";
 import Link from "next/link";
 import { useAppDispatch } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 
 function SuccessContent() {
   const router = useRouter();

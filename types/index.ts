@@ -1,3 +1,22 @@
+export interface userMemberData {
+  uuid: string;
+  display_name: string;
+  zh_name: string;
+  role: "studentMember" | "lysaStaff" | "lyhsTeacher";
+  is_disabled: boolean;
+  class_name: "忠" | "仁" | "孝" | "愛" | "信" | "義";
+  grade: "高一" | "高二" | "高三";
+  number: number;
+  stu_id: string;
+  is_member: boolean;
+  ksa_enabled: boolean;
+  openid_account: string | null;
+  openid_password: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// 舊版，待刪除
 export interface userData {
   email: string;
   password: string;
@@ -7,13 +26,6 @@ export interface userData {
   Class: string;
   grade: string;
   role?: string;
-}
-
-export interface Announcement {
-  date: string;
-  department: string;
-  title: string;
-  link: string;
 }
 
 export interface QuizData {

@@ -1,36 +1,36 @@
 "use client";
 import { appSchema } from "@/app/more/schema";
 import { apiService } from "@/services/api";
+import { updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
 import { schemaItem } from "@/types";
 import { ChevronRight, CircleUser, Info, LogOut } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
-  const AppData = useAppSelector((state) => state.systemData);
+  const AppData = useAppSelector((state) => state.appStatus);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
   const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
   const dispatch = useAppDispatch();
 
   const renderItem = (item: schemaItem) => {
-    if (item.access_manage && userData.type !== "staff") {
+    if (item.access_manage && userData.role !== "lysaStaff") {
       return null;
     }
 
-    if (item.userCheck && !userData.isLoggedIn && item.type === "btn") {
+    if (item.userCheck && !AppData.user_logged && item.type === "btn") {
       return null;
     }
 
     const title = item.userCheck
-      ? userData.isLoggedIn
+      ? AppData.user_logged
         ? item.title
         : item.title2
       : item.title;
 
     const href = item.userCheck
-      ? userData.isLoggedIn
+      ? AppData.user_logged
         ? item.href
         : item.href2
       : item.href;
@@ -77,39 +77,31 @@ export default function Page() {
 
   const Logout = async (sessionId: string) => {
     try {
-      dispatch(
-        updateSystemData({
-          isLoading: true,
-        }),
-      );
+      dispatch(updatePageLoadingStatus(true));
       await apiService.Logout(sessionId);
     } catch (error) {
       console.error(error);
     } finally {
       setTimeout(() => {
-        dispatch(
-          updateSystemData({
-            isLoading: false,
-          }),
-        );
+        dispatch(updatePageLoadingStatus(false));
       }, 500);
     }
   };
 
   return (
     <div
-      className={`relative min-h-dvh pb-32 ${AppData.isPwa ? "pt-deviceTop" : "pt-5"}`}
+      className={`relative min-h-dvh pb-32 ${AppData.device_info.operate_type === "PWA" ? "pt-deviceTop" : "pt-5"}`}
     >
       <div>
         <h1 className="text-3xl font-custom mx-6 mt-4">更多</h1>
       </div>
       <div className={`mx-6 pb-6 flex flex-col`}>
-        {!userData.name ? (
+        {!userData.display_name ? (
           <>
             <p className="text-lg opacity-50">登入享用完整服務</p>
             <div className="flex items-center justify-evenly relative gap-2 w-full mt-4">
               <Link
-                href={`https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org&lgt=${AppData.isPwa ? "APP" : "WEB"}`}
+                href={`https://auth.lyhsca.org/account/login?redirect_url=https://app.lyhsca.org&lgt=${AppData.device_info.operate_type === "PWA" ? "APP" : "WEB"}`}
                 className="p-3 bg-zinc-900 dark:bg-zinc-200 w-full text-background rounded-[30px] active:scale-90 font-custom transition-all flex items-center justify-center font-medium"
               >
                 登入 Login
@@ -126,7 +118,7 @@ export default function Page() {
           <div className="flex flex-col pt-5 mt-5 border-t border-t-borderColor">
             <li className="flex flex-col transition-all px-4 font-custom font-medium">
               <div className="flex items-center justify-between py-3 hover:opacity-60 transition-all text-xl">
-                {userData.name || "發生錯誤"}
+                {userData.display_name || "發生錯誤"}
               </div>
             </li>
             <li className="flex flex-col px-4 transition-all rounded-[30px] hover:bg-hoverbg">
@@ -158,12 +150,9 @@ export default function Page() {
             {renderItem(item)}
           </li>
         ))}
-        {userData.name && (
+        {userData.display_name && (
           <li className="flex flex-col transition-all rounded-2xl text-red-500 hover:bg-buttonBg px-4">
-            <button
-              onClick={() => Logout(userData.sessionId)}
-              className="flex items-center justify-between text-lg py-3"
-            >
+            <button className="flex items-center justify-between text-lg py-3">
               <div className="flex gap-3 items-center">
                 <LogOut size={24} strokeWidth={2} />
                 <div className="flex items-center gap-3">登出帳號</div>

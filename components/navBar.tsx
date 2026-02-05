@@ -1,6 +1,4 @@
 "use client";
-import { useAppDispatch } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
 import {
   DotsThreeOutline,
   House,
@@ -56,7 +54,6 @@ const appSchema: AppSchema[] = [
 export function NavBar() {
   const pathname = usePathname();
   const [isPWA, setIsPWA] = useState(false);
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const checkPWA = () => {
@@ -66,8 +63,6 @@ export function NavBar() {
       window.matchMedia("(display-mode: fullscreen)").matches;
 
     setIsPWA(isStandalone || isDisplayModeStandalone);
-
-    dispatch(updateSystemData({ isPwa: isPWA }));
   };
 
   useEffect(() => {

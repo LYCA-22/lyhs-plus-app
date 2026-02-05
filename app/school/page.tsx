@@ -1,7 +1,7 @@
 "use client";
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { updateUserData } from "@/store/userSlice";
 import { ChartPie, ChevronRight, CircleUser, Database } from "lucide-react";
 import Link from "next/link";

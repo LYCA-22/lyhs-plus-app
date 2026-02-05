@@ -1,12 +1,10 @@
 const API_BASE_URL = "https://lyhs-app-backend.lysa23.workers.dev";
-import { logout } from "@/store/userSlice";
 
 import { store } from "@/store/store";
-import { Announcement } from "@/types";
-import { updateSystemData } from "@/store/systemSlice";
-
+import { setAppError } from "@/store/appSlice";
+import { schoolAnnData } from "@/store/newsSlice";
 // 獲取系統資料的輔助函數
-const getSystemData = () => store.getState().systemData;
+const getSystemData = () => store.getState().appStatus;
 const dispatch = store.dispatch;
 const systemData = getSystemData();
 
@@ -18,7 +16,8 @@ export const apiService = {
         headers: {
           "Content-Type": "application/json",
           "Session-Id": sessionId,
-          "Login-Type": systemData.isPwa ? "APP" : "WEB",
+          "Login-Type":
+            systemData.device_info.operate_type === "PWA" ? "APP" : "WEB",
         },
       });
 
@@ -28,12 +27,11 @@ export const apiService = {
       } else {
         const result = await response.json();
         dispatch(
-          updateSystemData({
-            error: {
-              status: true,
-              code: `${result.error.code}` || "",
-              message: `存取用戶資料發生錯誤：${result.error.message}` || "",
-            },
+          setAppError({
+            type: "server",
+            status: 0,
+            code: `${result.error.code}` || "",
+            message: `存取用戶資料發生錯誤：${result.error.message}` || "",
           }),
         );
 
@@ -50,21 +48,10 @@ export const apiService = {
       });
 
       if (!response.ok) {
-        const result = await response.json();
-        dispatch(
-          updateSystemData({
-            error: {
-              status: true,
-              code: `${result.error.code}` || "",
-              message: `存取校網公告發生錯誤：${result.error.message}` || "",
-            },
-          }),
-        );
-
-        return { data: [] } as { data: Announcement[] };
+        return { data: [] } as { data: schoolAnnData[] };
       } else {
         const data = await response.json();
-        return data as { data: Announcement[] };
+        return data as { data: schoolAnnData[] };
       }
     } catch (e) {
       console.error(e);
@@ -77,14 +64,12 @@ export const apiService = {
         headers: {
           "Content-Type": "application/json",
           "Session-Id": decodeURIComponent(decodeURIComponent(sessionId)),
-          "Login-Type": systemData.isPwa ? "APP" : "WEB",
         },
       });
 
       if (response.ok) {
         document.cookie =
           "sessionId=; path=/; domain=lyhsca.org; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        logout();
         window.location.reload();
       } else {
         const result = await response.json();

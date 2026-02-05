@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/chart";
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { updateUserData } from "@/store/userSlice";
 import { ClassList } from "@/types";
 import { ChevronRight, CircleUser } from "lucide-react";

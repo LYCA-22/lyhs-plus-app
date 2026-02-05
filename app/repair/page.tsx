@@ -2,7 +2,7 @@
 
 import { apiService } from "@/services/api";
 import { useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { Check, ArrowUpFromLine, ChevronDown, ScanLine } from "lucide-react";
 import { FormEvent, useState, ChangeEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";

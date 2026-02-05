@@ -2,7 +2,7 @@
 import { formatDate } from "@/utils/formatDate";
 import React from "react";
 import { Check, CircleEllipsis, Copy, Search, Share } from "lucide-react";
-import { Announcement } from "@/types";
+import { schoolAnnData } from "@/store/newsSlice";
 
 // NewsItem 組件
 const NewsItem = React.memo(
@@ -10,7 +10,7 @@ const NewsItem = React.memo(
     news,
     onViewDetails,
   }: {
-    news: Announcement;
+    news: schoolAnnData;
     onViewDetails: (link: string) => void;
   }) => {
     const [copied, setCopied] = React.useState(false);

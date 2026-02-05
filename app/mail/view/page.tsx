@@ -18,7 +18,7 @@ import {
   Mail,
 } from "lucide-react";
 import { useAppDispatch } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 
 export default function Page() {
   const [code, setCode] = useState("");

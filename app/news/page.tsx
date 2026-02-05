@@ -2,11 +2,11 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { Bookmark, Search, X } from "lucide-react";
-import { closeBack } from "@/store/systemSlice";
 import { NewView } from "@/components/news/display";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import FavoritesList from "@/components/news/favoritesList";
 import { EmptyState, NewsItem, SearchBox } from "@/components/news/module";
+import { turnOffBackLink } from "@/store/appSlice";
 const ITEMS_PER_PAGE = 8;
 const STUDENT_KEYWORDS = [
   "補考",
@@ -24,8 +24,8 @@ const STUDENT_KEYWORDS = [
 ];
 
 export default function Page() {
-  const NewsData = useAppSelector((state) => state.newsData.announcements);
-  const AppData = useAppSelector((state) => state.systemData);
+  const NewsData = useAppSelector((state) => state.annData.schoolAnnDatas);
+  const AppData = useAppSelector((state) => state.appStatus);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
@@ -41,7 +41,7 @@ export default function Page() {
   );
 
   useEffect(() => {
-    dispatch(closeBack());
+    dispatch(turnOffBackLink());
   }, [dispatch]);
 
   const departments = useMemo(() => {
@@ -102,7 +102,7 @@ export default function Page() {
       <NewView url={url} setUrlAction={setUrl} />
       <div className="relative w-full">
         <div
-          className={`flex px-5 ${AppData.isPwa ? "mt-deviceTop" : "mt-5"} justify-between`}
+          className={`flex px-5 ${AppData.device_info.operate_type == "PWA" ? "mt-deviceTop" : "mt-5"} justify-between`}
         >
           <h1 className={`text-2xl font-medium`}>校園公告</h1>
           <div className="flex items-center gap-5">
@@ -127,7 +127,7 @@ export default function Page() {
           </div>
         </div>
         <div
-          className={`sticky ${AppData.isPwa ? "top-9" : "top-0"} p-3 z-20 flex flex-col px-0`}
+          className={`sticky ${AppData.device_info.operate_type == "PWA" ? "top-9" : "top-0"} p-3 z-20 flex flex-col px-0`}
         >
           <div className="flex flex-col gap-3">
             <SearchBox

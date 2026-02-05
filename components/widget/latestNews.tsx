@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function LatestNews() {
-  const NewsData = useAppSelector((state) => state.newsData);
+  const NewsData = useAppSelector((state) => state.annData);
   const [count, setCount] = useState(0);
 
   return (
@@ -16,7 +16,7 @@ export default function LatestNews() {
         <h3 className="opacity-50">最新校園公告</h3>
 
         {/* 使用Motion套件，來達到文字更換的效果 */}
-        {NewsData.announcements && count < NewsData.announcements.length ? (
+        {NewsData.schoolAnnDatas && count < NewsData.schoolAnnDatas.length ? (
           <AnimatePresence mode="wait">
             <motion.div
               key={count}
@@ -26,7 +26,7 @@ export default function LatestNews() {
               className="overflow-y-auto overflow-x-hidden box-border h-full"
             >
               <p className="text-lg font-medium">
-                {NewsData.announcements[count].title}
+                {NewsData.schoolAnnDatas[count].title}
               </p>
             </motion.div>
           </AnimatePresence>
@@ -44,7 +44,7 @@ export default function LatestNews() {
           <ArrowLeft size={20} strokeWidth={3} className="opacity-50" />
         </button>
         <button
-          disabled={count === NewsData.announcements.length - 1}
+          disabled={count === NewsData.schoolAnnDatas.length - 1}
           onClick={() => setCount(count + 1)}
           className="bg-buttonBg p-2 rounded-full disabled:opacity-40 transition-all hover:scale-105"
         >

@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./userSlice";
-import { systemSlice } from "./systemSlice";
+import { systemSlice } from "./appSlice";
 import { calendarSlice } from "./calendar";
 import { announcementSlice } from "./newsSlice";
 
 export const store = configureStore({
   reducer: {
     userData: userSlice.reducer,
-    systemData: systemSlice.reducer,
-    newsData: announcementSlice.reducer,
+    appStatus: systemSlice.reducer,
+    annData: announcementSlice.reducer,
     calendarData: calendarSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

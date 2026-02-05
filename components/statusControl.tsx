@@ -1,27 +1,27 @@
 "use client";
+import { setAppError } from "@/store/appSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
 
 export function LoadingSvg() {
-  const AppData = useAppSelector((state) => state.systemData);
+  const AppData = useAppSelector((state) => state.appStatus);
   const dispatch = useAppDispatch();
   const cleanError = () => {
     dispatch(
-      updateSystemData({
-        error: {
-          status: false,
-          message: "",
-          code: "",
-        },
+      setAppError({
+        type: "client",
+        status: 0,
+        message: "",
+        code: "",
+        detail: "",
       }),
     );
   };
 
   return (
     <div
-      className={`transition-all ${AppData.isLoading || AppData.error.status ? "scale-100 opacity-100" : "scale-0 opacity-0"} z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
+      className={`transition-all ${AppData.service_status.pageIsLoading || AppData.app_error.message ? "scale-100 opacity-100" : "scale-0 opacity-0"} z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
     >
-      {AppData.isLoading ? (
+      {AppData.service_status.pageIsLoading ? (
         <div className="bg-zinc-800/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[15px] p-4 shadow-lg">
           <svg
             width="50"
@@ -86,8 +86,8 @@ export function LoadingSvg() {
         <div className="bg-zinc-300/50  dark:bg-zinc-700/50 backdrop-blur-lg rounded-[30px] p-5 mx-10 relative shadow-lg">
           <div>
             <h2 className="font-medium text-xl">系統錯誤資訊</h2>
-            <p className="opacity-50">{AppData.error.message}</p>
-            <p className="opacity-50">錯誤代碼 {AppData.error.code}</p>
+            <p className="opacity-50">{AppData.app_error.message}</p>
+            <p className="opacity-50">錯誤代碼 {AppData.app_error.code}</p>
           </div>
           <div className="w-full relative mt-3 flex flex-col gap-2">
             <button

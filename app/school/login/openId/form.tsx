@@ -1,7 +1,7 @@
 "use client";
 import { apiService } from "@/services/api";
+import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
 import { updateUserData } from "@/store/userSlice";
 import { Info, Smile, SquareAsterisk, User } from "lucide-react";
 import Link from "next/link";
@@ -16,16 +16,11 @@ export function LoginForm() {
   const [path, setPath] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const AppData = useAppSelector((state) => state.systemData);
+  const AppData = useAppSelector((state) => state.appStatus);
   const UserData = useAppSelector((state) => state.userData);
 
   useEffect(() => {
-    dispatch(
-      updateSystemData({
-        isBack: true,
-        BackLink: "/",
-      }),
-    );
+    dispatch(turnOnBackLink("/"));
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,11 +35,7 @@ export function LoginForm() {
 
   const StartLogin = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(
-      updateSystemData({
-        isLoading: true,
-      }),
-    );
+    dispatch(updatePageLoadingStatus(true));
     const result = await apiService.getSessionKeyByOpenId(account, password);
 
     if (result.session_key) {
@@ -55,13 +46,7 @@ export function LoginForm() {
           SRV: result.SRV,
         }),
       );
-      setTimeout(() => {
-        dispatch(
-          updateSystemData({
-            isLoading: false,
-          }),
-        );
-      });
+      dispatch(updatePageLoadingStatus(false));
 
       if (path) {
         router.push(path);
@@ -69,13 +54,7 @@ export function LoginForm() {
         router.push("/school");
       }
     } else {
-      setTimeout(() => {
-        dispatch(
-          updateSystemData({
-            isLoading: false,
-          }),
-        );
-      });
+      dispatch(updatePageLoadingStatus(false));
 
       window.alert(`發生不明錯誤`);
       setAccount("");
@@ -134,7 +113,7 @@ export function LoginForm() {
                 </Link>
               </div>
               <div
-                className={`${AppData.isPwa ? "pb-deviceBottom" : ""} fixed left-0 z-50 bottom-0 bg-background dark:bg-zinc-900 shadow-black shadow-xl w-full flex p-8 py-5 border-t-2 border-zinc-200 dark:border-zinc-800`}
+                className={`${AppData.device_info.operate_type == "PWA" ? "pb-deviceBottom" : ""} fixed left-0 z-50 bottom-0 bg-background dark:bg-zinc-900 shadow-black shadow-xl w-full flex p-8 py-5 border-t-2 border-zinc-200 dark:border-zinc-800`}
               >
                 <Link
                   href={"/"}

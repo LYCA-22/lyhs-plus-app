@@ -16,7 +16,7 @@ import {
   RefreshCcw,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { updateSystemData } from "@/store/systemSlice";
+import { updateSystemData } from "@/store/appSlice";
 import { UpdateCalendar } from "@/utils/reloadCalendar";
 
 export default function Page() {

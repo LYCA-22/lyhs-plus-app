@@ -1,32 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Announcement } from "@/types";
+
+export interface schoolAnnData {
+  date: string;
+  department: string;
+  title: string;
+  link: string;
+}
 
 interface AnnouncementState {
-  announcements: Announcement[];
-  isLoading: boolean;
-  error: string | null;
+  schoolAnnDatas: schoolAnnData[];
+  lysaAnnDatas: [];
 }
 
 const initialState: AnnouncementState = {
-  announcements: [],
-  isLoading: true,
-  error: null,
+  schoolAnnDatas: [],
+  lysaAnnDatas: [],
 };
+
 export const announcementSlice = createSlice({
-  name: "announcements",
+  name: "AnnData",
   initialState,
   reducers: {
-    loadNews: (state, action: PayloadAction<Announcement[]>) => {
-      state.announcements = action.payload;
-      state.isLoading = false;
-    },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
+    // 載入學校網站公告
+    loadSchholAnns: (state, action: PayloadAction<schoolAnnData[]>) => {
+      state.schoolAnnDatas = action.payload;
     },
   },
 });
 
-export const { setLoading, setError, loadNews } = announcementSlice.actions;
+export const { loadSchholAnns } = announcementSlice.actions;
