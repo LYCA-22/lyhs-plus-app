@@ -2,7 +2,6 @@
 import { apiService } from "@/services/api";
 import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { updateUserData } from "@/store/userSlice";
 import { Info, Smile, SquareAsterisk, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -17,7 +16,6 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const AppData = useAppSelector((state) => state.appStatus);
-  const UserData = useAppSelector((state) => state.userData);
 
   useEffect(() => {
     dispatch(turnOnBackLink("/"));
@@ -29,23 +27,12 @@ export function LoginForm() {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (UserData.school_session) router.push(path || "/school");
-  }, [UserData.school_session, router, path]);
-
   const StartLogin = async (e: FormEvent) => {
     e.preventDefault();
     dispatch(updatePageLoadingStatus(true));
     const result = await apiService.getSessionKeyByOpenId(account, password);
 
     if (result.session_key) {
-      dispatch(
-        updateUserData({
-          school_session: result.session_key,
-          JSESSIONID: result.JSEESIONID,
-          SRV: result.SRV,
-        }),
-      );
       dispatch(updatePageLoadingStatus(false));
 
       if (path) {

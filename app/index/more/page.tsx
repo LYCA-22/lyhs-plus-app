@@ -1,8 +1,6 @@
 "use client";
-import { appSchema } from "@/app/more/schema";
-import { apiService } from "@/services/api";
-import { updatePageLoadingStatus } from "@/store/appSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { appSchema } from "@/app/index/more/schema";
+import { useAppSelector } from "@/store/hook";
 import { schemaItem } from "@/types";
 import { ChevronRight, CircleUser, Info, LogOut } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +10,6 @@ export default function Page() {
   const AppData = useAppSelector((state) => state.appStatus);
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
   const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
-  const dispatch = useAppDispatch();
 
   const renderItem = (item: schemaItem) => {
     if (item.access_manage && userData.role !== "lysaStaff") {
@@ -72,19 +69,6 @@ export default function Page() {
             <div className="opacity-40">{item.icon && item.icon}</div>
           </Link>
         );
-    }
-  };
-
-  const Logout = async (sessionId: string) => {
-    try {
-      dispatch(updatePageLoadingStatus(true));
-      await apiService.Logout(sessionId);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setTimeout(() => {
-        dispatch(updatePageLoadingStatus(false));
-      }, 500);
     }
   };
 

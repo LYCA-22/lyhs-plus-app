@@ -1,9 +1,10 @@
-import { apiFetch } from "@/services/apiClass";
+import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { appInitialized, setAppInfo, setDeviceInfo } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { loadSchholAnns } from "@/store/newsSlice";
 import { store } from "@/store/store";
 import { loadUserData } from "@/store/userSlice";
+import { getCookie } from "@/utils/getCookie";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { UAParser } from "ua-parser-js";
@@ -12,7 +13,6 @@ export function InitFunction() {
   const dispatch = useDispatch();
   const [userText, setUserText] = useState("系統初始化");
   const error = useAppSelector((state) => state.appStatus.app_error);
-  const API_BASE_URL = "https://lyhs-app-backend.lysa23.workers.dev";
 
   useEffect(() => {
     const checkSteps = async () => {
@@ -32,7 +32,7 @@ export function InitFunction() {
 
         // 3.
         setUserText("檢查是否有用戶憑證");
-        const access_token = localStorage.getItem("lyps_access_token");
+        const access_token = getCookie("lyps_access_token");
         let isLogged = false;
 
         if (access_token) {
@@ -99,7 +99,7 @@ export function InitFunction() {
           </div>
         </div>
       ) : (
-        userText
+        <p>{userText}...</p>
       )}
     </div>
   );

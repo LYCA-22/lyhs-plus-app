@@ -3,13 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname === "/icon_with_text.svg") return NextResponse.next();
+  const access_token = req.cookies.get("lyps_access_token");
 
-  if (pathname !== "/login") {
-    const access_token = req.cookies.get("lyps_access_token");
+  if (!pathname.startsWith("/login")) {
     if (!access_token) {
       return NextResponse.redirect(new URL("/login", req.url));
     } else {
       return NextResponse.next();
+    }
+  } else {
+    if (access_token) {
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 }

@@ -23,7 +23,9 @@ export function InitPage() {
       />
       <div className="mb-20 flex flex-col items-center justify-center gap-3">
         <Image alt="logo" src="/icon_with_text.svg" width={200} height={100} />
-        <p className="opacity-60 text-[15px]">開啟智慧校園生活</p>
+        <p className="opacity-60 text-[15px]">
+          Creating infinite possibilities
+        </p>
       </div>
       <InitFunction />
     </div>

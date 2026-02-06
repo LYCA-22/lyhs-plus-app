@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
-import { Providers } from "./providers";
 import { GoogleTagManager } from "@/components/GoogleAnalytics";
 import type { Metadata, Viewport } from "next";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
