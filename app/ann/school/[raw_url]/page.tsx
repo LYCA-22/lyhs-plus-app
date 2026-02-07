@@ -7,6 +7,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+export const runtime = "edge";
+
 interface AnnAttachMent {
   name: string;
   url: string;
