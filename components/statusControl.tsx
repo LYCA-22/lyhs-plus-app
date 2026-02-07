@@ -4,8 +4,6 @@ import { useAppSelector } from "@/store/hook";
 import { TriangleAlert, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { DotPattern } from "./ui/dot-pattern";
-import { cn } from "@/lib/utils";
 
 export function ServiceStatus() {
   return (
@@ -121,16 +119,6 @@ function ErrorState() {
       <div
         className={`overflow-hidden relative rounded-xl p-3 bg-background dark:bg-zinc-800 shadow-lg shadow-buttonBg dark:shadow-zinc-800 dark:border-zinc-600 border border-border`}
       >
-        <DotPattern
-          width={20}
-          height={20}
-          cx={1}
-          cy={1}
-          cr={1}
-          className={`m-5 ${cn(
-            "[mask-image:linear-gradient(to_top_right,white,transparent,transparent)]",
-          )}`}
-        />
         <div className="flex items-center gap-2">
           <div className="bg-red-100 rounded-lg p-1 text-red-500 dark:bg-red-900">
             <TriangleAlert size={18} />

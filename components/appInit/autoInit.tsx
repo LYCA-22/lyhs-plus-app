@@ -40,7 +40,7 @@ export function InitFunction() {
           const getUserDataUrl = `${API_BASE_URL}/v1/user/me`;
           const getUserData = new apiFetch(getUserDataUrl);
           const userData = await getUserData.GET(access_token);
-          dispatch(loadUserData(userData));
+          dispatch(loadUserData(userData.data));
           isLogged = true;
         }
 

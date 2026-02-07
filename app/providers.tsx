@@ -9,37 +9,39 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { NavBar } from "@/components/navBar";
 import { InitPage } from "@/components/appInit/page";
+import { useState } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
       <Provider store={store}>
         <InitPage />
         <ServiceStatus />
-        <div className="w-full flex items-center justify-center">
-          <main className="w-full sm:w-[500px] h-dvh flex flex-col items-center justify-center relative sm:border-x sm:border-border">
-            {!pathname.startsWith("/login") && <NavBar />}
-            <DynamicBack />
-            <div
-              id="main-area"
-              className="bg-background overflow-hidden relative w-full grow"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={pathname}
-                  initial={{ scale: 0.99, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", duration: 0.7 }}
-                  className="overflow-y-auto overflow-x-hidden box-border h-full"
-                >
-                  {children}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </main>
-        </div>
+        <main className="w-full min-h-dvh relative">
+          <DynamicBack containerEl={scrollEl} />
+          {!pathname.startsWith("/login") && <NavBar />}
+          <div
+            id="main-area"
+            className="bg-background relative w-full grow h-dvh"
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                ref={setScrollEl}
+                id="scroll-div"
+                key={pathname}
+                initial={{ scale: 0.99, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", duration: 0.7 }}
+                className="h-dvh overflow-y-auto"
+              >
+                {children}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
       </Provider>
     </ThemeProvider>
   );

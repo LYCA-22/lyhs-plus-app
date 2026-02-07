@@ -25,7 +25,6 @@ export class apiFetch {
         method: "GET",
         headers: {
           Authorization: access_token ? `Bearer ${access_token}` : "",
-          Cookie: this.cookies ? this.cookies : "",
         },
       });
 
