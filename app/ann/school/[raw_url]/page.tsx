@@ -3,6 +3,7 @@ import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { ArrowUpRight, File, Folder, Share } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -20,12 +21,9 @@ interface AnnDetailData {
   title: string;
 }
 
-export default function SchoolAnnDetailPage({
-  params,
-}: {
-  params: { raw_url: string };
-}) {
-  const rawUrl = params.raw_url;
+export default function SchoolAnnDetailPage() {
+  const params = useParams();
+  const rawUrl = params.raw_url as string;
   const [data, setData] = useState<AnnDetailData>();
   const dispatch = useDispatch();
 
