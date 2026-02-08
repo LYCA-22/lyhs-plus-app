@@ -44,16 +44,16 @@ export default function Editor({ value = "", onChange }: Props) {
 
   return (
     <div className="group focus-within:ring-1 focus-within:ring-sky-500 focus-within:bg-sky-50 dark:focus-within:bg-sky-950 rounded-xl bg-hoverbg dark:bg-sky-300/10 p-4 shadow-sm mt-5">
-      <div className="mb-3 flex gap-4">
+      <div className="mb-3 flex gap-4 border-b border-border pb-4">
         <button
-          className={`flex items-center gap-2 rounded-lg px-3 py-1 text-sm ${editor.isActive("bold") ? "bg-sky-700 text-white" : "bg-sky-200 dark:bg-sky-800"}`}
+          className={`flex items-center gap-2 rounded-lg px-3 py-1 text-sm ${editor.isActive("bold") ? "bg-sky-700 text-white" : ""}`}
           onClick={() => editor.chain().focus().toggleBold().run()}
           type="button"
         >
           <Bold size={18} /> 粗體
         </button>
         <button
-          className="flex items-center gap-2 rounded-lg bg-sky-200 dark:bg-sky-800 px-3 py-1 text-sm"
+          className="flex items-center gap-2 px-3 py-1 text-sm"
           onClick={setLink}
           type="button"
         >

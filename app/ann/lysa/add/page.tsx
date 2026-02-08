@@ -5,20 +5,22 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
-import { turnOnBackLink } from "@/store/appSlice";
+import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
+import { useAppSelector } from "@/store/hook";
 import { getCookie } from "@/utils/getCookie";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function AddLysaAnnPage() {
+  const userData = useAppSelector((state) => state.userData);
   const dispatch = useDispatch();
   const [isbanner, setIsBanner] = useState(false);
   const [isTop, setIsTop] = useState(false);
@@ -27,13 +29,16 @@ export default function AddLysaAnnPage() {
   const [category, setCategory] = useState("");
   const [link, setLink] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    if (userData.role !== "lysaStaff") router.push("/ann/lysa");
     dispatch(turnOnBackLink("/ann/lysa"));
   });
 
   const handleAnnUpload = async (e: FormEvent) => {
     e.preventDefault();
+    dispatch(updatePageLoadingStatus(true));
     const access_token = getCookie("lyps_access_token");
     const annUploadUrl = `${API_BASE_URL}/v1/lyps/ann/add`;
     const annUpload = new apiFetch(annUploadUrl);
@@ -49,10 +54,12 @@ export default function AddLysaAnnPage() {
     }
 
     try {
-      const response = await annUpload.POST(formData, true, access_token || "");
-      console.log(response);
+      await annUpload.POST(formData, true, access_token || "");
+      dispatch(updatePageLoadingStatus(false));
+      setTimeout(() => router.push("/ann/lysa"), 1000);
     } catch (error) {
       console.error(error);
+      updatePageLoadingStatus(false);
     }
   };
 
@@ -83,11 +90,9 @@ export default function AddLysaAnnPage() {
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="活動資訊">活動資訊</SelectItem>
-                  <SelectItem value="數位服務">數位服務</SelectItem>
-                  <SelectItem value="其他">其他</SelectItem>
-                </SelectGroup>
+                <SelectItem value="活動資訊">活動資訊</SelectItem>
+                <SelectItem value="數位服務">數位服務</SelectItem>
+                <SelectItem value="其他">其他</SelectItem>
               </SelectContent>
             </Select>
           </div>

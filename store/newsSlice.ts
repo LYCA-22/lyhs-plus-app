@@ -1,5 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface AnnAttachment {
+  name: string;
+  url: string;
+}
+
+export interface AnnData {
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+  tags: string[] | null;
+  is_banner: boolean;
+  is_top: boolean;
+  img_url: string;
+  link: string;
+  publisher: string;
+  view_count: number;
+  target_group: string | null;
+  attachments: AnnAttachment[] | null;
+}
+
 export interface schoolAnnData {
   date: string;
   department: string;
@@ -9,7 +30,7 @@ export interface schoolAnnData {
 
 interface AnnouncementState {
   schoolAnnDatas: schoolAnnData[];
-  lysaAnnDatas: [];
+  lysaAnnDatas: AnnData[];
 }
 
 const initialState: AnnouncementState = {
@@ -22,10 +43,13 @@ export const announcementSlice = createSlice({
   initialState,
   reducers: {
     // 載入學校網站公告
-    loadSchholAnns: (state, action: PayloadAction<schoolAnnData[]>) => {
+    loadSchoolAnns: (state, action: PayloadAction<schoolAnnData[]>) => {
       state.schoolAnnDatas = action.payload;
+    },
+    loadLysaAnns: (state, action: PayloadAction<AnnData[]>) => {
+      state.lysaAnnDatas = action.payload;
     },
   },
 });
 
-export const { loadSchholAnns } = announcementSlice.actions;
+export const { loadSchoolAnns, loadLysaAnns } = announcementSlice.actions;

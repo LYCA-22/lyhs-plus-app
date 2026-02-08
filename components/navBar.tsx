@@ -1,6 +1,12 @@
 "use client";
 import { useAppSelector } from "@/store/hook";
-import { Ellipsis, HandFist, House, Megaphone } from "lucide-react";
+import {
+  Ellipsis,
+  HandFist,
+  House,
+  Megaphone,
+  MessageSquareText,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -23,6 +29,12 @@ const appSchema: AppSchema[] = [
     icon: <Megaphone size={25} />,
     active_icon: <Megaphone size={25} fill="#00b4f5" />,
     path: "/ann/school",
+  },
+  {
+    name: "AI Chat",
+    icon: <MessageSquareText size={25} />,
+    active_icon: <MessageSquareText size={25} fill="#00b4f5" />,
+    path: "/chat",
   },
   {
     name: "學生會",

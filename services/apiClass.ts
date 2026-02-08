@@ -8,7 +8,7 @@ interface apiError {
   detail?: string;
 }
 
-export const API_BASE_URL = "https://lyhs-app-backend.lysa23.workers.dev";
+export const API_BASE_URL = "https://api.lyhssa.org";
 
 export class apiFetch {
   private url: string;

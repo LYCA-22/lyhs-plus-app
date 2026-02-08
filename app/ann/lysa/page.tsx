@@ -1,14 +1,21 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { SearchBox } from "@/components/news/module";
 import { turnOffBackLink } from "@/store/appSlice";
 import Link from "next/link";
 import { Plus, Settings2 } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Image from "next/image";
 
 export default function Page() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const userData = useAppSelector((state) => state.userData);
+  const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -36,6 +43,29 @@ export default function Page() {
             </h1>
           </div>
         </div>
+        <div className="px-12 mt-4">
+          <Carousel>
+            <CarouselContent>
+              {lysaAnnData.map((item) => {
+                if (item.is_banner) {
+                  return (
+                    <CarouselItem key={item.id}>
+                      <Image
+                        src={item.img_url}
+                        alt={item.title}
+                        width={300}
+                        height={200}
+                        className="rounded-xl"
+                      />
+                    </CarouselItem>
+                  );
+                }
+              })}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
         {userData.role === "lysaStaff" && (
           <div className="flex items-center w-full justify-between pt-5 gap-4 text-lg font-medium">
             <Link
@@ -56,8 +86,6 @@ export default function Page() {
         )}
       </div>
       <div className="bg-background dark:bg-blue-300/10 border-t border-border grow">
-        <SearchBox searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-
         <div className="relative w-full"></div>
       </div>
     </div>

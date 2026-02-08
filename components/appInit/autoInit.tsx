@@ -1,7 +1,7 @@
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { appInitialized, setAppInfo, setDeviceInfo } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { loadSchholAnns } from "@/store/newsSlice";
+import { loadLysaAnns, loadSchoolAnns } from "@/store/newsSlice";
 import { store } from "@/store/store";
 import { loadUserData } from "@/store/userSlice";
 import { getCookie } from "@/utils/getCookie";
@@ -28,9 +28,16 @@ export function InitFunction() {
         const getSchoolAnnUrl = `${API_BASE_URL}/v1/lyps/list`;
         const getSchoolAnn = new apiFetch(getSchoolAnnUrl);
         const schoolAnnData = await getSchoolAnn.GET();
-        dispatch(loadSchholAnns(schoolAnnData.data));
+        dispatch(loadSchoolAnns(schoolAnnData.data));
 
         // 3.
+        setUserText("取得學生會公告中");
+        const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
+        const getLysaAnns = new apiFetch(getLysaAnnsUrl);
+        const lysaAnnData = await getLysaAnns.GET();
+        dispatch(loadLysaAnns(lysaAnnData.data));
+
+        // 4.
         setUserText("檢查是否有用戶憑證");
         const access_token = getCookie("lyps_access_token");
         let isLogged = false;
@@ -44,13 +51,13 @@ export function InitFunction() {
           isLogged = true;
         }
 
-        // 4.
+        // 5.
         setUserText("正在進行系統版本確認");
         const version = process.env.NEXT_PUBLIC_APP_VERSION;
         const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
         dispatch(setAppInfo({ version: version, gitHash: gitHash }));
 
-        // 5.
+        // 6.
         setUserText("正在獲取使用者設備資訊");
         const parser = new UAParser();
         const deviceInfo = parser.getResult();
