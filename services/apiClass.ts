@@ -53,15 +53,29 @@ export class apiFetch {
     }
   }
 
-  public async POST(fetchBody: unknown) {
+  public async POST(
+    fetchBody: unknown | FormData,
+    isformData?: boolean,
+    access_token?: string,
+  ) {
     try {
+      const headers: Record<string, string> = {
+        Cookie: this.cookies ? this.cookies : "",
+        Authorization: `Bearer ${access_token}`,
+      };
+
+      if (!isformData) {
+        headers["Content-Type"] = "application/json";
+      }
+
+      if (!isformData) {
+        headers["Content-Type"] = "application/json";
+      }
+
       const response = await fetch(this.url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: this.cookies ? this.cookies : "",
-        },
-        body: JSON.stringify(fetchBody),
+        headers,
+        body: isformData ? (fetchBody as FormData) : JSON.stringify(fetchBody),
       });
 
       if (!response.ok) {

@@ -11,9 +11,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOnBackLink } from "@/store/appSlice";
+import { getCookie } from "@/utils/getCookie";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function AddLysaAnnPage() {
@@ -21,10 +23,38 @@ export default function AddLysaAnnPage() {
   const [isbanner, setIsBanner] = useState(false);
   const [isTop, setIsTop] = useState(false);
   const [html, setHtml] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [link, setLink] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
     dispatch(turnOnBackLink("/ann/lysa"));
   });
+
+  const handleAnnUpload = async (e: FormEvent) => {
+    e.preventDefault();
+    const access_token = getCookie("lyps_access_token");
+    const annUploadUrl = `${API_BASE_URL}/v1/lyps/ann/add`;
+    const annUpload = new apiFetch(annUploadUrl);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", html);
+    formData.append("is_banner", isbanner ? "true" : "false");
+    formData.append("is_top", isTop ? "true" : "false");
+    formData.append("category", category);
+    formData.append("link", link);
+    if (image) {
+      formData.append("file", image);
+    }
+
+    try {
+      const response = await annUpload.POST(formData, true, access_token || "");
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-dvh bg-sky-50 dark:bg-background">
@@ -33,7 +63,7 @@ export default function AddLysaAnnPage() {
         <p className="opacity-50">此功能僅限學生會幹部操作。</p>
       </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl p-5 pb-40">
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleAnnUpload}>
           <div className="space-y-3">
             <label htmlFor="title">標題</label>
             <Input
@@ -42,11 +72,13 @@ export default function AddLysaAnnPage() {
               type="text"
               className={`dark:bg-sky-300/10 p-4 py-3 text-[14px]`}
               required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="space-y-3">
             <label htmlFor="category">類別</label>
-            <Select>
+            <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="w-full shadow-none rounded-xl bg-hoverbg border-0 dark:bg-sky-300/10">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
@@ -81,6 +113,7 @@ export default function AddLysaAnnPage() {
                   type="file"
                   className={`dark:bg-sky-300/10 p-4 py-3 text-[14px]`}
                   required
+                  onChange={(e) => setImage(e.target.files?.[0] ?? null)}
                 />
               </div>
               <div className="space-y-3">
@@ -91,6 +124,8 @@ export default function AddLysaAnnPage() {
                   type="text"
                   className={`dark:bg-sky-300/10 p-4 py-3 text-[14px]`}
                   required
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
                 />
               </div>
             </>
