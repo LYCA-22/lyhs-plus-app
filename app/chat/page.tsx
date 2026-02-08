@@ -49,7 +49,7 @@ export default function ChatPage() {
       <div className="px-5 mt-3 space-y-5 overflow-y-auto pb-5 grow">
         {userInputHistory.map((input, index) => (
           <div key={index} className="flex flex-col w-full gap-5">
-            <div className="bg-sky-100 rounded-full ml-auto p-2 px-3">
+            <div className="bg-sky-100 dark:bg-sky-950 dark:text-sky-200 rounded-full ml-auto p-2 px-3">
               {input}
             </div>
             <div>{aiResponseHistory[index]}</div>
