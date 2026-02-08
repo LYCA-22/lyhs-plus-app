@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { updatePageLoadingStatus } from "@/store/appSlice";
+import { useAppSelector } from "@/store/hook";
 import { SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -10,6 +11,7 @@ export default function ChatPage() {
   const [userInput, setUserInput] = useState("");
   const [userInputHistory, setUserInputHistory] = useState<string[]>([]);
   const [aiResponseHistory, setAiResponseHistory] = useState<string[]>([]);
+  const appData = useAppSelector((state) => state.appStatus);
   const dispatch = useDispatch();
 
   const handleAiRes = async () => {
@@ -49,7 +51,9 @@ export default function ChatPage() {
           </div>
         ))}
       </div>
-      <div className="fixed bottom-24 w-full left-0 px-5 flex justify-center flex-col">
+      <div
+        className={`fixed w-full left-0 px-5 flex justify-center flex-col ${appData.device_info.operate_type === "PWA" ? "bottom-[104px]" : "bottom-24"}`}
+      >
         <Input
           placeholder="在這裡輸入你的問題..."
           className="bg-background border border-border p-4 rounded-2xl shadow-md"
