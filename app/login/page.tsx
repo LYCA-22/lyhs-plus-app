@@ -100,7 +100,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-dvh flex flex-col bg-sky-50 dark:bg-sky-950">
+    <div className="h-dvh flex flex-col bg-sky-50 dark:bg-background">
       <div className="p-10 space-y-2 py-20 relative">
         <DotPattern
           width={20}
@@ -114,7 +114,7 @@ export default function LoginPage() {
         />
         <Image
           alt="logo"
-          src="/icon_with_text.svg"
+          src="/assets/icon_with_text.svg"
           width={230}
           height={100}
           className="dark:invert"
@@ -129,10 +129,10 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <div className="p-5 px-7 rounded-t-[35px] grow bg-background z-10 shadow-lg shadow-zinc-500">
+      <div className="p-5 px-7 rounded-t-[35px] grow bg-background dark:bg-blue-300/10 z-10 shadow-lg shadow-zinc-500">
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-medium">登入帳號</h1>
-          <div className="bg-hoverbg rounded-xl p-1 flex items-center text-[14px]">
+          <div className="bg-hoverbg dark:bg-sky-300/10 rounded-xl p-1 flex items-center text-[14px]">
             <button
               onClick={() => setLoginType("studentMember")}
               className={`p-1 px-2 rounded-lg ${loginType === "studentMember" ? "bg-background " : ""}`}
@@ -148,7 +148,7 @@ export default function LoginPage() {
           </div>
         </div>
         {loginType === "studentMember" ? (
-          <div className="p-5 px-2 pt-7 flex flex-col items-center justify-center gap-4 bg-gradient-to-b from-sky-50 dark:from-sky-950 to-background rounded-2xl mt-5">
+          <div className="p-5 px-2 pt-7 flex flex-col items-center justify-center gap-4 bg-gradient-to-b from-sky-50 dark:from-sky-300/10 to-background rounded-2xl mt-5">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@ export default function LoginPage() {
               <Input
                 placeholder="帳號"
                 type="email"
-                className={`p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
+                className={`dark:bg-sky-300/10 p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
                 required
                 value={account}
                 onChange={(e) => setAccount(e.target.value)}
@@ -202,7 +202,7 @@ export default function LoginPage() {
               <Input
                 placeholder="密碼"
                 type="password"
-                className={`p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
+                className={`dark:bg-sky-300/10 p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

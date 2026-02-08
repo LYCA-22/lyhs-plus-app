@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className="p-5 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">首頁</h1>
+        <h1 className="text-2xl font-medium">首頁</h1>
         <Link href={"/"} className="flex items-center gap-2">
           <LogOut size={18} />
         </Link>

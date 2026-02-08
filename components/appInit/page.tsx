@@ -9,7 +9,7 @@ export function InitPage() {
 
   return (
     <div
-      className={`fixed top-0 flex z-[10000] w-full h-dvh bg-white flex-col items-center justify-center opacity-100 ${appData.initialize ? "hidden" : ""}`}
+      className={`fixed top-0 flex z-[10000] w-full h-dvh bg-white text-black flex-col items-center justify-center opacity-100 ${appData.initialize ? "hidden" : ""}`}
     >
       <DotPattern
         width={20}
@@ -22,7 +22,12 @@ export function InitPage() {
         )}
       />
       <div className="mb-20 flex flex-col items-center justify-center gap-3">
-        <Image alt="logo" src="/icon_with_text.svg" width={200} height={100} />
+        <Image
+          alt="logo"
+          src="/assets/icon_with_text.svg"
+          width={250}
+          height={100}
+        />
         <p className="opacity-60 text-[15px]">
           Creating infinite possibilities
         </p>

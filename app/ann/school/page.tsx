@@ -97,11 +97,11 @@ export default function Page() {
       <div className="p-5 flex items-center px-5 justify-between">
         <div className="flex items-center gap-3">
           <div className="relative pb-2">
-            <h1 className={`text-xl font-medium`}>校園公告</h1>
+            <h1 className={`text-2xl font-medium`}>校園公告</h1>
             <div className="bg-sky-600 rounded-full absolute bottom-0 w-full h-1"></div>
           </div>
           <div className="relative pb-2">
-            <Link href={"./lysa"} className={`text-xl font-medium opacity-50`}>
+            <Link href={"./lysa"} className={`text-2xl font-medium opacity-50`}>
               學生會公告
             </Link>
           </div>

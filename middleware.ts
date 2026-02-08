@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname === "/icon_with_text.svg") return NextResponse.next();
   const access_token = req.cookies.get("lyps_access_token");
 
   if (!pathname.startsWith("/login")) {
@@ -28,6 +27,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - assets (靜態資源)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|assets).*)",
   ],
 };

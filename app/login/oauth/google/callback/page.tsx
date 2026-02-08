@@ -45,7 +45,7 @@ export default function GoogleApiCallBackPage() {
   }, []);
 
   return (
-    <div className="min-h-dvh flex flex-col bg-sky-50 dark:bg-sky-950">
+    <div className="min-h-dvh flex flex-col bg-sky-50 dark:bg-background">
       <div className="p-10 space-y-2 py-20 relative">
         <DotPattern
           width={20}
@@ -59,7 +59,7 @@ export default function GoogleApiCallBackPage() {
         />
         <Image
           alt="logo"
-          src="/icon_with_text.svg"
+          src="/assets/icon_with_text.svg"
           width={230}
           height={100}
           className="dark:invert"
@@ -68,11 +68,11 @@ export default function GoogleApiCallBackPage() {
           Creating infinite possibilities
         </p>
       </div>
-      <div className="p-5 px-7 rounded-t-[35px] grow bg-background z-10 shadow-lg shadow-zinc-500">
+      <div className="p-5 px-7 rounded-t-[35px] grow bg-background dark:bg-blue-300/10 z-10 shadow-lg shadow-zinc-500">
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-medium">Google 登入</h1>
         </div>
-        <div className="mt-5 w-full h-full flex flex-col items-center justify-center gap-2 p-10 px-8 bg-hoverbg rounded-2xl">
+        <div className="mt-5 w-full h-full flex flex-col items-center justify-center gap-2 p-10 px-8 bg-hoverbg dark:bg-sky-300/10 rounded-2xl">
           {error ? (
             <div className="flex flex-col items-center justify-center gap-2">
               <TriangleAlert />
