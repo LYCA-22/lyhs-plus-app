@@ -18,7 +18,6 @@ import { useDispatch } from "react-redux";
 
 export default function AddLysaAnnPage() {
   const dispatch = useDispatch();
-  const [error, setError] = useState(false);
   const [isbanner, setIsBanner] = useState(false);
   const [isTop, setIsTop] = useState(false);
   const [html, setHtml] = useState("");
@@ -41,7 +40,7 @@ export default function AddLysaAnnPage() {
               placeholder="公告的主題大綱"
               id="title"
               type="text"
-              className={`dark:bg-sky-300/10 p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
+              className={`dark:bg-sky-300/10 p-4 py-3 text-[14px]`}
               required
             />
           </div>
@@ -80,7 +79,7 @@ export default function AddLysaAnnPage() {
                   placeholder="選擇您要上傳的圖片"
                   id="image"
                   type="file"
-                  className={`dark:bg-sky-300/10 p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
+                  className={`dark:bg-sky-300/10 p-4 py-3 text-[14px]`}
                   required
                 />
               </div>
@@ -90,7 +89,7 @@ export default function AddLysaAnnPage() {
                   placeholder="Link"
                   id="link"
                   type="text"
-                  className={`dark:bg-sky-300/10 p-4 py-3 text-[14px] ${error ? "border border-red-500 focus:border-0" : ""}`}
+                  className={`dark:bg-sky-300/10 p-4 py-3 text-[14px]`}
                   required
                 />
               </div>
