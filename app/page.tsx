@@ -131,23 +131,27 @@ export default function Home() {
           </CarouselContent>
         </Carousel>
       </div>
-      <p className="mt-2 font-medium text-lg">管理員專用</p>
-      <div className="text-[14px] flex items-center justify-center gap-4">
-        <Link
-          href={"/admin/member"}
-          className="flex flex-col justify-center p-2 items-center gap-2"
-        >
-          <Database size={30} className="text-sky-600" />
-          管理會員
-        </Link>
-        <Link
-          href={"/ann/lysa/add"}
-          className="flex flex-col justify-center p-2 items-center gap-2 mr-auto"
-        >
-          <Plus size={30} className="text-sky-600" />
-          新增公告
-        </Link>
-      </div>
+      {userMemberData.role === "lysaStaff" && (
+        <>
+          <p className="mt-2 font-medium text-lg">管理員專用</p>
+          <div className="text-[14px] flex items-center justify-center gap-4">
+            <Link
+              href={"/admin/member"}
+              className="flex flex-col justify-center p-2 items-center gap-2"
+            >
+              <Database size={30} className="text-sky-600" />
+              管理會員
+            </Link>
+            <Link
+              href={"/ann/lysa/add"}
+              className="flex flex-col justify-center p-2 items-center gap-2 mr-auto"
+            >
+              <Plus size={30} className="text-sky-600" />
+              新增公告
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 }

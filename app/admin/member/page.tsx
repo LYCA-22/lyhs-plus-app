@@ -11,14 +11,17 @@ import {
 } from "@/components/ui/select";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
+import { useAppSelector } from "@/store/hook";
 import { userMemberData } from "@/types";
 import { getCookie } from "@/utils/getCookie";
 import { Plus, Settings2, Trash2, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function MemberPage() {
   const dispatch = useDispatch();
+  const userData = useAppSelector((state) => state.userData);
   const [memberData, setMemberData] = useState<userMemberData[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [addMember, setAddMember] = useState(false);
@@ -28,10 +31,12 @@ export default function MemberPage() {
   const [grade, setGrade] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [stuId, setStuId] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(turnOnBackLink("/"));
-  });
+    if (userData.role !== "lysaStaff") router.push("/");
+  }, [router, userData, dispatch]);
 
   useEffect(() => {
     const FetchMemberList = async () => {
