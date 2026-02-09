@@ -139,12 +139,13 @@ export class apiFetch {
     }
   }
 
-  public async DELETE() {
+  public async DELETE(access_token?: string) {
     try {
       const response = await fetch(this.url, {
         method: "DELETE",
         headers: {
           Cookie: this.cookies ? this.cookies : "",
+          Authorization: `Bearer ${access_token}`,
         },
       });
 

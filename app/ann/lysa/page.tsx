@@ -1,9 +1,19 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { turnOffBackLink } from "@/store/appSlice";
+import { turnOffBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import Link from "next/link";
-import { Plus, Settings2 } from "lucide-react";
+import {
+  Balloon,
+  ChevronRight,
+  Pin,
+  Plus,
+  Settings2,
+  SquareChartGantt,
+  Trash2,
+  TvMinimal,
+  X,
+} from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -12,15 +22,44 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { getCookie } from "@/utils/getCookie";
+import { loadLysaAnns } from "@/store/newsSlice";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const dispatch = useAppDispatch();
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleDeleteAnn = async (id: string) => {
+    try {
+      dispatch(updatePageLoadingStatus(true));
+      const access_token = getCookie("lyps_access_token");
+      const deleteUrl = `${API_BASE_URL}/v1/lyps/ann/delete/${id}`;
+      const deleteApi = new apiFetch(deleteUrl);
+      await deleteApi.DELETE(access_token as string);
+
+      // 載入新資料
+      const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
+      const getLysaAnns = new apiFetch(getLysaAnnsUrl);
+      const lysaAnnData = await getLysaAnns.GET();
+      dispatch(loadLysaAnns(lysaAnnData.data));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(updatePageLoadingStatus(false));
+    }
+  };
 
   useEffect(() => {
     dispatch(turnOffBackLink());
   }, [dispatch]);
+
+  const sortedLysaAnnData = useMemo(
+    () => [...lysaAnnData].sort((a, b) => Number(b.is_top) - Number(a.is_top)),
+    [lysaAnnData],
+  );
 
   return (
     <div
@@ -70,23 +109,80 @@ export default function Page() {
           <div className="flex items-center w-full justify-between pt-5 gap-4 text-lg font-medium">
             <Link
               href={"/ann/lysa/add"}
-              className="flex items-center justify-center gap-2 dark:bg-sky-900 bg-sky-200 rounded-xl p-2 w-full"
+              className="flex items-center justify-center gap-2 dark:bg-sky-900 bg-sky-200 rounded-xl p-2 w-full hover:opacity-50 transition-all"
             >
               <Plus />
               新增公告
             </Link>
-            <Link
-              href={"/"}
-              className="flex items-center justify-center gap-2 dark:bg-sky-900 bg-sky-200 rounded-xl p-2 w-full"
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className={`flex items-center justify-center gap-2  rounded-xl p-2 w-full ${isEditing ? "bg-sky-900 dark:bg-sky-200 text-white dark:text-sky-900" : "dark:bg-sky-900 bg-sky-200"} transition-all`}
             >
-              <Settings2 />
-              編輯公告
-            </Link>
+              {isEditing ? (
+                <>
+                  <X></X>關閉編輯
+                </>
+              ) : (
+                <>
+                  <Settings2 />
+                  編輯公告
+                </>
+              )}
+            </button>
           </div>
         )}
       </div>
-      <div className="bg-background dark:bg-blue-300/10 border-t border-border grow">
-        <div className="relative w-full"></div>
+      <div className="bg-background dark:bg-blue-300/10 border-t border-border grow p-2 px-4">
+        {sortedLysaAnnData.filter((item) => !item.is_banner).length === 0 && (
+          <div className="flex items-center justify-center text-center pt-20">
+            <p className="text-gray-500 dark:text-gray-400">目前沒有公告</p>
+          </div>
+        )}
+        {sortedLysaAnnData
+          .filter((item) => !item.is_banner)
+          .map((item) => {
+            return (
+              <div
+                key={item.id}
+                className="p-4 last:border-b-0 border-b border-border dark:border-zinc-700 flex gap-4 items-center"
+              >
+                <div className="bg-sky-50 dark:bg-sky-700 rounded-xl p-2 text-sky-600 dark:text-sky-200">
+                  {item.category === "活動資訊" && (
+                    <Balloon size={25} strokeWidth={2.5} />
+                  )}
+                  {item.category === "其他" && (
+                    <SquareChartGantt size={25} strokeWidth={2.5} />
+                  )}
+                  {item.category === "數位服務" && (
+                    <TvMinimal size={25} strokeWidth={2.5} />
+                  )}
+                </div>
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg">{item.category}</p>
+                    <span>
+                      {item.is_top ? (
+                        <Pin size={18} className="text-sky-600" />
+                      ) : null}
+                    </span>
+                  </div>
+                  <p>{item.title}</p>
+                </div>
+                {isEditing ? (
+                  <button
+                    onClick={() => handleDeleteAnn(item.id.toString())}
+                    className="ml-auto text-red-500 bg-red-100 dark:bg-red-900/70 rounded-xl p-2"
+                  >
+                    <Trash2 />
+                  </button>
+                ) : (
+                  <div className="ml-auto text-sky-600 dark:text-sky-300">
+                    <ChevronRight />
+                  </div>
+                )}
+              </div>
+            );
+          })}
       </div>
     </div>
   );

@@ -24,32 +24,43 @@ export function InitFunction() {
         await serverCheck.GET();
 
         // 2.
-        setUserText("取得學校網站公告中");
-        const getSchoolAnnUrl = `${API_BASE_URL}/v1/lyps/list`;
-        const getSchoolAnn = new apiFetch(getSchoolAnnUrl);
-        const schoolAnnData = await getSchoolAnn.GET();
-        dispatch(loadSchoolAnns(schoolAnnData.data));
-
-        // 3.
-        setUserText("取得學生會公告中");
-        const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
-        const getLysaAnns = new apiFetch(getLysaAnnsUrl);
-        const lysaAnnData = await getLysaAnns.GET();
-        dispatch(loadLysaAnns(lysaAnnData.data));
-
-        // 4.
         setUserText("檢查是否有用戶憑證");
+        // 先檢查是否有 refresh_token
+        const refresh_token = getCookie("lyps_refresh_token");
         const access_token = getCookie("lyps_access_token");
         let isLogged = false;
 
-        if (access_token) {
+        if (refresh_token && access_token) {
           setUserText("正在獲取用戶基本資料");
           const getUserDataUrl = `${API_BASE_URL}/v1/user/me`;
           const getUserData = new apiFetch(getUserDataUrl);
           const userData = await getUserData.GET(access_token);
           dispatch(loadUserData(userData.data));
           isLogged = true;
+        } else if (refresh_token) {
+          setUserText("正在刷新用戶憑證");
+          const refreshUrl = `${API_BASE_URL}/v1/auth/refresh`;
+          const refresh = new apiFetch(refreshUrl);
+          const { access_token, expires_in } = await refresh.POST({
+            refresh_token: refresh_token,
+          });
+          document.cookie = `lyps_access_token=${access_token}; path=/; expires=${new Date(Date.now() + expires_in * 1000).toUTCString()}; SameSite=Strict; Secure`;
+          window.location.reload();
         }
+
+        // 3.
+        setUserText("取得學校網站公告中");
+        const getSchoolAnnUrl = `${API_BASE_URL}/v1/lyps/list`;
+        const getSchoolAnn = new apiFetch(getSchoolAnnUrl);
+        const schoolAnnData = await getSchoolAnn.GET();
+        dispatch(loadSchoolAnns(schoolAnnData.data));
+
+        // 4.
+        setUserText("取得學生會公告中");
+        const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
+        const getLysaAnns = new apiFetch(getLysaAnnsUrl);
+        const lysaAnnData = await getLysaAnns.GET();
+        dispatch(loadLysaAnns(lysaAnnData.data));
 
         // 5.
         setUserText("正在進行系統版本確認");

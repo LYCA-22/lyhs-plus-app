@@ -4,6 +4,7 @@ import {
   Ellipsis,
   HandFist,
   House,
+  LibraryBig,
   Megaphone,
   MessageSquareText,
 } from "lucide-react";
@@ -35,6 +36,12 @@ const appSchema: AppSchema[] = [
     icon: <MessageSquareText size={25} />,
     active_icon: <MessageSquareText size={25} fill="#00b4f5" />,
     path: "/chat",
+  },
+  {
+    name: "學業",
+    icon: <LibraryBig size={25} />,
+    active_icon: <LibraryBig size={25} fill="#00b4f5" />,
+    path: "/ksa",
   },
   {
     name: "學生會",

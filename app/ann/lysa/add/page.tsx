@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
+import { loadLysaAnns } from "@/store/newsSlice";
 import { getCookie } from "@/utils/getCookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -55,11 +56,17 @@ export default function AddLysaAnnPage() {
 
     try {
       await annUpload.POST(formData, true, access_token || "");
+
+      // 新增完後要重新載入資料
+      const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
+      const getLysaAnns = new apiFetch(getLysaAnnsUrl);
+      const lysaAnnData = await getLysaAnns.GET();
+      dispatch(loadLysaAnns(lysaAnnData.data));
       dispatch(updatePageLoadingStatus(false));
       setTimeout(() => router.push("/ann/lysa"), 1000);
     } catch (error) {
       console.error(error);
-      updatePageLoadingStatus(false);
+      dispatch(updatePageLoadingStatus(false));
     }
   };
 
