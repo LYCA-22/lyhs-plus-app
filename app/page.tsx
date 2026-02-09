@@ -39,7 +39,7 @@ export default function Home() {
   });
 
   return (
-    <div className="p-5 space-y-4">
+    <div className="p-5 space-y-4 pb-20">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">首頁</h1>
         <Link href={"/"} className="flex items-center gap-2">
