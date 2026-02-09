@@ -25,12 +25,29 @@ import Image from "next/image";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { getCookie } from "@/utils/getCookie";
 import { loadLysaAnns } from "@/store/newsSlice";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const userData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
+  const router = useRouter();
+
+  const handleViewAnn = async (id: string) => {
+    // 先更新觀看數
+    dispatch(updatePageLoadingStatus(true));
+    try {
+      const UpdateViewCountUrl = `${API_BASE_URL}/v1/lyps/ann/view/${id}`;
+      const updateViewCountApi = new apiFetch(UpdateViewCountUrl);
+      await updateViewCountApi.PUT();
+      dispatch(updatePageLoadingStatus(false));
+      router.push(`/ann/lysa/${id}`);
+    } catch (e) {
+      dispatch(updatePageLoadingStatus(false));
+      console.error(e);
+    }
+  };
 
   const handleDeleteAnn = async (id: string) => {
     try {
@@ -142,9 +159,10 @@ export default function Page() {
           .filter((item) => !item.is_banner)
           .map((item) => {
             return (
-              <div
+              <button
+                onClick={() => handleViewAnn(item.id.toString())}
                 key={item.id}
-                className="p-4 last:border-b-0 border-b border-border dark:border-zinc-700 flex gap-4 items-center"
+                className="w-full text-left p-4 last:border-b-0 border-b border-border dark:border-zinc-700 flex gap-4 items-center"
               >
                 <div className="bg-sky-50 dark:bg-sky-700 rounded-xl p-2 text-sky-600 dark:text-sky-200">
                   {item.category === "活動資訊" && (
@@ -180,7 +198,7 @@ export default function Page() {
                     <ChevronRight />
                   </div>
                 )}
-              </div>
+              </button>
             );
           })}
       </div>

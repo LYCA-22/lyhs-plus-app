@@ -19,6 +19,8 @@ export interface AnnData {
   view_count: number;
   target_group: string | null;
   attachments: AnnAttachment[] | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface schoolAnnData {

@@ -104,7 +104,7 @@ export class apiFetch {
     }
   }
 
-  public async PUT(fetchBody: JSON) {
+  public async PUT(fetchBody?: JSON) {
     try {
       const response = await fetch(this.url, {
         method: "PUT",
@@ -112,7 +112,7 @@ export class apiFetch {
           "Content-Type": "application/json",
           Cookie: this.cookies ? this.cookies : "",
         },
-        body: JSON.stringify(fetchBody),
+        body: fetchBody && JSON.stringify(fetchBody),
       });
 
       if (!response.ok) {

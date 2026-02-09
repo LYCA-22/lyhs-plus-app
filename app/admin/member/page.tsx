@@ -230,7 +230,7 @@ export default function MemberPage() {
           </form>
         </div>
       )}
-      <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl p-5 pb-40 px-8">
+      <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl p-5 pb-40 px-8 space-y-2">
         <p className="text-xl font-medium mb-2">現有會員列表</p>
         {memberData.map((item, index) => (
           <div key={index} className="flex items-center justify-between">
