@@ -63,10 +63,10 @@ export default function KSALoginPage() {
         localStorage.setItem("lyps_openId", openId);
       }
       if (turnOnQuickLogin) {
-        const access_token = getCookie("access_token");
+        const access_token = getCookie("lyps_access_token");
         const quickLoginUrl = `${API_BASE_URL}/v1/lyps/school/linkQuickMode`;
         const quickLogin = new apiFetch(quickLoginUrl);
-        await quickLogin.PUT(access_token as string, {
+        await quickLogin.PUT((access_token as string) || "", {
           openid_account: openId,
           openid_password: openIdPsw,
         });
