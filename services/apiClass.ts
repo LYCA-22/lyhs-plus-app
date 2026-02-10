@@ -104,15 +104,16 @@ export class apiFetch {
     }
   }
 
-  public async PUT(fetchBody?: JSON) {
+  public async PUT(access_token?: string, fetchBody?: unknown) {
     try {
       const response = await fetch(this.url, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Cookie: this.cookies ? this.cookies : "",
+          Authorization: `Bearer ${access_token}`,
         },
-        body: fetchBody && JSON.stringify(fetchBody),
+        body: JSON.stringify(fetchBody),
       });
 
       if (!response.ok) {

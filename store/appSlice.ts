@@ -11,6 +11,7 @@ interface appError {
 interface ksaCookies {
   SRV: string;
   JSESSIONID: string;
+  session_key: string;
 }
 interface deviceInfo {
   os: string;
@@ -59,6 +60,7 @@ const initialState: appState = {
   ksa_cookies: {
     SRV: "",
     JSESSIONID: "",
+    session_key: "",
   },
   app_info: {
     version: "",

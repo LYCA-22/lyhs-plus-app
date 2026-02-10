@@ -26,8 +26,15 @@ export const userSlice = createSlice({
     loadUserData: (state, action: PayloadAction<userMemberData>) => {
       Object.assign(state, action.payload);
     },
+    enableKsaService: (state) => {
+      state.ksa_enabled = true;
+    },
+    disableKsaService: (state) => {
+      state.ksa_enabled = false;
+    },
   },
 });
 
-export const { loadUserData } = userSlice.actions;
+export const { loadUserData, enableKsaService, disableKsaService } =
+  userSlice.actions;
 export default userSlice.reducer;

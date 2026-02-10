@@ -4,6 +4,8 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const access_token = req.cookies.get("lyps_access_token");
 
+  if (pathname === "/favicon.ico") return NextResponse.next();
+
   if (!pathname.startsWith("/login")) {
     if (!access_token) {
       return NextResponse.redirect(new URL("/login", req.url));
