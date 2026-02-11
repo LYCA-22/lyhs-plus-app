@@ -51,6 +51,7 @@ export default function KSA() {
   const [canGraduate, setCanGraduate] = useState<boolean>(false);
   const access_token = getCookie("lyps_access_token");
 
+  console.log(creditData);
   useEffect(() => {
     dispatch(turnOffBackLink());
 
