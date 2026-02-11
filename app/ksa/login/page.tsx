@@ -237,7 +237,7 @@ export default function KSALoginPage() {
               </div>
             </form>
             {userData.openid_account && (
-              <div className="w-full flex items-center justify-center mt-5 pt-5 border-t border-border border-zinc-600">
+              <div className="w-full flex items-center justify-center mt-5 pt-5 border-t border-border dark:border-zinc-600">
                 <button
                   onClick={() => handleQuickLogin()}
                   className="flex flex-col items-center justify-center gap-2 font-medium"

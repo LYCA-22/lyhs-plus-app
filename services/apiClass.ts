@@ -19,12 +19,13 @@ export class apiFetch {
     this.cookies = cookies ? cookies : "";
   }
 
-  public async GET(access_token?: string) {
+  public async GET(access_token?: string, ksaAuthKey?: string) {
     try {
       const response = await fetch(this.url, {
         method: "GET",
         headers: {
           Authorization: access_token ? `Bearer ${access_token}` : "",
+          KsaAuthKey: ksaAuthKey || "",
         },
       });
 

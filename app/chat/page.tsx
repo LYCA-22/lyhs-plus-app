@@ -1,10 +1,10 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
-import { updatePageLoadingStatus } from "@/store/appSlice";
+import { turnOffBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { SendHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function ChatPage() {
@@ -13,6 +13,10 @@ export default function ChatPage() {
   const [aiResponseHistory, setAiResponseHistory] = useState<string[]>([]);
   const appData = useAppSelector((state) => state.appStatus);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(turnOffBackLink());
+  });
 
   const handleAiRes = async () => {
     dispatch(updatePageLoadingStatus(true));
