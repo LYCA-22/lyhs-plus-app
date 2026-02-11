@@ -12,6 +12,7 @@ interface ksaCookies {
   SRV: string;
   JSESSIONID: string;
   session_key: string;
+  uuid: string;
 }
 interface deviceInfo {
   os: string;
@@ -61,6 +62,7 @@ const initialState: appState = {
     SRV: "",
     JSESSIONID: "",
     session_key: "",
+    uuid: "",
   },
   app_info: {
     version: "",
