@@ -2,7 +2,6 @@
 
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { BookOpen } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
