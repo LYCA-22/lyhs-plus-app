@@ -1,6 +1,6 @@
 "use client";
 import {
-  setKsaCookies,
+  setKsaData,
   turnOnBackLink,
   updatePageLoadingStatus,
 } from "@/store/appSlice";
@@ -53,7 +53,7 @@ export default function KSALoginPage() {
       const login = new apiFetch(loginUrl);
       const result = await login.POST({ userId: openId, password: openIdPsw });
       dispatch(
-        setKsaCookies({
+        setKsaData({
           SRV: result.SRV,
           JSESSIONID: result.JSESSIONID,
           session_key: result.session_key,
@@ -87,7 +87,7 @@ export default function KSALoginPage() {
       const quickLogin = new apiFetch(quickLoginUrl);
       const result = await quickLogin.POST({}, false, access_token as string);
       dispatch(
-        setKsaCookies({
+        setKsaData({
           SRV: result.SRV,
           JSESSIONID: result.JSESSIONID,
           session_key: result.session_key,

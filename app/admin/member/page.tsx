@@ -95,9 +95,11 @@ export default function MemberPage() {
 
   return (
     <div className="flex flex-col min-h-dvh bg-sky-50 dark:bg-background">
-      <div className="p-10 px-5 pt-20">
+      <div className="px-5 pt-16 pb-4 space-y-2">
         <h1 className="text-2xl font-medium">管理會員資料</h1>
-        <p className="opacity-50">此功能僅限學生會幹部操作。</p>
+        <p className="opacity-50">
+          此功能僅限學生會幹部操作，僅提供簡易檢視、刪除功能。如需進行更多操作，請聯絡學生會資訊組。
+        </p>
       </div>
       <div className="flex items-center w-full justify-between p-5 pt-0 gap-4 text-lg font-medium">
         <button
@@ -231,14 +233,26 @@ export default function MemberPage() {
         </div>
       )}
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl p-5 pb-40 px-8 space-y-2">
-        <p className="text-xl font-medium mb-2">現有會員列表</p>
+        <p className="text-xl font-medium mb-5">現有會員列表</p>
         {memberData.map((item, index) => (
-          <div key={index} className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div>
-                <h2 className="text-lg font-medium">{item.zh_name}</h2>
-                <p className="opacity-50">
-                  {item.stu_id}, {item.is_member ? "有" : "沒有"}繳會費,{" "}
+          <div
+            key={index}
+            className="flex items-center justify-between border-b border-border dark:border-zinc-600 last:border-0 pb-4 pt-2"
+          >
+            <div className="space-y-2">
+              <h2 className="text-lg font-medium">
+                {item.grade}
+                {item.class_name}
+                {item.number}號 {item.zh_name}
+              </h2>
+              <div className="opacity-50 flex overflow-x-auto whitespace-nowrap gap-2">
+                <p className="p-1 px-3 rounded-full border border-zinc-500">
+                  {item.stu_id}
+                </p>
+                <p className="p-1 px-3 rounded-full border border-zinc-500">
+                  {item.is_member ? "有" : "沒有"}繳會費
+                </p>
+                <p className="p-1 px-3 rounded-full border border-zinc-500">
                   {item.ksa_enabled ? "已啟用" : "未啟用"}KSA服務
                 </p>
               </div>

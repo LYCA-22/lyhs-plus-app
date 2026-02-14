@@ -1,3 +1,5 @@
+import { stuData } from "@/app/ksa/page";
+import { creditData } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // 資料型態定義
@@ -8,11 +10,13 @@ interface appError {
   message: string;
   detail: string;
 }
-interface ksaCookies {
+interface ksaData {
   SRV: string;
   JSESSIONID: string;
   session_key: string;
   uuid: string;
+  stu_credit: creditData[];
+  stu_info: stuData[];
 }
 interface deviceInfo {
   os: string;
@@ -35,7 +39,7 @@ interface appState {
   user_logged: boolean;
   device_info: deviceInfo;
   app_error: appError;
-  ksa_cookies: ksaCookies;
+  ksa_data: ksaData;
   app_info: appInfo;
   service_status: serviceStatus;
 }
@@ -58,11 +62,13 @@ const initialState: appState = {
     message: "",
     detail: "",
   },
-  ksa_cookies: {
+  ksa_data: {
     SRV: "",
     JSESSIONID: "",
     session_key: "",
     uuid: "",
+    stu_credit: [],
+    stu_info: [],
   },
   app_info: {
     version: "",
@@ -91,8 +97,8 @@ export const systemSlice = createSlice({
       state.service_status.isBack = false;
       state.service_status.backLink = "";
     },
-    setKsaCookies: (state, action: PayloadAction<Partial<ksaCookies>>) => {
-      Object.assign(state.ksa_cookies, action.payload);
+    setKsaData: (state, action: PayloadAction<Partial<ksaData>>) => {
+      Object.assign(state.ksa_data, action.payload);
     },
     setDeviceInfo: (state, action: PayloadAction<Partial<deviceInfo>>) => {
       Object.assign(state.device_info, action.payload);
@@ -114,7 +120,7 @@ export const {
   updatePageLoadingStatus,
   turnOnBackLink,
   turnOffBackLink,
-  setKsaCookies,
+  setKsaData,
   setDeviceInfo,
   setAppInfo,
   setAppError,

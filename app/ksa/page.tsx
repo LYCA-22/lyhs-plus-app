@@ -1,7 +1,7 @@
 "use client";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import {
-  setKsaCookies,
+  setKsaData,
   turnOffBackLink,
   updatePageLoadingStatus,
 } from "@/store/appSlice";
@@ -55,62 +55,78 @@ export default function KSA() {
   console.log(creditData);
   useEffect(() => {
     dispatch(turnOffBackLink());
+  }, [dispatch]);
 
-    if (!appData.ksa_cookies.session_key) {
+  useEffect(() => {
+    if (!appData.ksa_data.session_key) {
       router.push("/ksa/login");
-    } else {
-      const fetchStuInfo = async () => {
-        dispatch(updatePageLoadingStatus(true));
-        try {
-          // 先獲取學生基本資料
-          const stuInfoUrl = `${API_BASE_URL}/v1/lyps/school/basicInfo/${appData.ksa_cookies.JSESSIONID}/${appData.ksa_cookies.SRV}`;
-          const stuInfo = new apiFetch(stuInfoUrl);
-          const result = await stuInfo.GET(
-            access_token as string,
-            appData.ksa_cookies.session_key,
-          );
-
-          // 獲取得到資料，就更新 uuid
-          dispatch(setKsaCookies({ uuid: result.stuInfo.uuid }));
-          setStuData(result.stuInfo);
-
-          // 再來獲取學分資料
-          const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${appData.ksa_cookies.JSESSIONID}/${appData.ksa_cookies.SRV}/${result.stuInfo.uuid}`;
-          const credit = new apiFetch(creditUrl);
-          const creditData = (await credit.GET(
-            access_token as string,
-            appData.ksa_cookies.session_key,
-          )) as creditData[];
-
-          setCreditData(creditData);
-
-          // 選擇要作為顯示學分數的陣列
-          let displayItem = null;
-          if (creditData.length == 1) {
-            displayItem = creditData[0];
-          } else if (creditData[creditData.length - 1].credAdd) {
-            displayItem = creditData[creditData.length - 1];
-          } else {
-            displayItem = creditData[creditData.length - 2];
-          }
-
-          setDisplayCredit(displayItem);
-          if (
-            (displayItem.credAdd as number) >= 150 &&
-            (displayItem.credAddElect as number) >= 40 &&
-            (displayItem.credAddMust as number) >= 102
-          ) {
-            setCanGraduate(true);
-          }
-        } catch (e) {
-          console.error(e);
-          dispatch(setKsaCookies({ SRV: "", JSESSIONID: "", session_key: "" }));
-        }
-        dispatch(updatePageLoadingStatus(false));
-      };
-      fetchStuInfo();
+      return;
     }
-  }, [appData.ksa_cookies, router, dispatch, access_token]);
+
+    const fetchStuInfo = async () => {
+      dispatch(updatePageLoadingStatus(true));
+      try {
+        // 先獲取學生基本資料
+        const stuInfoUrl = `${API_BASE_URL}/v1/lyps/school/basicInfo/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
+        const stuInfo = new apiFetch(stuInfoUrl);
+        const result = await stuInfo.GET(
+          access_token as string,
+          appData.ksa_data.session_key,
+        );
+
+        // 獲取得到資料，就更新 uuid
+        setStuData(result.stuInfo);
+
+        // 再來獲取學分資料
+        const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${result.stuInfo.uuid}`;
+        const credit = new apiFetch(creditUrl);
+        const creditData = (await credit.GET(
+          access_token as string,
+          appData.ksa_data.session_key,
+        )) as creditData[];
+
+        setCreditData(creditData);
+
+        // 選擇要作為顯示學分數的陣列
+        let displayItem = null;
+        if (creditData.length == 1) {
+          displayItem = creditData[0];
+        } else if (creditData[creditData.length - 1].credAdd) {
+          displayItem = creditData[creditData.length - 1];
+        } else {
+          displayItem = creditData[creditData.length - 2];
+        }
+
+        dispatch(
+          setKsaData({
+            uuid: result.stuInfo.uuid,
+            stu_credit: [displayItem],
+            stu_info: [result.stuInfo],
+          }),
+        );
+        setDisplayCredit(displayItem);
+        if (
+          (displayItem.credAdd as number) >= 150 &&
+          (displayItem.credAddElect as number) >= 40 &&
+          (displayItem.credAddMust as number) >= 102
+        ) {
+          setCanGraduate(true);
+        }
+      } catch (e) {
+        console.error(e);
+        dispatch(setKsaData({ SRV: "", JSESSIONID: "", session_key: "" }));
+      }
+      dispatch(updatePageLoadingStatus(false));
+    };
+    fetchStuInfo();
+  }, [
+    appData.ksa_data.session_key,
+    appData.ksa_data.JSESSIONID,
+    appData.ksa_data.SRV,
+    router,
+    dispatch,
+    access_token,
+  ]);
 
   return (
     <div className="flex flex-col bg-sky-50 dark:bg-background gap-4 pb-36">
