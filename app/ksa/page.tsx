@@ -9,6 +9,7 @@ import { useAppSelector } from "@/store/hook";
 import { creditData } from "@/types";
 import { getCookie } from "@/utils/getCookie";
 import {
+  BookOpen,
   ChartColumn,
   ChartPie,
   ChevronRight,
@@ -69,20 +70,12 @@ export default function KSA() {
             appData.ksa_cookies.session_key,
           );
 
-          // 如果沒有資料就是憑證失效或錯誤，自動登出
-          if (!result) {
-            dispatch(
-              setKsaCookies({ SRV: "", JSESSIONID: "", session_key: "" }),
-            );
-            return;
-          }
-
           // 獲取得到資料，就更新 uuid
           dispatch(setKsaCookies({ uuid: result.stuInfo.uuid }));
           setStuData(result.stuInfo);
 
           // 再來獲取學分資料
-          const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${appData.ksa_cookies.JSESSIONID}/${appData.ksa_cookies.SRV}/${appData.ksa_cookies.uuid}`;
+          const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${appData.ksa_cookies.JSESSIONID}/${appData.ksa_cookies.SRV}/${result.stuInfo.uuid}`;
           const credit = new apiFetch(creditUrl);
           const creditData = (await credit.GET(
             access_token as string,
@@ -134,9 +127,6 @@ export default function KSA() {
         </p>
         <div className="flex items-center justify-between">
           <p className="opacity-50 p-1 rounded-xl border border-zinc-400 dark:border-zinc-400 px-4 w-fit">
-            {stuData?.stuAuthNo}
-          </p>
-          <p className="opacity-50 p-1 rounded-xl border border-zinc-400 dark:border-zinc-400 px-4 w-fit">
             {stuData?.uuid}
           </p>
         </div>
@@ -174,44 +164,43 @@ export default function KSA() {
       <h3 className="mx-5 font-medium text-lg mt-5">學分資料</h3>
       <div className="bg-background dark:bg-blue-300/10 p-5 rounded-2xl mx-5 relative">
         <Link
-          href={"/"}
-          className="p-2 bg-hoverbg rounded-xl absolute top-5 right-5"
+          href={"/ksa/credit"}
+          className="p-2 bg-hoverbg dark:bg-sky-300/10 rounded-xl absolute top-5 right-5"
         >
           <ChevronRight />
         </Link>
         <div className="space-y-2">
-          <h2 className="text-xl font-medium">
-            {stuData?.className} {stuData?.zhName}
-          </h2>
-          <p className="opacity-50">總學分數</p>
-          <p className="font-medium text-3xl space-x-2">
-            <span className="text-sky-600">{displayCredit?.credAdd}</span>
-            <span className="text-lg">/ 182</span>
+          <h2 className="text-xl font-medium">{stuData?.zhName}</h2>
+          <div className="flex items-center gap-2">
+            <BookOpen />
+            <p className="font-medium text-3xl">{displayCredit?.credAdd}</p>
+          </div>
+          <p className="opacity-50">
+            總學分數 182，您已拿到 {displayCredit?.credAdd} 個學分
           </p>
-          <p className="opacity-50">{stuData?.stuId}｜點擊右上箭頭了解更多</p>
         </div>
       </div>
       <h3 className="mx-5 font-medium text-lg mt-5">畢業標準檢測</h3>
-      <div className="bg-background dark:bg-blue-300/10 p-5 rounded-2xl mx-5 relative">
+      <div className="mx-5 relative">
         {canGraduate ? (
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3 bg-sky-800 text-white dark:bg-sky-200 dark:text-sky-800 rounded-2xl p-3">
             <Smile />
-            <p className="font-medium text-xl mb-4">恭喜，您可以畢業了！</p>
+            <p className="font-medium text-xl">恭喜，您可以畢業了！</p>
           </div>
         ) : (
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3 bg-sky-800 text-white dark:bg-sky-200 dark:text-sky-800 rounded-2xl p-3">
             <Frown />
-            <p className="font-medium text-xl mb-4">
-              非常遺憾，您目前還不能畢業。
-            </p>
+            <p className="font-medium text-xl">非常遺憾，您目前還不能畢業</p>
           </div>
         )}
 
-        <div>
-          <p>總學分數</p>
-          <div className="flex items-end justify-between">
+        <div className="flex items-center overflow-x-auto w-full gap-4 py-4">
+          <div className="bg-background dark:bg-sky-300/10 rounded-2xl p-5 whitespace-nowrap">
+            <h3>總學分數</h3>
             <p className="font-medium text-3xl space-x-2">
-              <span className="text-sky-600">{displayCredit?.credAdd}</span>
+              <span className="text-sky-600 dark:text-sky-400">
+                {displayCredit?.credAdd}
+              </span>
               <span className="text-lg">/ 150</span>
             </p>
             {(displayCredit?.credAdd as number) >= 150 ? (
@@ -223,12 +212,12 @@ export default function KSA() {
               </p>
             )}
           </div>
-        </div>
-        <div className="pt-4 border-t border-border dark:border-zinc-600 mt-4">
-          <p>必修學分</p>
-          <div className="flex items-end justify-between">
+          <div className="bg-background dark:bg-sky-300/10 rounded-2xl p-5 whitespace-nowrap">
+            <h3>必修學分</h3>
             <p className="font-medium text-3xl space-x-2">
-              <span className="text-sky-600">{displayCredit?.credAddMust}</span>
+              <span className="text-sky-600 dark:text-sky-400">
+                {displayCredit?.credAddMust}
+              </span>
               <span className="text-lg">/ 102</span>
             </p>
             {(displayCredit?.credAddMust as number) >= 102 ? (
@@ -240,12 +229,10 @@ export default function KSA() {
               </p>
             )}
           </div>
-        </div>
-        <div className="pt-4 border-t border-border dark:border-zinc-600 mt-4">
-          <p>選修學分</p>
-          <div className="flex items-end justify-between">
+          <div className="bg-background dark:bg-sky-300/10 rounded-2xl p-5 whitespace-nowrap">
+            <h3>選修學分</h3>
             <p className="font-medium text-3xl space-x-2">
-              <span className="text-sky-600">
+              <span className="text-sky-600 dark:text-sky-400">
                 {displayCredit?.credAddElect}
               </span>
               <span className="text-lg">/ 40</span>
@@ -260,6 +247,7 @@ export default function KSA() {
             )}
           </div>
         </div>
+        <p className="text-sm opacity-50">往左滑看更多</p>
       </div>
     </div>
   );

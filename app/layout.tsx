@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   creator: "林園高中班聯會",
   publisher: "林園高中班聯會",
   alternates: {
-    canonical: "https://app.lyhsca.org",
+    canonical: "https://app.lyhssa.org",
   },
   robots: {
     index: true,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "LYHS Plus | 開啟林園高中智慧校園",
     description: "LYHS Plus 致力於改善校園資訊流通，讓校園生活更簡單、便利。",
-    creator: "@lyhsca",
+    creator: "@lyhssa",
   },
   verification: {
     google: "verification_token",
@@ -65,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="zh-TW" suppressHydrationWarning>
       <head>
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/assets/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta
