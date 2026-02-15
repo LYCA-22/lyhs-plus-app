@@ -100,8 +100,9 @@ export default function KSA() {
         dispatch(
           setKsaData({
             uuid: result.stuInfo.uuid,
-            stu_credit: [displayItem],
+            stu_credit: creditData,
             stu_info: [result.stuInfo],
+            stu_credit_final: [displayItem],
           }),
         );
         setDisplayCredit(displayItem);
@@ -156,7 +157,7 @@ export default function KSA() {
           成績查詢
         </Link>
         <Link
-          href={"/"}
+          href={"/ksa/credit"}
           className="flex flex-col justify-center p-3 py-3 items-center gap-2 bg-background dark:bg-blue-300/10 rounded-2xl"
         >
           <ChartPie size={25} strokeWidth={2.5} className="text-sky-600" />

@@ -17,6 +17,7 @@ interface ksaData {
   uuid: string;
   stu_credit: creditData[];
   stu_info: stuData[];
+  stu_credit_final: creditData[];
 }
 interface deviceInfo {
   os: string;
@@ -69,6 +70,7 @@ const initialState: appState = {
     uuid: "",
     stu_credit: [],
     stu_info: [],
+    stu_credit_final: [],
   },
   app_info: {
     version: "",

@@ -121,6 +121,9 @@ export default function ChatPage() {
                   ol: ({ children }) => (
                     <ol className="list-decimal ml-6 m-4">{children}</ol>
                   ),
+                  ul: ({ children }) => (
+                    <ul className="space-y-3 my-4">{children}</ul>
+                  ),
                 }}
               >
                 {aiResponseHistory[index]}

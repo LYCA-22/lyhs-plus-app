@@ -245,7 +245,7 @@ export default function KSALoginPage() {
                   <div>
                     <LogIn
                       strokeWidth={2.5}
-                      className="dark:bg-sky-300/10 bg-sky-200 rounded-xl w-10 h-10 p-2.5"
+                      className="dark:bg-sky-300/10 bg-sky-100 rounded-xl w-10 h-10 p-2.5"
                     />
                   </div>
                   <p>快速登入</p>

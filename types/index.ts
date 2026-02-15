@@ -430,3 +430,50 @@ export interface creditData {
 
   vrfDt: string | null;
 }
+
+export interface SubData {
+  clsId: string;
+  courseType: string;
+  credits: number;
+  id: number;
+  orderC: number;
+  orderCQ: number;
+  orderG: number;
+  orderGQ: number;
+  orderS: number;
+  orderSQ: number;
+  passRate: number;
+  passYn: string;
+  scA: number;
+  scN: number;
+  scS: number;
+  score: number;
+  scoreSrc: number;
+  sd: number;
+  seat: number | null;
+  seme: number;
+  stdCname: string;
+  stdNo: string;
+  subjId: string;
+  subjType: string;
+  syear: number;
+  t0: number;
+  t20: number;
+  t25: number;
+  t30: number;
+  t35: number;
+  t40: number;
+  t45: number;
+  t50: number;
+  t55: number;
+  t60: number;
+  t65: number;
+  t70: number;
+  t75: number;
+  t80: number;
+  t85: number;
+  t90: number;
+  t95: number;
+  yh: number;
+  yl: number;
+}
