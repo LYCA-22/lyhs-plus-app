@@ -32,7 +32,7 @@ const appSchema: AppSchema[] = [
     path: "/ann/school",
   },
   {
-    name: "AI Chat",
+    name: "智慧助理",
     icon: <MessageSquareText size={25} />,
     active_icon: <MessageSquareText size={25} fill="#00b4f5" />,
     path: "/chat",

@@ -15,6 +15,7 @@ import {
   LogOut,
   Plus,
   Soup,
+  Store,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -69,7 +70,7 @@ export default function Home() {
       </div>
       <div className="p-4 py-2 space-y-2">
         <p className="mt-2 font-medium text-lg">常用功能</p>
-        <div className="text-[14px] flex items-center justify-start gap-4">
+        <div className="text-[14px] flex items-center justify-evenly">
           <Link
             href={"/"}
             className="flex flex-col justify-center p-2 items-center gap-2"
@@ -91,9 +92,16 @@ export default function Home() {
             <Soup size={30} className="text-sky-600" />
             午餐查詢
           </Link>
+          <Link
+            href={"/"}
+            className="flex flex-col justify-center p-2 items-center gap-2"
+          >
+            <Store size={30} className="text-sky-600" />
+            特約商店
+          </Link>
         </div>
       </div>
-      <div className="bg-sky-100 dark:bg-sky-900 rounded-3xl m-4 p-4 flex items-end gap-4">
+      <div className="bg-sky-100/80 dark:bg-sky-950 rounded-3xl m-4 p-4 flex items-end gap-4">
         <div>
           <h3 className="font-medium text-lg">全新智慧助理登場！</h3>
           <p>現在可以透過對話的方式找到您需要的資訊。</p>
@@ -106,10 +114,18 @@ export default function Home() {
         </Link>
       </div>
       <div className="p-4 py-2 space-y-2">
-        <p className="mb-4 font-medium text-lg">最新資訊</p>
-        <div className="relative px-5 w-full">
+        <div className="flex items-center justify-between py-2">
+          <p className="font-medium text-lg">最新資訊</p>
+          <Link
+            href={"/ann/lysa"}
+            className="bg-zinc-200 dark:bg-zinc-600 rounded-3xl p-2"
+          >
+            <ArrowRight size={20} />
+          </Link>
+        </div>
+        <div className="relative w-full">
           <Carousel plugins={[autoplay.current]} opts={{ loop: true }}>
-            <CarouselContent className="h-44">
+            <CarouselContent>
               {lysaAnnData.map((item) => {
                 // 只有廣告公告才要推播出來
                 if (item.is_banner) {
@@ -120,7 +136,7 @@ export default function Home() {
                         alt={item.title}
                         width={300}
                         height={200}
-                        className="rounded-xl"
+                        className="rounded-3xl w-full border border-border dark:border-zinc-600"
                       />
                     </CarouselItem>
                   );
