@@ -109,7 +109,9 @@ export default function Page() {
       </div>
       <div className="rounded-xl bg-zinc-200 dark:bg-blue-400/20 flex gap-2 text-sm items-center mx-5 mb-5 p-2 pr-2.5">
         <Info size={18} className="w-10" />
-        <p>所有公告皆來自學校官網，如有問題請聯絡該處室。</p>
+        <p className="text-[16px]">
+          所有公告皆來自學校官網，如有問題請聯絡該處室。
+        </p>
       </div>
       <div className="bg-background dark:bg-blue-300/10 border-t border-border grow">
         <div className="sticky top-0 z-20 bg-white/50 dark:bg-zinc-800/30 backdrop-blur-md  dark:border-zinc-700 overflow-x-auto flex items-center overflow-y-hidden border-b border-border scrollbar-hide px-4 mb-2">

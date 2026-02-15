@@ -7,6 +7,7 @@ import { useAppSelector } from "@/store/hook";
 import { SendHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import remarkGfm from "remark-gfm";
 
 export default function ChatPage() {
   const [userInput, setUserInput] = useState("");
@@ -107,14 +108,23 @@ export default function ChatPage() {
           此功能可以協助您找到學校的相關資訊，您的對話紀錄將不會保留。
         </p>
       </div>
-      <div className="px-5 mt-3 space-y-5 overflow-y-auto pb-32 grow">
+      <div className="px-5 mt-3 space-y-5 overflow-y-auto pb-36 grow">
         {userInputHistory.map((input, index) => (
           <div key={index} className="flex flex-col w-full gap-5">
             <div className="bg-sky-100 dark:bg-sky-950 dark:text-sky-200 rounded-full ml-auto p-2 px-3">
               {input}
             </div>
             <div>
-              <ReactMarkdown>{aiResponseHistory[index]}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  ol: ({ children }) => (
+                    <ol className="list-decimal ml-6 m-4">{children}</ol>
+                  ),
+                }}
+              >
+                {aiResponseHistory[index]}
+              </ReactMarkdown>
             </div>
           </div>
         ))}
@@ -124,7 +134,7 @@ export default function ChatPage() {
           e.preventDefault();
           handleAiRes();
         }}
-        className={`fixed bottom-0 px-5 flex justify-center flex-col w-full pt-5 pb-24 bg-white/80 dark:bg-[#141416]/80 backdrop-blur-lg`}
+        className={`fixed bottom-0 px-5 flex justify-center flex-col w-full pt-5 pb-28 bg-white/80 dark:bg-[#141416]/80 backdrop-blur-lg`}
       >
         <Input
           placeholder="在這裡輸入你的問題..."
