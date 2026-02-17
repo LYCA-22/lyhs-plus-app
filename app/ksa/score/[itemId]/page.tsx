@@ -4,7 +4,6 @@ import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { getCookie } from "@/utils/getCookie";
-import { ArrowRight, ChartColumnBig, PencilLine } from "lucide-react";
 import { redirect, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -55,7 +54,6 @@ export default function CreditPage() {
   const id = params.itemId as string;
   const dispatch = useDispatch();
   const appData = useAppSelector((state) => state.appStatus);
-  const [selectIndex, setSelectIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [scoreData, setScoreData] = useState<scoreData[]>([]);
   const access_token = getCookie("lyps_access_token");
@@ -74,10 +72,11 @@ export default function CreditPage() {
         setIsLoading(true);
         const scoreDataUrl = `${API_BASE_URL}/v1/lyps/school/examDetail/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${id}`;
         const scoreDataApi = new apiFetch(scoreDataUrl);
-        const result = scoreDataApi.GET(
+        const result = await scoreDataApi.GET(
           access_token as string,
           appData.ksa_data.session_key,
         );
+        setScoreData(result.subScoreDetail);
       } catch (error) {
         console.error(error);
       } finally {
@@ -85,7 +84,7 @@ export default function CreditPage() {
       }
     };
     fetchSemeData();
-  }, [id]);
+  }, []);
 
   return (
     <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-10 gap-4">
@@ -102,7 +101,14 @@ export default function CreditPage() {
             </div>
           </div>
         ) : (
-          <div></div>
+          <div>
+            {scoreData.map((item) => (
+              <div key={item.subjId}>
+                <div>{item.subjId}</div>
+                <div>{item.score}</div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
