@@ -150,7 +150,7 @@ export default function KSA() {
       </div>
       <div className="text-[14px] flex items-center gap-2 px-5 justify-between">
         <Link
-          href={"/"}
+          href={"/ksa/score"}
           className="flex flex-col justify-center p-3 py-3 items-center gap-2 bg-background dark:bg-blue-300/10 rounded-2xl"
         >
           <ChartColumn size={25} strokeWidth={2.5} className="text-sky-600" />

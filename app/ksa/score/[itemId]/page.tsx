@@ -1,0 +1,110 @@
+"use client";
+import { Spinner } from "@/components/ui/spinner";
+import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { turnOnBackLink } from "@/store/appSlice";
+import { useAppSelector } from "@/store/hook";
+import { getCookie } from "@/utils/getCookie";
+import { ArrowRight, ChartColumnBig, PencilLine } from "lucide-react";
+import { redirect, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+export const runtime = "edge";
+
+interface scoreData {
+  clsId: string;
+  credits: number;
+  id: string;
+  itemId: string;
+  noExamMark: string;
+  passRate: number;
+  scA: number;
+  scN: number;
+  scS: number;
+  score: number;
+  sd: number;
+  seat: number | string | null;
+  seme: number;
+  stdCname: string;
+  stdNo: string;
+  subjId: string;
+  syear: number;
+  t0: number;
+  t20: number;
+  t25: number;
+  t30: number;
+  t35: number;
+  t40: number;
+  t45: number;
+  t50: number;
+  t55: number;
+  t60: number;
+  t65: number;
+  t70: number;
+  t75: number;
+  t80: number;
+  t85: number;
+  t90: number;
+  t95: number;
+  yh: number;
+  yl: number;
+}
+
+export default function CreditPage() {
+  const params = useParams();
+  const id = params.itemId as string;
+  const dispatch = useDispatch();
+  const appData = useAppSelector((state) => state.appStatus);
+  const [selectIndex, setSelectIndex] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [scoreData, setScoreData] = useState<scoreData[]>([]);
+  const access_token = getCookie("lyps_access_token");
+
+  if (!appData.ksa_data.stu_info.length) {
+    redirect("/ksa");
+  }
+
+  useEffect(() => {
+    dispatch(turnOnBackLink("/ksa/score"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchSemeData = async () => {
+      try {
+        setIsLoading(true);
+        const scoreDataUrl = `${API_BASE_URL}/v1/lyps/school/examDetail/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${id}`;
+        const scoreDataApi = new apiFetch(scoreDataUrl);
+        const result = scoreDataApi.GET(
+          access_token as string,
+          appData.ksa_data.session_key,
+        );
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchSemeData();
+  }, [id]);
+
+  return (
+    <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-10 gap-4">
+      <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
+        <h1 className="font-medium text-2xl">成績分項資料</h1>
+      </div>
+      <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center h-full pt-10 gap-3">
+            <Spinner className="size-5" />
+            <div className="text-center">
+              <p>請稍候</p>
+              <p className="opacity-50 text-sm">正在獲取您的成績資料...</p>
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </div>
+    </div>
+  );
+}
