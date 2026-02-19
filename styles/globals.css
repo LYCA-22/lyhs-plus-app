@@ -55,6 +55,7 @@
     --safe-area-inset-top: env(safe-area-inset-top);
     --safe-area-inset-bottom: env(safe-area-inset-bottom);
     overflow: hidden;
+    --chart-ladar: #ccc;
 }
 
 @font-face {
@@ -111,6 +112,7 @@ body {
     --hoverbg: #27272a;
     --borderColor: #2f2f32;
     --buttonBg: #202023;
+    --chart-ladar: #3f3f46;
 }
 
 @layer base {
