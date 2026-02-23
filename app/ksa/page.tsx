@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Frown,
   Grid2x2Check,
+  LogOut,
   Smile,
   User,
 } from "lucide-react";
@@ -136,6 +137,22 @@ export default function KSA() {
     router,
   ]);
 
+  const KsaLogOut = async () => {
+    dispatch(
+      setKsaData({
+        session_key: "",
+        JSESSIONID: "",
+        SRV: "",
+      }),
+    );
+
+    document.cookie = `lyps_ksa_session_key=; path=/;`;
+    document.cookie = `lyps_ksa_JSESSIONID=; path=/;`;
+    document.cookie = `lyps_ksa_SRV=; path=/;`;
+
+    router.push("/ksa/login");
+  };
+
   return (
     <div className="flex flex-col bg-sky-50 dark:bg-background gap-4 pb-36">
       <div className="flex items-center gap-4 p-5 bg-sky-900 text-sky-100 dark:bg-sky-100 dark:text-sky-900">
@@ -143,6 +160,9 @@ export default function KSA() {
         <p className="bg-background rounded-full p-1 px-3 dark:text-sky-100 text-sky-950 text-lg">
           校務系統
         </p>
+        <button className="ml-auto" onClick={() => KsaLogOut()}>
+          <LogOut size={24} />
+        </button>
       </div>
       <div className="mx-5 relative space-y-2 p-3">
         <h2 className="text-xl">{stuData?.zhName}</h2>
