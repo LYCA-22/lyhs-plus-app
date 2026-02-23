@@ -1,6 +1,6 @@
 "use client";
 
-import Editor from "@/components/editer";
+import Editor from "@/components/ui/editer";
 import { Input } from "@/components/ui/input";
 import {
   Select,

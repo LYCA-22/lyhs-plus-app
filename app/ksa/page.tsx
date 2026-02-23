@@ -5,10 +5,10 @@ import {
   turnOffBackLink,
   updatePageLoadingStatus,
 } from "@/store/appSlice";
-import { useAppSelector } from "@/store/hook";
 import { creditData } from "@/types";
 import { getCookie } from "@/utils/getCookie";
 import {
+  ArrowRight,
   BookOpen,
   ChartColumn,
   ChartPie,
@@ -43,49 +43,56 @@ export interface stuData {
 }
 
 export default function KSA() {
-  const appData = useAppSelector((state) => state.appStatus);
   const router = useRouter();
   const dispatch = useDispatch();
   const [stuData, setStuData] = useState<stuData>();
-  const [creditData, setCreditData] = useState<creditData[]>([]);
   const [displayCredit, setDisplayCredit] = useState<creditData>();
   const [canGraduate, setCanGraduate] = useState<boolean>(false);
   const access_token = getCookie("lyps_access_token");
+  const cookie_sessionKey = getCookie("lyps_ksa_session_key");
+  const cookie_SRV = getCookie("lyps_ksa_SRV");
+  const cookie_JSESSION = getCookie("lyps_ksa_JSESSIONID");
 
-  console.log(creditData);
   useEffect(() => {
     dispatch(turnOffBackLink());
   }, [dispatch]);
 
   useEffect(() => {
-    if (!appData.ksa_data.session_key) {
-      router.push("/ksa/login");
-      return;
-    }
-
     const fetchStuInfo = async () => {
       dispatch(updatePageLoadingStatus(true));
       try {
+        if (!cookie_sessionKey || !cookie_JSESSION || !cookie_SRV) {
+          dispatch(updatePageLoadingStatus(false));
+          router.push("/ksa/login");
+          return;
+        } else {
+          dispatch(
+            setKsaData({
+              session_key: cookie_sessionKey,
+              JSESSIONID: cookie_JSESSION as string,
+              SRV: cookie_SRV as string,
+            }),
+          );
+        }
+
         // 先獲取學生基本資料
-        const stuInfoUrl = `${API_BASE_URL}/v1/lyps/school/basicInfo/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
+        const stuInfoUrl = `${API_BASE_URL}/v1/lyps/school/basicInfo/${cookie_JSESSION}/${cookie_SRV}`;
         const stuInfo = new apiFetch(stuInfoUrl);
         const result = await stuInfo.GET(
           access_token as string,
-          appData.ksa_data.session_key,
+          cookie_sessionKey as string,
         );
 
         // 獲取得到資料，就更新 uuid
         setStuData(result.stuInfo);
 
         // 再來獲取學分資料
-        const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${result.stuInfo.uuid}`;
+        const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${cookie_JSESSION}/${cookie_SRV}/${result.stuInfo.uuid}`;
         const credit = new apiFetch(creditUrl);
         const creditData = (await credit.GET(
           access_token as string,
-          appData.ksa_data.session_key,
+          cookie_sessionKey as string,
         )) as creditData[];
-
-        setCreditData(creditData);
 
         // 選擇要作為顯示學分數的陣列
         let displayItem = null;
@@ -121,20 +128,23 @@ export default function KSA() {
     };
     fetchStuInfo();
   }, [
-    appData.ksa_data.session_key,
-    appData.ksa_data.JSESSIONID,
-    appData.ksa_data.SRV,
-    router,
+    cookie_JSESSION,
+    cookie_SRV,
+    cookie_sessionKey,
     dispatch,
     access_token,
+    router,
   ]);
 
   return (
     <div className="flex flex-col bg-sky-50 dark:bg-background gap-4 pb-36">
-      <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
+      <div className="flex items-center gap-4 p-5 bg-sky-900 text-sky-100 dark:bg-sky-100 dark:text-sky-900">
         <h1 className="font-medium text-2xl">KSA 服務</h1>
+        <p className="bg-background rounded-full p-1 px-3 dark:text-sky-100 text-sky-950 text-lg">
+          校務系統
+        </p>
       </div>
-      <div className="mx-5 relative space-y-2 pt-3">
+      <div className="mx-5 relative space-y-2 p-3">
         <h2 className="text-xl">{stuData?.zhName}</h2>
         <p className="text-2xl font-medium">
           {stuData?.year}學年度 第{stuData?.seme}學期
@@ -142,11 +152,6 @@ export default function KSA() {
         <p className="opacity-50">
           高雄市立林園高中 {stuData?.className} {stuData?.number}號
         </p>
-        <div className="flex items-center justify-between">
-          <p className="opacity-50 p-1 rounded-xl border border-zinc-400 dark:border-zinc-400 px-4 w-fit">
-            {stuData?.uuid}
-          </p>
-        </div>
       </div>
       <div className="text-[14px] flex items-center gap-2 px-5 justify-between">
         <Link
@@ -264,7 +269,18 @@ export default function KSA() {
             )}
           </div>
         </div>
-        <p className="text-sm opacity-50">往左滑看更多</p>
+        <div className="flex items-center gap-2 opacity-50">
+          <p className="text-sm">往左滑看更多</p>
+          <ArrowRight size={18} />
+        </div>
+      </div>
+      <h3 className="mx-5 font-medium text-lg mt-5">KSA 服務須知</h3>
+      <div className="px-5 opacity-50">
+        <p>
+          當您能夠正常在LYHS
+          Plus平台上進行登入，即代表您已啟用KSA服務，並同意我們的 KSA
+          服務使用者條款。
+        </p>
       </div>
     </div>
   );

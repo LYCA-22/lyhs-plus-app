@@ -9,7 +9,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Enableksa } from "./enableKsa";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, CircleQuestionMark, LogIn } from "lucide-react";
+import { ArrowRight, CircleQuestionMark, LogIn, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import {
@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { enableKsaService } from "@/store/userSlice";
+import { enableKsaService, loadUserData } from "@/store/userSlice";
 import { getCookie } from "@/utils/getCookie";
 import { useRouter } from "next/navigation";
 
@@ -59,6 +59,9 @@ export default function KSALoginPage() {
           session_key: result.session_key,
         }),
       );
+      document.cookie = `lyps_ksa_session_key=${result.session_key}; path=/; expires=${new Date(Date.now() + 60 * 60 * 8 * 1000).toUTCString()}; SameSite=Strict; Secure`;
+      document.cookie = `lyps_ksa_JSESSIONID=${result.JSESSIONID}; path=/; expires=${new Date(Date.now() + 60 * 60 * 8 * 1000).toUTCString()}; SameSite=Strict; Secure`;
+      document.cookie = `lyps_ksa_SRV=${result.SRV}; path=/; expires=${new Date(Date.now() + 60 * 60 * 8 * 1000).toUTCString()}; SameSite=Strict; Secure`;
       if (rememberMe) {
         localStorage.setItem("lyps_openId", openId);
       }
@@ -93,8 +96,31 @@ export default function KSALoginPage() {
           session_key: result.session_key,
         }),
       );
+      document.cookie = `lyps_ksa_session_key=${result.session_key}; path=/; expires=${new Date(Date.now() + 60 * 60 * 8 * 1000).toUTCString()}; SameSite=Strict; Secure`;
+      document.cookie = `lyps_ksa_JSESSIONID=${result.JSESSIONID}; path=/; expires=${new Date(Date.now() + 60 * 60 * 8 * 1000).toUTCString()}; SameSite=Strict; Secure`;
+      document.cookie = `lyps_ksa_SRV=${result.SRV}; path=/; expires=${new Date(Date.now() + 60 * 60 * 8 * 1000).toUTCString()}; SameSite=Strict; Secure`;
       dispatch(updatePageLoadingStatus(false));
       router.push("/ksa");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleCloseQuickLogin = async () => {
+    try {
+      dispatch(updatePageLoadingStatus(true));
+      const access_token = getCookie("lyps_access_token");
+      const quickLoginUrl = `${API_BASE_URL}/v1/lyps/school/closeQuickMode`;
+      const quickLogin = new apiFetch(quickLoginUrl);
+      await quickLogin.PUT(access_token as string);
+      dispatch(
+        loadUserData({
+          ...userData,
+          openid_account: "",
+          openid_password: "",
+        }),
+      );
+      dispatch(updatePageLoadingStatus(false));
     } catch (e) {
       console.error(e);
     }
@@ -237,7 +263,7 @@ export default function KSALoginPage() {
               </div>
             </form>
             {userData.openid_account && (
-              <div className="w-full flex items-center justify-center mt-5 pt-5 border-t border-border dark:border-zinc-600">
+              <div className="w-full flex items-center justify-center mt-5 pt-5 border-t border-border dark:border-zinc-600 gap-5">
                 <button
                   onClick={() => handleQuickLogin()}
                   className="flex flex-col items-center justify-center gap-2 font-medium"
@@ -248,7 +274,19 @@ export default function KSALoginPage() {
                       className="dark:bg-sky-300/10 bg-sky-100 rounded-xl w-10 h-10 p-2.5"
                     />
                   </div>
-                  <p>快速登入</p>
+                  <p>使用快速登入</p>
+                </button>
+                <button
+                  onClick={() => handleCloseQuickLogin()}
+                  className="flex flex-col items-center justify-center gap-2 font-medium"
+                >
+                  <div>
+                    <X
+                      strokeWidth={2.5}
+                      className="dark:bg-sky-300/10 bg-sky-100 rounded-xl w-10 h-10 p-2.5"
+                    />
+                  </div>
+                  <p>關閉快速登入</p>
                 </button>
               </div>
             )}

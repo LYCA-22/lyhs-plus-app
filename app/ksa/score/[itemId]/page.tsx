@@ -98,13 +98,13 @@ export default function CreditPage() {
           appData.ksa_data.session_key,
         );
 
-        if (result.itemInfo.length == 0) {
+        if (result.subScoreDetail.length == 0) {
           dispatch(updatePageLoadingStatus(false));
           dispatch(
             setAppError({
               type: "client",
-              message: "此段考項目暫未開放查詢。",
-              code: "LC001",
+              message: "此項目無法查詢，可能是您點擊了一個未開放查詢的項目。",
+              code: "LC_KSA_01",
               status: 404,
             }),
           );
@@ -136,14 +136,18 @@ export default function CreditPage() {
   return (
     <div className="flex flex-col bg-sky-50 dark:bg-background pt-10 gap-4 relative">
       <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
-        <h1 className="font-medium text-2xl">成績分項資料</h1>
+        <h1 className="font-medium text-2xl">
+          {scoreData[0]
+            ? `${scoreData[0].syear}-${scoreData[0].seme} ${scoreData[0].itemId}`
+            : "成績分項資料"}
+        </h1>
       </div>
       <div className="bg-background dark:bg-sky-300/10 mx-5 rounded-2xl p-4 overflow-x-auto">
         <div>
-          <h3 className="text-lg font-medium">成績總覽</h3>
+          <h3 className="text-lg font-medium">各科成績分數</h3>
           <p className="opacity-50">往右滑可以看更多</p>
         </div>
-        <div className="bg-zinc-200 rounded-xl dark:bg-sky-300/10 mt-2 px-2">
+        <div className="mt-2">
           <Table className="w-fit whitespace-nowrap">
             <TableHeader>
               <TableRow className="border-zinc-400 dark:border-zinc-700 dark:hover:bg-sky-300/10">
@@ -192,10 +196,32 @@ export default function CreditPage() {
             />
             <PolarAngleAxis dataKey="subjId" />
             <PolarGrid />
-            <Radar dataKey="score" fill="#FF7444" fillOpacity={0.8} />
-            <Radar dataKey="yl" fill="#576A8F" fillOpacity={0.5} />
+            <Radar
+              dataKey="score"
+              fill="#FF7444"
+              fillOpacity={0}
+              stroke="#FF7444"
+              strokeWidth={2}
+            />
+            <Radar
+              dataKey="yl"
+              fill="#576A8F"
+              fillOpacity={0}
+              stroke="#576A8F"
+              strokeWidth={2}
+            />
           </RadarChart>
         </ChartContainer>
+        <div className="flex items-center gap-4 justify-center">
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 bg-[#FF7444] rounded-md"></div>
+            <p className="font-medium opacity-50">分數</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 bg-[#576A8F] rounded-md"></div>
+            <p className="font-medium opacity-50">班平均</p>
+          </div>
+        </div>
       </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">
         {isLoading ? (

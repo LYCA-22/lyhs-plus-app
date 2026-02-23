@@ -33,57 +33,8 @@ function LoadingState() {
     <div
       className={`transition-all duration-200 ${hidden ? "hidden" : ""} ${isLoading ? "scale-100 opacity-100" : "scale-90 opacity-0"} z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
     >
-      <div className="bg-zinc-700  dark:bg-zinc-600 backdrop-blur-lg rounded-2xl p-3 shadow-lg">
-        <svg
-          width="40"
-          height="40"
-          viewBox="0 0 200 200"
-          color="#ffffff"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="animate-spin"
-          style={{
-            transformOrigin: "center",
-            animation: "spin 1.3s linear infinite",
-          }}
-        >
-          <defs>
-            <linearGradient id="spinner-secondHalf">
-              <stop offset="0%" stopOpacity="0" stopColor="currentColor" />
-              <stop offset="100%" stopOpacity="0.5" stopColor="currentColor" />
-            </linearGradient>
-            <linearGradient id="spinner-firstHalf">
-              <stop offset="0%" stopOpacity="1" stopColor="currentColor" />
-              <stop offset="100%" stopOpacity="0.5" stopColor="currentColor" />
-            </linearGradient>
-          </defs>
-
-          <g strokeWidth="8">
-            <path
-              stroke="url(#spinner-secondHalf)"
-              d="M 4 100 A 96 96 0 0 1 196 100"
-            />
-            <path
-              stroke="url(#spinner-firstHalf)"
-              d="M 196 100 A 96 96 0 0 1 4 100"
-            />
-
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              d="M 4 100 A 96 96 0 0 1 4 98"
-            />
-          </g>
-
-          <animateTransform
-            from="0 0 0"
-            to="360 0 0"
-            attributeName="transform"
-            type="rotate"
-            repeatCount="indefinite"
-            dur="1300ms"
-          />
-        </svg>
+      <div className="bg-zinc-200  dark:bg-zinc-600 rounded-2xl p-4">
+        <div className="w-10 h-10 rounded-full border-[6px] border-zinc-300 dark:border-zinc-400 border-t-sky-500 dark:border-t-white animate-spin"></div>
       </div>
     </div>
   );
