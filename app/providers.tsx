@@ -7,7 +7,7 @@ import { DynamicBack } from "@/components/dynamicBack";
 import { ServiceStatus } from "@/components/statusControl";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
-import { NavBar } from "@/components/navBar";
+import { AppDock } from "@/components/appDock";
 import { InitPage } from "@/components/appInit/page";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <ServiceStatus />
         <main className="w-full min-h-dvh relative">
           <DynamicBack containerEl={scrollEl} />
-          {!pathname.startsWith("/login") && <NavBar />}
+          {!pathname.startsWith("/login") && <AppDock />}
           <div
             id="main-area"
             className="bg-background relative w-full grow h-dvh"

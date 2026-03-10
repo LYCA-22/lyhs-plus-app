@@ -8,17 +8,17 @@ import {
 import { creditData } from "@/types";
 import { getCookie } from "@/utils/getCookie";
 import {
-  ArrowRight,
-  BookOpen,
-  ChartColumn,
-  ChartPie,
-  ChevronRight,
-  Frown,
-  Grid2x2Check,
-  LogOut,
-  Smile,
+  ArrowFromLeftStroke,
+  ChartBarBigColumns,
+  Check,
+  InfoCircle,
+  PieChart,
+  Sigma,
+  SirenAlt,
   User,
-} from "lucide-react";
+  Widget,
+} from "@boxicons/react";
+import { ChevronRight, Frown, Smile } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -153,150 +153,154 @@ export default function KSA() {
     router.push("/ksa/login");
   };
 
+  const quickBtnClass =
+    "flex justify-center p-3 items-center gap-2 bg-buttonBg rounded-2xl w-fit hover:opacity-80 transition-all active:scale-95";
+
   return (
-    <div className="flex flex-col bg-sky-50 dark:bg-background gap-4 pb-36">
-      <div className="flex items-center gap-4 p-5 bg-sky-900 text-sky-100 dark:bg-sky-100 dark:text-sky-900">
-        <h1 className="font-medium text-2xl">KSA 服務</h1>
-        <p className="bg-background rounded-full p-1 px-3 dark:text-sky-100 text-sky-950 text-lg">
-          校務系統
-        </p>
-        <button className="ml-auto" onClick={() => KsaLogOut()}>
-          <LogOut size={24} />
+    <div className="flex flex-col gap-4 pb-36 p-5 relative">
+      <div className="flex items-center gap-4">
+        <h1 className="text-2xl font-bold">你好，{stuData?.zhName}</h1>
+        <button
+          className="ml-auto bg-buttonBg rounded-2xl p-2"
+          onClick={() => KsaLogOut()}
+        >
+          <ArrowFromLeftStroke />
         </button>
       </div>
-      <div className="mx-5 relative space-y-2 p-3">
-        <h2 className="text-xl">{stuData?.zhName}</h2>
-        <p className="text-2xl font-medium">
-          {stuData?.year}學年度 第{stuData?.seme}學期
-        </p>
-        <p className="opacity-50">
-          高雄市立林園高中 {stuData?.className} {stuData?.number}號
-        </p>
+      <div className="w-full overflow-x-auto">
+        <div className="font-medium flex items-center gap-4 justify-between w-fit whitespace-nowrap">
+          <Link
+            href={"/ksa/score"}
+            className={`${quickBtnClass} bg-primary text-white dark:text-black`}
+          >
+            <ChartBarBigColumns />
+            成績查詢
+          </Link>
+          <Link href={"/ksa/credit"} className={quickBtnClass}>
+            <PieChart />
+            學分資料
+          </Link>
+          <Link href={"/"} className={quickBtnClass}>
+            <Widget />
+            曠課查詢
+          </Link>
+          <Link href={"/"} className={quickBtnClass}>
+            <User />
+            個人資料
+          </Link>
+        </div>
       </div>
-      <div className="text-[14px] flex items-center gap-2 px-5 justify-between">
-        <Link
-          href={"/ksa/score"}
-          className="flex flex-col justify-center p-3 py-3 items-center gap-2 bg-background dark:bg-blue-300/10 rounded-2xl"
-        >
-          <ChartColumn size={25} strokeWidth={2.5} className="text-sky-600" />
-          成績查詢
-        </Link>
+      <h3 className="font-medium text-lg">我的檔案</h3>
+      <div className="p-5 rounded-2xl relative bg-buttonBg">
         <Link
           href={"/ksa/credit"}
-          className="flex flex-col justify-center p-3 py-3 items-center gap-2 bg-background dark:bg-blue-300/10 rounded-2xl"
-        >
-          <ChartPie size={25} strokeWidth={2.5} className="text-sky-600" />
-          學分資料
-        </Link>
-        <Link
-          href={"/"}
-          className="flex flex-col justify-center p-3 py-3 items-center gap-2 bg-background dark:bg-blue-300/10 rounded-2xl"
-        >
-          <Grid2x2Check size={25} strokeWidth={2.5} className="text-sky-600" />
-          曠課查詢
-        </Link>
-        <Link
-          href={"/"}
-          className="flex flex-col justify-center p-3 py-3 items-center gap-2 bg-background dark:bg-blue-300/10 rounded-2xl"
-        >
-          <User size={25} strokeWidth={2.5} className="text-sky-600" />
-          個人資料
-        </Link>
-      </div>
-      <h3 className="mx-5 font-medium text-lg mt-5">學分資料</h3>
-      <div className="bg-background dark:bg-blue-300/10 p-5 rounded-2xl mx-5 relative">
-        <Link
-          href={"/ksa/credit"}
-          className="p-2 bg-hoverbg dark:bg-sky-300/10 rounded-xl absolute top-5 right-5"
+          className="p-2 bg-background dark:bg-sky-300/10 rounded-xl absolute top-5 right-5"
         >
           <ChevronRight />
         </Link>
         <div className="space-y-2">
           <h2 className="text-xl font-medium">{stuData?.zhName}</h2>
+          <p>學分加總</p>
           <div className="flex items-center gap-2">
-            <BookOpen />
-            <p className="font-medium text-3xl">{displayCredit?.credAdd}</p>
+            <Sigma />
+            <p className="font-medium text-3xl">
+              {displayCredit?.credAdd}
+              <span className="text-base opacity-50 mx-2">/ 182</span>
+            </p>
           </div>
-          <p className="opacity-50">
-            總學分數 182，您已拿到 {displayCredit?.credAdd} 個學分
-          </p>
         </div>
       </div>
-      <h3 className="mx-5 font-medium text-lg mt-5">畢業標準檢測</h3>
-      <div className="mx-5 relative">
-        {canGraduate ? (
-          <div className="flex items-center gap-3 bg-sky-800 text-white dark:bg-sky-200 dark:text-sky-800 rounded-2xl p-3">
-            <Smile />
-            <p className="font-medium text-xl">恭喜，您可以畢業了！</p>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3 bg-sky-800 text-white dark:bg-sky-200 dark:text-sky-800 rounded-2xl p-3">
-            <Frown />
-            <p className="font-medium text-xl">非常遺憾，您目前還不能畢業</p>
-          </div>
-        )}
-
-        <div className="flex items-center overflow-x-auto w-full gap-4 py-4">
-          <div className="bg-background dark:bg-sky-300/10 rounded-2xl p-5 whitespace-nowrap">
-            <h3>總學分數</h3>
-            <p className="font-medium text-3xl space-x-2">
-              <span className="text-sky-600 dark:text-sky-400">
-                {displayCredit?.credAdd}
-              </span>
-              <span className="text-lg">/ 150</span>
-            </p>
-            {(displayCredit?.credAdd as number) >= 150 ? (
-              <p className="text-green-600 font-medium">已達標</p>
-            ) : (
-              <p className="text-red-600 font-medium">
-                未達標，還缺 {150 - ((displayCredit?.credAdd as number) || 0)}{" "}
-                學分
-              </p>
-            )}
-          </div>
-          <div className="bg-background dark:bg-sky-300/10 rounded-2xl p-5 whitespace-nowrap">
-            <h3>必修學分</h3>
-            <p className="font-medium text-3xl space-x-2">
-              <span className="text-sky-600 dark:text-sky-400">
-                {displayCredit?.credAddMust}
-              </span>
-              <span className="text-lg">/ 102</span>
-            </p>
-            {(displayCredit?.credAddMust as number) >= 102 ? (
-              <p className="text-green-600 font-medium">已達標</p>
-            ) : (
-              <p className="text-red-600 font-medium">
-                未達標，還缺{" "}
-                {102 - ((displayCredit?.credAddMust as number) || 0)} 學分
-              </p>
-            )}
-          </div>
-          <div className="bg-background dark:bg-sky-300/10 rounded-2xl p-5 whitespace-nowrap">
-            <h3>選修學分</h3>
-            <p className="font-medium text-3xl space-x-2">
-              <span className="text-sky-600 dark:text-sky-400">
-                {displayCredit?.credAddElect}
-              </span>
-              <span className="text-lg">/ 40</span>
-            </p>
-            {(displayCredit?.credAddElect as number) >= 40 ? (
-              <p className="text-green-600 font-medium">已達標</p>
-            ) : (
-              <p className="text-red-600 font-medium">
-                未達標，還缺{" "}
-                {40 - ((displayCredit?.credAddElect as number) || 0)} 學分
-              </p>
-            )}
-          </div>
+      <h3 className="font-medium text-lg">畢業標準檢測</h3>
+      <div>
+        <div className="flex items-center gap-3 dark:bg-sky-800 dark:text-white bg-sky-100 text-sky-800 rounded-2xl p-3">
+          {canGraduate ? (
+            <>
+              <Smile />
+              <p className="font-medium text-xl">恭喜，您可以畢業了！</p>
+            </>
+          ) : (
+            <>
+              <Frown />
+              <p className="font-medium text-xl">非常遺憾，您目前還不能畢業</p>
+            </>
+          )}
         </div>
-        <div className="flex items-center gap-2 opacity-50">
-          <p className="text-sm">往左滑看更多</p>
-          <ArrowRight size={18} />
+        <div className="flex flex-col items-center overflow-x-auto w-full gap-4 py-4">
+          <div className="w-full space-y-2 border-b pb-4">
+            <div className="flex items-center gap-4">
+              {(displayCredit?.credAdd as number) >= 150 ? (
+                <Check className="text-green-600" />
+              ) : (
+                <SirenAlt className="text-red-600" />
+              )}
+              <h3 className="text-2xl opacity-50">總學分數</h3>
+              <p className="font-medium text-3xl space-x-2">
+                <span>{displayCredit?.credAdd}</span>
+                <span className="text-lg opacity-50">/ 150</span>
+              </p>
+            </div>
+            {(displayCredit?.credAdd as number) < 150 && (
+              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
+                <InfoCircle size="sm" />
+                <p>
+                  還缺 {150 - ((displayCredit?.credAdd as number) || 0)} 學分
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="w-full space-y-2 border-b pb-4">
+            <div className="flex items-center gap-4">
+              {(displayCredit?.credAddMust as number) >= 102 ? (
+                <Check className="text-green-600" />
+              ) : (
+                <SirenAlt className="text-red-600" />
+              )}
+              <h3 className="text-2xl opacity-50">必修學分</h3>
+              <p className="font-medium text-3xl space-x-2">
+                <span>{displayCredit?.credAddMust}</span>
+                <span className="text-lg opacity-50">/ 102</span>
+              </p>
+            </div>
+            {(displayCredit?.credAddMust as number) < 102 && (
+              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
+                <InfoCircle size="sm" />
+                <p>
+                  還缺 {102 - ((displayCredit?.credAddMust as number) || 0)}
+                  學分
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="w-full space-y-2 border-b pb-4">
+            <div className="flex items-center gap-4">
+              {(displayCredit?.credAddElect as number) >= 40 ? (
+                <Check className="text-green-600" />
+              ) : (
+                <SirenAlt className="text-red-600" />
+              )}
+              <h3 className="text-2xl opacity-50">選修學分</h3>
+              <p className="font-medium text-3xl space-x-2">
+                <span>{displayCredit?.credAddElect}</span>
+                <span className="text-lg opacity-50">/ 40</span>
+              </p>
+            </div>
+            {(displayCredit?.credAddElect as number) < 40 && (
+              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
+                <InfoCircle size="sm" />
+                <p>
+                  還缺 {40 - ((displayCredit?.credAddElect as number) || 0)}
+                  學分
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <h3 className="mx-5 font-medium text-lg mt-5">KSA 服務須知</h3>
-      <div className="px-5 opacity-50">
-        <p>
+      <div className="text-center opacity-50 space-y-2 px-5">
+        <h3 className="font-medium text-lg">
+          此程式並非教育局製作，請妥善使用。
+        </h3>
+        <p className="text-sm">
           當您能夠正常在LYHS
           Plus平台上進行登入，即代表您已啟用KSA服務，並同意我們的 KSA
           服務使用者條款。

@@ -39,12 +39,11 @@ export function DynamicBack({ containerEl }: DynamicBackProps) {
         />
         <Link
           href={AppData.service_status.backLink}
-          className="z-10 text-sky-600 dark:text-sky-200 flex items-center font-medium hover:opacity-50 transition-all"
+          className="z-10 flex items-center font-medium hover:opacity-50 transition-all"
         >
           <ChevronLeft
-            size={30}
-            strokeWidth={2}
-            className={`rounded-xl p-1 ${showBackground ? "bg-transparent" : "bg-sky-200 dark:bg-sky-800"} transition-all`}
+            size={35}
+            className={`rounded-2xl p-1.5 ${showBackground ? "bg-transparent" : "bg-background"} transition-all`}
           />
           {showBackground && "返回"}
         </Link>

@@ -5,7 +5,7 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
-    default: "LYHS Plus | 開啟林園高中智慧校園",
+    default: "LYHS Plus",
     template: "%s | LYHS Plus",
   },
   description:

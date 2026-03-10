@@ -80,11 +80,11 @@ export default function Page() {
 
   return (
     <div
-      className={`bg-sky-50 dark:bg-background flex flex-col justify-between min-h-dvh`}
+      className={`bg-hoverbg dark:bg-background flex flex-col justify-between min-h-dvh`}
     >
       <div className="p-5 flex flex-col px-5 justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative pb-2">
+          <div className="relative">
             <Link
               href={"./school"}
               className={`text-2xl font-medium opacity-50`}
@@ -92,11 +92,8 @@ export default function Page() {
               校園公告
             </Link>
           </div>
-          <div className="relative pb-2">
-            <h1 className={`text-2xl font-medium`}>
-              學生會公告
-              <div className="bg-sky-600 rounded-full absolute bottom-0 w-full h-1"></div>
-            </h1>
+          <div className="relative">
+            <h1 className={`text-2xl font-medium`}>學生會公告</h1>
           </div>
         </div>
         <div className="px-12 mt-4">
@@ -159,46 +156,51 @@ export default function Page() {
           .filter((item) => !item.is_banner)
           .map((item) => {
             return (
-              <button
-                onClick={() => handleViewAnn(item.id.toString())}
-                key={item.id}
-                className="w-full text-left p-4 last:border-b-0 border-b border-border dark:border-zinc-700 flex gap-4 items-center"
-              >
-                <div className="bg-sky-50 dark:bg-sky-700 rounded-xl p-2 text-sky-600 dark:text-sky-200">
-                  {item.category === "活動資訊" && (
-                    <Balloon size={25} strokeWidth={2.5} />
-                  )}
-                  {item.category === "其他" && (
-                    <SquareChartGantt size={25} strokeWidth={2.5} />
-                  )}
-                  {item.category === "數位服務" && (
-                    <TvMinimal size={25} strokeWidth={2.5} />
-                  )}
-                </div>
-                <div className="space-y-0.5">
-                  <div className="flex items-center gap-2">
-                    <p className="text-lg">{item.category}</p>
-                    <span>
-                      {item.is_top ? (
-                        <Pin size={18} className="text-sky-600" />
-                      ) : null}
-                    </span>
+              <>
+                <button
+                  onClick={() => handleViewAnn(item.id.toString())}
+                  key={item.id}
+                  className="w-full text-left p-4 last:border-b-0 border-b border-border dark:border-zinc-700 flex gap-4 items-center"
+                >
+                  <div className="bg-sky-50 dark:bg-sky-700 rounded-xl p-2 text-sky-600 dark:text-sky-200">
+                    {item.category === "活動資訊" && (
+                      <Balloon size={25} strokeWidth={2.5} />
+                    )}
+                    {item.category === "其他" && (
+                      <SquareChartGantt size={25} strokeWidth={2.5} />
+                    )}
+                    {item.category === "數位服務" && (
+                      <TvMinimal size={25} strokeWidth={2.5} />
+                    )}
                   </div>
-                  <p>{item.title}</p>
-                </div>
-                {isEditing ? (
-                  <button
-                    onClick={() => handleDeleteAnn(item.id.toString())}
-                    className="ml-auto text-red-500 bg-red-100 dark:bg-red-900/70 rounded-xl p-2"
-                  >
-                    <Trash2 />
-                  </button>
-                ) : (
-                  <div className="ml-auto text-sky-600 dark:text-sky-300">
-                    <ChevronRight />
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <p className="text-lg">{item.category}</p>
+                      <span>
+                        {item.is_top ? (
+                          <Pin size={18} className="text-sky-600" />
+                        ) : null}
+                      </span>
+                    </div>
+                    <p>{item.title}</p>
                   </div>
-                )}
-              </button>
+                  {isEditing ? (
+                    <button
+                      onClick={() => handleDeleteAnn(item.id.toString())}
+                      className="ml-auto text-red-500 bg-red-100 dark:bg-red-900/70 rounded-xl p-2"
+                    >
+                      <Trash2 />
+                    </button>
+                  ) : (
+                    <div className="ml-auto text-sky-600 dark:text-sky-300">
+                      <ChevronRight />
+                    </div>
+                  )}
+                </button>
+                <div className="w-full p-5 text-center">
+                  <p className="opacity-50 text-sm">無更多公告</p>
+                </div>
+              </>
             );
           })}
       </div>

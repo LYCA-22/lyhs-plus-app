@@ -93,14 +93,13 @@ export default function Page() {
   }, [selectedDepartment, searchQuery]);
 
   return (
-    <div className={`bg-sky-50 dark:bg-background`}>
+    <div className={`bg-hoverbg dark:bg-background`}>
       <div className="p-5 flex items-center px-5 justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative pb-2">
+          <div className="relative">
             <h1 className={`text-2xl font-medium`}>校園公告</h1>
-            <div className="bg-sky-600 rounded-full absolute bottom-0 w-full h-1"></div>
           </div>
-          <div className="relative pb-2">
+          <div className="relative">
             <Link href={"./lysa"} className={`text-2xl font-medium opacity-50`}>
               學生會公告
             </Link>
@@ -114,10 +113,8 @@ export default function Page() {
         </p>
       </div>
       <div className="bg-background dark:bg-blue-300/10 border-t border-border grow">
-        <div className="sticky top-0 z-20 bg-white/50 dark:bg-zinc-800/30 backdrop-blur-md  dark:border-zinc-700 overflow-x-auto flex items-center overflow-y-hidden border-b border-border scrollbar-hide px-4 mb-2">
-          <div className="mr-2 h-8 w-8 items-center justify-center relative flex text-sm rounded-full bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300">
-            <Settings2 size={18} className="w-8" />
-          </div>
+        <SearchBox searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+        <div className="sticky top-0 z-20 bg-white dark:bg-zinc-800  dark:border-zinc-700 overflow-x-auto flex items-center overflow-y-hidden border-b border-border scrollbar-hide px-4 mb-2 mt-1">
           {departments.map((dept, index) => (
             <button
               key={index}
@@ -131,7 +128,7 @@ export default function Page() {
             </button>
           ))}
         </div>
-        <SearchBox searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+
         <div className="relative w-full">
           {displayedNews.length === 0 ? (
             <EmptyState />

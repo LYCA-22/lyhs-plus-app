@@ -5,23 +5,28 @@ import { useAppSelector } from "@/store/hook";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function NavBar() {
+export function AppDock() {
   const pathname = usePathname();
   const appData = useAppSelector((state) => state.appStatus);
 
   return (
     <div
-      className={`z-30 bg-background border-t dark:border-zinc-600 flex justify-evenly items-center border-border w-full fixed bottom-0 ${appData.device_info.operate_type == "PWA" ? "pt-5 max-sm:pb-deviceBottom" : "pt-3 pb-2"}`}
+      className={`z-30 bg-background flex justify-evenly items-center shadow-top-lg shadow-zinc-100 dark:shadow-zinc-800 w-full fixed bottom-0 ${appData.device_info.operate_type == "PWA" ? "pt-5 max-sm:pb-deviceBottom" : "pt-3 pb-2"}`}
     >
       {appSchema.map((app) => (
         <Link
           href={app.path}
           key={app.path}
-          className="gap-1 flex flex-col items-center justify-center"
+          className={`gap-1 flex flex-col items-center justify-center ${
+            (app.path === "/" && pathname === "/") ||
+            (app.path !== "/" && pathname.startsWith(app.path))
+              ? "opacity-100"
+              : "opacity-50"
+          }`}
         >
           {(app.path === "/" && pathname === "/") ||
           (app.path !== "/" && pathname.startsWith(app.path))
-            ? app.active_icon
+            ? app.activeIcon
             : app.icon}
           <p className={`text-xs font-medium`}>{app.name}</p>
         </Link>

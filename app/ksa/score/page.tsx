@@ -59,8 +59,8 @@ export default function CreditPage() {
   }, [selectIndex]);
 
   return (
-    <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-10 gap-4">
-      <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
+    <div className="flex flex-col bg-hoverbg dark:bg-background h-full pt-10 gap-4">
+      <div className="p-5 pt-7 pb-0 space-y-2">
         <h1 className="font-medium text-2xl">各項成績查詢</h1>
       </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">

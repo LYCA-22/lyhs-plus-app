@@ -13,6 +13,10 @@ const config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        top: "0 -4px 12px rgba(0, 0, 0, 0.15)",
+        "top-lg": "0 -8px 24px rgba(0, 0, 0, 0.12)",
+      },
       margin: {
         deviceTop: "calc(env(safe-area-inset-top) + 10px)",
         deviceBottom: "env(safe-area-inset-bottom)",

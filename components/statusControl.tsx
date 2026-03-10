@@ -33,9 +33,7 @@ function LoadingState() {
     <div
       className={`transition-all duration-200 ${hidden ? "hidden" : ""} ${isLoading ? "scale-100 opacity-100" : "scale-90 opacity-0"} z-[5000] fixed overflow-hidden bg-transparent h-full w-full flex items-center justify-center top-0 left-0`}
     >
-      <div className="bg-zinc-200  dark:bg-zinc-600 rounded-2xl p-4">
-        <div className="w-10 h-10 rounded-full border-[6px] border-zinc-300 dark:border-zinc-400 border-t-sky-500 dark:border-t-white animate-spin"></div>
-      </div>
+      <div className="w-7 h-7 rounded-full border-[3px] border-buttonBg border-t-primary dark:border-t-white animate-spin"></div>
     </div>
   );
 }
