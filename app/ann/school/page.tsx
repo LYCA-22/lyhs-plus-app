@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { EmptyState, NewsItem, SearchBox } from "@/components/news/module";
 import { turnOffBackLink } from "@/store/appSlice";
 import Link from "next/link";
-import { Info, Settings2 } from "lucide-react";
+import { Info } from "lucide-react";
 const ITEMS_PER_PAGE = 8;
 const STUDENT_KEYWORDS = [
   "補考",
