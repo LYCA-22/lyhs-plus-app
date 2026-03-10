@@ -180,49 +180,6 @@ export default function CreditPage() {
           </Table>
         </div>
       </div>
-      <div className="bg-background dark:bg-sky-300/10 mx-5 rounded-2xl p-4">
-        <div>
-          <h3 className="text-lg font-medium">成績雷達圖</h3>
-          <p className="opacity-50">這裡會顯示您的分數與班平均</p>
-        </div>
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <RadarChart data={scoreData}>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <PolarAngleAxis dataKey="subjId" />
-            <PolarGrid />
-            <Radar
-              dataKey="score"
-              fill="#FF7444"
-              fillOpacity={0}
-              stroke="#FF7444"
-              strokeWidth={2}
-            />
-            <Radar
-              dataKey="yl"
-              fill="#576A8F"
-              fillOpacity={0}
-              stroke="#576A8F"
-              strokeWidth={2}
-            />
-          </RadarChart>
-        </ChartContainer>
-        <div className="flex items-center gap-4 justify-center">
-          <div className="flex items-center gap-2">
-            <div className="h-4 w-4 bg-[#FF7444] rounded-md"></div>
-            <p className="font-medium opacity-50">分數</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-4 w-4 bg-[#576A8F] rounded-md"></div>
-            <p className="font-medium opacity-50">班平均</p>
-          </div>
-        </div>
-      </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-full pt-10 gap-3">
@@ -233,22 +190,68 @@ export default function CreditPage() {
             </div>
           </div>
         ) : (
-          <div>
-            <h3 className="font-medium text-lg mx-2">各科詳細資料</h3>
-            <div className="z-20 sticky top-11 bg-background dark:bg-[#21262E] flex items-center border-b border-zinc-300 dark:border-zinc-600 overflow-x-auto">
-              {scoreData.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => setViewSub(index)}
-                  disabled={isLoading}
-                  className={`flex items-center justify-center relative p-3 rounded-xl whitespace-nowrap transition-all ${viewSub === index ? "font-bold" : "font-normal"}`}
-                >
-                  {item.subjId}
-                  {viewSub === index && (
-                    <div className="absolute bottom-0 w-10/12 h-[3px] bg-foreground rounded-full"></div>
-                  )}
-                </button>
-              ))}
+          <div className="space-y-2">
+            <div>
+              <h3 className="text-lg font-medium">成績雷達圖</h3>
+              <p className="opacity-50">這裡會顯示您的分數與班平均</p>
+            </div>
+            <ChartContainer
+              config={chartConfig}
+              className="mx-auto aspect-square max-h-[250px]"
+            >
+              <RadarChart data={scoreData}>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="line" />}
+                />
+                <PolarAngleAxis dataKey="subjId" />
+                <PolarGrid />
+                <Radar
+                  dataKey="score"
+                  fill="#FF7444"
+                  fillOpacity={0}
+                  stroke="#FF7444"
+                  strokeWidth={2}
+                />
+                <Radar
+                  dataKey="yl"
+                  fill="#576A8F"
+                  fillOpacity={0}
+                  stroke="#576A8F"
+                  strokeWidth={2}
+                />
+              </RadarChart>
+            </ChartContainer>
+            <div className="flex items-center gap-4 justify-center">
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-4 bg-[#FF7444] rounded-md"></div>
+                <p className="font-medium opacity-50">分數</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-4 bg-[#576A8F] rounded-md"></div>
+                <p className="font-medium opacity-50">班平均</p>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-medium text-lg mx-2 mt-5">各科詳細資料</h3>
+              <div className="z-20 sticky top-11 bg-background dark:bg-[#21262E] flex items-center border-b border-zinc-300 dark:border-zinc-600 overflow-x-auto">
+                {scoreData.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setViewSub(index)}
+                    disabled={isLoading}
+                    className={`flex items-center justify-center relative p-3 rounded-xl whitespace-nowrap transition-all ${viewSub === index ? "font-bold" : "font-normal"}`}
+                  >
+                    {item.subjId}
+                    {viewSub === index && (
+                      <div className="absolute bottom-0 w-10/12 h-[3px] bg-foreground rounded-full"></div>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <div className="text-center p-5 opacity-50">
+                <p>此功能暫未開放</p>
+              </div>
             </div>
           </div>
         )}

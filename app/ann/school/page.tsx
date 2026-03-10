@@ -22,6 +22,7 @@ const STUDENT_KEYWORDS = [
 ];
 
 export default function Page() {
+  const AppData = useAppSelector((state) => state.appStatus);
   const NewsData = useAppSelector((state) => state.annData.schoolAnnDatas);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -93,7 +94,9 @@ export default function Page() {
   }, [selectedDepartment, searchQuery]);
 
   return (
-    <div className={`bg-hoverbg dark:bg-background`}>
+    <div
+      className={`bg-hoverbg dark:bg-background ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
+    >
       <div className="p-5 flex items-center px-5 justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">

@@ -5,40 +5,33 @@ import { loadLysaAnns, loadSchoolAnns } from "@/store/newsSlice";
 import { store } from "@/store/store";
 import { loadUserData } from "@/store/userSlice";
 import { getCookie } from "@/utils/getCookie";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { UAParser } from "ua-parser-js";
 
 export function InitFunction() {
   const dispatch = useDispatch();
-  const [userText, setUserText] = useState("系統初始化");
   const error = useAppSelector((state) => state.appStatus.app_error);
 
   useEffect(() => {
     const checkSteps = async () => {
       try {
-        // 1.
-        setUserText("正在取得伺服器狀態");
         const serverCheckApiUrl = `${API_BASE_URL}/v1/status`;
         const serverCheck = new apiFetch(serverCheckApiUrl);
         await serverCheck.GET();
 
         // 2.
-        setUserText("檢查是否有用戶憑證");
-        // 先檢查是否有 refresh_token
         const refresh_token = getCookie("lyps_refresh_token");
         const access_token = getCookie("lyps_access_token");
         let isLogged = false;
 
         if (refresh_token && access_token) {
-          setUserText("正在獲取用戶基本資料");
           const getUserDataUrl = `${API_BASE_URL}/v1/user/me`;
           const getUserData = new apiFetch(getUserDataUrl);
           const userData = await getUserData.GET(access_token);
           dispatch(loadUserData(userData.data));
           isLogged = true;
         } else if (refresh_token) {
-          setUserText("正在刷新用戶憑證");
           const refreshUrl = `${API_BASE_URL}/v1/auth/refresh`;
           const refresh = new apiFetch(refreshUrl);
           const { access_token, expires_in } = await refresh.POST({
@@ -49,27 +42,23 @@ export function InitFunction() {
         }
 
         // 3.
-        setUserText("取得學校網站公告中");
         const getSchoolAnnUrl = `${API_BASE_URL}/v1/lyps/list`;
         const getSchoolAnn = new apiFetch(getSchoolAnnUrl);
         const schoolAnnData = await getSchoolAnn.GET();
         dispatch(loadSchoolAnns(schoolAnnData.data));
 
         // 4.
-        setUserText("取得學生會公告中");
         const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
         const getLysaAnns = new apiFetch(getLysaAnnsUrl);
         const lysaAnnData = await getLysaAnns.GET();
         dispatch(loadLysaAnns(lysaAnnData.data));
 
         // 5.
-        setUserText("正在進行系統版本確認");
         const version = process.env.NEXT_PUBLIC_APP_VERSION;
         const gitHash = process.env.NEXT_PUBLIC_GIT_HASH;
         dispatch(setAppInfo({ version: version, gitHash: gitHash }));
 
         // 6.
-        setUserText("正在獲取使用者設備資訊");
         const parser = new UAParser();
         const deviceInfo = parser.getResult();
 
@@ -91,10 +80,9 @@ export function InitFunction() {
         );
 
         dispatch(appInitialized(isLogged));
+        console.log(store.getState().appStatus);
       } catch (e) {
         console.error(e);
-      } finally {
-        console.log(store.getState().appStatus);
       }
     };
 
@@ -105,7 +93,7 @@ export function InitFunction() {
     <div
       className={`fixed bottom-10 text-sm p-2 px-3 mx-10 ${error.code ? "bg-red-100 text-red-600 rounded-xl" : "bg-hover"} transition-all duration-300`}
     >
-      {error.code ? (
+      {error.code && (
         <div className="flex flex-col gap-2">
           <p className="text-[15px] font-medium">
             應用程式初始化時，發生了錯誤。
@@ -116,8 +104,6 @@ export function InitFunction() {
             <p>此為必要錯誤，若仍然無法使用請聯絡學生會人員。</p>
           </div>
         </div>
-      ) : (
-        <p>{userText}...</p>
       )}
     </div>
   );

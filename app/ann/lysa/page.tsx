@@ -28,6 +28,7 @@ import { loadLysaAnns } from "@/store/newsSlice";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const AppData = useAppSelector((state) => state.appStatus);
   const userData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const dispatch = useAppDispatch();
@@ -80,7 +81,7 @@ export default function Page() {
 
   return (
     <div
-      className={`bg-hoverbg dark:bg-background flex flex-col justify-between min-h-dvh`}
+      className={`bg-hoverbg dark:bg-background flex flex-col justify-between min-h-dvh ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
     >
       <div className="p-5 flex flex-col px-5 justify-between">
         <div className="flex items-center gap-3">

@@ -6,21 +6,16 @@ import {
 } from "@/components/ui/carousel";
 import { turnOffBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
+import { ArrowFromLeftStroke } from "@boxicons/react";
 import Autoplay from "embla-carousel-autoplay";
-import {
-  ArrowRight,
-  ChartColumn,
-  ChartPie,
-  LogOut,
-  Soup,
-  Store,
-} from "lucide-react";
+import { ArrowRight, ChartColumn, ChartPie, Soup, Store } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 export default function Home() {
+  const AppData = useAppSelector((state) => state.appStatus);
   const userMemberData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const dispatch = useDispatch();
@@ -36,12 +31,14 @@ export default function Home() {
   });
 
   return (
-    <div className="p-5 space-y-4 pb-36">
+    <div
+      className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
+    >
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">首頁</h1>
-        <Link href={"/"} className="flex items-center gap-2">
-          <LogOut size={18} />
-        </Link>
+        <button className="ml-auto bg-buttonBg rounded-2xl p-2">
+          <ArrowFromLeftStroke />
+        </button>
       </div>
       <div className="relative rounded-3xl flex flex-col overflow-hidden m-4">
         <div className="w-full p-4 bg-gradient-to-br from-sky-900/20 dark:from-sky-900 to-background flex justify-between items-center">
@@ -66,7 +63,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="p-4 py-2 space-y-2">
+      <div className="p-2 space-y-2">
         <p className="mt-2 font-medium text-lg">常用功能</p>
         <div className="text-[14px] flex items-center justify-evenly">
           <Link

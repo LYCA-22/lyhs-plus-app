@@ -157,7 +157,7 @@ export default function KSA() {
     "flex justify-center p-3 items-center gap-2 bg-buttonBg rounded-2xl w-fit hover:opacity-80 transition-all active:scale-95";
 
   return (
-    <div className="flex flex-col gap-4 pb-36 p-5 relative">
+    <div className={`flex flex-col gap-4 pb-36 p-5 relative`}>
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">你好，{stuData?.zhName}</h1>
         <button
@@ -167,6 +167,7 @@ export default function KSA() {
           <ArrowFromLeftStroke />
         </button>
       </div>
+      <h3 className="font-medium text-lg">所有功能</h3>
       <div className="w-full overflow-x-auto">
         <div className="font-medium flex items-center gap-4 justify-between w-fit whitespace-nowrap">
           <Link
@@ -288,7 +289,7 @@ export default function KSA() {
               <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
                 <InfoCircle size="sm" />
                 <p>
-                  還缺 {40 - ((displayCredit?.credAddElect as number) || 0)}
+                  還缺 {40 - ((displayCredit?.credAddElect as number) || 0)}{" "}
                   學分
                 </p>
               </div>

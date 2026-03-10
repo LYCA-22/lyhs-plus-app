@@ -21,7 +21,7 @@ import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { SubData } from "@/types";
 import { getCookie } from "@/utils/getCookie";
-import { BookOpen, CircleCheck, CircleX, Sparkle } from "lucide-react";
+import { BookOpen, CircleCheck, CircleX } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -123,19 +123,9 @@ export default function CreditPage() {
   }, [selectIndex]);
 
   return (
-    <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-10 gap-4">
-      <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
+    <div className="flex flex-col bg-hoverbg dark:bg-background h-full pt-10 gap-4">
+      <div className="p-5 pt-7 pb-0 space-y-2">
         <h1 className="font-medium text-2xl">學分資料</h1>
-      </div>
-      <div className="flex items-center bg-background dark:bg-blue-300/10 rounded-3xl mx-5 p-3 mb-2 gap-3">
-        <Sparkle />
-        <p className="text-lg font-medium">
-          在 {appData.ksa_data.stu_credit.length - 1} 個學期中，您總共被當了
-          <span className="text-red-500 underline underline-offset-4 mx-2">
-            {failedCredit}
-          </span>
-          個學分。
-        </p>
       </div>
       <div className="flex items-center justify-between bg-background dark:bg-blue-300/10 rounded-3xl mx-5 p-5 mb-2">
         <div className="space-y-2">
@@ -187,7 +177,7 @@ export default function CreditPage() {
       </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">
         <h3 className="font-medium text-lg m-2">各學期學業資訊</h3>
-        <div className="my-4 text-lg rounded-3xl border border-border overflow-hidden dark:border-zinc-700 px-2">
+        <div className="my-4 text-lg overflow-hidden dark:border-zinc-700">
           <Table>
             <TableHeader>
               <TableRow className=" dark:hover:bg-sky-300/10">
@@ -291,16 +281,16 @@ export default function CreditPage() {
           </div>
           <div className="text-xs pt-2 border-t border-border dark:border-zinc-700 mt-2 flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/70 font-medium">
+              <div className="p-1 px-2 rounded-lg bg-green-100 dark:bg-green-900/70 font-medium text-green-700 dark:text-green-300">
                 部必
               </div>
-              <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/70 font-medium">
+              <div className="p-1 px-2 rounded-lg bg-green-100 dark:bg-green-900/70 font-medium text-green-700 dark:text-green-300">
                 校必
               </div>
               <p className="text-sm">學分會列入「必修」計算。</p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-sky-100 dark:bg-sky-900/70 font-medium">
+              <div className="p-1 px-2 rounded-lg bg-sky-100 dark:bg-sky-900/70 font-medium text-sky-700 dark:text-sky-300">
                 校選
               </div>
               <p className="text-sm">學分會列入「選修」計算。</p>
@@ -341,7 +331,7 @@ export default function CreditPage() {
                       <TableCell className="font-medium">
                         {item["courseType"] && (
                           <p
-                            className={`text-xs w-fit p-2 rounded-full bg-border ${item["courseType"] === "校選" ? "bg-sky-100 dark:bg-sky-900/70" : "bg-green-100 dark:bg-green-900/70"}`}
+                            className={`text-xs w-fit p-1 px-2 rounded-lg bg-border ${item["courseType"] === "校選" ? "bg-sky-100 dark:bg-sky-900/70" : "bg-green-100 dark:bg-green-900/70"}`}
                           >
                             {item["courseType"]}
                           </p>
