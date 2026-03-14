@@ -241,7 +241,7 @@ export default function KSA() {
               </p>
             </div>
             {(displayCredit?.credAdd as number) < 150 && (
-              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
+              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-950 rounded-2xl p-2 px-4 text-red-600 font-medium">
                 <InfoCircle size="sm" />
                 <p>
                   還缺 {150 - ((displayCredit?.credAdd as number) || 0)} 學分
@@ -263,10 +263,10 @@ export default function KSA() {
               </p>
             </div>
             {(displayCredit?.credAddMust as number) < 102 && (
-              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
+              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-950 rounded-2xl p-2 px-4 text-red-600 font-medium">
                 <InfoCircle size="sm" />
                 <p>
-                  還缺 {102 - ((displayCredit?.credAddMust as number) || 0)}
+                  還缺 {102 - ((displayCredit?.credAddMust as number) || 0)}{" "}
                   學分
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default function KSA() {
               </p>
             </div>
             {(displayCredit?.credAddElect as number) < 40 && (
-              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900 rounded-2xl p-2 px-4 text-red-600 font-medium">
+              <div className="flex items-center gap-2 bg-red-100 dark:bg-red-950 rounded-2xl p-2 px-4 text-red-600 font-medium">
                 <InfoCircle size="sm" />
                 <p>
                   還缺 {40 - ((displayCredit?.credAddElect as number) || 0)}{" "}

@@ -11,7 +11,7 @@ export default function KsaLayout({
 
   return (
     <div
-      className={`${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""} bg-hoverbg`}
+      className={`${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""} bg-hoverbg dark:bg-background`}
     >
       {children}
     </div>

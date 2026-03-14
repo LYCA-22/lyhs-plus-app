@@ -7,13 +7,13 @@ export function middleware(req: NextRequest) {
   if (pathname === "/favicon.ico") return NextResponse.next();
 
   if (!pathname.startsWith("/login")) {
-    if (!access_token) {
+    if (!access_token || access_token.value == "") {
       return NextResponse.redirect(new URL("/login", req.url));
     } else {
       return NextResponse.next();
     }
   } else {
-    if (access_token) {
+    if (access_token && access_token.value != "") {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }

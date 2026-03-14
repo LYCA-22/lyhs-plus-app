@@ -117,7 +117,9 @@ export default function Page() {
       </div>
       <div className="bg-background dark:bg-blue-300/10 border-t border-border grow">
         <SearchBox searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-        <div className="sticky top-0 z-20 bg-white dark:bg-zinc-800  dark:border-zinc-700 overflow-x-auto flex items-center overflow-y-hidden border-b border-border scrollbar-hide px-4 mb-2 mt-1">
+        <div
+          className={`sticky z-20 bg-white dark:bg-zinc-800  dark:border-zinc-700 overflow-x-auto flex items-center overflow-y-hidden border-b border-border scrollbar-hide px-4 mb-2 mt-1 ${AppData.device_info.operate_type === "PWA" ? "top-10" : "top-0"}`}
+        >
           {departments.map((dept, index) => (
             <button
               key={index}

@@ -4,8 +4,10 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOffBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
+import { getCookie } from "@/utils/getCookie";
 import { ArrowFromLeftStroke } from "@boxicons/react";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight, ChartColumn, ChartPie, Soup, Store } from "lucide-react";
@@ -18,6 +20,7 @@ export default function Home() {
   const AppData = useAppSelector((state) => state.appStatus);
   const userMemberData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
+  const refresh_token = getCookie("lyps_refresh_token");
   const dispatch = useDispatch();
   const autoplay = useRef(
     Autoplay({
@@ -30,20 +33,36 @@ export default function Home() {
     dispatch(turnOffBackLink());
   });
 
+  const handleUserLogout = async () => {
+    try {
+      const logoutUrl = `${API_BASE_URL}/v1/auth/logout`;
+      const logout = new apiFetch(logoutUrl);
+      await logout.POST({ refresh_token: refresh_token });
+      document.cookie = `lyps_access_token=; path=/; expires=; SameSite=Strict; Secure`;
+      document.cookie = `lyps_refresh_token=; path=/; expires=; SameSite=Strict; Secure`;
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
     >
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">首頁</h1>
-        <button className="ml-auto bg-buttonBg rounded-2xl p-2">
+        <button
+          onClick={() => handleUserLogout()}
+          className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+        >
           <ArrowFromLeftStroke />
         </button>
       </div>
       <div className="relative rounded-3xl flex flex-col overflow-hidden m-4">
         <div className="w-full p-4 bg-gradient-to-br from-sky-900/20 dark:from-sky-900 to-background flex justify-between items-center">
           <Image
-            src={"/logo.svg"}
+            src={"/assets/logo.svg"}
             alt="logo"
             width={35}
             height={35}
@@ -96,18 +115,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <div className="bg-sky-100/80 dark:bg-sky-950 rounded-3xl m-4 p-4 flex items-end gap-4">
-        <div>
-          <h3 className="font-medium text-lg">全新智慧助理登場！</h3>
-          <p>現在可以透過對話的方式找到您需要的資訊。</p>
-        </div>
-        <Link
-          href={"/chat"}
-          className="flex flex-col justify-center p-2 items-center gap-2 bg-sky-600 rounded-xl text-white w-fit ml-auto"
-        >
-          <ArrowRight />
-        </Link>
-      </div>
+
       <div className="p-4 py-2 space-y-2">
         <div className="flex items-center justify-between py-2">
           <p className="font-medium text-lg">最新資訊</p>

@@ -29,7 +29,7 @@ export function DynamicBack({ containerEl }: DynamicBackProps) {
   if (AppData.service_status.isBack) {
     return (
       <div
-        className={`top-0 fixed z-50 flex items-center p-5 left-0 w-full ${showBackground ? "py-2 pl-3" : ""} ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""} transition-all`}
+        className={`top-0 fixed z-50 flex items-center p-5 left-0 w-full ${showBackground ? "py-2 pl-3" : ""} ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""} transition-all`}
       >
         <motion.div
           className="absolute inset-0 bg-background border-b border-border backdrop-blur-md"
