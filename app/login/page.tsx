@@ -40,6 +40,32 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleReg = () => {
+    dispatch(updatePageLoadingStatus(true));
+    try {
+      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
+      const GoogleredirectUri = `${window.location.origin}/login/oauth/google/callback/reg`;
+
+      const params: googleApiParams = {
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+        redirect_uri: GoogleredirectUri,
+        response_type: "code",
+        scope:
+          "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
+        hd: "ms.ly.kh.edu.tw",
+        prompt: "select_account",
+      };
+
+      const queryString = new URLSearchParams(
+        params as Record<string, string>,
+      ).toString();
+      window.location.href = `${googleAuthUrl}?${queryString}`;
+    } catch (e) {
+      console.error(e);
+      dispatch(updatePageLoadingStatus(false));
+    }
+  };
+
   return (
     <div className="h-dvh flex flex-col justify-between bg-gradient-to-br from-sky-50 dark:from-sky-950 to-background">
       <div className="p-8 space-y-4">
@@ -62,7 +88,10 @@ export default function LoginPage() {
         >
           登入
         </button>
-        <button className="w-full text-lg rounded-full p-2.5 bg-buttonBg font-medium active:scale-95 transition-all">
+        <button
+          onClick={handleGoogleReg}
+          className="w-full text-lg rounded-full p-2.5 bg-buttonBg dark:bg-zinc-700 font-medium active:scale-95 transition-all"
+        >
           註冊
         </button>
       </div>

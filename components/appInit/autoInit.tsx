@@ -34,11 +34,26 @@ export function InitFunction() {
         } else if (refresh_token) {
           const refreshUrl = `${API_BASE_URL}/v1/auth/refresh`;
           const refresh = new apiFetch(refreshUrl);
-          const { access_token, expires_in } = await refresh.POST({
-            refresh_token: refresh_token,
-          });
-          document.cookie = `lyps_access_token=${access_token}; path=/; expires=${new Date(Date.now() + expires_in * 1000).toUTCString()}; SameSite=Strict; Secure`;
-          window.location.reload();
+          try {
+            const { access_token, expires_in } = await refresh.POST({
+              refresh_token,
+            });
+
+            if (!access_token) {
+              document.cookie =
+                "lyps_refresh_token=; Max-Age=0; path=/; SameSite=Strict; Secure";
+              window.location.reload();
+              return;
+            }
+
+            document.cookie = `lyps_access_token=${access_token}; path=/; expires=${new Date(Date.now() + expires_in * 1000).toUTCString()}; SameSite=Strict; Secure`;
+            window.location.reload();
+          } catch (e) {
+            console.error(e);
+            document.cookie =
+              "lyps_refresh_token=; Max-Age=0; path=/; SameSite=Strict; Secure";
+            window.location.reload();
+          }
         }
 
         // 3.
