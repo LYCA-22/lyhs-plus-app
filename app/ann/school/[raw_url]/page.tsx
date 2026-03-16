@@ -70,7 +70,7 @@ export default function SchoolAnnDetailPage() {
 
   return (
     <>
-      <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-10 gap-4">
+      <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-12 gap-4">
         <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100">
           <p className="text-[16px] mb-2">{data?.publisher}</p>
           <h1 className="text-xl">{data?.title}</h1>

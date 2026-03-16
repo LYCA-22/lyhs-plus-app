@@ -8,19 +8,53 @@ import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOffBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { getCookie } from "@/utils/getCookie";
-import { ArrowFromLeftStroke } from "@boxicons/react";
+import {
+  ArrowFromLeftStroke,
+  BarChartBig,
+  Bolt,
+  Burger,
+  Groceries,
+  InfoCircle,
+  Motorcycle,
+  PieChart,
+  User,
+} from "@boxicons/react";
 import Autoplay from "embla-carousel-autoplay";
-import { ArrowRight, ChartColumn, ChartPie, Soup, Store } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+
+interface UbikeSchema {
+  act: number;
+  ar: string;
+  aren: string;
+  bemp: string;
+  lat: string;
+  lng: string;
+  mday: string;
+  sarea: string;
+  sareaen: string;
+  sbi: string;
+  sbi_detail: {
+    eyb: string;
+    yb2: string;
+  };
+  scity: string;
+  scityen: string;
+  sna: string;
+  snaen: string;
+  sno: string;
+  tot: string;
+}
 
 export default function Home() {
   const AppData = useAppSelector((state) => state.appStatus);
   const userMemberData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const refresh_token = getCookie("lyps_refresh_token");
+  const [ubikeData, setUbikeData] = useState<UbikeSchema[]>([]);
   const dispatch = useDispatch();
   const autoplay = useRef(
     Autoplay({
@@ -46,6 +80,25 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    const fetchUbikeData = async () => {
+      try {
+        const response = await fetch(
+          "https://api.kcg.gov.tw/api/service/Get/b4dd9c40-9027-4125-8666-06bef1756092",
+        );
+        const data = await response.json();
+        const displayArray = [];
+        displayArray.push(data.data.data.retVal[1181]);
+        displayArray.push(data.data.data.retVal[1184]);
+        displayArray.push(data.data.data.retVal[1182]);
+        setUbikeData(displayArray);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUbikeData();
+  }, []);
+
   return (
     <div
       className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
@@ -59,64 +112,83 @@ export default function Home() {
           <ArrowFromLeftStroke />
         </button>
       </div>
-      <div className="relative rounded-3xl flex flex-col overflow-hidden m-4">
-        <div className="w-full p-4 bg-gradient-to-br from-sky-900/20 dark:from-sky-900 to-background flex justify-between items-center">
-          <Image
-            src={"/assets/logo.svg"}
-            alt="logo"
-            width={35}
-            height={35}
-            className="dark:invert"
-          />
-          <p className="font-medium text-xl pr-2 font-custom text-sky-900 dark:text-sky-200">
-            LYPS {userMemberData.role === "studentMember" ? "STUDENT" : "STAFF"}
+      <div className="border rounded-3xl p-4 pl-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <User />
+            <p className="text-xl font-medium">{userMemberData.display_name}</p>
+          </div>
+          <p className="p-1 rounded-full bg-buttonBg px-3">
+            {userMemberData.role === "studentMember"
+              ? "學生帳號"
+              : "管理員帳號"}
           </p>
         </div>
-        <div className="p-5 bg-gradient-to-tl from-sky-900/20  dark:from-sky-900 to-background pt-10">
-          <p className="text-2xl font-medium">
-            {userMemberData.display_name} <span className="opacity-50"></span>
-          </p>
-          <p className="text-lg">
-            {userMemberData.grade}
-            {userMemberData.class_name} {userMemberData.number}號
-          </p>
-        </div>
+        <p>
+          {userMemberData.grade}
+          {userMemberData.class_name} {userMemberData.number}號
+        </p>
       </div>
-      <div className="p-2 space-y-2">
+      <div className="space-y-2">
         <p className="mt-2 font-medium text-lg">常用功能</p>
-        <div className="text-[14px] flex items-center justify-evenly">
+        <div className="text-[14px] flex items-center justify-evenly bg-hoverbg rounded-3xl py-2">
           <Link
-            href={"/"}
-            className="flex flex-col justify-center p-2 items-center gap-2"
+            href={"/ksa/score"}
+            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
           >
-            <ChartColumn size={30} className="text-sky-600" />
+            <BarChartBig />
             成績查詢
           </Link>
           <Link
-            href={"/"}
-            className="flex flex-col justify-center p-2 items-center gap-2"
+            href={"/ksa/credit"}
+            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
           >
-            <ChartPie size={30} className="text-sky-600" />
+            <PieChart />
             學分查詢
           </Link>
           <Link
             href={"/"}
-            className="flex flex-col justify-center p-2 items-center gap-2"
+            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
           >
-            <Soup size={30} className="text-sky-600" />
+            <Burger />
             午餐查詢
           </Link>
           <Link
             href={"/"}
-            className="flex flex-col justify-center p-2 items-center gap-2"
+            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
           >
-            <Store size={30} className="text-sky-600" />
+            <Groceries />
             特約商店
           </Link>
         </div>
       </div>
+      <div className="space-y-4">
+        <h2 className="text-lg font-medium">UBike 資訊</h2>
+        {ubikeData.map((item, index) => (
+          <div
+            key={index}
+            className="border bg-hoverbg rounded-3xl overflow-hidden shadow-md"
+          >
+            <div className="flex items-center justify-between p-3 bg-background border-b rounded-b-3xl font-custom">
+              <div className="flex items-center gap-2">
+                <InfoCircle size="sm" />
+                <p className="text-base font-medium">
+                  {item.sna.split("_")[1]}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 pr-2">
+                <Motorcycle />
+                <p>{item.sbi_detail.yb2}</p>
+                <Bolt />
+                <p>{item.sbi_detail.eyb}</p>
+              </div>
+            </div>
+            <p className="m-2 text-sm mx-3 opacity-50">{item.ar}</p>
+          </div>
+        ))}
+      </div>
 
-      <div className="p-4 py-2 space-y-2">
+      <div className="py-2 space-y-2">
         <div className="flex items-center justify-between py-2">
           <p className="font-medium text-lg">最新資訊</p>
           <Link

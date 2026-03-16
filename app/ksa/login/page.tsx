@@ -142,13 +142,9 @@ export default function KSALoginPage() {
   };
 
   return (
-    <div className="flex flex-col bg-sky-50 dark:bg-background h-full pt-10 gap-4">
+    <div className="flex flex-col bg-hoverbg dark:bg-background h-full pt-10 gap-4">
       <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
         <h1 className="font-medium text-2xl">KSA 服務登入</h1>
-        <p className="opacity-50">
-          KSA 服務是由LYHS
-          Plus推出的數位學生個人化系統，此系統會透過您的允許，並連線至您在校務行政系統上的資料。
-        </p>
       </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">
         {!userData.ksa_enabled ? (

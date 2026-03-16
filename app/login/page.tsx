@@ -1,5 +1,6 @@
 "use client";
 import { updatePageLoadingStatus } from "@/store/appSlice";
+import { useAppSelector } from "@/store/hook";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 
@@ -14,6 +15,7 @@ interface googleApiParams {
 
 export default function LoginPage() {
   const dispatch = useDispatch();
+  const AppData = useAppSelector((state) => state.appStatus);
 
   const handleGoogleLogin = () => {
     dispatch(updatePageLoadingStatus(true));
@@ -67,7 +69,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-dvh flex flex-col justify-between bg-gradient-to-br from-sky-50 dark:from-sky-950 to-background">
+    <div
+      className={`h-dvh flex flex-col justify-between bg-gradient-to-br from-sky-50 dark:from-sky-950 to-background ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""}`}
+    >
       <div className="p-8 space-y-4">
         <Image
           alt="logo"
