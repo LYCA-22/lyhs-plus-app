@@ -101,7 +101,7 @@ export default function Home() {
 
   return (
     <div
-      className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
+      className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""}`}
     >
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">首頁</h1>

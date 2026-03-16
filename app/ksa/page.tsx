@@ -181,7 +181,7 @@ export default function KSA() {
             <PieChart />
             學分資料
           </Link>
-          <Link href={"/"} className={quickBtnClass}>
+          <Link href={"/ksa/absence"} className={quickBtnClass}>
             <Widget />
             曠課查詢
           </Link>

@@ -109,7 +109,9 @@ export default function ChatPage() {
     <div
       className={`flex flex-col h-dvh ${appData.device_info.operate_type === "PWA" ? "pb-32" : "pb-24"}`}
     >
-      <div className="flex items-center justify-center gap-2 py-3 bg-background border-b border-zinc-200 dark:border-zinc-600">
+      <div
+        className={`flex items-center justify-center gap-2 py-3 bg-background border-b border-zinc-200 dark:border-zinc-600 ${appData.device_info.operate_type === "PWA" ? "pt-12" : ""}`}
+      >
         <h1 className="text-lg font-medium">LYHS+ 智慧助理</h1>
         <p className="text-sm border-2 border-border dark:border-zinc-500 border-dashed rounded-full p-1 px-2 font-medium">
           測試版
@@ -175,7 +177,7 @@ export default function ChatPage() {
       >
         <Input
           placeholder="在這裡輸入你的問題..."
-          className="bg-hoverbg dark:bg-[#1E272F] p-4 rounded-full px-6"
+          className="bg-background dark:bg-[#1E272F] p-4 rounded-3xl px-6 border shadow-md"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
         />
