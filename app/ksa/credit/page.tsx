@@ -54,12 +54,12 @@ export default function CreditPage() {
   const scoreData = [
     {
       title: "必修學分",
-      num: credit_final.credAddMust,
+      num: credit_final?.credAddMust,
       fill: "#30364F",
     },
     {
       title: "選修學分",
-      num: credit_final.credAddElect,
+      num: credit_final?.credAddElect,
       fill: "#ACBAC4",
     },
     {
@@ -72,8 +72,8 @@ export default function CreditPage() {
       num:
         182 -
         failedCredit -
-        (credit_final.credAddElect as number) -
-        (credit_final.credAddMust as number),
+        (credit_final?.credAddElect as number) -
+        (credit_final?.credAddMust as number),
       fill: "#F0F0DB",
     },
   ];
