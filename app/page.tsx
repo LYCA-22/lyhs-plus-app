@@ -147,7 +147,7 @@ export default function Home() {
             學分查詢
           </Link>
           <Link
-            href={"/"}
+            href={"/lunch"}
             className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
           >
             <Burger />

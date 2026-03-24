@@ -1,5 +1,4 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { ToggleLeft } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { UserTerms } from "./terms";
@@ -43,15 +42,6 @@ export function Enableksa() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-4">
-        <ToggleLeft size={30} className=" text-sky-900 dark:text-sky-100" />
-        <div className="text-sky-900 dark:text-sky-100">
-          <p className="font-medium">系統偵測到，您尚未啟用 KSA 服務。</p>
-          <p className="text-sky-900 dark:text-sky-100">
-            請滑到最下面，進行啟用。
-          </p>
-        </div>
-      </div>
       <UserTerms />
       <form onSubmit={handleEnableKsa}>
         <div className="w-full flex items-center justify-between">

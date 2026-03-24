@@ -22,7 +22,7 @@ import { useAppSelector } from "@/store/hook";
 import { SubData } from "@/types";
 import { getCookie } from "@/utils/getCookie";
 import { BookOpen, CircleCheck, CircleX } from "lucide-react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Pie, PieChart } from "recharts";
@@ -34,10 +34,7 @@ export default function CreditPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [semeScoreData, setSemeScoreData] = useState<SubData[]>([]);
   const access_token = getCookie("lyps_access_token");
-
-  if (!appData.ksa_data.stu_info.length) {
-    redirect("/ksa");
-  }
+  const router = useRouter();
 
   const credit_final = appData.ksa_data.stu_credit_final[0];
   const stu_info = appData.ksa_data.stu_info[0];
@@ -103,6 +100,10 @@ export default function CreditPage() {
   const handleFetchSemeScore = async () => {
     try {
       setIsLoading(true);
+      if (appData.ksa_data.stu_info.length === 0) {
+        router.push("/ksa/login");
+        return;
+      }
       const semeSubScoreUrl = `${API_BASE_URL}/v1/lyps/school/semeSubScore/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${appData.ksa_data.stu_credit[selectIndex].id}`;
       const semeSubScore = new apiFetch(semeSubScoreUrl);
       const res = await semeSubScore.GET(

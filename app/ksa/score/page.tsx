@@ -6,7 +6,7 @@ import { useAppSelector } from "@/store/hook";
 import { getCookie } from "@/utils/getCookie";
 import { ArrowRight, ChartColumnBig, PencilLine } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -29,10 +29,7 @@ export default function CreditPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [semeData, setSemeData] = useState<semeData[]>([]);
   const access_token = getCookie("lyps_access_token");
-
-  if (!appData.ksa_data.stu_info.length) {
-    redirect("/ksa");
-  }
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(turnOnBackLink("/ksa"));
@@ -41,6 +38,11 @@ export default function CreditPage() {
   useEffect(() => {
     const fetchSemeData = async () => {
       try {
+        if (appData.ksa_data.stu_info.length === 0) {
+          router.push("/ksa/login");
+          return;
+        }
+
         setIsLoading(true);
         const semeDataUrl = `${API_BASE_URL}/v1/lyps/school/semeDetail/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${appData.ksa_data.stu_credit[selectIndex].syear}/${appData.ksa_data.stu_credit[selectIndex].seme}`;
         const semeData = new apiFetch(semeDataUrl);

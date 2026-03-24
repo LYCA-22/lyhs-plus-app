@@ -1,6 +1,6 @@
 export function UserTerms() {
   return (
-    <div className="space-y-4 h-[450px] overflow-y-auto p-5 bg-sky-50 dark:bg-sky-300/10 rounded-2xl">
+    <div className="space-y-4 p-1">
       <h2 className="text-xl font-medium">KSA 服務使用者條款</h2>
       <p className="text-right">最後更新日期：115年02月10日</p>
       <p>

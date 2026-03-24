@@ -143,8 +143,10 @@ export default function KSALoginPage() {
 
   return (
     <div className="flex flex-col bg-hoverbg dark:bg-background h-full pt-10 gap-4">
-      <div className="p-5 pt-7 pb-0 text-sky-900 dark:text-sky-100 space-y-2">
-        <h1 className="font-medium text-2xl">KSA 服務登入</h1>
+      <div className="p-5 pt-7 pb-0 space-y-2">
+        <h1 className="font-medium text-2xl">
+          {!userData.ksa_enabled ? "啟用服務" : "登入帳號"}
+        </h1>
       </div>
       <div className="grow bg-background dark:bg-blue-300/10 rounded-t-3xl pb-36 p-5">
         {!userData.ksa_enabled ? (
@@ -202,6 +204,7 @@ export default function KSALoginPage() {
                 </p>
                 <div className="flex flex-wrap items-center gap-2">
                   <button
+                    type="button"
                     onClick={() => setOpenSearchBox(true)}
                     className="flex items-center gap-1 font-medium text-sky-600"
                   >
@@ -259,29 +262,19 @@ export default function KSALoginPage() {
               </div>
             </form>
             {userData.openid_account && (
-              <div className="w-full flex items-center justify-center mt-5 pt-5 border-t border-border dark:border-zinc-600 gap-5">
+              <div className="w-full flex items-center justify-center mt-5 pt-5 border-t border-border dark:border-zinc-600 gap-3">
                 <button
                   onClick={() => handleQuickLogin()}
-                  className="flex flex-col items-center justify-center gap-2 font-medium"
+                  className="flex gap-2 items-center justify-center bg-sky-600 text-white rounded-xl p-2 w-full font-medium hover:opacity-50 transition-all"
                 >
-                  <div>
-                    <LogIn
-                      strokeWidth={2.5}
-                      className="dark:bg-sky-300/10 bg-sky-100 rounded-xl w-10 h-10 p-2.5"
-                    />
-                  </div>
+                  <LogIn size={20} />
                   <p>使用快速登入</p>
                 </button>
                 <button
                   onClick={() => handleCloseQuickLogin()}
-                  className="flex flex-col items-center justify-center gap-2 font-medium"
+                  className="flex gap-2 items-center justify-center bg-zinc-300 dark:bg-zinc-600 rounded-xl p-2 w-full font-medium hover:opacity-50 transition-all"
                 >
-                  <div>
-                    <X
-                      strokeWidth={2.5}
-                      className="dark:bg-sky-300/10 bg-sky-100 rounded-xl w-10 h-10 p-2.5"
-                    />
-                  </div>
+                  <X size={20} />
                   <p>關閉快速登入</p>
                 </button>
               </div>

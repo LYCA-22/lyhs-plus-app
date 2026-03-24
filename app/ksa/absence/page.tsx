@@ -217,39 +217,31 @@ export default function AbsencePage() {
             </div>
           ) : (
             <div className="flex flex-col mt-2">
-              <div className="flex gap-3 mb-6">
-                <div className="flex-1 bg-blue-50 dark:bg-blue-950/30 p-3 rounded-2xl flex flex-col items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 text-xs font-medium mb-1">
-                    病假
-                  </span>
-                  <span className="text-blue-700 dark:text-blue-300 text-2xl font-bold font-poppins">
+              <div className="flex mb-2 bg-zinc-100 rounded-xl">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+                  <span className="text-xs font-medium mb-1">病假</span>
+                  <span className="text-2xl font-bold font-poppins">
                     {totalSick}{" "}
                     <span className="text-xs font-normal opacity-70">節</span>
                   </span>
                 </div>
-                <div className="flex-1 bg-orange-50 dark:bg-orange-950/30 p-3 rounded-2xl flex flex-col items-center justify-center">
-                  <span className="text-orange-600 dark:text-orange-400 text-xs font-medium mb-1">
-                    事假
-                  </span>
-                  <span className="text-orange-700 dark:text-orange-300 text-2xl font-bold font-poppins">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+                  <span className="text-xs font-medium mb-1">事假</span>
+                  <span className="text-2xl font-bold font-poppins">
                     {totalPersonal}{" "}
                     <span className="text-xs font-normal opacity-70">節</span>
                   </span>
                 </div>
-                <div className="flex-1 bg-red-50 dark:bg-red-950/30 p-3 rounded-2xl flex flex-col items-center justify-center">
-                  <span className="text-red-600 dark:text-red-400 text-xs font-medium mb-1">
-                    曠課
-                  </span>
-                  <span className="text-red-700 dark:text-red-300 text-2xl font-bold font-poppins">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+                  <span className="text-xs font-medium mb-1">曠課</span>
+                  <span className="text-2xl font-bold font-poppins">
                     {totalTruancy}{" "}
                     <span className="text-xs font-normal opacity-70">節</span>
                   </span>
                 </div>
-                <div className="flex-1 bg-green-100 dark:bg-green-900/50   p-3 rounded-2xl flex flex-col items-center justify-center">
-                  <span className="text-green-700 dark:text-green-300 text-xs font-medium mb-1">
-                    公假
-                  </span>
-                  <span className="text-green-700 dark:text-green-300 text-2xl font-bold font-poppins">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center">
+                  <span className="text-xs font-medium mb-1">公假</span>
+                  <span className="text-2xl font-bold font-poppins">
                     {totalWork}{" "}
                     <span className="text-xs font-normal opacity-70">節</span>
                   </span>
