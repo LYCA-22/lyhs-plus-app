@@ -49,7 +49,7 @@ export default function CreditPage() {
     return acc + (item.credSum as number);
   }, 0);
 
-  const failedCredit = allCredit - (credit_final.credAdd as number);
+  const failedCredit = allCredit - (credit_final?.credAdd as number);
 
   const scoreData = [
     {
@@ -230,7 +230,7 @@ export default function CreditPage() {
               <TableRow className=" dark:hover:bg-sky-300/10">
                 <TableCell colSpan={3}>學分加總</TableCell>
                 <TableCell className="text-right text-2xl">
-                  {credit_final.credAdd}
+                  {credit_final?.credAdd}
                   <span className="text-xs opacity-50"> /182</span>
                 </TableCell>
               </TableRow>
