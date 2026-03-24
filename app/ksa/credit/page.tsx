@@ -130,7 +130,7 @@ export default function CreditPage() {
       </div>
       <div className="flex items-center justify-between bg-background dark:bg-blue-300/10 rounded-3xl mx-5 p-5 mb-2">
         <div className="space-y-2">
-          <p className="text-xl font-medium">{stu_info.zhName || ""}</p>
+          <p className="text-xl font-medium">{stu_info?.zhName || ""}</p>
           <div className="text-xl font-medium flex items-center flex-wrap gap-2">
             <BookOpen />
             <p>
@@ -239,7 +239,7 @@ export default function CreditPage() {
         </div>
         <h3 className="font-medium text-lg m-2 mt-8">各學期各科詳細狀態</h3>
         <div className="z-20 sticky top-11 bg-background dark:bg-[#21262E] flex items-center border-b border-zinc-300 dark:border-zinc-600 overflow-x-auto">
-          {appData.ksa_data.stu_credit.map((item, index) => (
+          {appData.ksa_data.stu_credit?.map((item, index) => (
             <button
               key={index}
               onClick={() => setSelectIndex(index)}
