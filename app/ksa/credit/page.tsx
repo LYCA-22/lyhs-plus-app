@@ -135,7 +135,7 @@ export default function CreditPage() {
             <BookOpen />
             <p>
               <span className="text-sky-600 dark:text-sky-400">
-                {credit_final.credAdd}
+                {credit_final?.credAdd}
               </span>
               <span> / 182</span>
             </p>
@@ -144,13 +144,13 @@ export default function CreditPage() {
             <p className="text-lg flex items-center gap-2">
               <span>必修學分</span>
               <span className="text-sky-600 dark:text-sky-400">
-                {credit_final.credAddMust}
+                {credit_final?.credAddMust}
               </span>
             </p>
             <p className="text-lg flex items-center gap-2">
               <span>選修學分</span>
               <span className="text-sky-600 dark:text-sky-400">
-                {credit_final.credAddElect}
+                {credit_final?.credAddElect}
               </span>
             </p>
             <p className="text-lg flex items-center gap-2">
