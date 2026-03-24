@@ -89,8 +89,8 @@ export default function LunchPage() {
       <div className="p-5">
         {lunchData[selectedIndex]?.main_dish && (
           <ul key={lunchData[selectedIndex]?.id} className="space-y-2 text-xl">
-            <div className="flex mb-4 bg-zinc-100 rounded-2xl">
-              <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+            <div className="flex mb-4 bg-zinc-100 dark:bg-zinc-800 rounded-2xl">
+              <div className="flex-1 p-3 flex flex-col items-center justify-center border-r dark:border-zinc-700">
                 <span className="text-xs font-medium mb-1">餐桶數量</span>
                 <span className="text-2xl font-bold font-poppins">
                   {lunchData[selectedIndex]?.bucket_count}{" "}

@@ -217,22 +217,22 @@ export default function AbsencePage() {
             </div>
           ) : (
             <div className="flex flex-col mt-2">
-              <div className="flex mb-2 bg-zinc-100 rounded-xl">
-                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+              <div className="flex mb-2 bg-zinc-100  dark:bg-sky-50/5 rounded-xl">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r  dark:border-zinc-700">
                   <span className="text-xs font-medium mb-1">病假</span>
                   <span className="text-2xl font-bold font-poppins">
                     {totalSick}{" "}
                     <span className="text-xs font-normal opacity-70">節</span>
                   </span>
                 </div>
-                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r dark:border-zinc-700">
                   <span className="text-xs font-medium mb-1">事假</span>
                   <span className="text-2xl font-bold font-poppins">
                     {totalPersonal}{" "}
                     <span className="text-xs font-normal opacity-70">節</span>
                   </span>
                 </div>
-                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r">
+                <div className="flex-1 p-3 flex flex-col items-center justify-center border-r dark:border-zinc-700">
                   <span className="text-xs font-medium mb-1">曠課</span>
                   <span className="text-2xl font-bold font-poppins">
                     {totalTruancy}{" "}
