@@ -64,7 +64,9 @@ export default function LunchPage() {
 
   return (
     <div>
-      <div className="w-full p-5 shadow-md shadow-zinc-200 dark:shadow-zinc-800 border-b">
+      <div
+        className={`w-full p-5 shadow-md shadow-zinc-200 dark:shadow-zinc-800 border-b ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
+      >
         <div className="text-center">
           <h1>午餐查詢</h1>
         </div>
