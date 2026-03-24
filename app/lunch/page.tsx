@@ -1,6 +1,7 @@
 "use client";
 
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { useAppSelector } from "@/store/hook";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -24,6 +25,7 @@ interface lunchData {
 export default function LunchPage() {
   const [lunchData, setLunchData] = useState<lunchData[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const AppData = useAppSelector((state) => state.appStatus);
 
   // 取得今天的日期字串，格式轉為 YYYY-MM-DD
   const today = new Date();
