@@ -16,7 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system">
+    <ThemeProvider attribute="class" defaultTheme="light">
       <Provider store={store}>
         <InitPage />
         <ServiceStatus />

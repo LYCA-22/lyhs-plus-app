@@ -14,13 +14,15 @@ import {
   Bolt,
   Burger,
   Groceries,
-  InfoCircle,
+  Moon,
   Motorcycle,
   PieChart,
+  Sun,
   User,
 } from "@boxicons/react";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight } from "lucide-react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -55,6 +57,7 @@ export default function Home() {
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
   const refresh_token = getCookie("lyps_refresh_token");
   const [ubikeData, setUbikeData] = useState<UbikeSchema[]>([]);
+  const { theme, setTheme } = useTheme();
   const dispatch = useDispatch();
   const autoplay = useRef(
     Autoplay({
@@ -65,7 +68,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(turnOffBackLink());
-  });
+  }, [dispatch]);
 
   const handleUserLogout = async () => {
     try {
@@ -105,12 +108,20 @@ export default function Home() {
     >
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">首頁</h1>
-        <button
-          onClick={() => handleUserLogout()}
-          className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
-        >
-          <ArrowFromLeftStroke />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+          >
+            {theme === "light" ? <Sun /> : <Moon />}
+          </button>
+          <button
+            onClick={() => handleUserLogout()}
+            className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+          >
+            <ArrowFromLeftStroke />
+          </button>
+        </div>
       </div>
       <div className="border rounded-3xl p-4 pl-5">
         <div className="flex items-center justify-between">
@@ -131,31 +142,31 @@ export default function Home() {
       </div>
       <div className="space-y-2">
         <p className="mt-2 font-medium text-lg">常用功能</p>
-        <div className="text-[14px] flex items-center justify-evenly bg-hoverbg rounded-3xl py-2">
+        <div className="text-[14px] flex items-center justify-center bg-hoverbg rounded-3xl py-4">
           <Link
             href={"/ksa/score"}
-            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3 border-r border-zinc-300 dark:border-zinc-600"
           >
             <BarChartBig />
             成績查詢
           </Link>
           <Link
             href={"/ksa/credit"}
-            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3 border-r border-zinc-300 dark:border-zinc-600"
           >
             <PieChart />
             學分查詢
           </Link>
           <Link
             href={"/lunch"}
-            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3 border-r border-zinc-300 dark:border-zinc-600"
           >
             <Burger />
             午餐查詢
           </Link>
           <Link
             href={"/"}
-            className="flex flex-col justify-center p-2 items-center gap-2 font-medium"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
           >
             <Groceries />
             特約商店
@@ -171,15 +182,20 @@ export default function Home() {
           >
             <div className="flex items-center justify-between p-3 bg-background border-b rounded-b-3xl font-custom">
               <div className="flex items-center gap-2">
-                <InfoCircle size="sm" />
                 <p className="text-base font-medium">
                   {item.sna.split("_")[1]}
                 </p>
               </div>
               <div className="flex items-center gap-2 pr-2">
                 <Motorcycle />
+                <p className="bg-hoverbg rounded-full p-1 text-xs px-1.5 font-medium">
+                  一般
+                </p>
                 <p>{item.sbi_detail.yb2}</p>
                 <Bolt />
+                <p className="bg-hoverbg rounded-full p-1 text-xs px-1.5 font-medium">
+                  電動
+                </p>
                 <p>{item.sbi_detail.eyb}</p>
               </div>
             </div>

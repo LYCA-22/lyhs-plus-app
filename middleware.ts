@@ -26,9 +26,9 @@ export const config = {
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
+     * - favicon.ico, manifest.json, sw.js 等靜態檔案與 PWA 資源
      * - assets (靜態資源)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|assets).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|manifest.json|sw.js|workbox-|assets|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico|json)).*)",
   ],
 };
