@@ -13,7 +13,9 @@ import {
   BarChartBig,
   Bolt,
   Burger,
+  DiscordAlt,
   Groceries,
+  InstagramAlt,
   Moon,
   Motorcycle,
   PieChart,
@@ -58,6 +60,12 @@ export default function Home() {
   const refresh_token = getCookie("lyps_refresh_token");
   const [ubikeData, setUbikeData] = useState<UbikeSchema[]>([]);
   const { theme, setTheme } = useTheme();
+  const version = process.env.NEXT_PUBLIC_APP_VERSION;
+  const ubikeStep = [
+    "YouBike2.0_林園行政中心",
+    "YouBike2.0_幸福公園",
+    "YouBike2.0_林園區衛生所",
+  ];
   const dispatch = useDispatch();
   const autoplay = useRef(
     Autoplay({
@@ -90,10 +98,9 @@ export default function Home() {
           "https://api.kcg.gov.tw/api/service/Get/b4dd9c40-9027-4125-8666-06bef1756092",
         );
         const data = await response.json();
-        const displayArray = [];
-        displayArray.push(data.data.data.retVal[1181]);
-        displayArray.push(data.data.data.retVal[1184]);
-        displayArray.push(data.data.data.retVal[1182]);
+        const displayArray = data.data.data.retVal.filter((item: UbikeSchema) =>
+          ubikeStep.includes(item.sna),
+        );
         setUbikeData(displayArray);
       } catch (error) {
         console.error(error);
@@ -237,11 +244,23 @@ export default function Home() {
           </Carousel>
         </div>
       </div>
-      <div className="text-center opacity-50 space-y-2">
+      <div className="text-center opacity-50 space-y-2 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-2 rounded-full">
+          <p>網頁應用程式版本</p>
+          <p>{version}</p>
+        </div>
         <h3 className="font-medium text-lg">
-          學生會製作，旨在建立便利校園生活。
+          學生會製作，旨在建立便利校園生活
         </h3>
         <p className="text-sm">Copyright © 2026 LYSA. All rights reserved.</p>
+        <div className="flex items-center justify-center gap-4 p-2">
+          <Link href={"https://www.instagram.com/lysa_23rd/"} target="_blank">
+            <InstagramAlt />
+          </Link>
+          <Link href={"https://discord.gg/cJuUrDG5"} target="_blank">
+            <DiscordAlt />
+          </Link>
+        </div>
       </div>
     </div>
   );
