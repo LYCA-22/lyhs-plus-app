@@ -1,9 +1,14 @@
 "use client";
-
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -34,6 +39,10 @@ export default function LunchPage() {
   // 取得今天的日期字串，格式轉為 YYYY-MM-DD
   const today = new Date();
   const formattedToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+  const formatDate = (date: Date) => {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  };
 
   useEffect(() => {
     dispatch(turnOnBackLink("/"));
@@ -69,6 +78,8 @@ export default function LunchPage() {
 
   // 判斷當前顯示的日期是否為今天，如果是就顯示「今天」
   const currentDate = lunchData[selectedIndex]?.lunch_date;
+  const displayDate = currentDate === formattedToday ? "今天" : currentDate;
+
   return (
     <div
       className={`w-full min-h-dvh flex flex-col bg-hoverbg dark:bg-background ${AppData.device_info.operate_type === "PWA" ? "pt-24" : "pt-16"}`}
@@ -96,14 +107,38 @@ export default function LunchPage() {
           >
             <ArrowLeft />
           </button>
-          <div className="text-lg font-bold flex gap-4 items-center justify-center">
-            {currentDate === formattedToday && (
-              <div className="text-sm p-1 px-2 rounded-full bg-foreground text-background">
-                今天
-              </div>
-            )}
-            {currentDate}
-          </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="font-medium flex items-center gap-1 bg-buttonBg dark:bg-zinc-700/50 rounded-2xl p-2 px-3 active:scale-95 transition-all">
+                {displayDate ? displayDate : <span>Pick a date</span>}
+                <ChevronDown />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0 rounded-3xl">
+              <Calendar
+                mode="single"
+                className="rounded-3xl"
+                selected={currentDate ? new Date(currentDate) : undefined}
+                onSelect={(date) => {
+                  if (date) {
+                    const dateString = formatDate(date);
+                    const index = lunchData.findIndex(
+                      (item) => item.lunch_date === dateString,
+                    );
+                    if (index !== -1) {
+                      setSelectedIndex(index);
+                    }
+                  }
+                }}
+                disabled={(date) => {
+                  const dateString = formatDate(date);
+                  return !lunchData.some(
+                    (item) => item.lunch_date === dateString,
+                  );
+                }}
+              />
+            </PopoverContent>
+          </Popover>
           <button
             disabled={
               selectedIndex === lunchData.length - 1 || lunchData.length === 0

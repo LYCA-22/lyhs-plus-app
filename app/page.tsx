@@ -257,7 +257,7 @@ export default function Home() {
           <Link href={"https://www.instagram.com/lysa_23rd/"} target="_blank">
             <InstagramAlt />
           </Link>
-          <Link href={"https://discord.gg/cJuUrDG5"} target="_blank">
+          <Link href={"https://discord.gg/5Q5NpUsQBb"} target="_blank">
             <DiscordAlt />
           </Link>
         </div>
