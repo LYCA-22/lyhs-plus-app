@@ -95,7 +95,6 @@ export interface AbsentRecord {
 export default function AbsencePage() {
   const dispatch = useDispatch();
   const appData = useAppSelector((state) => state.appStatus);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [absentData, setAbsentData] = useState<AbsentRecord[]>([]);
   const access_token = getCookie("lyps_access_token");
 
@@ -107,30 +106,39 @@ export default function AbsencePage() {
     dispatch(turnOnBackLink("/ksa"));
   }, [dispatch]);
 
-  const handleFetchAbsence = async () => {
-    try {
-      setIsLoading(true);
-      // 保持原始的 API 呼叫路徑
-      const absentUrl = `${API_BASE_URL}/v1/lyps/school/absent/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
-      const absentFetch = new apiFetch(absentUrl);
-      const res = await absentFetch.GET(
-        access_token as string,
-        appData.ksa_data.session_key,
-      );
-
-      setAbsentData(res.result?.dataRows || []);
-    } catch (e) {
-      console.error(e);
-      setAbsentData([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const handleFetchAbsence = async () => {
+      if (
+        !access_token ||
+        !appData.ksa_data.session_key ||
+        !appData.ksa_data.JSESSIONID ||
+        !appData.ksa_data.SRV
+      ) {
+        return;
+      }
+      try {
+        // 保持原始的 API 呼叫路徑
+        const absentUrl = `${API_BASE_URL}/v1/lyps/school/absent/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
+        const absentFetch = new apiFetch(absentUrl);
+        const res = await absentFetch.GET(
+          access_token as string,
+          appData.ksa_data.session_key,
+        );
+
+        setAbsentData(res.result?.dataRows || []);
+      } catch (e) {
+        console.error(e);
+        setAbsentData([]);
+      }
+    };
+
     handleFetchAbsence();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [
+    access_token,
+    appData.ksa_data.session_key,
+    appData.ksa_data.JSESSIONID,
+    appData.ksa_data.SRV,
+  ]);
 
   return (
     <div className="flex flex-col bg-hoverbg dark:bg-background h-full pt-10 gap-4">
