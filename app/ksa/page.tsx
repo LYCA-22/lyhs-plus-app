@@ -21,6 +21,7 @@ import {
 import { ChevronRight, Frown, Smile } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { IconFile } from "nucleo-glass";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -296,6 +297,32 @@ export default function KSA() {
             )}
           </div>
         </div>
+      </div>
+      <div className="p-5 px-7 rounded-2xl relative bg-buttonBg flex flex-col items-center justify-center gap-2 text-center">
+        <IconFile size={40} />
+        <h3 className="font-medium text-lg">
+          請假模擬
+          <span className="m-1 rounded-full bg-background px-2 text-sm p-1">
+            測試版
+          </span>
+        </h3>
+        <p className="opacity-50">目前僅提供部分班級使用，功能仍在測試中。</p>
+        {stuData?.className === "高三仁" ? (
+          <>
+            <p className="font-medium">
+              您的班級為高三仁，因此你有使用權。請點擊下方按鈕前往使用。
+            </p>
+            <Link
+              href={"/ksa/absent"}
+              className="flex items-center font-medium p-2 px-4 gap-4 bg-background dark:bg-sky-300/10 rounded-xl"
+            >
+              前往
+              <ChevronRight />
+            </Link>
+          </>
+        ) : (
+          <p className="font-medium">非常抱歉，您的班級暫不支援此功能。</p>
+        )}
       </div>
       <div className="text-center opacity-50 space-y-2 px-5">
         <h3 className="font-medium text-lg">
