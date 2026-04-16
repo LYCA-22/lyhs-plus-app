@@ -10,20 +10,21 @@ import { useAppSelector } from "@/store/hook";
 import { getCookie } from "@/utils/getCookie";
 import {
   ArrowFromLeftStroke,
-  BarChartBig,
   Bolt,
-  Burger,
   DiscordAlt,
-  Groceries,
   InstagramAlt,
   Moon,
   Motorcycle,
-  PieChart,
   Sun,
-  User,
 } from "@boxicons/react";
+import {
+  IconChartBar,
+  IconCircleChartLine,
+  IconCodeEditor,
+  IconShopping,
+} from "nucleo-glass";
 import Autoplay from "embla-carousel-autoplay";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
@@ -114,7 +115,13 @@ export default function Home() {
       className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""}`}
     >
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-medium">首頁</h1>
+        <Image
+          alt="logo"
+          src="/assets/icon-128x128.png"
+          width={40}
+          height={40}
+          className="rounded-xl"
+        />
         <div className="flex items-center gap-2">
           <button
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
@@ -130,52 +137,82 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="border rounded-3xl p-4 pl-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <User />
-            <p className="text-xl font-medium">{userMemberData.display_name}</p>
+      <div className="rounded-3xl p-4 pl-5 bg-gradient-to-br from-hoverbg to-background">
+        <h3 className="text-2xl font-medium">{userMemberData.display_name}</h3>
+
+        <div className="flex items-center justify-between mt-2 pt-2">
+          <div className="space-y-0.5">
+            <p>身份</p>
+            <p className="font-medium">
+              {userMemberData.role === "studentMember" ? "學生" : "管理員"}
+            </p>
           </div>
-          <p className="p-1 rounded-full bg-buttonBg px-3">
-            {userMemberData.role === "studentMember"
-              ? "學生帳號"
-              : "管理員帳號"}
-          </p>
+          <div className="space-y-0.5">
+            <p>班級</p>
+            <p className="font-medium">
+              {userMemberData.grade}
+              {userMemberData.class_name}
+            </p>
+          </div>
+          <div className="space-y-0.5">
+            <p>座號</p>
+            <p className="font-medium">{userMemberData.number}號</p>
+          </div>
         </div>
-        <p>
-          {userMemberData.grade}
-          {userMemberData.class_name} {userMemberData.number}號
-        </p>
+        <div className="flex justify-between items-center w-full space-y-2 mt-2 border-t pt-2">
+          <p>學號</p>
+          <p className="opacity-50 text-right">{userMemberData.stu_id}</p>
+        </div>
+        <div className="flex justify-between items-center w-full space-y-2">
+          <p>UUID</p>
+          <p className="opacity-50 text-right">{userMemberData.uuid}</p>
+        </div>
+        <div className="rounded-xl bg-zinc-200 dark:bg-blue-400/20 flex gap-2 text-sm items-center mt-4 p-2 pr-2.5">
+          <Info size={18} className="w-8" />
+          <p className="text-[16px]">目前不開放更改帳號資訊。</p>
+        </div>
       </div>
       <div className="space-y-2">
         <p className="mt-2 font-medium text-lg">常用功能</p>
-        <div className="text-[14px] flex items-center justify-center bg-hoverbg rounded-3xl py-4">
+        <div className="text-[14px] flex items-center justify-between py-4">
           <Link
             href={"/ksa/score"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3 border-r border-zinc-300 dark:border-zinc-600"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
           >
-            <BarChartBig />
+            <IconChartBar
+              size={35}
+              className="[--nc-gradient-1-color-1:#0087FF]"
+            />
             成績查詢
           </Link>
           <Link
             href={"/ksa/credit"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3 border-r border-zinc-300 dark:border-zinc-600"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
           >
-            <PieChart />
+            <IconCircleChartLine
+              size={35}
+              className="[--nc-gradient-1-color-1:#0087FF]"
+            />
             學分查詢
           </Link>
           <Link
             href={"/lunch"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3 border-r border-zinc-300 dark:border-zinc-600"
+            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
           >
-            <Burger />
+            <IconCodeEditor
+              size={35}
+              className="[--nc-gradient-1-color-1:#0087FF]"
+            />
             午餐查詢
           </Link>
           <Link
             href={"/"}
             className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
           >
-            <Groceries />
+            <IconShopping
+              size={35}
+              className="[--nc-gradient-1-color-1:#0087FF]"
+            />
             特約商店
           </Link>
         </div>
