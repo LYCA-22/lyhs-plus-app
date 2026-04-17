@@ -186,7 +186,7 @@ export default function KSA() {
             <Widget />
             曠課查詢
           </Link>
-          <Link href={"/"} className={quickBtnClass}>
+          <Link href={"/ksa/profile"} className={quickBtnClass}>
             <User />
             個人資料
           </Link>

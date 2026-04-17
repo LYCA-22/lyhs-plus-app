@@ -140,6 +140,9 @@ export default function AbsencePage() {
     appData.ksa_data.SRV,
   ]);
 
+  // 後面的程式邏輯
+  //
+
   return (
     <div className="flex flex-col bg-hoverbg dark:bg-background h-full pt-10 gap-4">
       <div className="p-5 pt-7 pb-0 space-y-2">
