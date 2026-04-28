@@ -44,3 +44,11 @@ self.addEventListener("notificationclick", function (event) {
     }),
   );
 });
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open("v1").then((cache) => {
+      return cache.addAll(["/", "/assets/icon-128x128.png"]);
+    }),
+  );
+});

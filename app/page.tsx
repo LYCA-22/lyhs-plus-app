@@ -24,7 +24,7 @@ import {
   IconShopping,
 } from "nucleo-glass";
 import Autoplay from "embla-carousel-autoplay";
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
@@ -112,191 +112,193 @@ export default function Home() {
 
   return (
     <div
-      className={`p-5 space-y-4 pb-36 ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""}`}
+      className={`space-y-4 ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""} bg-zinc-100 dark:bg-zinc-800`}
     >
-      <div className="flex items-center justify-between">
-        <Image
-          alt="logo"
-          src="/assets/icon-128x128.png"
-          width={40}
-          height={40}
-          className="rounded-xl"
-        />
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
-          >
-            {theme === "light" ? <Sun /> : <Moon />}
-          </button>
-          <button
-            onClick={() => handleUserLogout()}
-            className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
-          >
-            <ArrowFromLeftStroke />
-          </button>
-        </div>
-      </div>
-      <div className="rounded-3xl p-4 pl-5 bg-gradient-to-br from-hoverbg to-background">
-        <h3 className="text-2xl font-medium">{userMemberData.display_name}</h3>
-
-        <div className="flex items-center justify-between mt-2 pt-2">
-          <div className="space-y-0.5">
-            <p>身份</p>
-            <p className="font-medium">
-              {userMemberData.role === "studentMember" ? "學生" : "管理員"}
-            </p>
-          </div>
-          <div className="space-y-0.5">
-            <p>班級</p>
-            <p className="font-medium">
-              {userMemberData.grade}
-              {userMemberData.class_name}
-            </p>
-          </div>
-          <div className="space-y-0.5">
-            <p>座號</p>
-            <p className="font-medium">{userMemberData.number}號</p>
+      <div className="p-5 space-y-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-medium">
+            歡迎，{userMemberData.display_name}
+          </h1>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+            >
+              {theme === "light" ? <Sun /> : <Moon />}
+            </button>
+            <button
+              onClick={() => handleUserLogout()}
+              className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+            >
+              <ArrowFromLeftStroke />
+            </button>
           </div>
         </div>
-        <div className="flex justify-between items-center w-full space-y-2 mt-2 border-t pt-2">
-          <p>學號</p>
-          <p className="opacity-50 text-right">{userMemberData.stu_id}</p>
-        </div>
-        <div className="flex justify-between items-center w-full space-y-2">
-          <p>UUID</p>
-          <p className="opacity-50 text-right">{userMemberData.uuid}</p>
-        </div>
-        <div className="rounded-xl bg-zinc-200 dark:bg-blue-400/20 flex gap-2 text-sm items-center mt-4 p-2 pr-2.5">
-          <Info size={18} className="w-8" />
-          <p className="text-[16px]">目前不開放更改帳號資訊。</p>
-        </div>
-      </div>
-      <div className="space-y-2">
-        <p className="mt-2 font-medium text-lg">常用功能</p>
-        <div className="text-[14px] flex items-center justify-between py-4">
-          <Link
-            href={"/ksa/score"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
-          >
-            <IconChartBar
-              size={35}
-              className="[--nc-gradient-1-color-1:#0087FF]"
-            />
-            成績查詢
-          </Link>
-          <Link
-            href={"/ksa/credit"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
-          >
-            <IconCircleChartLine
-              size={35}
-              className="[--nc-gradient-1-color-1:#0087FF]"
-            />
-            學分查詢
-          </Link>
-          <Link
-            href={"/lunch"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
-          >
-            <IconCodeEditor
-              size={35}
-              className="[--nc-gradient-1-color-1:#0087FF]"
-            />
-            午餐查詢
-          </Link>
-          <Link
-            href={"/"}
-            className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
-          >
-            <IconShopping
-              size={35}
-              className="[--nc-gradient-1-color-1:#0087FF]"
-            />
-            特約商店
-          </Link>
-        </div>
-      </div>
-      <div className="space-y-4">
-        <h2 className="text-lg font-medium">UBike 資訊</h2>
-        {ubikeData.map((item, index) => (
-          <div
-            key={index}
-            className="border bg-hoverbg rounded-3xl overflow-hidden shadow-md"
-          >
-            <div className="flex items-center justify-between p-3 bg-background border-b rounded-b-3xl font-custom">
-              <div className="flex items-center gap-2">
-                <p className="text-base font-medium">
-                  {item.sna.split("_")[1]}
+        <div className="rounded-3xl bg-white/30 dark:bg-zinc-900/50 backdrop-blur-xl shadow-xl shadow-zinc-300/40 dark:shadow-zinc-800 space-y-2">
+          <div className="rounded-3xl p-4 pl-5 bg-background shadow-lg dark:shadow-zinc-700/50">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <p>身份</p>
+                <p className="font-medium">
+                  {userMemberData.role === "studentMember" ? "學生" : "管理員"}
                 </p>
               </div>
-              <div className="flex items-center gap-2 pr-2">
-                <Motorcycle />
-                <p className="bg-hoverbg rounded-full p-1 text-xs px-1.5 font-medium">
-                  一般
+              <div className="space-y-0.5">
+                <p>班級</p>
+                <p className="font-medium">
+                  {userMemberData.grade}
+                  {userMemberData.class_name}
                 </p>
-                <p>{item.sbi_detail.yb2}</p>
-                <Bolt />
-                <p className="bg-hoverbg rounded-full p-1 text-xs px-1.5 font-medium">
-                  電動
-                </p>
-                <p>{item.sbi_detail.eyb}</p>
+              </div>
+              <div className="space-y-0.5">
+                <p>座號</p>
+                <p className="font-medium">{userMemberData.number}號</p>
               </div>
             </div>
-            <p className="m-2 text-sm mx-3 opacity-50">{item.ar}</p>
+            <div className="flex justify-between items-center w-full space-y-2 mt-2 border-t pt-2">
+              <p>學號</p>
+              <p className="opacity-50 text-right">{userMemberData.stu_id}</p>
+            </div>
           </div>
-        ))}
+          <div className="text-[14px] flex items-center justify-between p-2">
+            <Link
+              href={"/ksa/score"}
+              className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
+            >
+              <IconChartBar
+                size={35}
+                className="[--nc-gradient-1-color-1:#0087FF]"
+              />
+              成績查詢
+            </Link>
+            <Link
+              href={"/ksa/credit"}
+              className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
+            >
+              <IconCircleChartLine
+                size={35}
+                className="[--nc-gradient-1-color-1:#0087FF]"
+              />
+              學分查詢
+            </Link>
+            <Link
+              href={"/lunch"}
+              className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
+            >
+              <IconCodeEditor
+                size={35}
+                className="[--nc-gradient-1-color-1:#0087FF]"
+              />
+              午餐查詢
+            </Link>
+            <Link
+              href={"/"}
+              className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
+            >
+              <IconShopping
+                size={35}
+                className="[--nc-gradient-1-color-1:#0087FF]"
+              />
+              特約商店
+            </Link>
+          </div>
+        </div>
       </div>
+      <div className="bg-background rounded-t-3xl p-5 pb-36 space-y-4">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="font-medium text-lg">最新資訊</p>
+            <Link
+              href={"/ann/lysa"}
+              className="bg-zinc-200 dark:bg-zinc-600 rounded-3xl p-2"
+            >
+              <ArrowRight size={20} />
+            </Link>
+          </div>
+          <div className="relative w-full">
+            <Carousel plugins={[autoplay.current]} opts={{ loop: true }}>
+              <CarouselContent>
+                {lysaAnnData.map((item) => {
+                  // 只有廣告公告才要推播出來
+                  if (item.is_banner) {
+                    return (
+                      <CarouselItem key={item.id}>
+                        <Image
+                          src={item.img_url}
+                          alt={item.title}
+                          width={300}
+                          height={200}
+                          className="rounded-3xl w-full border border-border dark:border-zinc-600"
+                        />
+                      </CarouselItem>
+                    );
+                  }
+                })}
+              </CarouselContent>
+            </Carousel>
+          </div>
+        </div>
 
-      <div className="py-2 space-y-2">
-        <div className="flex items-center justify-between py-2">
-          <p className="font-medium text-lg">最新資訊</p>
-          <Link
-            href={"/ann/lysa"}
-            className="bg-zinc-200 dark:bg-zinc-600 rounded-3xl p-2"
-          >
-            <ArrowRight size={20} />
-          </Link>
+        <div className="space-y-4">
+          <h2 className="text-lg font-medium">UBike 資訊</h2>
+          <div className="flex w-full overflow-x-auto gap-5">
+            {ubikeData.map((item, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-b from-sky-50 dark:from-sky-900 to-background rounded-t-3xl p-5"
+              >
+                <p className="text-xl font-medium opacity-70">
+                  {item.sna.split("_")[1]}
+                </p>
+
+                <div className="flex items-center justify-evenly mt-4 whitespace-nowrap gap-7">
+                  <div className="text-center space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Motorcycle />
+                      <p>一般</p>
+                    </div>
+                    <div className="flex items-center justify-center gap-4">
+                      <p className="text-3xl font-custom2 font-bold text-sky-500">
+                        {item.sbi_detail.yb2}
+                      </p>
+                      <p>台</p>
+                    </div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Bolt />
+                      <p>電動</p>
+                    </div>
+                    <div className="flex items-center justify-center gap-4">
+                      <p className="text-3xl font-custom2 font-bold  text-green-500">
+                        {item.sbi_detail.eyb}
+                      </p>
+                      <p>台</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="relative w-full">
-          <Carousel plugins={[autoplay.current]} opts={{ loop: true }}>
-            <CarouselContent>
-              {lysaAnnData.map((item) => {
-                // 只有廣告公告才要推播出來
-                if (item.is_banner) {
-                  return (
-                    <CarouselItem key={item.id}>
-                      <Image
-                        src={item.img_url}
-                        alt={item.title}
-                        width={300}
-                        height={200}
-                        className="rounded-3xl w-full border border-border dark:border-zinc-600"
-                      />
-                    </CarouselItem>
-                  );
-                }
-              })}
-            </CarouselContent>
-          </Carousel>
-        </div>
-      </div>
-      <div className="text-center opacity-50 space-y-2 flex flex-col items-center justify-center">
-        <div className="flex items-center gap-2 rounded-full">
-          <p>網頁應用程式版本</p>
-          <p>{version}</p>
-        </div>
-        <h3 className="font-medium text-lg">
-          學生會製作，旨在建立便利校園生活
-        </h3>
-        <p className="text-sm">Copyright © 2026 LYSA. All rights reserved.</p>
-        <div className="flex items-center justify-center gap-4 p-2">
-          <Link href={"https://www.instagram.com/lysa_23rd/"} target="_blank">
-            <InstagramAlt />
-          </Link>
-          <Link href={"https://discord.gg/5Q5NpUsQBb"} target="_blank">
-            <DiscordAlt />
-          </Link>
+
+        <div className="text-center opacity-50 space-y-2 flex flex-col items-center justify-center">
+          <div className="flex items-center gap-2 rounded-full">
+            <p>網頁應用程式版本</p>
+            <p>{version}</p>
+          </div>
+          <h3 className="font-medium text-lg">
+            學生會製作，旨在建立便利校園生活
+          </h3>
+          <p className="text-sm">Copyright © 2026 LYSA. All rights reserved.</p>
+          <div className="flex items-center justify-center gap-4 p-2">
+            <Link href={"https://www.instagram.com/lysa_23rd/"} target="_blank">
+              <InstagramAlt />
+            </Link>
+            <Link href={"https://discord.gg/5Q5NpUsQBb"} target="_blank">
+              <DiscordAlt />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

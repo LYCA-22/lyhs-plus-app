@@ -42,6 +42,10 @@ const pwaConfig: PWAConfigExtended = {
 const withPWA = nextPwa(pwaConfig);
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["@phosphor-icons/react", "lucide-react"],
+  },
+
   async rewrites() {
     return [
       {
@@ -62,6 +66,8 @@ const nextConfig: NextConfig = {
     domains: ["highschool.kh.edu.tw", "storage.lyhssa.org"],
   },
   output: "standalone",
+  compress: true,
+  staticPageGenerationTimeout: 60,
 };
 
 export default withSentryConfig(withPWA(nextConfig), {

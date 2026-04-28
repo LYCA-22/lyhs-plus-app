@@ -32,9 +32,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 ref={setScrollEl}
                 id="scroll-div"
                 key={pathname}
-                initial={{ scale: 0.99, opacity: 0 }}
+                initial={{ scale: 0.99, opacity: 0.5 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", duration: 0.7 }}
+                transition={{ type: "tween", duration: 0.3 }}
                 className="h-dvh overflow-y-auto"
               >
                 {children}

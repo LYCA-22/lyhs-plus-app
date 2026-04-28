@@ -109,7 +109,7 @@ export default function LunchPage() {
           </button>
           <Popover>
             <PopoverTrigger asChild>
-              <button className="font-medium flex items-center gap-1 bg-buttonBg dark:bg-zinc-700/50 rounded-2xl p-2 px-3 active:scale-95 transition-all">
+              <button className="font-medium flex items-center gap-1 bg-buttonBg dark:bg-zinc-700/50 rounded-2xl p-2 px-33 active:scale-95 transition-all">
                 {displayDate ? displayDate : <span>Pick a date</span>}
                 <ChevronDown />
               </button>
@@ -154,14 +154,14 @@ export default function LunchPage() {
             <div className="flex mb-4 bg-buttonBg dark:bg-zinc-700/50 rounded-2xl mt-5">
               <div className="flex-1 p-3 flex flex-col items-center justify-center border-r border-zinc-400 dark:border-zinc-700">
                 <span className="text-xs font-medium mb-1">餐桶數量</span>
-                <span className="text-2xl font-bold font-poppins">
+                <span className="text-2xl font-bold font-custom2">
                   {lunchData[selectedIndex]?.bucket_count}{" "}
                   <span className="text-xs font-normal opacity-70">桶</span>
                 </span>
               </div>
               <div className="flex-1 p-3 flex flex-col items-center justify-center">
                 <span className="text-xs font-medium mb-1">熱量</span>
-                <span className="text-2xl font-bold font-poppins">
+                <span className="text-2xl font-bold font-custom2">
                   {lunchData[selectedIndex]?.calories}{" "}
                   <span className="text-xs font-normal opacity-70">大卡</span>
                 </span>

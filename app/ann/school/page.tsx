@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { EmptyState, NewsItem, SearchBox } from "@/components/news/module";
 import { turnOffBackLink } from "@/store/appSlice";
 import Link from "next/link";
-import { Info } from "lucide-react";
 const ITEMS_PER_PAGE = 8;
 const STUDENT_KEYWORDS = [
   "補考",
@@ -95,12 +94,12 @@ export default function Page() {
 
   return (
     <div
-      className={`bg-hoverbg dark:bg-background ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
+      className={`bg-hoverbg min-h-dvh dark:bg-background ${AppData.device_info.operate_type === "PWA" ? "pt-10" : ""}`}
     >
       <div className="p-5 flex items-center px-5 justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <h1 className={`text-2xl font-medium`}>校園公告</h1>
+          <div className="relative bg-primary rounded-full text-background p-2 px-4">
+            <h1 className={`text-xl font-medium`}>校園公告</h1>
           </div>
           <div className="relative">
             <Link href={"./lysa"} className={`text-2xl font-medium opacity-50`}>
@@ -109,27 +108,18 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="rounded-xl bg-zinc-200 dark:bg-blue-400/20 flex gap-2 text-sm items-center mx-5 mb-5 p-2 pr-2.5">
-        <Info size={18} className="w-10" />
-        <p className="text-[16px]">
-          所有公告皆來自學校官網，如有問題請聯絡該處室。
-        </p>
-      </div>
-      <div className="bg-background dark:bg-blue-300/10 border-t border-border grow">
+      <div className="grow">
         <SearchBox searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <div
-          className={`sticky z-20 bg-white dark:bg-zinc-800  dark:border-zinc-700 overflow-x-auto flex items-center overflow-y-hidden border-b border-border scrollbar-hide px-4 mb-2 mt-1 ${AppData.device_info.operate_type === "PWA" ? "top-10" : "top-0"}`}
+          className={`sticky z-20 overflow-x-auto flex items-center overflow-y-hidden scrollbar-hide px-4 my-4 gap-2`}
         >
           {departments.map((dept, index) => (
             <button
               key={index}
               onClick={() => setSelectedDepartment(dept)}
-              className={`flex items-center justify-center relative p-3 rounded-xl whitespace-nowrap transition-all ${selectedDepartment == dept ? "font-bold" : "font-normal"}`}
+              className={`flex items-center justify-center relative p-2 px-4 rounded-full whitespace-nowrap transition-all ${selectedDepartment == dept ? "bg-foreground text-background" : "text-foreground border"}`}
             >
               {dept === "all" ? "全部" : dept}
-              {selectedDepartment === dept && (
-                <div className="absolute bottom-0 w-10/12 h-[3px] bg-foreground rounded-full"></div>
-              )}
             </button>
           ))}
         </div>

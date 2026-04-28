@@ -46,7 +46,7 @@ const NewsItem = React.memo(({ news }: { news: schoolAnnData }) => {
   return (
     <Link
       href={`/ann/school/${encodeURIComponent(news.link)}`}
-      className="flex gap-3 items-center justify-between border-b border-border dark:border-zinc-700 p-3 py-4 relative cursor-pointer w-full"
+      className="flex gap-3 items-center justify-between bg-background rounded-3xl mb-4 p-4 relative cursor-pointer w-full"
     >
       <div className="flex flex-col text-left gap-1">
         <div className="flex items-center gap-2">
@@ -88,7 +88,7 @@ const SearchBox = React.memo(
     onSearchChange: (value: string) => void;
   }) => {
     return (
-      <div className="group mt-5 p-2 px-4 rounded-full w-11/12 flex items-center gap-2 bg-hoverbg dark:bg-zinc-700/80 mx-4 focus-within:ring-1 focus-within:ring-sky-400 focus-within:bg-sky-50 dark:focus-within:bg-sky-950 dark:focus-within:ring-sky-700">
+      <div className="group p-2 px-4 rounded-full w-11/12 flex items-center gap-2 bg-white dark:bg-zinc-700/80 mx-4 focus-within:ring-1 focus-within:ring-sky-400 focus-within:bg-sky-50 dark:focus-within:bg-sky-950 dark:focus-within:ring-sky-700">
         <Search className="text-borderColor dark:text-zinc-500" size={20} />
         <input
           type="text"
