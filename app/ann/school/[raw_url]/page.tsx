@@ -1,5 +1,5 @@
 "use client";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { announcementApi } from "@/services/api/announcements";
 import { turnOffBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { ArrowLeft, ArrowUpRight, File, Share } from "lucide-react";
@@ -52,9 +52,7 @@ export default function SchoolAnnDetailPage() {
     const getAnnDetail = async () => {
       try {
         dispatch(updatePageLoadingStatus(true));
-        const AnnDetailUrl = `${API_BASE_URL}/v1/lyps/detail/${rawUrl}`;
-        const AnnDetail = new apiFetch(AnnDetailUrl);
-        const result = await AnnDetail.GET();
+        const result = await announcementApi.getSchoolDetail(rawUrl);
         const data = result as AnnDetailData;
         setData(data);
         document.title = data.title || "公告詳細資料";

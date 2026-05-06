@@ -16,11 +16,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { SubData } from "@/types";
-import { getCookie } from "@/utils/getCookie";
 import { BookOpen, CircleCheck, CircleX } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -33,7 +32,6 @@ export default function CreditPage() {
   const [selectIndex, setSelectIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [semeScoreData, setSemeScoreData] = useState<SubData[]>([]);
-  const access_token = getCookie("lyps_access_token");
   const router = useRouter();
 
   const credit_final = appData.ksa_data.stu_credit_final[0];
@@ -104,11 +102,9 @@ export default function CreditPage() {
         router.push("/ksa/login");
         return;
       }
-      const semeSubScoreUrl = `${API_BASE_URL}/v1/lyps/school/semeSubScore/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${appData.ksa_data.stu_credit[selectIndex].id}`;
-      const semeSubScore = new apiFetch(semeSubScoreUrl);
-      const res = await semeSubScore.GET(
-        access_token as string,
-        appData.ksa_data.session_key,
+      const res = await ksaApi.getSemeSubScore(
+        appData.ksa_data,
+        appData.ksa_data.stu_credit[selectIndex].id as string | number,
       );
 
       setSemeScoreData(res.result.dataRows as SubData[]);

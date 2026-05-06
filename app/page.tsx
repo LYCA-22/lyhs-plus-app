@@ -6,21 +6,16 @@ import {
 } from "@/components/ui/carousel";
 import { turnOffBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
+import { Bolt, DiscordAlt, InstagramAlt, Motorcycle } from "@boxicons/react";
 import {
-  ArrowFromLeftStroke,
-  Bolt,
-  DiscordAlt,
-  InstagramAlt,
-  Moon,
-  Motorcycle,
   Sun,
-} from "@boxicons/react";
-import {
-  IconChartBar,
-  IconCircleChartLine,
-  IconCodeEditor,
-  IconShopping,
-} from "nucleo-glass";
+  Moon01,
+  LineChartUp01,
+  PieChart03,
+  Menu03,
+  ShoppingBag02,
+  LogOut01,
+} from "@untitledui/icons";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -107,7 +102,7 @@ export default function Home() {
 
   return (
     <div
-      className={`space-y-4 ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""} bg-zinc-100 dark:bg-zinc-800`}
+      className={`${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""} bg-zinc-100 dark:bg-zinc-800`}
     >
       <div className="p-5 space-y-4">
         <div className="flex items-center justify-between">
@@ -117,20 +112,24 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+              className="ml-auto bg-background border rounded-[18px] p-2 active:scale-95 transition-all"
             >
-              {theme === "light" ? <Sun /> : <Moon />}
+              {theme === "light" ? (
+                <Sun className="opacity-60" />
+              ) : (
+                <Moon01 className="opacity-60" />
+              )}
             </button>
             <button
               onClick={() => handleUserLogout()}
-              className="ml-auto bg-buttonBg rounded-2xl p-2 active:scale-95 transition-all"
+              className="ml-auto bg-background border rounded-[18px] p-2 active:scale-95 transition-all"
             >
-              <ArrowFromLeftStroke />
+              <LogOut01 className="opacity-60" />
             </button>
           </div>
         </div>
-        <div className="rounded-3xl bg-white/30 dark:bg-zinc-900/50 backdrop-blur-xl shadow-xl shadow-zinc-300/40 dark:shadow-zinc-800 space-y-2">
-          <div className="rounded-3xl p-4 pl-5 bg-background shadow-lg dark:shadow-zinc-700/50">
+        <div className="space-y-4">
+          <div className="rounded-3xl p-4 pl-5 bg-background shadow-lg shadow-zinc-200/50 dark:shadow-zinc-800/50">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <p>身份</p>
@@ -155,51 +154,39 @@ export default function Home() {
               <p className="opacity-50 text-right">{userMemberData.stu_id}</p>
             </div>
           </div>
-          <div className="text-[14px] flex items-center justify-between p-2">
+          <div className="text-[14px] flex items-center justify-between p-2 px-0 text-center whitespace-nowrap overflow-x-auto opacity-70">
             <Link
               href={"/ksa/score"}
               className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
             >
-              <IconChartBar
-                size={35}
-                className="[--nc-gradient-1-color-1:#0087FF]"
-              />
+              <LineChartUp01 size={28} />
               成績查詢
             </Link>
             <Link
               href={"/ksa/credit"}
               className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
             >
-              <IconCircleChartLine
-                size={35}
-                className="[--nc-gradient-1-color-1:#0087FF]"
-              />
+              <PieChart03 size={28} />
               學分查詢
             </Link>
             <Link
               href={"/lunch"}
               className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
             >
-              <IconCodeEditor
-                size={35}
-                className="[--nc-gradient-1-color-1:#0087FF]"
-              />
+              <Menu03 size={28} />
               午餐查詢
             </Link>
             <Link
               href={"/"}
               className="flex flex-col justify-center p-1 items-center gap-2 font-medium px-3"
             >
-              <IconShopping
-                size={35}
-                className="[--nc-gradient-1-color-1:#0087FF]"
-              />
+              <ShoppingBag02 size={28} />
               特約商店
             </Link>
           </div>
         </div>
       </div>
-      <div className="bg-background rounded-t-3xl p-5 pb-36 space-y-4">
+      <div className="bg-background p-5 pb-36 space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <p className="font-medium text-lg">最新資訊</p>

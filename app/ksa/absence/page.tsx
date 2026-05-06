@@ -1,9 +1,8 @@
 "use client";
 import { Spinner } from "@/components/ui/spinner";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { getCookie } from "@/utils/getCookie";
 import { CalendarAlt } from "@boxicons/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -116,7 +115,6 @@ export default function AbsencePage() {
   const [selectIndex, setSelectIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allAbsenceData, setAllAbsenceData] = useState<AbsenceRecord[]>([]);
-  const access_token = getCookie("lyps_access_token");
 
   if (!appData.ksa_data.stu_info.length) {
     redirect("/ksa");
@@ -129,13 +127,7 @@ export default function AbsencePage() {
   const handleFetchAbsence = async () => {
     try {
       setIsLoading(true);
-      // 保持原始的 API 呼叫路徑
-      const absenceUrl = `${API_BASE_URL}/v1/lyps/school/absence/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
-      const absenceFetch = new apiFetch(absenceUrl);
-      const res = await absenceFetch.GET(
-        access_token as string,
-        appData.ksa_data.session_key,
-      );
+      const res = await ksaApi.getAbsence<AbsenceRecord>(appData.ksa_data);
 
       setAllAbsenceData(res.result?.dataRows || []);
     } catch (e) {

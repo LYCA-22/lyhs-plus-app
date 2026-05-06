@@ -5,7 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { publicApi } from "@/services/api/public";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
@@ -51,9 +51,7 @@ export default function LunchPage() {
   useEffect(() => {
     const fetchLunchData = async () => {
       try {
-        const lunchUrl = `${API_BASE_URL}/v1/lyps/lunch/list`;
-        const lunch = new apiFetch(lunchUrl);
-        const data = await lunch.GET();
+        const data = await publicApi.getLunchList<{ data: lunchData[] }>();
 
         if (data && data.data) {
           setLunchData(data.data);

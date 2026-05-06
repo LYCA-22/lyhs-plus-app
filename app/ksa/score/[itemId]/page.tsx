@@ -13,14 +13,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import {
   setAppError,
   turnOnBackLink,
   updatePageLoadingStatus,
 } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { getCookie } from "@/utils/getCookie";
 import { redirect, useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -75,7 +74,6 @@ export default function CreditPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [scoreData, setScoreData] = useState<scoreData[]>([]);
   const [viewSub, setViewSub] = useState<number>(0);
-  const access_token = getCookie("lyps_access_token");
   const router = useRouter();
 
   if (!appData.ksa_data.stu_info.length) {
@@ -91,14 +89,9 @@ export default function CreditPage() {
       try {
         dispatch(updatePageLoadingStatus(true));
         setIsLoading(true);
-        const scoreDataUrl = `${API_BASE_URL}/v1/lyps/school/examDetail/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${id}`;
-        const scoreDataApi = new apiFetch(scoreDataUrl);
-        const result = await scoreDataApi.GET(
-          access_token as string,
-          appData.ksa_data.session_key,
-        );
+        const result = await ksaApi.getExamDetail(appData.ksa_data, id);
 
-        if (result.subScoreDetail.length == 0) {
+        if ((result as { subScoreDetail: scoreData[] }).subScoreDetail.length == 0) {
           dispatch(updatePageLoadingStatus(false));
           dispatch(
             setAppError({
@@ -111,7 +104,7 @@ export default function CreditPage() {
           router.push("/ksa/score");
         }
 
-        setScoreData(result.subScoreDetail);
+        setScoreData((result as { subScoreDetail: scoreData[] }).subScoreDetail);
       } catch (error) {
         console.error(error);
       } finally {

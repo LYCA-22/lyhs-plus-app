@@ -6,9 +6,8 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { useDispatch } from "react-redux";
 import { updatePageLoadingStatus } from "@/store/appSlice";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
-import { getCookie } from "@/utils/getCookie";
 import { enableKsaService } from "@/store/userSlice";
+import { ksaApi } from "@/services/api/ksa";
 
 export function Enableksa() {
   const [isOpenQuickLogin, setIsOpenQuickLogin] = useState(false);
@@ -20,17 +19,9 @@ export function Enableksa() {
     e.preventDefault();
     try {
       dispatch(updatePageLoadingStatus(true));
-      const enableKsaUrl = `${API_BASE_URL}/v1/lyps/school/enable`;
-      const enableKsa = new apiFetch(enableKsaUrl);
-      const access_token = getCookie("lyps_access_token");
-      await enableKsa.PUT(access_token as string);
+      await ksaApi.enable();
       if (isOpenQuickLogin) {
-        const quickLoginUrl = `${API_BASE_URL}/v1/lyps/school/linkQuickMode`;
-        const quickLogin = new apiFetch(quickLoginUrl);
-        await quickLogin.PUT(access_token as string, {
-          openid_account: openId,
-          openid_password: openIdPsw,
-        });
+        await ksaApi.linkQuickMode(openId, openIdPsw);
       }
       dispatch(enableKsaService());
       dispatch(updatePageLoadingStatus(false));

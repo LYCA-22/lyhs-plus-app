@@ -7,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { getCookie } from "@/utils/getCookie";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -96,7 +95,6 @@ export default function AbsencePage() {
   const dispatch = useDispatch();
   const appData = useAppSelector((state) => state.appStatus);
   const [absentData, setAbsentData] = useState<AbsentRecord[]>([]);
-  const access_token = getCookie("lyps_access_token");
 
   if (!appData.ksa_data.stu_info.length) {
     redirect("/ksa");
@@ -109,7 +107,6 @@ export default function AbsencePage() {
   useEffect(() => {
     const handleFetchAbsence = async () => {
       if (
-        !access_token ||
         !appData.ksa_data.session_key ||
         !appData.ksa_data.JSESSIONID ||
         !appData.ksa_data.SRV
@@ -117,13 +114,7 @@ export default function AbsencePage() {
         return;
       }
       try {
-        // 保持原始的 API 呼叫路徑
-        const absentUrl = `${API_BASE_URL}/v1/lyps/school/absent/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
-        const absentFetch = new apiFetch(absentUrl);
-        const res = await absentFetch.GET(
-          access_token as string,
-          appData.ksa_data.session_key,
-        );
+        const res = await ksaApi.getAbsent<AbsentRecord>(appData.ksa_data);
 
         setAbsentData(res.result?.dataRows || []);
       } catch (e) {
@@ -134,7 +125,6 @@ export default function AbsencePage() {
 
     handleFetchAbsence();
   }, [
-    access_token,
     appData.ksa_data.session_key,
     appData.ksa_data.JSESSIONID,
     appData.ksa_data.SRV,

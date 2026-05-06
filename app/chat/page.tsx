@@ -1,7 +1,7 @@
 "use client";
 import ReactMarkdown from "react-markdown";
 import { Input } from "@/components/ui/input";
-import { API_BASE_URL } from "@/services/apiClass";
+import { apiClient } from "@/services/http/apiClient";
 import { turnOffBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { SendHorizontal } from "lucide-react";
@@ -38,8 +38,7 @@ export default function ChatPage() {
     setUserInputHistory((prev) => [...prev, currentInput]);
     setAiResponseHistory((prev) => [...prev, ""]);
 
-    const aiApiUrl = `${API_BASE_URL}/v1/lyps/ai/chat`;
-    const response = await fetch(aiApiUrl, {
+    const response = await apiClient.raw("/v1/lyps/ai/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

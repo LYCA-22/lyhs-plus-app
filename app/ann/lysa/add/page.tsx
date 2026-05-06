@@ -10,11 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { announcementApi } from "@/services/api/announcements";
 import { turnOnBackLink, updatePageLoadingStatus } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { loadLysaAnns } from "@/store/newsSlice";
-import { getCookie } from "@/utils/getCookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
@@ -40,9 +39,6 @@ export default function AddLysaAnnPage() {
   const handleAnnUpload = async (e: FormEvent) => {
     e.preventDefault();
     dispatch(updatePageLoadingStatus(true));
-    const access_token = getCookie("lyps_access_token");
-    const annUploadUrl = `${API_BASE_URL}/v1/lyps/ann/add`;
-    const annUpload = new apiFetch(annUploadUrl);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", html);
@@ -55,12 +51,10 @@ export default function AddLysaAnnPage() {
     }
 
     try {
-      await annUpload.POST(formData, true, access_token || "");
+      await announcementApi.addLysa(formData);
 
       // 新增完後要重新載入資料
-      const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
-      const getLysaAnns = new apiFetch(getLysaAnnsUrl);
-      const lysaAnnData = await getLysaAnns.GET();
+      const lysaAnnData = await announcementApi.getLysaList();
       dispatch(loadLysaAnns(lysaAnnData.data));
       dispatch(updatePageLoadingStatus(false));
       setTimeout(() => router.push("/ann/lysa"), 1000);

@@ -4,7 +4,7 @@ import { setAuthCookies } from "../cookies";
 export const runtime = "edge";
 
 const GOOGLE_LOGIN_URL =
-  "https://lyhs-app-backend.lysa23.workers.dev/v1/auth/googleLogin";
+  "https://api.lyhssa.org/v1/auth/googleLogin";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();

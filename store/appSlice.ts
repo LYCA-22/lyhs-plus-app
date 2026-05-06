@@ -14,7 +14,7 @@ interface ksaData {
   SRV: string;
   JSESSIONID: string;
   session_key: string;
-  uuid: string;
+  uuid: string | number;
   stu_credit: creditData[];
   stu_info: stuData[];
   stu_credit_final: creditData[];

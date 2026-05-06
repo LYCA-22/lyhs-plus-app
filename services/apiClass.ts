@@ -19,14 +19,31 @@ export class apiFetch {
     this.cookies = cookies ? cookies : "";
   }
 
+  private getRequestUrl(useBackendProxy: boolean) {
+    if (!useBackendProxy || !this.url.startsWith(API_BASE_URL)) {
+      return this.url;
+    }
+
+    const url = new URL(this.url);
+    return `/api/backend${url.pathname}${url.search}`;
+  }
+
   public async GET(access_token?: string, ksaAuthKey?: string) {
     try {
-      const response = await fetch(this.url, {
+      const useBackendProxy = arguments.length > 0;
+      const headers: Record<string, string> = {};
+
+      if (access_token && !useBackendProxy) {
+        headers.Authorization = `Bearer ${access_token}`;
+      }
+
+      if (ksaAuthKey) {
+        headers.KsaAuthKey = ksaAuthKey;
+      }
+
+      const response = await fetch(this.getRequestUrl(useBackendProxy), {
         method: "GET",
-        headers: {
-          Authorization: access_token ? `Bearer ${access_token}` : "",
-          KsaAuthKey: ksaAuthKey || "",
-        },
+        headers,
       });
 
       if (!response.ok) {
@@ -60,20 +77,22 @@ export class apiFetch {
     access_token?: string,
   ) {
     try {
-      const headers: Record<string, string> = {
-        Cookie: this.cookies ? this.cookies : "",
-        Authorization: `Bearer ${access_token}`,
-      };
+      const useBackendProxy = arguments.length >= 3;
+      const headers: Record<string, string> = {};
 
-      if (!isformData) {
-        headers["Content-Type"] = "application/json";
+      if (this.cookies) {
+        headers.Cookie = this.cookies;
+      }
+
+      if (access_token && !useBackendProxy) {
+        headers.Authorization = `Bearer ${access_token}`;
       }
 
       if (!isformData) {
         headers["Content-Type"] = "application/json";
       }
 
-      const response = await fetch(this.url, {
+      const response = await fetch(this.getRequestUrl(useBackendProxy), {
         method: "POST",
         headers,
         body: isformData ? (fetchBody as FormData) : JSON.stringify(fetchBody),
@@ -107,13 +126,22 @@ export class apiFetch {
 
   public async PUT(access_token?: string, fetchBody?: unknown) {
     try {
-      const response = await fetch(this.url, {
+      const useBackendProxy = arguments.length >= 1;
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      if (this.cookies) {
+        headers.Cookie = this.cookies;
+      }
+
+      if (access_token && !useBackendProxy) {
+        headers.Authorization = `Bearer ${access_token}`;
+      }
+
+      const response = await fetch(this.getRequestUrl(useBackendProxy), {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: this.cookies ? this.cookies : "",
-          Authorization: `Bearer ${access_token}`,
-        },
+        headers,
         body: JSON.stringify(fetchBody),
       });
 
@@ -143,12 +171,20 @@ export class apiFetch {
 
   public async DELETE(access_token?: string) {
     try {
-      const response = await fetch(this.url, {
+      const useBackendProxy = arguments.length >= 1;
+      const headers: Record<string, string> = {};
+
+      if (this.cookies) {
+        headers.Cookie = this.cookies;
+      }
+
+      if (access_token && !useBackendProxy) {
+        headers.Authorization = `Bearer ${access_token}`;
+      }
+
+      const response = await fetch(this.getRequestUrl(useBackendProxy), {
         method: "DELETE",
-        headers: {
-          Cookie: this.cookies ? this.cookies : "",
-          Authorization: `Bearer ${access_token}`,
-        },
+        headers,
       });
 
       if (!response.ok) {

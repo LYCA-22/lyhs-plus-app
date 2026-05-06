@@ -1,9 +1,8 @@
 "use client";
 import { Spinner } from "@/components/ui/spinner";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { getCookie } from "@/utils/getCookie";
 import { ArrowRight, ChartColumnBig, PencilLine } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,7 +27,6 @@ export default function CreditPage() {
   const [selectIndex, setSelectIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [semeData, setSemeData] = useState<semeData[]>([]);
-  const access_token = getCookie("lyps_access_token");
   const router = useRouter();
 
   useEffect(() => {
@@ -44,13 +42,12 @@ export default function CreditPage() {
         }
 
         setIsLoading(true);
-        const semeDataUrl = `${API_BASE_URL}/v1/lyps/school/semeDetail/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}/${appData.ksa_data.stu_credit[selectIndex].syear}/${appData.ksa_data.stu_credit[selectIndex].seme}`;
-        const semeData = new apiFetch(semeDataUrl);
-        const result = await semeData.GET(
-          access_token as string,
-          appData.ksa_data.session_key,
+        const result = await ksaApi.getSemeDetail(
+          appData.ksa_data,
+          appData.ksa_data.stu_credit[selectIndex].syear as string | number,
+          appData.ksa_data.stu_credit[selectIndex].seme as string | number,
         );
-        setSemeData(result.result.dataRows);
+        setSemeData(result.result.dataRows as semeData[]);
       } catch (error) {
         console.error(error);
       } finally {

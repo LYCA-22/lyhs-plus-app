@@ -1,5 +1,5 @@
 "use client";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import {
   setKsaData,
   turnOffBackLink,
@@ -50,7 +50,6 @@ export default function KSA() {
   const [stuData, setStuData] = useState<stuData>();
   const [displayCredit, setDisplayCredit] = useState<creditData>();
   const [canGraduate, setCanGraduate] = useState<boolean>(false);
-  const access_token = getCookie("lyps_access_token");
   const cookie_sessionKey = getCookie("lyps_ksa_session_key");
   const cookie_SRV = getCookie("lyps_ksa_SRV");
   const cookie_JSESSION = getCookie("lyps_ksa_JSESSIONID");
@@ -77,24 +76,22 @@ export default function KSA() {
           );
         }
 
-        // 先獲取學生基本資料
-        const stuInfoUrl = `${API_BASE_URL}/v1/lyps/school/basicInfo/${cookie_JSESSION}/${cookie_SRV}`;
-        const stuInfo = new apiFetch(stuInfoUrl);
-        const result = await stuInfo.GET(
-          access_token as string,
-          cookie_sessionKey as string,
-        );
+        const ksaSession = {
+          session_key: cookie_sessionKey,
+          JSESSIONID: cookie_JSESSION as string,
+          SRV: cookie_SRV as string,
+        };
+
+        const result = await ksaApi.getBasicInfo(ksaSession);
 
         // 獲取得到資料，就更新 uuid
-        setStuData(result.stuInfo);
+        const studentInfo = result.stuInfo as unknown as stuData;
+        setStuData(studentInfo);
 
-        // 再來獲取學分資料
-        const creditUrl = `${API_BASE_URL}/v1/lyps/school/allSemeData/${cookie_JSESSION}/${cookie_SRV}/${result.stuInfo.uuid}`;
-        const credit = new apiFetch(creditUrl);
-        const creditData = (await credit.GET(
-          access_token as string,
-          cookie_sessionKey as string,
-        )) as creditData[];
+        const creditData = await ksaApi.getAllSemeData(
+          ksaSession,
+          result.stuInfo.uuid,
+        );
 
         // 選擇要作為顯示學分數的陣列
         let displayItem = null;
@@ -110,7 +107,7 @@ export default function KSA() {
           setKsaData({
             uuid: result.stuInfo.uuid,
             stu_credit: creditData,
-            stu_info: [result.stuInfo],
+            stu_info: [studentInfo],
             stu_credit_final: [displayItem],
           }),
         );
@@ -134,7 +131,6 @@ export default function KSA() {
     cookie_SRV,
     cookie_sessionKey,
     dispatch,
-    access_token,
     router,
   ]);
 

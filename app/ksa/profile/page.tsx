@@ -1,8 +1,7 @@
 "use client";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import { turnOnBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { getCookie } from "@/utils/getCookie";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,7 +10,6 @@ import { useDispatch } from "react-redux";
 export default function AbsencePage() {
   const dispatch = useDispatch();
   const appData = useAppSelector((state) => state.appStatus);
-  const access_token = getCookie("lyps_access_token");
   const [imageData, setImageData] = useState("");
   const stuData = appData.ksa_data.stu_info[0];
 
@@ -26,7 +24,6 @@ export default function AbsencePage() {
   useEffect(() => {
     const handleFetchImage = async () => {
       if (
-        !access_token ||
         !appData.ksa_data.session_key ||
         !appData.ksa_data.JSESSIONID ||
         !appData.ksa_data.SRV
@@ -34,13 +31,7 @@ export default function AbsencePage() {
         return;
       }
       try {
-        // 保持原始的 API 呼叫路徑
-        const imageUrl = `${API_BASE_URL}/v1/lyps/school/image/${appData.ksa_data.JSESSIONID}/${appData.ksa_data.SRV}`;
-        const imageFetch = new apiFetch(imageUrl);
-        const res = await imageFetch.GET(
-          access_token as string,
-          appData.ksa_data.session_key,
-        );
+        const res = await ksaApi.getProfileImage(appData.ksa_data);
 
         setImageData(res.stuImageData);
       } catch (e) {
@@ -50,7 +41,6 @@ export default function AbsencePage() {
 
     handleFetchImage();
   }, [
-    access_token,
     appData.ksa_data.session_key,
     appData.ksa_data.JSESSIONID,
     appData.ksa_data.SRV,

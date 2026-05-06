@@ -22,8 +22,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
-import { getCookie } from "@/utils/getCookie";
+import { announcementApi } from "@/services/api/announcements";
 import { loadLysaAnns } from "@/store/newsSlice";
 import { useRouter } from "next/navigation";
 
@@ -39,9 +38,7 @@ export default function Page() {
     // 先更新觀看數
     dispatch(updatePageLoadingStatus(true));
     try {
-      const UpdateViewCountUrl = `${API_BASE_URL}/v1/lyps/ann/view/${id}`;
-      const updateViewCountApi = new apiFetch(UpdateViewCountUrl);
-      await updateViewCountApi.PUT();
+      await announcementApi.updateLysaViewCount(id);
       dispatch(updatePageLoadingStatus(false));
       router.push(`/ann/lysa/${id}`);
     } catch (e) {
@@ -53,15 +50,10 @@ export default function Page() {
   const handleDeleteAnn = async (id: string) => {
     try {
       dispatch(updatePageLoadingStatus(true));
-      const access_token = getCookie("lyps_access_token");
-      const deleteUrl = `${API_BASE_URL}/v1/lyps/ann/delete/${id}`;
-      const deleteApi = new apiFetch(deleteUrl);
-      await deleteApi.DELETE(access_token as string);
+      await announcementApi.deleteLysa(id);
 
       // 載入新資料
-      const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
-      const getLysaAnns = new apiFetch(getLysaAnnsUrl);
-      const lysaAnnData = await getLysaAnns.GET();
+      const lysaAnnData = await announcementApi.getLysaList();
       dispatch(loadLysaAnns(lysaAnnData.data));
     } catch (error) {
       console.error(error);

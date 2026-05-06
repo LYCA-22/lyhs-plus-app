@@ -1,10 +1,11 @@
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { announcementApi } from "@/services/api/announcements";
+import { publicApi } from "@/services/api/public";
+import { userApi } from "@/services/api/user";
 import { appInitialized, setAppInfo, setDeviceInfo } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
 import { loadLysaAnns, loadSchoolAnns } from "@/store/newsSlice";
 import { store } from "@/store/store";
 import { loadUserData } from "@/store/userSlice";
-import { getCookie } from "@/utils/getCookie";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { UAParser } from "ua-parser-js";
@@ -16,54 +17,29 @@ export function InitFunction() {
   useEffect(() => {
     const checkSteps = async () => {
       try {
-        const serverCheckApiUrl = `${API_BASE_URL}/v1/status`;
-        const serverCheck = new apiFetch(serverCheckApiUrl);
-        await serverCheck.GET();
+        await publicApi.getStatus();
 
         // 2.
-        const access_token = getCookie("lyps_access_token");
         let isLogged = false;
 
-        if (access_token) {
-          const getUserDataUrl = `${API_BASE_URL}/v1/user/me`;
-          const getUserData = new apiFetch(getUserDataUrl);
-          const userData = await getUserData.GET(access_token);
+        try {
+          const userData = await userApi.getMe();
           dispatch(loadUserData(userData.data));
           isLogged = true;
-        } else {
-          try {
-            const refreshResponse = await fetch("/api/auth/refresh", {
-              method: "POST",
-            });
-
-            if (refreshResponse.ok) {
-              window.location.reload();
-              return;
-            }
-
-            if (!window.location.pathname.startsWith("/login")) {
-              window.location.href = "/login";
-              return;
-            }
-          } catch (e) {
-            console.error(e);
-            if (!window.location.pathname.startsWith("/login")) {
-              window.location.href = "/login";
-              return;
-            }
+        } catch (e) {
+          console.error(e);
+          if (!window.location.pathname.startsWith("/login")) {
+            window.location.href = "/login";
+            return;
           }
         }
 
         // 3.
-        const getSchoolAnnUrl = `${API_BASE_URL}/v1/lyps/list`;
-        const getSchoolAnn = new apiFetch(getSchoolAnnUrl);
-        const schoolAnnData = await getSchoolAnn.GET();
+        const schoolAnnData = await announcementApi.getSchoolList();
         dispatch(loadSchoolAnns(schoolAnnData.data));
 
         // 4.
-        const getLysaAnnsUrl = `${API_BASE_URL}/v1/lyps/ann/list`;
-        const getLysaAnns = new apiFetch(getLysaAnnsUrl);
-        const lysaAnnData = await getLysaAnns.GET();
+        const lysaAnnData = await announcementApi.getLysaList();
         dispatch(loadLysaAnns(lysaAnnData.data));
 
         // 5.

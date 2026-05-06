@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://lyhs-app-backend.lysa23.workers.dev";
+const API_BASE_URL = "https://api.lyhssa.org";
 
 import { store } from "@/store/store";
 import { setAppError } from "@/store/appSlice";
@@ -69,7 +69,7 @@ export const apiService = {
 
       if (response.ok) {
         document.cookie =
-          "sessionId=; path=/; domain=lyhsca.org; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+          "sessionId=; path=/; domain=lyhssa.org; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         window.location.reload();
       } else {
         const result = await response.json();
@@ -275,7 +275,7 @@ export const apiService = {
   async getSemeScore(session_key: string, jsessionId: string, srv: string) {
     try {
       const res = await fetch(
-        `https://api.lyhsca.org/v1/lyps/school/semeScore`,
+        `${API_BASE_URL}/v1/lyps/school/semeScore`,
         {
           method: "POST",
           headers: {
@@ -298,7 +298,7 @@ export const apiService = {
   async getYearScore(session_key: string, jsessionId: string, srv: string) {
     try {
       const res = await fetch(
-        `https://api.lyhsca.org/v1/lyps/school/yearScore`,
+        `${API_BASE_URL}/v1/lyps/school/yearScore`,
         {
           method: "POST",
           headers: {
@@ -326,7 +326,7 @@ export const apiService = {
     seme: string,
   ) {
     try {
-      const res = await fetch(`https://api.lyhsca.org/v1/lyps/school/year`, {
+      const res = await fetch(`${API_BASE_URL}/v1/lyps/school/year`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -353,7 +353,7 @@ export const apiService = {
     itemId: string,
   ) {
     try {
-      const res = await fetch(`https://api.lyhsca.org/v1/lyps/school/score`, {
+      const res = await fetch(`${API_BASE_URL}/v1/lyps/school/score`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -374,7 +374,7 @@ export const apiService = {
   },
   async getAbsence(session_key: string, jsessionId: string, srv: string) {
     try {
-      const res = await fetch(`https://api.lyhsca.org/v1/lyps/school/absence`, {
+      const res = await fetch(`${API_BASE_URL}/v1/lyps/school/absence`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

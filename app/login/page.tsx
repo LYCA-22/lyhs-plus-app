@@ -1,8 +1,13 @@
 "use client";
 import { updatePageLoadingStatus } from "@/store/appSlice";
-import { useAppSelector } from "@/store/hook";
+import { ArrowRight, FaceWink } from "@untitledui/icons";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface googleApiParams {
   [key: string]: string | undefined;
@@ -15,7 +20,6 @@ interface googleApiParams {
 
 export default function LoginPage() {
   const dispatch = useDispatch();
-  const AppData = useAppSelector((state) => state.appStatus);
 
   const handleGoogleLogin = () => {
     dispatch(updatePageLoadingStatus(true));
@@ -69,35 +73,64 @@ export default function LoginPage() {
   };
 
   return (
-    <div
-      className={`h-dvh flex flex-col justify-between bg-gradient-to-br from-sky-50 dark:from-sky-950 to-background ${AppData.device_info.operate_type === "PWA" ? "pt-12" : ""}`}
-    >
-      <div className="p-8 space-y-4">
-        <Image
-          alt="logo"
-          src="/assets/logo.svg"
-          width={50}
-          height={50}
-          className="dark:invert"
-        />
-        <h1 className="text-3xl font-bold font-custom ml-1">
-          歡迎使用 LYHS Plus
-        </h1>
-        <p className="ml-1 opacity-50">請先登入帳號才可以進入 APP</p>
+    <div className={`h-dvh flex justify-center items-center bg-background`}>
+      <div className="w-full pb-20">
+        <div className="p-8 flex flex-col justify-center items-center">
+          <Image
+            alt="logo"
+            src="/assets/logo.svg"
+            width={50}
+            height={50}
+            className="dark:invert pb-5"
+          />
+          <h1 className="text-3xl pb-6 flex items-center gap-2">
+            歡迎
+            <FaceWink />
+          </h1>
+          <h3 className="font-medium text-lg opacity-60">
+            學生會製作，旨在建立便利校園生活
+          </h3>
+          <p className="opacity-30">請點擊下面按鈕，進一步使用我們的系統</p>
+        </div>
+        <div className="px-10 flex items-center gap-4 whitespace-nowrap w-full">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full text-lg rounded-[18px] p-2.5 bg-primary text-background font-medium active:scale-95 transition-all"
+          >
+            登入
+          </button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="w-full text-lg rounded-[18px] p-2.5 border dark:bg-zinc-700 font-medium active:scale-95 transition-all">
+                註冊
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col gap-2 rounded-[18px] items-start w-fit">
+              <button
+                onClick={handleGoogleReg}
+                className="flex items-center gap-4"
+              >
+                學生帳號
+                <ArrowRight size={20} />
+              </button>
+              <button
+                onClick={() => window.alert("此身份別暫不開放。")}
+                className="flex items-center gap-4 border-t pt-2"
+              >
+                教職員帳號
+                <ArrowRight size={20} />
+              </button>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
-      <div className="p-10 space-y-4">
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full text-lg rounded-full p-2.5 bg-primary text-background font-medium active:scale-95 transition-all"
-        >
-          登入
-        </button>
-        <button
-          onClick={handleGoogleReg}
-          className="w-full text-lg rounded-full p-2.5 bg-buttonBg dark:bg-zinc-700 font-medium active:scale-95 transition-all"
-        >
-          註冊
-        </button>
+      <div className="w-full fixed bottom-0 bg-buttonBg p-4 opacity-60">
+        <h3 className="font-medium text-sm">
+          Copyright © 2026 LYSA. All rights reserved.
+        </h3>
+        <p className="opacity-60 text-sm">
+          此網頁應用程式由林園高中學生會營運與維護。
+        </p>
       </div>
     </div>
   );

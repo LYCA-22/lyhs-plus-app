@@ -11,7 +11,7 @@ import { Enableksa } from "./enableKsa";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, CircleQuestionMark, LogIn, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
+import { ksaApi } from "@/services/api/ksa";
 import {
   Select,
   SelectContent,
@@ -20,7 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { enableKsaService, loadUserData } from "@/store/userSlice";
-import { getCookie } from "@/utils/getCookie";
 import { useRouter } from "next/navigation";
 
 export default function KSALoginPage() {
@@ -49,9 +48,7 @@ export default function KSALoginPage() {
     e.preventDefault();
     try {
       dispatch(updatePageLoadingStatus(true));
-      const loginUrl = `${API_BASE_URL}/v1/lyps/school/login`;
-      const login = new apiFetch(loginUrl);
-      const result = await login.POST({ userId: openId, password: openIdPsw });
+      const result = await ksaApi.login(openId, openIdPsw);
       dispatch(
         setKsaData({
           SRV: result.SRV,
@@ -66,13 +63,7 @@ export default function KSALoginPage() {
         localStorage.setItem("lyps_openId", openId);
       }
       if (turnOnQuickLogin) {
-        const access_token = getCookie("lyps_access_token");
-        const quickLoginUrl = `${API_BASE_URL}/v1/lyps/school/linkQuickMode`;
-        const quickLogin = new apiFetch(quickLoginUrl);
-        await quickLogin.PUT((access_token as string) || "", {
-          openid_account: openId,
-          openid_password: openIdPsw,
-        });
+        await ksaApi.linkQuickMode(openId, openIdPsw);
         dispatch(enableKsaService());
       }
       dispatch(updatePageLoadingStatus(false));
@@ -85,10 +76,7 @@ export default function KSALoginPage() {
   const handleQuickLogin = async () => {
     try {
       dispatch(updatePageLoadingStatus(true));
-      const access_token = getCookie("lyps_access_token");
-      const quickLoginUrl = `${API_BASE_URL}/v1/lyps/school/quickLogin`;
-      const quickLogin = new apiFetch(quickLoginUrl);
-      const result = await quickLogin.POST({}, false, access_token as string);
+      const result = await ksaApi.quickLogin();
       dispatch(
         setKsaData({
           SRV: result.SRV,
@@ -109,10 +97,7 @@ export default function KSALoginPage() {
   const handleCloseQuickLogin = async () => {
     try {
       dispatch(updatePageLoadingStatus(true));
-      const access_token = getCookie("lyps_access_token");
-      const quickLoginUrl = `${API_BASE_URL}/v1/lyps/school/closeQuickMode`;
-      const quickLogin = new apiFetch(quickLoginUrl);
-      await quickLogin.PUT(access_token as string);
+      await ksaApi.closeQuickMode();
       dispatch(
         loadUserData({
           ...userData,
@@ -129,9 +114,7 @@ export default function KSALoginPage() {
   const handleSearch = async () => {
     try {
       dispatch(updatePageLoadingStatus(true));
-      const searchUrl = `${API_BASE_URL}/v1/lyps/school/idSearch/${grade}/${classId}/${number}`;
-      const search = new apiFetch(searchUrl);
-      const res = await search.GET();
+      const res = await ksaApi.searchOpenId(grade, classId, number);
       setOpenId(res.openid);
       setOpenSearchBox(false);
     } catch (e) {
