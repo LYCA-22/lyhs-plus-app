@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { clearAuthCookies, setAuthCookies } from "../cookies";
 
+export const runtime = "edge";
+
 const REFRESH_URL = "https://api.lyhssa.org/v1/auth/refresh";
 
 export async function POST(request: NextRequest) {

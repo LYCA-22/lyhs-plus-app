@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { setAuthCookies } from "../cookies";
 
+export const runtime = "edge";
+
 const GOOGLE_LOGIN_URL =
   "https://lyhs-app-backend.lysa23.workers.dev/v1/auth/googleLogin";
 

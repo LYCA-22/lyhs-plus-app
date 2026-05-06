@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { setAuthCookies } from "../cookies";
 
+export const runtime = "edge";
+
 const GOOGLE_REG_URL = "https://api.lyhssa.org/v1/auth/googleReg";
 
 export async function POST(request: NextRequest) {

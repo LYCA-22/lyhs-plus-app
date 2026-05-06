@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { clearAuthCookies } from "../cookies";
 
+export const runtime = "edge";
+
 const LOGOUT_URL = "https://api.lyhssa.org/v1/auth/logout";
 
 export async function POST(request: NextRequest) {
