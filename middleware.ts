@@ -3,17 +3,24 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const access_token = req.cookies.get("lyps_access_token");
+  const refresh_token = req.cookies.get("lyps_refresh_token");
 
   if (pathname === "/favicon.ico") return NextResponse.next();
 
   if (!pathname.startsWith("/login")) {
-    if (!access_token || access_token.value == "") {
+    if (
+      (!access_token || access_token.value == "") &&
+      (!refresh_token || refresh_token.value == "")
+    ) {
       return NextResponse.redirect(new URL("/login", req.url));
     } else {
       return NextResponse.next();
     }
   } else {
-    if (access_token && access_token.value != "") {
+    if (
+      (access_token && access_token.value != "") ||
+      (refresh_token && refresh_token.value != "")
+    ) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }

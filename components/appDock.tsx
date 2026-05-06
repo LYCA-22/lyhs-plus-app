@@ -11,7 +11,7 @@ export function AppDock() {
 
   return (
     <div
-      className={`z-30 bg-white/50 backdrop-blur-2xl dark:bg-zinc-700/50 border-t flex justify-evenly items-center  w-full fixed bottom-0 ${appData.device_info.operate_type == "PWA" ? "pt-5 max-sm:pb-deviceBottom" : "py-4"}`}
+      className={`z-30 bg-white/50 backdrop-blur-2xl dark:bg-zinc-700/50 border-t flex justify-evenly items-center fixed bottom-0 w-full ${appData.device_info.operate_type == "PWA" ? "pt-5 max-sm:pb-deviceBottom" : "py-4"}`}
     >
       {appSchema.map((app) => (
         <Link

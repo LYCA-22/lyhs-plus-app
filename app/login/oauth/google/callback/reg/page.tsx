@@ -1,5 +1,4 @@
 "use client";
-import { apiFetch } from "@/services/apiClass";
 import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,8 +12,6 @@ export default function GoogleApiCallBackRegPage() {
 
       // 獲取相關資訊
       const authCode = params.get("code");
-      const googleUserDateApiUrl = "https://api.lyhssa.org/v1/auth/googleReg";
-      const googleUserDataApi = new apiFetch(googleUserDateApiUrl);
       const fetchBody = {
         flow: "authorization_code",
         grant_value: authCode,
@@ -24,9 +21,18 @@ export default function GoogleApiCallBackRegPage() {
 
       try {
         if (authCode) {
-          const data = await googleUserDataApi.POST(fetchBody);
-          document.cookie = `lyps_access_token=${data.access_token}; path=/; expires=${new Date(Date.now() + data.expires_in * 1000).toUTCString()}; SameSite=Strict; Secure`;
-          document.cookie = `lyps_refresh_token=${data.refresh_token}; path=/; expires=${new Date(Date.now() + data.refresh_expires_in * 1000).toUTCString()}; SameSite=Strict; Secure`;
+          const response = await fetch("/api/auth/google-reg", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(fetchBody),
+          });
+
+          if (!response.ok) {
+            throw new Error("Google registration failed");
+          }
+
           window.location.href = "/";
         } else {
           setError(true);

@@ -21,38 +21,36 @@ export function InitFunction() {
         await serverCheck.GET();
 
         // 2.
-        const refresh_token = getCookie("lyps_refresh_token");
         const access_token = getCookie("lyps_access_token");
         let isLogged = false;
 
-        if (refresh_token && access_token) {
+        if (access_token) {
           const getUserDataUrl = `${API_BASE_URL}/v1/user/me`;
           const getUserData = new apiFetch(getUserDataUrl);
           const userData = await getUserData.GET(access_token);
           dispatch(loadUserData(userData.data));
           isLogged = true;
-        } else if (refresh_token) {
-          const refreshUrl = `${API_BASE_URL}/v1/auth/refresh`;
-          const refresh = new apiFetch(refreshUrl);
+        } else {
           try {
-            const { access_token, expires_in } = await refresh.POST({
-              refresh_token,
+            const refreshResponse = await fetch("/api/auth/refresh", {
+              method: "POST",
             });
 
-            if (!access_token) {
-              document.cookie =
-                "lyps_refresh_token=; Max-Age=0; path=/; SameSite=Strict; Secure";
+            if (refreshResponse.ok) {
               window.location.reload();
               return;
             }
 
-            document.cookie = `lyps_access_token=${access_token}; path=/; expires=${new Date(Date.now() + expires_in * 1000).toUTCString()}; SameSite=Strict; Secure`;
-            window.location.reload();
+            if (!window.location.pathname.startsWith("/login")) {
+              window.location.href = "/login";
+              return;
+            }
           } catch (e) {
             console.error(e);
-            document.cookie =
-              "lyps_refresh_token=; Max-Age=0; path=/; SameSite=Strict; Secure";
-            window.location.reload();
+            if (!window.location.pathname.startsWith("/login")) {
+              window.location.href = "/login";
+              return;
+            }
           }
         }
 

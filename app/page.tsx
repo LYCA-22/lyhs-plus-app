@@ -4,10 +4,8 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { API_BASE_URL, apiFetch } from "@/services/apiClass";
 import { turnOffBackLink } from "@/store/appSlice";
 import { useAppSelector } from "@/store/hook";
-import { getCookie } from "@/utils/getCookie";
 import {
   ArrowFromLeftStroke,
   Bolt,
@@ -58,7 +56,6 @@ export default function Home() {
   const AppData = useAppSelector((state) => state.appStatus);
   const userMemberData = useAppSelector((state) => state.userData);
   const lysaAnnData = useAppSelector((state) => state.annData.lysaAnnDatas);
-  const refresh_token = getCookie("lyps_refresh_token");
   const [ubikeData, setUbikeData] = useState<UbikeSchema[]>([]);
   const { theme, setTheme } = useTheme();
   const version = process.env.NEXT_PUBLIC_APP_VERSION;
@@ -81,11 +78,9 @@ export default function Home() {
 
   const handleUserLogout = async () => {
     try {
-      const logoutUrl = `${API_BASE_URL}/v1/auth/logout`;
-      const logout = new apiFetch(logoutUrl);
-      await logout.POST({ refresh_token: refresh_token });
-      document.cookie = `lyps_access_token=; path=/; expires=; SameSite=Strict; Secure`;
-      document.cookie = `lyps_refresh_token=; path=/; expires=; SameSite=Strict; Secure`;
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
       window.location.reload();
     } catch (error) {
       console.error(error);
