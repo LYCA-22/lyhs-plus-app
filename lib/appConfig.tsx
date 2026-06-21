@@ -1,4 +1,4 @@
-import { Home05, Announcement03, Atom02, BookOpen01 } from "@untitledui/icons";
+import { Home05, Announcement03, Atom02 } from "@untitledui/icons";
 interface AppSchema {
   name: string;
   path: string;
@@ -21,9 +21,11 @@ export const appSchema: AppSchema[] = [
     icon: <Atom02 />,
     path: "/chat",
   },
+  /*
   {
     name: "學業",
     icon: <BookOpen01 />,
     path: "/ksa",
   },
+  */
 ];

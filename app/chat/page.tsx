@@ -175,14 +175,16 @@ export default function ChatPage() {
         className={`fixed bottom-0 px-5 flex justify-center flex-col w-full pt-5 pb-28 bg-white/80 dark:bg-[#141416]/80 backdrop-blur-lg`}
       >
         <Input
-          placeholder="在這裡輸入你的問題..."
+          placeholder="服務目前關閉"
           className="bg-background dark:bg-[#1E272F] p-4 rounded-3xl px-6 border shadow-md"
           value={userInput}
+          disabled
           onChange={(e) => setUserInput(e.target.value)}
         />
         <button
           onClick={() => handleAiRes()}
-          className="bg-sky-600 text-white p-2 rounded-full absolute top-[30px] right-[32px]"
+          disabled
+          className="bg-sky-600 text-white p-2 rounded-full absolute top-[30px] right-[32px] opacity-50"
         >
           <SendHorizontal size={20} />
         </button>
